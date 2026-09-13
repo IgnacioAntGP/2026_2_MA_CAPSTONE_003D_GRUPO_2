@@ -1,4 +1,5 @@
 export interface Users{
+    //TODO añadir fecha_registro, ultimo_acceso
     id:string,
     rut:string,
     nombre:string,
