@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>EntrePares - Inicio</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarSesion()">Salir</ion-button>
+      <ion-button routerLink="/login">
+        Iniciar Sesión
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-segment [value]="vistaActiva" (ionChange)="cambiarVista($event)">
+      <ion-segment-button value="estudiante">
+        <ion-label>Estudiante</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="ayudante">
+        <ion-label>Ayudante</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card>
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img [src]="usuarioActual.imagen" alt="Avatar" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ usuarioActual.nombre }}</h2>
+        <p>{{ usuarioActual.email }}</p>
+        <ion-badge [color]="usuarioActual.isactive ? 'success' : 'medium'">
+          {{ usuarioActual.isactive ? 'Activo' : 'Inactivo' }}
+        </ion-badge>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <!-- VISTA ESTUDIANTE -->
+  <div *ngIf="vistaActiva === 'estudiante'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Orientación académica</ion-card-subtitle>
+        <ion-card-title>¿Necesitas ayuda con una materia?</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Publica tu consulta para coordinar una sesión con un ayudante.
+        <ion-button expand="block" color="primary" class="ion-margin-top">
+          Crear Ticket de Consulta
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- VISTA AYUDANTE -->
+  <div *ngIf="vistaActiva === 'ayudante'">
+    <h3 class="ion-padding-start">Consultas disponibles para resolver</h3>
+    <ion-list lines="inset">
+      <ion-item *ngFor="let item of solicitudesPendientes">
+        <ion-label>
+          <h2>{{ item.asignatura }}</h2>
+          <h3>{{ item.estudiante }}</h3>
+          <p>{{ item.duda }}</p>
+        </ion-label>
+        <ion-button slot="end" size="small" color="success">Aceptar</ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
