@@ -1,0 +1,71 @@
+# ===
+# 1. Dependencias locales y gestores
+# === 
+# Generado por npm install
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================================
+# 2. Compilados y artefactos de build
+# ==========================================
+/dist/
+/www/
+/.angular/cache/
+.tmp/
+out-tsc/
+bazel-out/
+
+# ==========================================
+# 3. Ionic y Capacitor
+# ==========================================
+.ionic/
+.capacitor/
+
+# ==========================================
+# 3. Carpetas para desarrollo mobile
+# ==========================================
+capacitor.config.json.bak
+android/app/build/
+android/.gradle/
+android/build/
+android/captures/
+ios/App/build/
+ios/App/Pods/
+ios/App/Podfile.lock
+
+# ==========================================
+# 4. Pruebas y Cobertura de Código
+# ==========================================
+/coverage/
+.nyc_output/
+karma-debug.log
+
+# ==========================================
+# 5. Entorno y Credenciales
+# ==========================================
+# Variables de entorno con llaves API o secretos
+.env
+.env.local
+.env.production
+
+# ==========================================
+# 6. Configuraciones de IDE y Sistema Operativo
+# ==========================================
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.sublime-project
+*.sublime-workspace
+.workspace_EntrePares.code-workspace
+
+# Basura de sistemas operativos
+Thumbs.db
+desktop.ini
+.DS_Store

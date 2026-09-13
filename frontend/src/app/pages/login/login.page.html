@@ -1,0 +1,59 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>EntrePares - Acceso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="login-container">
+    <div class="login-header">
+      <h2>Iniciar Sesión</h2>
+      <p>Ingresa tus credenciales institucionales</p>
+    </div>
+
+    <!-- Campo Correo -->
+    <ion-item lines="full" class="ion-margin-bottom">
+      <ion-input
+        label="Correo institucional"
+        labelPlacement="floating"
+        type="email"
+        placeholder="ejemplo@duocuc.cl"
+        [(ngModel)]="correo"
+        name="correo"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <!-- Campo Contraseña -->
+    <ion-item lines="full" class="ion-margin-bottom">
+      <ion-input
+        label="Contraseña"
+        labelPlacement="floating"
+        type="password"
+        placeholder="***"
+        [(ngModel)]="password"
+        name="password"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <!-- Botón de Envío -->
+    <ion-button
+      expand="block"
+      color="primary"
+      class="ion-margin-top"
+      (click)="ingresar()"
+    >
+      Ingresar
+    </ion-button>
+  </div>
+
+  <!-- Toast para alertas de validación -->
+  <ion-toast
+    [isOpen]="isToastOpen"
+    [message]="toastMessage"
+    [duration]="2500"
+    (didDismiss)="isToastOpen = false"
+    color="warning"
+  ></ion-toast>
+</ion-content>
