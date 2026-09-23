@@ -46,7 +46,9 @@
       </ion-card-header>
       <ion-card-content>
         Publica tu consulta para coordinar una sesión con un ayudante.
-        <ion-button expand="block" color="primary" class="ion-margin-top">
+        <!-- MODAL DEL TICKET DE CONSULTAS -->
+        <!-- Botón para abrir el modal de creación de ticket -->
+        <ion-button id="open-ticket-modal" expand="block" color="primary" (click)="abrirModal()">
           Crear Ticket de Consulta
         </ion-button>
       </ion-card-content>
@@ -68,3 +70,38 @@
     </ion-list>
   </div>
 </ion-content>
+
+<!-- Formulario para el ticket nuevo -->
+<ion-modal [isOpen]="isModalOpen" (willDismiss)="onModalDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Nuevo Ticket</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="cerrarModal()">Cancelar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-item lines="full" class="ion-margin-bottom">
+        <ion-select label="Asignatura" labelPlacement="floating" [(ngModel)]="nuevoTicket.id_asignatura">
+          <ion-select-option [value]="1">Programación Web</ion-select-option>
+          <ion-select-option [value]="2">Bases de Datos</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="full" class="ion-margin-bottom">
+        <ion-input label="Título de la duda" labelPlacement="floating" [(ngModel)]="nuevoTicket.titulo_duda"></ion-input>
+      </ion-item>
+
+      <ion-item lines="full" class="ion-margin-bottom">
+        <ion-textarea label="Detalle de la consulta" labelPlacement="floating" rows="4" [(ngModel)]="nuevoTicket.descripcion_duda"></ion-textarea>
+      </ion-item>
+
+      <ion-button expand="block" (click)="guardarTicket()">
+        Publicar Consulta
+      </ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
