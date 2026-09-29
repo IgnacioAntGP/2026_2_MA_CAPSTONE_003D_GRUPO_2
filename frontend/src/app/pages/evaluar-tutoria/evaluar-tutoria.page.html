@@ -1,0 +1,104 @@
+<ion-content [fullscreen]="true">
+
+  <div class="evaluar-container">
+
+    <header class="evaluar-header">
+
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/evaluaciones"
+      >
+        ← Volver a Evaluaciones
+      </button>
+
+      <h1>Evaluar tutoría</h1>
+
+      <p>
+        Comparte tu experiencia con la tutoría realizada.
+      </p>
+
+    </header>
+
+    <main class="evaluar-content">
+
+      <section class="tutoria-resumen">
+
+        <span class="asignatura">
+          Programación
+        </span>
+
+        <h2>
+          ¿Cómo puedo recorrer una lista en Java?
+        </h2>
+
+        <p>
+          Tutor: <strong>Felipe</strong>
+        </p>
+
+      </section>
+
+      <section class="evaluacion-form">
+
+        <div class="form-group">
+
+          <label>
+            ¿Cómo evaluarías la tutoría?
+          </label>
+
+          <div class="rating">
+
+            <button type="button">★</button>
+            <button type="button">★</button>
+            <button type="button">★</button>
+            <button type="button">★</button>
+            <button type="button">★</button>
+
+          </div>
+
+          <span class="rating-help">
+            Selecciona una calificación de 1 a 5
+          </span>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="comentario">
+            Comentario
+          </label>
+
+          <textarea
+            id="comentario"
+            rows="6"
+            placeholder="Cuéntanos cómo fue la tutoría y si te ayudó a resolver tu duda..."
+          ></textarea>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            class="cancel-button"
+            type="button"
+            routerLink="/evaluaciones"
+          >
+            Cancelar
+          </button>
+
+          <button
+            class="submit-button"
+            type="button"
+          >
+            Enviar evaluación
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>

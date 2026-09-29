@@ -1,0 +1,118 @@
+<ion-content [fullscreen]="true">
+
+  <div class="editar-perfil-container">
+
+    <header class="editar-perfil-header">
+
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/mi-perfil"
+      >
+        ← Volver a Mi perfil
+      </button>
+
+      <h1>Editar perfil</h1>
+
+      <p>
+        Actualiza la información de tu perfil.
+      </p>
+
+    </header>
+
+    <main class="editar-perfil-form">
+
+      <div class="form-group">
+
+        <label for="nombre">
+          Nombre
+        </label>
+
+        <input
+          id="nombre"
+          type="text"
+          value="Matías González"
+        />
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="correo">
+          Correo
+        </label>
+
+        <input
+          id="correo"
+          type="email"
+          value="matias.gonzalez@entrepares.cl"
+        />
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="carrera">
+          Carrera
+        </label>
+
+        <input
+          id="carrera"
+          type="text"
+          value="Ingeniería en Informática"
+        />
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="nivel">
+          Nivel
+        </label>
+
+        <select id="nivel">
+
+          <option value="1">
+            1° año
+          </option>
+
+          <option value="2" selected>
+            2° año
+          </option>
+
+          <option value="3">
+            3° año
+          </option>
+
+          <option value="4">
+            4° año
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="cancel-button"
+          type="button"
+          routerLink="/mi-perfil"
+        >
+          Cancelar
+        </button>
+
+        <button
+          class="save-button"
+          type="button"
+        >
+          Guardar cambios
+        </button>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</ion-content>

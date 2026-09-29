@@ -1,0 +1,103 @@
+<ion-content [fullscreen]="true">
+
+  <div class="editar-container">
+
+    <header class="editar-header">
+
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/detalle-consulta"
+      >
+        ← Volver a la consulta
+      </button>
+
+      <h1>Editar publicación</h1>
+
+      <p>
+        Modifica el contenido de tu consulta.
+      </p>
+
+    </header>
+
+    <main class="editar-form">
+
+      <div class="form-group">
+
+        <label for="titulo">
+          Título
+        </label>
+
+        <input
+          id="titulo"
+          type="text"
+          value="¿Cómo puedo recorrer una lista en Java?"
+        />
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="asignatura">
+          Asignatura
+        </label>
+
+        <select id="asignatura">
+
+          <option value="programacion" selected>
+            Programación
+          </option>
+
+          <option value="bases-datos">
+            Bases de Datos
+          </option>
+
+          <option value="matematicas">
+            Matemáticas
+          </option>
+
+          <option value="ingenieria-software">
+            Ingeniería de Software
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="descripcion">
+          Describe tu duda
+        </label>
+
+        <textarea
+          id="descripcion"
+          rows="7"
+        >Estoy trabajando con listas y no entiendo bien cuándo utilizar un for tradicional o un for-each. ¿Hay alguna diferencia importante entre ambos?</textarea>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="cancel-button"
+          type="button"
+          routerLink="/detalle-consulta"
+        >
+          Cancelar
+        </button>
+
+        <button
+          class="save-button"
+          type="button"
+        >
+          Guardar cambios
+        </button>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</ion-content>

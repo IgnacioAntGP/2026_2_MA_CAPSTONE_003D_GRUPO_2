@@ -1,65 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonItem,
-  IonInput,
-  IonButton,
-  IonToast,
-} from '@ionic/angular';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonRouterLink } from '@ionic/angular';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonItem,
-    IonInput,
-    IonButton,
-    IonToast,
-  ],
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink]
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
+
   correo: string = '';
   password: string = '';
 
-  // Control para el mensaje de retroalimentación
-  isToastOpen: boolean = false;
-  toastMessage: string = '';
+  constructor() { }
 
-  constructor(private router: Router) {}
+  ngOnInit() {
+
+  }
 
   ingresar() {
-    // Validación de campos vacíos
-    if (!this.correo.trim() || !this.password.trim()) {
-      this.mostrarAlerta('Por favor completa todos los campos');
-      return;
-    }
-
-    // Validación básica de formato de correo institucional
-    if (!this.correo.includes('@')) {
-      this.mostrarAlerta('Ingresa un correo institucional válido');
-      return;
-    }
-
-    // Navegación hacia el panel de inicio
-    this.router.navigate(['/home']);
+    console.log('Correo:', this.correo);
+    console.log('Contraseña:', this.password);
   }
 
-  private mostrarAlerta(mensaje: string) {
-    this.toastMessage = mensaje;
-    this.isToastOpen = true;
-  }
 }

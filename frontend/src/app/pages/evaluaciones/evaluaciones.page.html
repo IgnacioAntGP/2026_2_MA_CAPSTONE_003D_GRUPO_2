@@ -1,0 +1,114 @@
+<ion-content [fullscreen]="true">
+
+  <div class="evaluaciones-container">
+
+    <header class="evaluaciones-header">
+
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/comunidad"
+      >
+        ← Volver a Comunidad
+      </button>
+
+      <h1>Evaluaciones</h1>
+
+      <p>
+        Revisa y evalúa las tutorías que has realizado.
+      </p>
+
+    </header>
+
+    <main class="evaluaciones-content">
+
+      <section class="evaluaciones-section">
+
+        <h2>Pendientes de evaluación</h2>
+
+        <article class="evaluacion-card pendiente">
+
+          <div class="evaluacion-header">
+
+            <span class="asignatura">
+              Programación
+            </span>
+
+            <span class="estado">
+              Pendiente de evaluación
+            </span>
+
+          </div>
+
+          <h3>
+            ¿Cómo puedo recorrer una lista en Java?
+          </h3>
+
+          <p>
+            Tutoría realizada recientemente.
+          </p>
+
+          <button
+            class="evaluate-button"
+            type="button"
+            routerLink="/evaluar-tutoria"
+          >
+            Evaluar tutoría
+          </button>
+
+        </article>
+
+      </section>
+
+      <section class="evaluaciones-section">
+
+        <h2>Evaluaciones realizadas</h2>
+
+        <article class="evaluacion-card">
+
+          <div class="evaluacion-header">
+
+            <span class="asignatura">
+              Bases de Datos
+            </span>
+
+            <span class="fecha">
+              Hace 5 días
+            </span>
+
+          </div>
+
+          <h3>
+            Problema con una consulta SQL
+          </h3>
+
+          <div class="calificacion">
+
+            <div class="estrellas">
+              <span class="estrella completa">★</span>
+              <span class="estrella completa">★</span>
+              <span class="estrella completa">★</span>
+              <span class="estrella completa">★</span>
+              <span class="estrella parcial">★</span>
+            </div>
+
+            <span class="nota">
+              4,8 / 5
+            </span>
+
+          </div>
+
+          <p class="comentario">
+            La explicación fue clara y me ayudó a entender
+            el problema con la consulta.
+          </p>
+
+        </article>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>
