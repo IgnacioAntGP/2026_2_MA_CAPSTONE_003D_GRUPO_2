@@ -1,0 +1,97 @@
+<ion-content [fullscreen]="true">
+
+  <div class="ayudante-container">
+
+    <header class="ayudante-header">
+
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/comunidad"
+      >
+        ← Volver a Comunidad
+      </button>
+
+      <h1>Solicitar ser ayudante</h1>
+
+      <p>
+        Comparte tus conocimientos y apoya a otros estudiantes.
+      </p>
+
+    </header>
+
+    <main class="ayudante-content">
+
+      <section class="info-card">
+
+        <h2>¿Qué significa ser ayudante?</h2>
+
+        <p>
+          Como ayudante podrás apoyar a otros estudiantes mediante
+          tutorías personalizadas cuando necesiten reforzar algún tema.
+        </p>
+
+        <p>
+          Tu solicitud será revisada antes de asignarte este rol.
+        </p>
+
+      </section>
+
+      <section class="solicitud-card">
+
+        <h2>Solicitud</h2>
+
+        <div class="form-group">
+
+          <label for="motivacion">
+            ¿Por qué quieres ser ayudante?
+          </label>
+
+          <textarea
+            id="motivacion"
+            rows="6"
+            placeholder="Cuéntanos brevemente por qué te interesa ayudar a otros estudiantes..."
+          ></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="experiencia">
+            ¿En qué áreas puedes ayudar?
+          </label>
+
+          <textarea
+            id="experiencia"
+            rows="5"
+            placeholder="Ej: Programación, Bases de Datos, Matemáticas..."
+          ></textarea>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            class="cancel-button"
+            type="button"
+            routerLink="/comunidad"
+          >
+            Cancelar
+          </button>
+
+          <button
+            class="submit-button"
+            type="button"
+          >
+            Enviar solicitud
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>

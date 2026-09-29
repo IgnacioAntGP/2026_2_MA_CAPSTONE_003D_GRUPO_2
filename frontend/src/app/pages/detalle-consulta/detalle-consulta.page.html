@@ -1,0 +1,153 @@
+<ion-content [fullscreen]="true">
+
+  <div class="detalle-container">
+
+    <header class="detalle-header">
+
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/comunidad"
+      >
+        ← Volver a Comunidad
+      </button>
+
+    </header>
+
+    <main class="detalle-content">
+
+      <article class="consulta">
+
+        <div class="consulta-meta">
+          <span class="asignatura">Programación</span>
+          <span>Hace 20 min</span>
+        </div>
+
+        <h1>¿Cómo puedo recorrer una lista en Java?</h1>
+
+        <div class="autor">
+          Publicado por <strong>Matías</strong>
+        </div>
+        
+        <div class="autor-actions">
+
+          <button
+            type="button"
+            class="edit-button"
+            routerLink="/editar-publicacion"
+          >
+            Editar publicación
+          </button>
+
+          <button
+            type="button"
+            class="delete-button"
+          >
+            Eliminar publicación
+          </button>
+
+        </div>        
+
+        <p class="consulta-texto">
+          Estoy trabajando con listas y no entiendo bien cuándo utilizar
+          un for tradicional o un for-each. ¿Hay alguna diferencia
+          importante entre ambos?
+        </p>
+
+      </article>
+
+      <section class="respuestas">
+
+        <div class="section-header">
+          <h2>Respuestas</h2>
+          <span>3 respuestas</span>
+        </div>
+
+        <article class="respuesta">
+
+          <div class="respuesta-header">
+            <strong>Camila</strong>
+            <span>Hace 15 min</span>
+          </div>
+
+          <p>
+            El for-each es bastante útil cuando solo necesitas recorrer
+            los elementos de la lista y no necesitas conocer su posición.
+          </p>
+
+        </article>
+
+        <article class="respuesta">
+
+          <div class="respuesta-header">
+            <strong>Diego</strong>
+            <span>Hace 10 min</span>
+          </div>
+
+          <p>
+            Si necesitas trabajar con el índice del elemento, entonces
+            puede ser más conveniente utilizar un for tradicional.
+          </p>
+
+        </article>
+
+        <article class="respuesta">
+
+          <div class="respuesta-header">
+            <strong>Fernanda</strong>
+            <span>Hace 5 min</span>
+          </div>
+
+          <p>
+            También puedes utilizar otras alternativas dependiendo de
+            lo que quieras hacer con la lista. Lo importante es entender
+            qué necesitas antes de elegir.
+          </p>
+
+        </article>
+
+      </section>
+
+      <section class="responder">
+
+        <h2>¿Quieres aportar a esta consulta?</h2>
+
+        <textarea
+          rows="5"
+          placeholder="Escribe tu respuesta..."
+        ></textarea>
+
+        <button
+          class="response-button"
+          type="button"
+        >
+          Publicar respuesta
+        </button>
+
+      </section>
+
+      <section class="tutoria-card">
+
+        <div>
+          <h2>¿Necesitas ayuda más personalizada?</h2>
+          <p>
+            Si las respuestas de la comunidad no fueron suficientes,
+            puedes solicitar una tutoría con un estudiante ayudante.
+          </p>
+        </div>
+
+        <button
+          class="tutoria-button"
+          type="button"
+          routerLink="/solicitar-tutoria"
+        >
+          Solicitar tutoría
+        </button>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>

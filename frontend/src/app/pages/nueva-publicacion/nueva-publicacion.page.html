@@ -1,0 +1,68 @@
+<ion-content [fullscreen]="true">
+
+  <div class="publicacion-container">
+
+    <header class="publicacion-header">
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/comunidad"
+      >
+        ← Volver
+      </button>
+
+      <div>
+        <h1>Nueva publicación</h1>
+        <p>Comparte una duda con la comunidad</p>
+      </div>
+    </header>
+
+    <main class="publicacion-form">
+
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input
+          id="titulo"
+          type="text"
+          placeholder="Ej: ¿Cómo puedo recorrer una lista en Java?"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="asignatura">Asignatura</label>
+
+        <select id="asignatura">
+          <option value="" selected disabled>
+            Selecciona una asignatura
+          </option>
+          <option value="programacion">Programación</option>
+          <option value="bases-datos">Bases de Datos</option>
+          <option value="matematicas">Matemáticas</option>
+          <option value="ingenieria-software">Ingeniería de Software</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Describe tu duda</label>
+        <textarea
+          id="descripcion"
+          rows="7"
+          placeholder="Explica tu duda con el mayor detalle posible..."
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="cancel-button" type="button">
+          Cancelar
+        </button>
+
+        <button class="publish-button" type="button">
+          Publicar consulta
+        </button>
+      </div>
+
+    </main>
+
+  </div>
+
+</ion-content>

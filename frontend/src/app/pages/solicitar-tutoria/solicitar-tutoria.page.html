@@ -1,0 +1,106 @@
+<ion-content [fullscreen]="true">
+
+  <div class="tutoria-container">
+
+    <header class="tutoria-header">
+
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/detalle-consulta"
+      >
+        ← Volver a la consulta
+      </button>
+
+      <h1>Solicitar tutoría</h1>
+
+      <p>
+        Solicita apoyo personalizado de un estudiante ayudante.
+      </p>
+
+    </header>
+
+    <main class="tutoria-content">
+
+      <section class="consulta-resumen">
+
+        <span class="asignatura">Programación</span>
+
+        <h2>
+          ¿Cómo puedo recorrer una lista en Java?
+        </h2>
+
+        <p>
+          Esta tutoría estará asociada a la consulta que publicaste
+          en la comunidad.
+        </p>
+
+      </section>
+
+      <section class="solicitud-form">
+
+        <div class="form-group">
+
+          <label for="motivo">
+            ¿Qué necesitas reforzar?
+          </label>
+
+          <textarea
+            id="motivo"
+            rows="6"
+            placeholder="Cuéntale al ayudante qué parte necesitas comprender mejor..."
+          ></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalidad">
+            Modalidad preferida
+          </label>
+
+          <select id="modalidad">
+
+            <option value="" selected disabled>
+              Selecciona una modalidad
+            </option>
+
+            <option value="online">
+              Online
+            </option>
+
+            <option value="presencial">
+              Presencial
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button
+            class="cancel-button"
+            type="button"
+            routerLink="/detalle-consulta"
+          >
+            Cancelar
+          </button>
+
+          <button
+            class="request-button"
+            type="button"
+            (click)="solicitarTutoria()"
+          >
+            Solicitar tutoría
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>

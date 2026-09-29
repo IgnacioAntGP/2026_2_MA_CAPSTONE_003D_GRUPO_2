@@ -1,0 +1,106 @@
+<ion-content [fullscreen]="true">
+
+  <div class="mis-publicaciones-container">
+
+    <header class="mis-publicaciones-header">
+
+      <button
+        class="back-button"
+        type="button"
+        routerLink="/comunidad"
+      >
+        ← Volver a Comunidad
+      </button>
+
+      <h1>Mis publicaciones</h1>
+
+      <p>
+        Revisa las consultas que has publicado en la comunidad.
+      </p>
+
+    </header>
+
+    <main class="mis-publicaciones-content">
+
+      <article
+        class="publicacion-card"
+        routerLink="/detalle-consulta"
+      >
+
+        <div class="publicacion-card-header">
+
+          <span class="asignatura">
+            Programación
+          </span>
+
+          <span class="fecha">
+            Hace 20 min
+          </span>
+
+        </div>
+
+        <h2>
+          ¿Cómo puedo recorrer una lista en Java?
+        </h2>
+
+        <p>
+          Estoy trabajando con listas y no entiendo bien cuándo utilizar
+          un for tradicional o un for-each.
+        </p>
+
+        <div class="publicacion-footer">
+
+          <span>
+            3 respuestas
+          </span>
+
+          <span>
+            Tutoría no solicitada
+          </span>
+
+        </div>
+
+      </article>
+
+      <article class="publicacion-card">
+
+        <div class="publicacion-card-header">
+
+          <span class="asignatura">
+            Bases de Datos
+          </span>
+
+          <span class="fecha">
+            Hace 2 días
+          </span>
+
+        </div>
+
+        <h2>
+          Problema con una consulta SQL
+        </h2>
+
+        <p>
+          Mi consulta funciona, pero me devuelve registros repetidos.
+          ¿Alguien podría orientarme sobre qué estoy haciendo mal?
+        </p>
+
+        <div class="publicacion-footer">
+
+          <span>
+            1 respuesta
+          </span>
+
+          <span>
+            Tutoría no solicitada
+          </span>
+
+        </div>
+
+      </article>
+
+    </main>
+
+  </div>
+
+</ion-content>
