@@ -9,8 +9,8 @@ import {
 } from '@ionic/angular';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { TicketService } from '../../services/TicketService';
-import { Consulta } from '../../models/IConsulta';
+import { TicketService } from '../../../core/services/TicketService';
+import { Consulta } from '../../../models/IConsulta';
 
 @Component({
   selector: 'app-editar-publicacion',

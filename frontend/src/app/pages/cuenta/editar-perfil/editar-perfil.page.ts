@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 
-import { TicketService } from '../../services/TicketService';
-import { PerfilUsuario } from '../../models/IPerfil';
+import { TicketService } from '../../../core/services/TicketService';
+import { PerfilUsuario } from '../../../models/IPerfil';
 
 @Component({
   selector: 'app-editar-perfil',

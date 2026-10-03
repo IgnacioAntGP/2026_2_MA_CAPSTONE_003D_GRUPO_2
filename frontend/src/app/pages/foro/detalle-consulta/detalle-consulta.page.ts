@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { RouterLink, ActivatedRoute,Router } from '@angular/router';
 
-import { TicketService } from '../../services/TicketService';
-import { Consulta } from '../../models/IConsulta';
-import { RespuestaConsulta } from '../../models/IRespuesta';
+import { TicketService } from '../../../core/services/TicketService';
+import { Consulta } from '../../../models/IConsulta';
+import { RespuestaConsulta } from '../../../models/IRespuesta';
 
 
 @Component({

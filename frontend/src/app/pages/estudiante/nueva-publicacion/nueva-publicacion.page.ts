@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 
-import { TicketService } from '../../services/TicketService';
-import { NuevaConsulta } from '../../models/IConsulta';
+import { TicketService } from '../../../core/services/TicketService';
+import { NuevaConsulta } from '../../../models/IConsulta';
 
 @Component({
   selector: 'app-nueva-publicacion',

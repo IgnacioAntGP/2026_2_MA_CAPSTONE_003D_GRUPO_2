@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 
-import { TicketService } from '../../services/TicketService';
-import { MisTutoria } from '../../models/IMisTutorias';
+import { TicketService } from '../../../core/services/TicketService';
+import { PerfilUsuario } from '../../../models/IPerfil';
 
 @Component({
-  selector: 'app-mis-tutorias',
-  templateUrl: './mis-tutorias.page.html',
-  styleUrls: ['./mis-tutorias.page.scss'],
+  selector: 'app-mi-perfil',
+  templateUrl: './mi-perfil.page.html',
+  styleUrls: ['./mi-perfil.page.scss'],
   imports: [
     IonContent,
     IonHeader,
@@ -21,9 +21,9 @@ import { MisTutoria } from '../../models/IMisTutorias';
     RouterLink
   ]
 })
-export class MisTutoriasPage implements OnInit {
+export class MiPerfilPage implements OnInit {
 
-  tutorias: MisTutoria[] = [];
+  perfil?: PerfilUsuario;
 
   // Temporal hasta implementar login real
   idUsuarioActual = 1;
@@ -34,22 +34,22 @@ export class MisTutoriasPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cargarMisTutorias();
+    this.cargarPerfil();
   }
 
-  cargarMisTutorias() {
+  cargarPerfil() {
 
-    this.ticketService.obtenerMisTutorias(this.idUsuarioActual).subscribe({
+    this.ticketService.obtenerPerfil(this.idUsuarioActual).subscribe({
       next: (data) => {
 
-        this.tutorias = data;
+        this.perfil = data;
 
         this.cdr.markForCheck();
 
-        console.log('Mis tutorías:', data);
+        console.log('Perfil:', data);
       },
       error: (error) => {
-        console.error('Error al cargar mis tutorías:', error);
+        console.error('Error al cargar perfil:', error);
       }
     });
 
