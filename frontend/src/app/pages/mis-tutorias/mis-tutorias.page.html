@@ -22,43 +22,80 @@
 
     <main class="mis-tutorias-content">
 
-      <article class="tutoria-card">
+      <article
+        class="tutoria-card"
+        *ngFor="let tutoria of tutorias"
+      >
 
         <div class="tutoria-card-header">
 
           <span class="asignatura">
-            Programación
+            {{ tutoria.asignatura }}
           </span>
 
-          <span class="estado pendiente">
-            Pendiente
+          <span
+            class="estado"
+            [class.pendiente]="tutoria.estado_solicitud === 'PENDIENTE'"
+          >
+            {{ tutoria.estado_solicitud }}
           </span>
 
         </div>
 
         <h2>
-          ¿Cómo puedo recorrer una lista en Java?
+          {{ tutoria.titulo }}
         </h2>
 
         <p class="descripcion">
-          Solicitud asociada a tu consulta publicada en la comunidad.
+          {{ tutoria.motivo }}
         </p>
 
         <div class="tutoria-info">
 
           <div>
-            <span class="info-label">Modalidad</span>
-            <span class="info-value">Online</span>
+            <span class="info-label">
+              Modalidad
+            </span>
+
+            <span class="info-value">
+              {{ tutoria.modalidad }}
+            </span>
           </div>
 
           <div>
-            <span class="info-label">Solicitud</span>
-            <span class="info-value">Enviada recientemente</span>
+            <span class="info-label">
+              Solicitud
+            </span>
+
+            <span class="info-value">
+              {{ tutoria.fecha_solicitud | date:'dd/MM/yyyy - HH:mm' }}
+            </span>
+          </div>
+
+        </div>
+
+        <div
+          class="tutoria-info"
+          *ngIf="tutoria.ayudante"
+        >
+
+          <div>
+            <span class="info-label">
+              Ayudante
+            </span>
+
+            <span class="info-value">
+              {{ tutoria.ayudante }}
+            </span>
           </div>
 
         </div>
 
       </article>
+
+      <p *ngIf="tutorias.length === 0">
+        Aún no tienes solicitudes de tutoría.
+      </p>
 
     </main>
 

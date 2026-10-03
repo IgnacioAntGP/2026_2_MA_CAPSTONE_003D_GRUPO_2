@@ -2,6 +2,7 @@
 
   <div class="detalle-container">
 
+    <!-- ENCABEZADO -->
     <header class="detalle-header">
 
       <button
@@ -12,29 +13,168 @@
         ← Volver a Comunidad
       </button>
 
+      <button
+        class="menu-button"
+        type="button"
+        (click)="menuAbierto = !menuAbierto"
+      >
+        ☰
+      </button>
+
     </header>
 
-    <main class="detalle-content">
 
+    <!-- OVERLAY DEL MENÚ -->
+    <div
+      class="menu-overlay"
+      *ngIf="menuAbierto"
+      (click)="menuAbierto = false"
+    ></div>
+
+
+    <!-- MENÚ LATERAL -->
+    <aside
+      class="side-menu"
+      *ngIf="menuAbierto"
+    >
+
+      <div class="side-menu-header">
+
+        <h2>Menú</h2>
+
+        <button
+          type="button"
+          class="close-menu-button"
+          (click)="menuAbierto = false"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <!-- MI ACTIVIDAD -->
+      <div class="menu-section">
+
+        <span class="menu-section-title">
+          Mi actividad
+        </span>
+
+        <button
+          type="button"
+          class="menu-item"
+          routerLink="/mis-publicaciones"
+          (click)="menuAbierto = false"
+        >
+          Mis publicaciones
+        </button>
+
+        <button
+          type="button"
+          class="menu-item"
+          routerLink="/mis-tutorias"
+          (click)="menuAbierto = false"
+        >
+          Mis tutorías
+        </button>
+
+        <button
+          type="button"
+          class="menu-item"
+          routerLink="/evaluaciones"
+          (click)="menuAbierto = false"
+        >
+          Evaluaciones
+        </button>
+
+      </div>
+
+
+      <!-- MI CUENTA -->
+      <div class="menu-section">
+
+        <span class="menu-section-title">
+          Mi cuenta
+        </span>
+
+        <button
+          type="button"
+          class="menu-item"
+          routerLink="/mi-perfil"
+          (click)="menuAbierto = false"
+        >
+          Mi perfil
+        </button>
+
+        <button
+          type="button"
+          class="menu-item"
+          routerLink="/solicitar-ayudante"
+          (click)="menuAbierto = false"
+        >
+          Solicitar ser ayudante
+        </button>
+
+      </div>
+
+
+      <!-- CERRAR SESIÓN -->
+      <div class="menu-section menu-section-bottom">
+
+        <button
+          type="button"
+          class="menu-item logout"
+          routerLink="/login"
+          (click)="menuAbierto = false"
+        >
+          Cerrar sesión
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- CONTENIDO DEL DETALLE -->
+    <main
+      class="detalle-content"
+      *ngIf="consulta"
+    >
+
+      <!-- CONSULTA -->
       <article class="consulta">
 
         <div class="consulta-meta">
-          <span class="asignatura">Programación</span>
-          <span>Hace 20 min</span>
+
+          <span class="asignatura">
+            {{ consulta.asignatura }}
+          </span>
+
+          <span>
+            {{ consulta.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
+          </span>
+
         </div>
 
-        <h1>¿Cómo puedo recorrer una lista en Java?</h1>
+        <h1>
+          {{ consulta.titulo }}
+        </h1>
 
         <div class="autor">
-          Publicado por <strong>Matías</strong>
+          Publicado por
+          <strong>
+            {{ consulta.autor }}
+          </strong>
         </div>
-        
+
+
+        <!-- ACCIONES DEL AUTOR -->
         <div class="autor-actions">
 
           <button
             type="button"
             class="edit-button"
-            routerLink="/editar-publicacion"
+            [routerLink]="['/editar-publicacion', consulta.id_consulta]"
           >
             Editar publicación
           </button>
@@ -42,104 +182,117 @@
           <button
             type="button"
             class="delete-button"
+            (click)="eliminarPublicacion()"
           >
             Eliminar publicación
           </button>
 
-        </div>        
+        </div>
 
         <p class="consulta-texto">
-          Estoy trabajando con listas y no entiendo bien cuándo utilizar
-          un for tradicional o un for-each. ¿Hay alguna diferencia
-          importante entre ambos?
+          {{ consulta.descripcion }}
         </p>
 
       </article>
 
+
+      <!-- RESPUESTAS -->
       <section class="respuestas">
 
         <div class="section-header">
+
           <h2>Respuestas</h2>
-          <span>3 respuestas</span>
+
+          <span>
+            {{ respuestas.length }}
+            {{ respuestas.length === 1 ? 'respuesta' : 'respuestas' }}
+          </span>
+
         </div>
 
-        <article class="respuesta">
+
+        <article
+          class="respuesta"
+          *ngFor="let respuesta of respuestas"
+        >
 
           <div class="respuesta-header">
-            <strong>Camila</strong>
-            <span>Hace 15 min</span>
+
+            <strong>
+              {{ respuesta.usuario?.nombre }}
+              {{ respuesta.usuario?.apellido }}
+            </strong>
+
+            <span>
+              {{ respuesta.fecha_respuesta | date:'dd/MM/yyyy - HH:mm'}}
+            </span>
+
           </div>
 
           <p>
-            El for-each es bastante útil cuando solo necesitas recorrer
-            los elementos de la lista y no necesitas conocer su posición.
+            {{ respuesta.contenido }}
           </p>
 
         </article>
 
-        <article class="respuesta">
 
-          <div class="respuesta-header">
-            <strong>Diego</strong>
-            <span>Hace 10 min</span>
-          </div>
-
-          <p>
-            Si necesitas trabajar con el índice del elemento, entonces
-            puede ser más conveniente utilizar un for tradicional.
-          </p>
-
-        </article>
-
-        <article class="respuesta">
-
-          <div class="respuesta-header">
-            <strong>Fernanda</strong>
-            <span>Hace 5 min</span>
-          </div>
-
-          <p>
-            También puedes utilizar otras alternativas dependiendo de
-            lo que quieras hacer con la lista. Lo importante es entender
-            qué necesitas antes de elegir.
-          </p>
-
-        </article>
+        <p
+          *ngIf="respuestas.length === 0"
+          class="sin-respuestas"
+        >
+          Esta consulta aún no tiene respuestas.
+        </p>
 
       </section>
 
+
+      <!-- RESPONDER -->
       <section class="responder">
 
-        <h2>¿Quieres aportar a esta consulta?</h2>
+        <h2>
+          ¿Quieres aportar a esta consulta?
+        </h2>
 
         <textarea
           rows="5"
+          [(ngModel)]="nuevaRespuesta"
           placeholder="Escribe tu respuesta..."
         ></textarea>
 
         <button
           class="response-button"
           type="button"
+          (click)="publicarRespuesta()"
         >
           Publicar respuesta
         </button>
 
       </section>
 
+
+      <!-- SOLICITAR TUTORÍA -->
       <section class="tutoria-card">
 
         <div>
-          <h2>¿Necesitas ayuda más personalizada?</h2>
+
+          <h2>
+            ¿Necesitas ayuda más personalizada?
+          </h2>
+
           <p>
             Si las respuestas de la comunidad no fueron suficientes,
             puedes solicitar una tutoría con un estudiante ayudante.
           </p>
+
         </div>
 
         <button
           class="tutoria-button"
           type="button"
-          routerLink="/solicitar-tutoria"
+          [routerLink]="[
+            '/solicitar-tutoria',
+            consulta.id_consulta
+          ]"
         >
           Solicitar tutoría
         </button>

@@ -47,7 +47,14 @@
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
 }
 
+
+/* =========================
+   INFORMACIÓN DEL AYUDANTE
+   ========================= */
+
 .info-card {
+  border-left: 4px solid #3880ff;
+  background: #f8fbff;
 
   h2,
   p {
@@ -72,8 +79,72 @@
   }
 }
 
-.solicitud-card {
+.info-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
 
+  h2 {
+    margin: 2px 0 8px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.info-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: rgba(56, 128, 255, 0.12);
+  color: #3880ff;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.helper-points {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.helper-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  span {
+    color: #3880ff;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================
+   FORMULARIO
+   ========================= */
+
+.solicitud-card {
   h2 {
     margin: 0 0 22px;
     font-size: 19px;
@@ -96,14 +167,19 @@
   textarea {
     width: 100%;
     box-sizing: border-box;
+
     padding: 13px 15px;
+
     border: 1px solid #d1d5db;
     border-radius: 8px;
+
     background: #ffffff;
     color: #1f2937;
+
     font-family: inherit;
     font-size: 15px;
     line-height: 1.5;
+
     resize: vertical;
     outline: none;
   }
@@ -113,6 +189,18 @@
     box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.12);
   }
 }
+
+.field-help {
+  margin: -2px 0 9px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
 
 .form-actions {
   display: flex;
@@ -125,8 +213,10 @@
 .submit-button {
   padding: 12px 18px;
   border-radius: 8px;
+
   font-size: 15px;
   font-weight: 600;
+
   cursor: pointer;
 }
 
@@ -140,4 +230,80 @@
   border: none;
   background: #3880ff;
   color: #ffffff;
+}
+
+
+/* =========================
+   CONFIRMACIÓN
+   ========================= */
+
+.success-card {
+  text-align: center;
+  padding: 32px 24px;
+
+  h2 {
+    margin: 0 0 10px;
+    font-size: 21px;
+    color: #1f2937;
+  }
+
+  p {
+    margin: 0 0 24px;
+    color: #6b7280;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .submit-button {
+    min-width: 180px;
+  }
+}
+
+.success-icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ecfdf5;
+  color: #059669;
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .ayudante-container {
+    padding: 18px;
+  }
+
+  .info-card,
+  .solicitud-card {
+    padding: 20px;
+  }
+
+  .ayudante-header h1 {
+    font-size: 26px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-button,
+  .submit-button {
+    width: 100%;
+  }
+
 }

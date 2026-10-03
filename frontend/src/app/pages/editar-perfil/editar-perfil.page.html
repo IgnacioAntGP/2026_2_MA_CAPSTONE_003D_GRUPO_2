@@ -15,13 +15,17 @@
       <h1>Editar perfil</h1>
 
       <p>
-        Actualiza la información de tu perfil.
+        Actualiza la información académica de tu perfil.
       </p>
 
     </header>
 
-    <main class="editar-perfil-form">
+    <main
+      class="editar-perfil-form"
+      *ngIf="perfil"
+    >
 
+      <!-- NOMBRE -->
       <div class="form-group">
 
         <label for="nombre">
@@ -31,11 +35,31 @@
         <input
           id="nombre"
           type="text"
-          value="Matías González"
+          [value]="perfil.nombre + ' ' + perfil.apellido"
+          disabled
         />
 
       </div>
 
+
+      <!-- RUT -->
+      <div class="form-group">
+
+        <label for="rut">
+          RUT
+        </label>
+
+        <input
+          id="rut"
+          type="text"
+          [value]="perfil.rut"
+          disabled
+        />
+
+      </div>
+
+
+      <!-- CORREO -->
       <div class="form-group">
 
         <label for="correo">
@@ -45,11 +69,14 @@
         <input
           id="correo"
           type="email"
-          value="matias.gonzalez@entrepares.cl"
+          [value]="perfil.correo"
+          disabled
         />
 
       </div>
 
+
+      <!-- CARRERA -->
       <div class="form-group">
 
         <label for="carrera">
@@ -59,39 +86,78 @@
         <input
           id="carrera"
           type="text"
-          value="Ingeniería en Informática"
+          [(ngModel)]="carrera"
         />
 
       </div>
 
+
+      <!-- SEMESTRE -->
       <div class="form-group">
 
-        <label for="nivel">
-          Nivel
+        <label for="semestre">
+          Semestre
         </label>
 
-        <select id="nivel">
+        <select
+          id="semestre"
+          [(ngModel)]="semestre"
+        >
 
-          <option value="1">
-            1° año
+          <option [ngValue]="1">
+            1° semestre
           </option>
 
-          <option value="2" selected>
-            2° año
+          <option [ngValue]="2">
+            2° semestre
           </option>
 
-          <option value="3">
-            3° año
+          <option [ngValue]="3">
+            3° semestre
           </option>
 
-          <option value="4">
-            4° año
+          <option [ngValue]="4">
+            4° semestre
+          </option>
+
+          <option [ngValue]="5">
+            5° semestre
+          </option>
+
+          <option [ngValue]="6">
+            6° semestre
+          </option>
+
+          <option [ngValue]="7">
+            7° semestre
+          </option>
+
+          <option [ngValue]="8">
+            8° semestre
           </option>
 
         </select>
 
       </div>
 
+
+      <!-- INSTITUCIÓN -->
+      <div class="form-group">
+
+        <label for="institucion">
+          Institución
+        </label>
+
+        <input
+          id="institucion"
+          type="text"
+          [(ngModel)]="institucion"
+        />
+
+      </div>
+
+
+      <!-- ACCIONES -->
       <div class="form-actions">
 
         <button
@@ -105,6 +171,7 @@
         <button
           class="save-button"
           type="button"
+          (click)="guardarCambios()"
         >
           Guardar cambios
         </button>

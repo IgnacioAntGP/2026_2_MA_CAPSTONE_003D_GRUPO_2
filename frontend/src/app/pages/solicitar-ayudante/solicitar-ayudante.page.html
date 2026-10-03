@@ -15,7 +15,7 @@
       <h1>Solicitar ser ayudante</h1>
 
       <p>
-        Comparte tus conocimientos y apoya a otros estudiantes.
+        Comparte tus conocimientos y apoya a otros estudiantes en sus dudas académicas.
       </p>
 
     </header>
@@ -24,22 +24,79 @@
 
       <section class="info-card">
 
-        <h2>¿Qué significa ser ayudante?</h2>
+        <div class="info-card-header">
 
-        <p>
-          Como ayudante podrás apoyar a otros estudiantes mediante
-          tutorías personalizadas cuando necesiten reforzar algún tema.
-        </p>
+          <span class="info-icon">
+            i
+          </span>
 
-        <p>
-          Tu solicitud será revisada antes de asignarte este rol.
-        </p>
+          <div>
+
+            <h2>
+              ¿Qué significa ser ayudante?
+            </h2>
+
+            <p>
+              Como ayudante podrás apoyar a otros estudiantes en tutorías
+              relacionadas con los temas y asignaturas que domines.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="helper-points">
+
+          <div class="helper-point">
+
+            <span>
+              ✓
+            </span>
+
+            <p>
+              Comparte tus conocimientos con otros estudiantes.
+            </p>
+
+          </div>
+
+          <div class="helper-point">
+
+            <span>
+              ✓
+            </span>
+
+            <p>
+              Participa en tutorías según tus áreas de conocimiento.
+            </p>
+
+          </div>
+
+          <div class="helper-point">
+
+            <span>
+              ✓
+            </span>
+
+            <p>
+              Tu solicitud será revisada antes de asignarte el rol de ayudante.
+            </p>
+
+          </div>
+
+        </div>
 
       </section>
 
-      <section class="solicitud-card">
 
-        <h2>Solicitud</h2>
+      <!-- FORMULARIO -->
+      <section
+        class="solicitud-card"
+        *ngIf="!solicitudEnviada"
+      >
+
+        <h2>
+          Solicitud
+        </h2>
 
         <div class="form-group">
 
@@ -47,10 +104,15 @@
             ¿Por qué quieres ser ayudante?
           </label>
 
+          <span class="field-help">
+            Cuéntanos qué te motiva a apoyar a otros estudiantes.
+          </span>
+
           <textarea
             id="motivacion"
             rows="6"
-            placeholder="Cuéntanos brevemente por qué te interesa ayudar a otros estudiantes..."
+            [(ngModel)]="motivo"
+            placeholder="Escribe aquí tu motivación..."
           ></textarea>
 
         </div>
@@ -58,13 +120,19 @@
         <div class="form-group">
 
           <label for="experiencia">
-            ¿En qué áreas puedes ayudar?
+            ¿Qué experiencia o conocimientos puedes aportar?
           </label>
+
+          <span class="field-help">
+            Puedes mencionar proyectos, conocimientos académicos
+            o experiencias ayudando a compañeros.
+          </span>
 
           <textarea
             id="experiencia"
             rows="5"
-            placeholder="Ej: Programación, Bases de Datos, Matemáticas..."
+            [(ngModel)]="experiencia"
+            placeholder="Cuéntanos brevemente sobre tu experiencia..."
           ></textarea>
 
         </div>
@@ -82,11 +150,41 @@
           <button
             class="submit-button"
             type="button"
+            (click)="enviarSolicitud()"
           >
             Enviar solicitud
           </button>
 
         </div>
+
+      </section>
+
+
+      <!-- CONFIRMACIÓN -->
+      <section
+        class="solicitud-card success-card"
+        *ngIf="solicitudEnviada"
+      >
+
+        <div class="success-icon">
+          ✓
+        </div>
+
+        <h2>
+          Solicitud enviada
+        </h2>
+
+        <p>
+          Tu solicitud fue enviada correctamente y quedó pendiente de revisión.
+        </p>
+
+        <button
+          class="submit-button"
+          type="button"
+          routerLink="/comunidad"
+        >
+          Volver a Comunidad
+        </button>
 
       </section>
 

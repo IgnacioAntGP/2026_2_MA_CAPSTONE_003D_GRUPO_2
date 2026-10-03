@@ -24,73 +24,47 @@
 
       <article
         class="publicacion-card"
-        routerLink="/detalle-consulta"
+        *ngFor="let publicacion of publicaciones"
+        [routerLink]="[
+          '/detalle-consulta',
+          publicacion.id_consulta
+        ]"
       >
 
         <div class="publicacion-card-header">
 
           <span class="asignatura">
-            Programación
+            {{ publicacion.asignatura }}
           </span>
 
           <span class="fecha">
-            Hace 20 min
+            {{ publicacion.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
           </span>
 
         </div>
 
         <h2>
-          ¿Cómo puedo recorrer una lista en Java?
+          {{ publicacion.titulo }}
         </h2>
 
         <p>
-          Estoy trabajando con listas y no entiendo bien cuándo utilizar
-          un for tradicional o un for-each.
+          {{ publicacion.descripcion }}
         </p>
 
         <div class="publicacion-footer">
 
-          <span>
-            3 respuestas
+          <span *ngIf="(publicacion.total_respuestas ?? 0) === 0">
+            Sin respuestas
           </span>
 
-          <span>
-            Tutoría no solicitada
-          </span>
-
-        </div>
-
-      </article>
-
-      <article class="publicacion-card">
-
-        <div class="publicacion-card-header">
-
-          <span class="asignatura">
-            Bases de Datos
-          </span>
-
-          <span class="fecha">
-            Hace 2 días
-          </span>
-
-        </div>
-
-        <h2>
-          Problema con una consulta SQL
-        </h2>
-
-        <p>
-          Mi consulta funciona, pero me devuelve registros repetidos.
-          ¿Alguien podría orientarme sobre qué estoy haciendo mal?
-        </p>
-
-        <div class="publicacion-footer">
-
-          <span>
+          <span *ngIf="(publicacion.total_respuestas ?? 0) === 1">
             1 respuesta
           </span>
 
+          <span *ngIf="(publicacion.total_respuestas ?? 0) > 1">
+            {{ publicacion.total_respuestas }} respuestas
+          </span>
+
           <span>
             Tutoría no solicitada
           </span>
@@ -98,6 +72,10 @@
         </div>
 
       </article>
+
+      <p *ngIf="publicaciones.length === 0">
+        Aún no has realizado publicaciones.
+      </p>
 
     </main>
 

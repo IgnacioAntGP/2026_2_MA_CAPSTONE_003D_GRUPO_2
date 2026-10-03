@@ -7,7 +7,7 @@
       <button
         class="back-button"
         type="button"
-        routerLink="/detalle-consulta"
+        [routerLink]="['/detalle-consulta', idConsulta]"
       >
         ← Volver a la consulta
       </button>
@@ -20,7 +20,10 @@
 
     </header>
 
-    <main class="editar-form">
+    <main
+      class="editar-form"
+      *ngIf="consulta"
+    >
 
       <div class="form-group">
 
@@ -31,7 +34,7 @@
         <input
           id="titulo"
           type="text"
-          value="¿Cómo puedo recorrer una lista en Java?"
+          [(ngModel)]="titulo"
         />
 
       </div>
@@ -42,21 +45,24 @@
           Asignatura
         </label>
 
-        <select id="asignatura">
+        <select
+          id="asignatura"
+          [(ngModel)]="idAsignatura"
+        >
 
-          <option value="programacion" selected>
+          <option [ngValue]="1">
             Programación
           </option>
 
-          <option value="bases-datos">
+          <option [ngValue]="2">
             Bases de Datos
           </option>
 
-          <option value="matematicas">
+          <option [ngValue]="3">
             Matemáticas
           </option>
 
-          <option value="ingenieria-software">
+          <option [ngValue]="4">
             Ingeniería de Software
           </option>
 
@@ -73,7 +79,8 @@
         <textarea
           id="descripcion"
           rows="7"
-        >Estoy trabajando con listas y no entiendo bien cuándo utilizar un for tradicional o un for-each. ¿Hay alguna diferencia importante entre ambos?</textarea>
+          [(ngModel)]="descripcion"
+        ></textarea>
 
       </div>
 
@@ -82,7 +89,7 @@
         <button
           class="cancel-button"
           type="button"
-          routerLink="/detalle-consulta"
+          [routerLink]="['/detalle-consulta', idConsulta]"
         >
           Cancelar
         </button>
@@ -90,6 +97,7 @@
         <button
           class="save-button"
           type="button"
+          (click)="guardarCambios()"
         >
           Guardar cambios
         </button>

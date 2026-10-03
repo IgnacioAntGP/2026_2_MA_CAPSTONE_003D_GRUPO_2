@@ -17,16 +17,16 @@ export const routes: Routes = [
       .then((m) => m.NuevaPublicacionPage),
   },
   {
-  path: 'detalle-consulta',
-  loadComponent: () =>
-    import('./pages/detalle-consulta/detalle-consulta.page')
-      .then((m) => m.DetalleConsultaPage),
+    path: 'detalle-consulta/:id',
+    loadComponent: () =>
+      import('./pages/detalle-consulta/detalle-consulta.page')
+        .then((m) => m.DetalleConsultaPage),
   },
   {
-  path: 'solicitar-tutoria',
-  loadComponent: () =>
-    import('./pages/solicitar-tutoria/solicitar-tutoria.page')
-      .then((m) => m.SolicitarTutoriaPage),
+    path: 'solicitar-tutoria/:id',
+    loadComponent: () =>
+      import('./pages/solicitar-tutoria/solicitar-tutoria.page')
+        .then((m) => m.SolicitarTutoriaPage),
   },
   {
   path: 'mis-tutorias',
@@ -65,11 +65,11 @@ export const routes: Routes = [
       .then((m) => m.SolicitarAyudantePage),
   },
   {
-  path: 'editar-publicacion',
-  loadComponent: () =>
-    import('./pages/editar-publicacion/editar-publicacion.page')
-      .then((m) => m.EditarPublicacionPage),
-  },  
+    path: 'editar-publicacion/:id',
+    loadComponent: () =>
+      import('./pages/editar-publicacion/editar-publicacion.page')
+        .then(m => m.EditarPublicacionPage)
+  }, 
   {
   path: 'editar-perfil',
   loadComponent: () =>

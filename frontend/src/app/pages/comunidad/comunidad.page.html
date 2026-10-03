@@ -2,6 +2,7 @@
 
   <div class="comunidad-container">
 
+    <!-- ENCABEZADO -->
     <header class="comunidad-header">
 
       <div>
@@ -18,18 +19,24 @@
       </button>
 
     </header>
+
+
+    <!-- OVERLAY DEL MENÚ -->
     <div
       class="menu-overlay"
       *ngIf="menuAbierto"
       (click)="menuAbierto = false"
     ></div>
 
+
+    <!-- MENÚ LATERAL -->
     <aside
       class="side-menu"
       *ngIf="menuAbierto"
     >
 
       <div class="side-menu-header">
+
         <h2>Menú</h2>
 
         <button
@@ -39,8 +46,11 @@
         >
           ×
         </button>
+
       </div>
 
+
+      <!-- MI ACTIVIDAD -->
       <div class="menu-section">
 
         <span class="menu-section-title">
@@ -76,6 +86,8 @@
 
       </div>
 
+
+      <!-- MI CUENTA -->
       <div class="menu-section">
 
         <span class="menu-section-title">
@@ -102,23 +114,29 @@
 
       </div>
 
+
+      <!-- CERRAR SESIÓN -->
       <div class="menu-section menu-section-bottom">
 
         <button
           type="button"
           class="menu-item logout"
           routerLink="/login"
+          (click)="menuAbierto = false"
         >
           Cerrar sesión
         </button>
 
       </div>
 
-    </aside>    
+    </aside>
 
+
+    <!-- BÚSQUEDA Y NUEVA PUBLICACIÓN -->
     <div class="comunidad-actions">
 
       <input
+        class="searchbar"
         type="text"
         placeholder="Buscar una consulta..."
       />
@@ -133,73 +151,81 @@
 
     </div>
 
+
+    <!-- FILTROS -->
     <div class="filters">
-      <button class="filter active">Recientes</button>
-      <button class="filter">Sin respuesta</button>
-      <button class="filter">Mis publicaciones</button>
+
+      <button
+        class="filter active"
+        type="button"
+      >
+        Recientes
+      </button>
+
+      <button
+        class="filter"
+        type="button"
+      >
+        Sin respuesta
+      </button>
+
+      <button
+        class="filter"
+        type="button"
+      >
+        Mis publicaciones
+      </button>
+
     </div>
 
+
+    <!-- CONSULTAS -->
     <main class="consultas">
 
-      <article class="consulta-card" routerLink="/detalle-consulta" >
+      <article
+        class="consulta-card"
+        *ngFor="let consulta of consultas"
+        [routerLink]="['/detalle-consulta', consulta.id_consulta]"
+      >
 
         <div class="consulta-header">
-          <span class="asignatura">Programación</span>
-          <span class="fecha">Hace 20 min</span>
+
+          <span class="asignatura">
+            {{ consulta.asignatura }}
+          </span>
+
+          <span class="fecha">
+            {{ consulta.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
+          </span>
+
         </div>
 
-        <h2>¿Cómo puedo recorrer una lista en Java?</h2>
+        <h2>
+          {{ consulta.titulo }}
+        </h2>
 
         <p>
-          Estoy trabajando con listas y no entiendo bien cuándo utilizar
-          un for tradicional o un for-each.
+          {{ consulta.descripcion }}
         </p>
 
         <div class="consulta-footer">
-          <span>3 respuestas</span>
-          <span>Por: Matías</span>
-        </div>
 
-      </article>
+          <span *ngIf="(consulta.total_respuestas ?? 0) === 0">
+            Sin respuestas
+          </span>
 
-      <article class="consulta-card">
+          <span *ngIf="(consulta.total_respuestas ?? 0) === 1">
+            1 respuesta
+          </span>
 
-        <div class="consulta-header">
-          <span class="asignatura">Bases de Datos</span>
-          <span class="fecha">Hace 1 h</span>
-        </div>
+          <span *ngIf="(consulta.total_respuestas ?? 0) > 1">
+            {{ consulta.total_respuestas }} respuestas
+          </span>
 
-        <h2>Problema con una consulta SQL</h2>
+          <span>
+            Por: {{ consulta.autor }}
+          </span>
 
-        <p>
-          Mi consulta funciona, pero me devuelve registros repetidos.
-          ¿Alguien podría orientarme sobre qué estoy haciendo mal?
-        </p>
-
-        <div class="consulta-footer">
-          <span>1 respuesta</span>
-          <span>Por: Camila</span>
-        </div>
-
-      </article>
-
-      <article class="consulta-card">
-
-        <div class="consulta-header">
-          <span class="asignatura">Matemáticas</span>
-          <span class="fecha">Hace 3 h</span>
-        </div>
-
-        <h2>Ayuda con una integral</h2>
-
-        <p>
-          No entiendo cómo comenzar este ejercicio. ¿Alguien podría
-          explicarme el procedimiento?
-        </p>
-
-        <div class="consulta-footer">
-          <span>Sin respuestas</span>
-          <span>Por: Diego</span>
         </div>
 
       </article>

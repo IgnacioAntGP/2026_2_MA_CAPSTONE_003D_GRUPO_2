@@ -20,26 +20,34 @@
 
     </header>
 
-    <main class="perfil-content">
+    <main
+      class="perfil-content"
+      *ngIf="perfil"
+    >
 
+      <!-- IDENTIDAD -->
       <section class="perfil-card">
 
         <div class="perfil-avatar">
-          M
+          {{ perfil.nombre.charAt(0) }}
         </div>
 
         <div class="perfil-identidad">
 
-          <h2>Matías González</h2>
+          <h2>
+            {{ perfil.nombre }} {{ perfil.apellido }}
+          </h2>
 
           <span class="rol">
-            Estudiante
+            {{ perfil.roles[0]?.nombre || 'Estudiante' }}
           </span>
 
         </div>
 
       </section>
 
+
+      <!-- DATOS PERSONALES -->
       <section class="datos-card">
 
         <h2>Datos personales</h2>
@@ -51,7 +59,19 @@
           </span>
 
           <span class="dato-value">
-            Matías González
+            {{ perfil.nombre }} {{ perfil.apellido }}
+          </span>
+
+        </div>
+
+        <div class="dato">
+
+          <span class="dato-label">
+            RUT
+          </span>
+
+          <span class="dato-value">
+            {{ perfil.rut }}
           </span>
 
         </div>
@@ -63,7 +83,7 @@
           </span>
 
           <span class="dato-value">
-            matias.gonzalez@entrepares.cl
+            {{ perfil.correo }}
           </span>
 
         </div>
@@ -75,7 +95,7 @@
           </span>
 
           <span class="dato-value">
-            Ingeniería en Informática
+            {{ perfil.estudiante?.carrera }}
           </span>
 
         </div>
@@ -83,14 +103,27 @@
         <div class="dato">
 
           <span class="dato-label">
-            Nivel
+            Semestre
           </span>
 
           <span class="dato-value">
-            2° año
+            {{ perfil.estudiante?.semestre }}
           </span>
 
         </div>
+
+        <div class="dato">
+
+          <span class="dato-label">
+            Institución
+          </span>
+
+          <span class="dato-value">
+            {{ perfil.estudiante?.institucion }}
+          </span>
+
+        </div>
+
         <div class="perfil-actions">
 
           <button
@@ -105,6 +138,8 @@
 
       </section>
 
+
+      <!-- MI ACTIVIDAD -->
       <section class="actividad-card">
 
         <h2>Mi actividad</h2>
@@ -113,7 +148,9 @@
 
           <div class="actividad-item">
 
-            <strong>2</strong>
+            <strong>
+              {{ perfil.actividad.publicaciones }}
+            </strong>
 
             <span>
               Publicaciones
@@ -123,7 +160,9 @@
 
           <div class="actividad-item">
 
-            <strong>5</strong>
+            <strong>
+              {{ perfil.actividad.respuestas }}
+            </strong>
 
             <span>
               Respuestas
@@ -133,10 +172,12 @@
 
           <div class="actividad-item">
 
-            <strong>1</strong>
+            <strong>
+              {{ perfil.actividad.tutorias_solicitadas }}
+            </strong>
 
             <span>
-              Tutoría solicitada
+              Tutorías solicitadas
             </span>
 
           </div>
