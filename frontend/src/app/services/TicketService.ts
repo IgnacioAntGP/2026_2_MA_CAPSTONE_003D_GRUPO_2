@@ -11,6 +11,7 @@ import { RespuestaConsulta } from '../models/IRespuesta';
 import { environment } from '../../environments/environment';
 import { MisTutoria } from '../models/IMisTutorias';
 import { PerfilUsuario } from '../models/IPerfil';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -23,18 +24,30 @@ export class TicketService {
 
 
   // 1. GET: Para la pantalla 'comunidad' (listar todas las consultas)
-  obtenerConsultasComunidad(): Observable<Consulta[]> {
+  obtenerConsultasComunidad(estado: boolean): Observable<Consulta[]> {
+    // QueryParams para filtrar sólo las consultas true:abiertas
+    let params = new HttpParams();
+    if(estado !== undefined) {
+      params = params.set('estado', estado.toString());
+    }
     return this.http.get<Consulta[]>(
-      `${this.apiUrl}/consultas`
+      `${this.apiUrl}/consultas`,
+      { params }
     );
   }
 
 
   // 2. POST: Para la pantalla 'nueva-publicacion' (crear consulta)
-  crearConsulta(payload: NuevaConsulta): Observable<any> {
-    return this.http.post<any>(
+  crearConsulta(payload: Omit<NuevaConsulta, 'fecha_creacion'>): Observable<Consulta> {
+    const fechaActual = new Date().toISOString().split('.')[0]; // Obtener solo la fecha en formato YYYY-MM-DDThh:mm:ss
+
+    return this.http.post<Consulta>(
       `${this.apiUrl}/consultas`,
-      payload
+      {
+        ...payload,
+        fecha_creacion: fechaActual,
+        estado: true
+      }
     );
   }
 

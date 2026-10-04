@@ -16,14 +16,15 @@ export class ComunidadPage implements OnInit {
 
   menuAbierto = false;  
   
-  consultas:Consulta[] = [];
+  consultas: Consulta[] = [];
 
-  constructor(private ticketService: TicketService,
+  constructor(
+    private ticketService: TicketService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.ticketService.obtenerConsultasComunidad().subscribe({
+    this.ticketService.obtenerConsultasComunidad(true).subscribe({
       next: (data) => {
         this.consultas = data;
 
