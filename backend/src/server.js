@@ -877,6 +877,363 @@ app.post('/api/solicitudes-ayudante', async (req, res) => {
 });
 
 // ======================================================
+// 11. VISTA AYUDANTE: Solicitudes disponibles
+// Mostrar solicitudes pendientes que aún no tienen ayudante
+// ======================================================
+
+app.get('/api/solicitudes-ayudantia/disponibles', async (req, res) => {
+
+  try {
+
+    const { data, error } = await supabase
+      .from('solicitud_ayudantia')
+      .select(`
+        id_solicitud,
+        modalidad,
+        fecha_solicitud,
+        estado,
+        motivo,
+        id_ayudante,
+        consulta (
+          id_consulta,
+          titulo,
+          descripcion,
+          usuario (
+            id_usuario,
+            nombre,
+            apellido
+          ),
+          asignatura (
+            id_asignatura,
+            nombre
+          )
+        )
+      `)
+      .eq('estado', 'PENDIENTE')
+      .is('id_ayudante', null)
+      .order('fecha_solicitud', { ascending: true });
+
+    if (error) throw error;
+
+    const solicitudes = data.map((item) => ({
+      id_solicitud: item.id_solicitud,
+      id_consulta: item.consulta?.id_consulta,
+      titulo: item.consulta?.titulo,
+      descripcion: item.consulta?.descripcion,
+      estudiante: item.consulta?.usuario
+        ? `${item.consulta.usuario.nombre} ${item.consulta.usuario.apellido}`
+        : null,
+      asignatura: item.consulta?.asignatura?.nombre ?? null,
+      modalidad: item.modalidad,
+      motivo: item.motivo,
+      fecha_solicitud: item.fecha_solicitud,
+      estado: item.estado
+    }));
+
+    return res.status(200).json(solicitudes);
+
+  } catch (err) {
+
+    return res.status(500).json({
+      error: err.message
+    });
+
+  }
+
+});
+
+// ======================================================
+// 12. VISTA AYUDANTE: Tomar solicitud
+// Asignar ayudante y cambiar solicitud a EN_PROCESO
+// ======================================================
+
+app.patch('/api/solicitudes-ayudantia/:id_solicitud/tomar', async (req, res) => {
+
+  const { id_solicitud } = req.params;
+  const { id_ayudante } = req.body;
+
+  if (!id_ayudante) {
+    return res.status(400).json({
+      error: 'El ayudante es obligatorio.'
+    });
+  }
+
+  try {
+
+    const { data, error } = await supabase
+      .from('solicitud_ayudantia')
+      .update({
+        id_ayudante,
+        estado: 'EN_PROCESO'
+      })
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'PENDIENTE')
+      .is('id_ayudante', null)
+      .select()
+      .maybeSingle();
+
+    if (error) throw error;
+
+    // Si no se actualizó ninguna fila,
+    // otro ayudante pudo haberla tomado antes.
+    if (!data) {
+      return res.status(409).json({
+        error: 'La solicitud ya fue tomada o ya no se encuentra disponible.'
+      });
+    }
+
+    return res.status(200).json({
+      mensaje: 'Solicitud tomada correctamente.',
+      solicitud: data
+    });
+
+  } catch (err) {
+
+    return res.status(500).json({
+      error: err.message
+    });
+
+  }
+
+});
+
+// ======================================================
+// 13. VISTA ESTUDIANTE: Aceptar ayudante
+// Confirmar ayudante y crear la ayudantía
+// ======================================================
+
+app.patch('/api/solicitudes-ayudantia/:id_solicitud/aceptar', async (req, res) => {
+
+  const { id_solicitud } = req.params;
+
+  try {
+
+    // 1. Verificar que la solicitud esté EN_PROCESO
+    // y que tenga un ayudante asignado
+    const { data: solicitud, error: errorSolicitud } = await supabase
+      .from('solicitud_ayudantia')
+      .select('*')
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'EN_PROCESO')
+      .not('id_ayudante', 'is', null)
+      .maybeSingle();
+
+    if (errorSolicitud) throw errorSolicitud;
+
+    if (!solicitud) {
+      return res.status(409).json({
+        error: 'La solicitud no está disponible para ser aceptada.'
+      });
+    }
+
+
+    // 2. Cambiar solicitud a ACEPTADA
+    const { data: solicitudActualizada, error: errorActualizar } = await supabase
+      .from('solicitud_ayudantia')
+      .update({
+        estado: 'ACEPTADA'
+      })
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'EN_PROCESO')
+      .select()
+      .single();
+
+    if (errorActualizar) throw errorActualizar;
+
+
+    // 3. Crear la ayudantía
+    const { data: ayudantia, error: errorAyudantia } = await supabase
+      .from('ayudantia')
+      .insert({
+        id_solicitud: Number(id_solicitud),
+        fecha_inicio: new Date().toISOString(),
+        estado: 'ACTIVA',
+        observaciones: null
+      })
+      .select()
+      .single();
+
+
+    // Si falla la creación de la ayudantía,
+    // devolvemos la solicitud a EN_PROCESO.
+    if (errorAyudantia) {
+
+      await supabase
+        .from('solicitud_ayudantia')
+        .update({
+          estado: 'EN_PROCESO'
+        })
+        .eq('id_solicitud', id_solicitud);
+
+      throw errorAyudantia;
+    }
+
+
+    return res.status(200).json({
+      mensaje: 'Ayudante aceptado y ayudantía iniciada correctamente.',
+      solicitud: solicitudActualizada,
+      ayudantia
+    });
+
+  } catch (err) {
+
+    return res.status(500).json({
+      error: err.message
+    });
+
+  }
+
+});
+
+// ======================================================
+// 14. VISTA ESTUDIANTE: Rechazar ayudante
+// Liberar solicitud para que vuelva a estar disponible
+// ======================================================
+
+app.patch('/api/solicitudes-ayudantia/:id_solicitud/rechazar-ayudante', async (req, res) => {
+
+  const { id_solicitud } = req.params;
+
+  try {
+
+    const { data, error } = await supabase
+      .from('solicitud_ayudantia')
+      .update({
+        id_ayudante: null,
+        estado: 'PENDIENTE'
+      })
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'EN_PROCESO')
+      .not('id_ayudante', 'is', null)
+      .select()
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (!data) {
+      return res.status(409).json({
+        error: 'La solicitud no se encuentra esperando confirmación de un ayudante.'
+      });
+    }
+
+    return res.status(200).json({
+      mensaje: 'Ayudante rechazado. La solicitud volvió a estar disponible.',
+      solicitud: data
+    });
+
+  } catch (err) {
+
+    return res.status(500).json({
+      error: err.message
+    });
+
+  }
+
+});
+
+// ======================================================
+// 15. VISTA AYUDANTE: Finalizar ayudantía
+// Cerrar la atención y marcar la solicitud como RESUELTA
+// ======================================================
+
+app.patch('/api/solicitudes-ayudantia/:id_solicitud/resolver', async (req, res) => {
+
+  const { id_solicitud } = req.params;
+
+  try {
+
+    // 1. Verificar que la solicitud esté ACEPTADA
+    const { data: solicitud, error: errorSolicitud } = await supabase
+      .from('solicitud_ayudantia')
+      .select('*')
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'ACEPTADA')
+      .maybeSingle();
+
+    if (errorSolicitud) throw errorSolicitud;
+
+    if (!solicitud) {
+      return res.status(409).json({
+        error: 'La solicitud no se encuentra en estado ACEPTADA.'
+      });
+    }
+
+
+    // 2. Buscar la ayudantía asociada
+    const { data: ayudantiaActual, error: errorBuscarAyudantia } = await supabase
+      .from('ayudantia')
+      .select('*')
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'ACTIVA')
+      .maybeSingle();
+
+    if (errorBuscarAyudantia) throw errorBuscarAyudantia;
+
+    if (!ayudantiaActual) {
+      return res.status(409).json({
+        error: 'No existe una ayudantía activa asociada a esta solicitud.'
+      });
+    }
+
+
+    // 3. Finalizar ayudantía
+    const { data: ayudantiaFinalizada, error: errorAyudantia } = await supabase
+      .from('ayudantia')
+      .update({
+        estado: 'FINALIZADA',
+        fecha_fin: new Date().toISOString()
+      })
+      .eq('id_ayudantia', ayudantiaActual.id_ayudantia)
+      .eq('estado', 'ACTIVA')
+      .select()
+      .single();
+
+    if (errorAyudantia) throw errorAyudantia;
+
+
+    // 4. Marcar solicitud como RESUELTA
+    const { data: solicitudResuelta, error: errorResolver } = await supabase
+      .from('solicitud_ayudantia')
+      .update({
+        estado: 'RESUELTA'
+      })
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'ACEPTADA')
+      .select()
+      .single();
+
+    // Si falla este segundo cambio, restauramos la ayudantía
+    if (errorResolver) {
+
+      await supabase
+        .from('ayudantia')
+        .update({
+          estado: 'ACTIVA',
+          fecha_fin: null
+        })
+        .eq('id_ayudantia', ayudantiaActual.id_ayudantia);
+
+      throw errorResolver;
+    }
+
+
+    return res.status(200).json({
+      mensaje: 'Ayudantía finalizada correctamente.',
+      solicitud: solicitudResuelta,
+      ayudantia: ayudantiaFinalizada
+    });
+
+  } catch (err) {
+
+    return res.status(500).json({
+      error: err.message
+    });
+
+  }
+
+});
+
+// ======================================================
 // INICIAR SERVIDOR
 // ======================================================
 
