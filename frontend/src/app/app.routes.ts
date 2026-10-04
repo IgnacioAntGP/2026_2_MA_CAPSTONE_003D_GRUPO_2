@@ -86,5 +86,9 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'login',
+  },  {
+    path: 'panel-ayudante',
+    loadComponent: () => import('./pages/panel-ayudante/panel-ayudante.page').then( m => m.PanelAyudantePage)
   }
+
 ];

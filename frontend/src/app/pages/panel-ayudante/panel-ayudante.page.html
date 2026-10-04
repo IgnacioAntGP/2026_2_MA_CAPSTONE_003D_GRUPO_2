@@ -1,0 +1,192 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Portal del Ayudante</ion-title>
+  </ion-toolbar>
+
+  <!-- Menú de pestañas -->
+  <ion-toolbar>
+    <ion-segment [value]="pestanaActiva" (ionChange)="cambiarPestana($event)">
+      <ion-segment-button value="comunidad">
+        <ion-label>Comunidad</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="solicitudes">
+        <ion-label>Solicitudes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="mis-ayudantias">
+        <ion-label>Mis Ayudantías</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="perfil-container">
+    <div class="perfil-content">
+
+      <!-- 1. DATOS GENERALES DEL PERFIL (Estilo perfil-card y actividad-card) -->
+      <div class="perfil-card">
+        <div class="perfil-avatar">
+          <img [src]="usuarioAyudante.imagen" alt="Avatar" />
+        </div>
+        <div class="perfil-identidad">
+          <h2>{{ usuarioAyudante.nombre }}</h2>
+          <p>{{ usuarioAyudante.email }}</p>
+          <span class="rol-badge">AYUDANTE</span>
+        </div>
+      </div>
+
+      <!-- Resumen de actividad / métricas -->
+      <div class="actividad-card">
+        <div class="actividad-grid">
+          <div class="actividad-item">
+            <strong>{{ solicitudesDisponibles.length }}</strong>
+            <span>Pendientes</span>
+          </div>
+          <div class="actividad-item">
+            <strong>{{ misAyudantias.length }}</strong>
+            <span>Activas</span>
+          </div>
+          <div class="actividad-item">
+            <strong>4.9 ★</strong>
+            <span>Evaluación</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. VISTA DE LA COMUNIDAD -->
+      <div *ngIf="pestanaActiva === 'comunidad'">
+        <div class="datos-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h2 style="margin: 0;">Muro de la Comunidad</h2>
+            <button class="action-btn-outline" (click)="irAListaCompleta()">
+              Ver Solicitudes
+            </button>
+          </div>
+
+          <div *ngFor="let item of publicacionesComunidad" class="dato">
+            <div>
+              <strong style="color: #1f2937; display: block; font-size: 14px;">{{ item.titulo }}</strong>
+              <span class="dato-label">{{ item.asignatura }} • Por: {{ item.autor }}</span>
+            </div>
+            <span class="dato-value">💬 {{ item.respuestasCount }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. LISTA COMPLETA DE SOLICITUDES DISPONIBLES (CON BOTÓN DE ACEPTAR) -->
+      <div *ngIf="pestanaActiva === 'solicitudes'">
+        <div class="datos-card">
+          <h2>Solicitudes de Estudiantes</h2>
+
+          <div *ngIf="solicitudesDisponibles.length === 0" style="text-align: center; color: #6b7280; padding: 16px 0;">
+            No hay solicitudes pendientes en este momento.
+          </div>
+
+          <div *ngFor="let sol of solicitudesDisponibles" style="border-bottom: 1px solid #f0f0f0; padding: 14px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span class="rol-badge">{{ sol.asignatura }}</span>
+              <span style="font-size: 12px; color: #f59e0b; font-weight: 600;">Pendiente</span>
+            </div>
+            <strong style="color: #1f2937; font-size: 15px;">{{ sol.duda }}</strong>
+            <p style="font-size: 13px; color: #6b7280; margin: 4px 0 8px;">{{ sol.descripcion }}</p>
+            <span class="dato-label">Estudiante: {{ sol.estudiante }}</span>
+
+            <div class="perfil-actions">
+              <button class="action-btn-primary" (click)="aceptarSolicitud(sol)">
+                Aceptar Ayudantía
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. VER "MIS AYUDANTÍAS" -->
+      <div *ngIf="pestanaActiva === 'mis-ayudantias'">
+        <div class="datos-card">
+          <h2>Mis Ayudantías</h2>
+
+          <div *ngIf="misAyudantias.length === 0" style="text-align: center; color: #6b7280; padding: 16px 0;">
+            Aún no has tomado ninguna tutoría.
+            <div style="margin-top: 10px;">
+              <button class="action-btn-outline" (click)="irAListaCompleta()">Explorar disponibles</button>
+            </div>
+          </div>
+
+          <div *ngFor="let m of misAyudantias" style="border-bottom: 1px solid #f0f0f0; padding: 14px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span class="rol-badge">{{ m.asignatura }}</span>
+              <span [style.color]="m.estado === 'en_proceso' ? '#2563eb' : (m.estado === 'resuelta' ? '#16a34a' : '#dc2626')" 
+                    style="font-size: 12px; font-weight: 600; text-transform: capitalize;">
+                {{ m.estado }}
+              </span>
+            </div>
+            <strong style="color: #1f2937; font-size: 15px;">{{ m.duda }}</strong>
+            <p class="dato-label" style="margin: 4px 0;">Estudiante: {{ m.estudiante }}</p>
+
+            <div class="perfil-actions" *ngIf="m.estado === 'en_proceso'">
+              <button class="action-btn-primary" (click)="abrirVentanaSesion(m)">
+                Abrir Ventana 1:1
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. VENTANA DE LA AYUDANTÍA 1:1 (MODAL) -->
+  <ion-modal [isOpen]="isModalSesionOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Ayudantía 1:1</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarVentanaSesion()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding" style="--background: #f5f7fb;">
+        <div class="perfil-content">
+
+          <div class="perfil-card" style="justify-content: center; text-align: center; flex-direction: column;">
+            <div class="perfil-avatar">
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Estudiante" />
+            </div>
+            <div class="perfil-identidad">
+              <h2>{{ ayudantiaEnSesion?.estudiante }}</h2>
+              <span class="rol-badge">Enlace Directo Activo</span>
+            </div>
+          </div>
+
+          <div class="datos-card">
+            <h2>Detalle de la Consulta</h2>
+            <div class="dato">
+              <span class="dato-label">Asignatura</span>
+              <span class="dato-value">{{ ayudantiaEnSesion?.asignatura }}</span>
+            </div>
+            <div class="dato">
+              <span class="dato-label">Duda</span>
+              <span class="dato-value">{{ ayudantiaEnSesion?.duda }}</span>
+            </div>
+            <p style="font-size: 13px; color: #4b5563; margin-top: 10px;">{{ ayudantiaEnSesion?.descripcion }}</p>
+          </div>
+
+          <div class="actividad-card">
+            <h3>Finalizar o Escalar Caso</h3>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+              <button class="action-btn-primary" style="flex: 1; background: #16a34a;" (click)="cerrarCaso('resuelta')">
+                Marcar Resuelta
+              </button>
+              <button class="action-btn-outline" style="flex: 1; border-color: #dc2626; color: #dc2626; background: #fef2f2;" (click)="cerrarCaso('escalada')">
+                Escalar a Docente
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
