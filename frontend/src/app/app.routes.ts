@@ -76,8 +76,10 @@ export const routes: Routes = [
     import('./pages/editar-perfil/editar-perfil.page')
       .then((m) => m.EditarPerfilPage),
   },  
-  
-
+  {
+    path: 'panel-ayudante',
+    loadComponent: () => import('./pages/panel-ayudante/panel-ayudante.page').then( m => m.PanelAyudantePage)
+  },
   {
     path: '',
     redirectTo: 'login',
@@ -86,9 +88,6 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'login',
-  },  {
-    path: 'panel-ayudante',
-    loadComponent: () => import('./pages/panel-ayudante/panel-ayudante.page').then( m => m.PanelAyudantePage)
-  }
+  },
 
 ];

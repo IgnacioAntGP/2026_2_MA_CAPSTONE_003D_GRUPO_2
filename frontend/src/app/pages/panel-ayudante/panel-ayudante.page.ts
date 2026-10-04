@@ -24,7 +24,7 @@ import {
   IonModal,
   IonIcon
 } from '@ionic/angular';
-import { Users } from '../../models/IUser'; // Ajusta la ruta a tu modelo
+import { Users } from '../../models/IUser';
 
 export interface SolicitudTutoria {
   id: string;
