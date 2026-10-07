@@ -84,6 +84,20 @@ export class AyudantiaService {
   }
 
   /**
+   * Estudiante confirma al ayudante: EN_PROCESO -> ACEPTADA
+   */
+  confirmarAyudante(idSolicitud: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/aceptar`, {});
+  }
+
+  /**
+   * Estudiante rechaza al ayudante: EN_PROCESO -> PENDIENTE (id_ayudante vuelve a null)
+   */
+  rechazarAyudante(idSolicitud: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/rechazar-ayudante`, {});
+  }
+
+  /**
    * Finalizar solicitud (ACEPTADA -> RESUELTA)
    */
   resolverSolicitud(idSolicitud: number): Observable<any> {

@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 
 import { TicketService } from '../../services/ConsultaService';
 import { MisTutoria } from '../../models/IMisTutorias';
+import { AyudantiaService } from '../../services/AyudantiaService';
 
 @Component({
   selector: 'app-mis-tutorias',
@@ -30,7 +31,8 @@ export class MisTutoriasPage implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private ayudantiaService: AyudantiaService
   ) { }
 
   ngOnInit() {
@@ -52,7 +54,38 @@ export class MisTutoriasPage implements OnInit {
         console.error('Error al cargar mis tutorías:', error);
       }
     });
-
   }
 
+  aceptarAyudante(idSolicitud: number) {
+    this.ayudantiaService.confirmarAyudante(idSolicitud).subscribe({
+      next: () => {
+        // Actualizamos localmente el estado a ACEPTADA para renderizar el botón de contacto
+        const item = this.tutorias.find(t => t.id_solicitud === idSolicitud);
+        if (item) {
+          item.estado_solicitud = 'ACEPTADA';
+          this.cdr.markForCheck();
+        }
+      },
+      error: (err) => console.error('Error al aceptar ayudante:', err)
+    });
+  }
+
+  rechazarAyudante(idSolicitud: number) {
+    this.ayudantiaService.rechazarAyudante(idSolicitud).subscribe({
+      next: () => {
+        // Regresa a PENDIENTE y retira al ayudante
+        const item = this.tutorias.find(t => t.id_solicitud === idSolicitud);
+        if (item) {
+          item.estado_solicitud = 'PENDIENTE';
+          item.ayudante = null;
+          this.cdr.markForCheck();
+        }
+      },
+      error: (err) => console.error('Error al rechazar ayudante:', err)
+    });
+  }
+
+  contactoDirecto(tutoria: MisTutoria) {
+    console.log('Contacto directo activado con el ayudante:', tutoria.ayudante);
+  }
 }
