@@ -49,7 +49,7 @@ export class NuevaPublicacionPage implements OnInit {
       return;
     }
 
-    const payload: NuevaConsulta = {
+    const payload: Omit<NuevaConsulta, 'fecha_creacion'> = {
       id_usuario: this.idUsuarioActual,
       id_asignatura: this.idAsignatura,
       titulo,
