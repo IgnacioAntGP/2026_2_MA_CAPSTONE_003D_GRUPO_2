@@ -118,17 +118,18 @@
           <div *ngFor="let m of misAyudantias" style="border-bottom: 1px solid #f0f0f0; padding: 14px 0;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <span class="rol-badge">{{ m.asignatura }}</span>
-              <span [style.color]="m.estado === 'EN_PROCESO' ? '#2563eb' : (m.estado === 'RESUELTA' ? '#16a34a' : '#dc2626')" 
+              <span [style.color]="m.estado === 'ACEPTADA' ? '#16a34a' : (m.estado === 'EN_PROCESO' ? '#2563eb' : '#dc2626')" 
                     style="font-size: 12px; font-weight: 600; text-transform: capitalize;">
-                {{ m.estado }}
+                {{ m.estado === 'EN_PROCESO' ? 'Esperando confirmación del estudiante' : m.estado }}
               </span>
             </div>
             <strong style="color: #1f2937; font-size: 15px;">{{ m.titulo_duda }}</strong>
             <p class="dato-label" style="margin: 4px 0;">Estudiante: {{ m.estudiante }}</p>
 
-            <div class="perfil-actions" *ngIf="m.estado === 'EN_PROCESO'">
-              <button class="action-btn-primary" (click)="abrirVentanaSesion(m)">
-                Abrir Ventana 1:1
+            <!-- Botón de Contacto Directo para el Ayudante cuando esté ACEPTADA -->
+            <div class="perfil-actions" *ngIf="m.estado === 'ACEPTADA'">
+              <button class="action-btn-primary" style="background-color: #2563eb;" (click)="abrirVentanaSesion(m)">
+                Contacto directo
               </button>
             </div>
           </div>

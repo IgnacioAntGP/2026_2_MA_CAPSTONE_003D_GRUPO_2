@@ -91,6 +91,39 @@
 
         </div>
 
+        <!-- 1. ACCIÓN: Cuando el ayudante tomó el caso (EN_PROCESO) -->
+        <div 
+          *ngIf="tutoria.estado_solicitud === 'EN_PROCESO' && tutoria.ayudante"
+          style="display: flex; gap: 8px; margin-top: 14px;"
+        >
+          <button
+            type="button"
+            style="flex: 1; padding: 10px; background-color: #16a34a; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;"
+            (click)="aceptarAyudante(tutoria.id_solicitud)"
+          >
+            Aceptar ayudante
+          </button>
+
+          <button
+            type="button"
+            style="flex: 1; padding: 10px; background-color: transparent; color: #dc2626; border: 1px solid #dc2626; border-radius: 6px; font-weight: 600; cursor: pointer;"
+            (click)="rechazarAyudante(tutoria.id_solicitud)"
+          >
+            Rechazar ayudante
+          </button>
+        </div>
+
+        <!-- 2. ACCIÓN: Cuando la ayudantía pasa a ACEPTADA -->
+        <div *ngIf="tutoria.estado_solicitud === 'ACEPTADA'" style="margin-top: 14px;">
+          <button
+            type="button"
+            style="width: 100%; padding: 10px; background-color: #2563eb; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;"
+            (click)="contactoDirecto(tutoria)"
+          >
+            Contacto directo
+          </button>
+        </div>
+
       </article>
 
       <p *ngIf="tutorias.length === 0">
