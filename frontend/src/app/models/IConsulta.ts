@@ -8,7 +8,8 @@ export interface Consulta {
   titulo: string;
   descripcion: string;
   total_respuestas?: number;
-  fecha_creacion?: string;
+  fecha_creacion: string; // ISO 8601 = YYYY-MM-DDTHH:mm:ss.sssZ
+  estado: boolean; // Por defecto true:'abierta' | false:'cerrada'
   tutoria_solicitada?: boolean;
 }
 
@@ -18,4 +19,6 @@ export interface NuevaConsulta {
   id_asignatura: number;
   titulo: string;
   descripcion: string;
+  fecha_creacion: string; // ISO 8601 = YYYY-MM-DDTHH:mm:ss.sssZ
+  estado?: boolean; // Por defecto true:'abierta' | false:'cerrada'
 }
