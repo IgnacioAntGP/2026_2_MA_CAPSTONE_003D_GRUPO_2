@@ -889,24 +889,17 @@ app.get('/api/solicitudes-ayudantia/disponibles', async (req, res) => {
       .from('solicitud_ayudantia')
       .select(`
         id_solicitud,
+        id_consulta,
+        id_ayudante,
         modalidad,
         fecha_solicitud,
         estado,
         motivo,
-        id_ayudante,
         consulta (
-          id_consulta,
           titulo,
           descripcion,
-          usuario (
-            id_usuario,
-            nombre,
-            apellido
-          ),
-          asignatura (
-            id_asignatura,
-            nombre
-          )
+          usuario ( nombre, apellido),
+          asignatura ( nombre )
         )
       `)
       .eq('estado', 'PENDIENTE')
@@ -917,56 +910,71 @@ app.get('/api/solicitudes-ayudantia/disponibles', async (req, res) => {
 
     const solicitudes = data.map((item) => ({
       id_solicitud: item.id_solicitud,
-      id_consulta: item.consulta?.id_consulta,
-      titulo: item.consulta?.titulo,
-      descripcion: item.consulta?.descripcion,
-      estudiante: item.consulta?.usuario
-        ? `${item.consulta.usuario.nombre} ${item.consulta.usuario.apellido}`
-        : null,
-      asignatura: item.consulta?.asignatura?.nombre ?? null,
+      id_consulta: item.id_consulta,
+      asignatura: item.consulta?.asignatura?.nombre || null,
       modalidad: item.modalidad,
-      motivo: item.motivo,
+      titulo_duda: item.consulta?.titulo || null,
+      titulo: item.consulta?.titulo || null,
+      descripcion_duda: item.consulta?.descripcion || null,
+      motivo: item.consulta?.descripcion || null,
+      estado: item.estado, // PENDIENTE
+      estudiante: item.consulta?.usuario ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim(): null,
       fecha_solicitud: item.fecha_solicitud,
-      estado: item.estado
     }));
 
     return res.status(200).json(solicitudes);
 
   } catch (err) {
-
     return res.status(500).json({
       error: err.message
     });
-
   }
-
 });
 
 // ======================================================
-// 12. VISTA AYUDANTE: Tomar solicitud
-// Asignar ayudante y cambiar solicitud a EN_PROCESO
+// 12. VISTA AYUDANTE: Tomar solicitud de ayudantia
+// Asignar ayudanteId y cambiar Estado de solicitud de 'PENDIENTE' a 'EN_PROCESO'
 // ======================================================
 
 app.patch('/api/solicitudes-ayudantia/:id_solicitud/tomar', async (req, res) => {
 
   const { id_solicitud } = req.params;
-  const { id_ayudante } = req.body;
-
-  if (!id_ayudante) {
-    return res.status(400).json({
-      error: 'El ayudante es obligatorio.'
-    });
-  }
+  const { id_ayudante, id_usuario } = req.body;
 
   try {
+    let ayudanteId = id_ayudante;
+    let usuarioId = id_usuario;
+
+    // Si no se proporciona id_ayudante, buscarlo por id_usuario
+
+    if (!ayudanteId && usuarioId) {
+      const { data: perfilAyudante, error: errPerfil } = await supabase
+        .from('ayudante')
+        .select('id_ayudante')
+        .eq('id_usuario', usuarioId)
+        .maybeSingle();
+      
+      if (errPerfil || !perfilAyudante) {
+        return res.status(404).json({error: 'No se encontró un perfil de ayudante asociado al usuario proporcionado.'});
+      }
+      ayudanteId = perfilAyudante.id_ayudante;
+    }
+       
+    if (!ayudanteId) {
+      return res.status(400).json({
+        error: 'El ID del Ayudante o el ID del Usuario es obligatorio.'
+      });
+    }
+
+    let solicitudId = id_solicitud;
 
     const { data, error } = await supabase
       .from('solicitud_ayudantia')
       .update({
-        id_ayudante,
+        id_ayudante: ayudanteId,
         estado: 'EN_PROCESO'
       })
-      .eq('id_solicitud', id_solicitud)
+      .eq('id_solicitud', solicitudId)
       .eq('estado', 'PENDIENTE')
       .is('id_ayudante', null)
       .select()
@@ -1047,7 +1055,7 @@ app.patch('/api/solicitudes-ayudantia/:id_solicitud/aceptar', async (req, res) =
       .insert({
         id_solicitud: Number(id_solicitud),
         fecha_inicio: new Date().toISOString(),
-        estado: 'ACTIVA',
+        estado: 'ACEPTADA',
         observaciones: null
       })
       .select()
@@ -1231,6 +1239,59 @@ app.patch('/api/solicitudes-ayudantia/:id_solicitud/resolver', async (req, res) 
 
   }
 
+});
+
+// ======================================================
+// 16. VISTA AYUDANTE: Listar "Mis Ayudantías"
+// ======================================================
+app.get('/api/solicitudes-ayudantia/ayudante/:id_usuario', async (req, res) => {
+  const { id_usuario } = req.params;
+
+  try {
+    const { data: perfil } = await supabase
+      .from('ayudante')
+      .select('id_ayudante')
+      .eq('id_usuario', id_usuario)
+      .maybeSingle();
+
+    if (!perfil) return res.status(200).json([]);
+
+    const { data, error } = await supabase
+      .from('solicitud_ayudantia')
+      .select(`
+        id_solicitud,
+        modalidad,
+        fecha_solicitud,
+        estado,
+        motivo,
+        consulta (
+          titulo,
+          descripcion,
+          asignatura ( nombre ),
+          usuario ( nombre, apellido )
+        )
+      `)
+      .eq('id_ayudante', perfil.id_ayudante)
+      .in('estado', ['EN_PROCESO', 'ACEPTADA'])
+      .order('fecha_solicitud', { ascending: false });
+
+    if (error) throw error;
+
+    const formateadas = data.map((item) => ({
+      id_solicitud: item.id_solicitud,
+      asignatura: item.consulta?.asignatura?.nombre || 'General',
+      titulo_duda: item.consulta?.titulo || '',
+      descripcion_duda: item.motivo || item.consulta?.descripcion || '',
+      estado: item.estado,
+      estudiante: item.consulta?.usuario
+        ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
+        : 'Estudiante'
+    }));
+
+    return res.status(200).json(formateadas);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 });
 
 // ======================================================

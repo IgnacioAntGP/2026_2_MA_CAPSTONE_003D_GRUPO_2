@@ -58,6 +58,9 @@
         <div class="datos-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <h2 style="margin: 0;">Muro de la Comunidad</h2>
+            <button class="action-btn-primary" routerLink="/comunidad">
+              Ir a Foro Completo
+            </button>
             <button class="action-btn-outline" (click)="irAListaCompleta()">
               Ver Solicitudes
             </button>
@@ -68,7 +71,7 @@
               <strong style="color: #1f2937; display: block; font-size: 14px;">{{ item.titulo }}</strong>
               <span class="dato-label">{{ item.asignatura }} • Por: {{ item.autor }}</span>
             </div>
-            <span class="dato-value">💬 {{ item.respuestasCount }}</span>
+            <span class="dato-value">💬 {{ item.total_respuestas }}</span>
           </div>
         </div>
       </div>
@@ -82,17 +85,17 @@
             No hay solicitudes pendientes en este momento.
           </div>
 
-          <div *ngFor="let sol of solicitudesDisponibles" style="border-bottom: 1px solid #f0f0f0; padding: 14px 0;">
+          <div *ngFor="let solicitud of solicitudesDisponibles" style="border-bottom: 1px solid #f0f0f0; padding: 14px 0;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <span class="rol-badge">{{ sol.asignatura }}</span>
+              <span class="rol-badge">{{ solicitud.asignatura }}</span>
               <span style="font-size: 12px; color: #f59e0b; font-weight: 600;">Pendiente</span>
             </div>
-            <strong style="color: #1f2937; font-size: 15px;">{{ sol.duda }}</strong>
-            <p style="font-size: 13px; color: #6b7280; margin: 4px 0 8px;">{{ sol.descripcion }}</p>
-            <span class="dato-label">Estudiante: {{ sol.estudiante }}</span>
+            <strong style="color: #1f2937; font-size: 15px;">{{ solicitud.titulo_duda }}</strong>
+            <p style="font-size: 13px; color: #6b7280; margin: 4px 0 8px;">{{ solicitud.descripcion }}</p>
+            <span class="dato-label">Estudiante: {{ solicitud.estudiante }}</span>
 
             <div class="perfil-actions">
-              <button class="action-btn-primary" (click)="aceptarSolicitud(sol)">
+              <button class="action-btn-primary" (click)="aceptarSolicitud(solicitud)">
                 Aceptar Ayudantía
               </button>
             </div>
@@ -115,15 +118,15 @@
           <div *ngFor="let m of misAyudantias" style="border-bottom: 1px solid #f0f0f0; padding: 14px 0;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <span class="rol-badge">{{ m.asignatura }}</span>
-              <span [style.color]="m.estado === 'en_proceso' ? '#2563eb' : (m.estado === 'resuelta' ? '#16a34a' : '#dc2626')" 
+              <span [style.color]="m.estado === 'EN_PROCESO' ? '#2563eb' : (m.estado === 'RESUELTA' ? '#16a34a' : '#dc2626')" 
                     style="font-size: 12px; font-weight: 600; text-transform: capitalize;">
                 {{ m.estado }}
               </span>
             </div>
-            <strong style="color: #1f2937; font-size: 15px;">{{ m.duda }}</strong>
+            <strong style="color: #1f2937; font-size: 15px;">{{ m.titulo_duda }}</strong>
             <p class="dato-label" style="margin: 4px 0;">Estudiante: {{ m.estudiante }}</p>
 
-            <div class="perfil-actions" *ngIf="m.estado === 'en_proceso'">
+            <div class="perfil-actions" *ngIf="m.estado === 'EN_PROCESO'">
               <button class="action-btn-primary" (click)="abrirVentanaSesion(m)">
                 Abrir Ventana 1:1
               </button>

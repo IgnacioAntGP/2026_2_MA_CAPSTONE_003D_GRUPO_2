@@ -9,7 +9,7 @@ import {
 } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 
-import { TicketService } from '../../services/TicketService';
+import { TicketService } from '../../services/ConsultaService';
 
 @Component({
   selector: 'app-solicitar-ayudante',

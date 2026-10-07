@@ -9,7 +9,7 @@ import {
 } from '@ionic/angular';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { TicketService } from '../../services/TicketService';
+import { TicketService } from '../../services/ConsultaService';
 import { Consulta } from '../../models/IConsulta';
 
 @Component({
