@@ -1,0 +1,142 @@
+<ion-content [fullscreen]="true">
+
+  <div class="tutoria-container">
+
+    <header class="tutoria-header">
+
+      <button
+        class="back-button"
+        type="button"
+        [routerLink]="['/detalle-consulta', idConsulta]"
+      >
+        ← Volver a la consulta
+      </button>
+
+      <h1>Solicitar ayudante</h1>
+
+      <p>
+        Solicita apoyo personalizado de un Ayudante.
+      </p>
+
+    </header>
+
+    <main
+      class="tutoria-content"
+      *ngIf="consulta"
+    >
+
+      <section class="consulta-resumen">
+
+        <span class="asignatura">
+          {{ consulta.asignatura }}
+        </span>
+
+        <h2>
+          {{ consulta.titulo }}
+        </h2>
+
+        <p>
+          Esta solicitud de ayudante estará asociada a la consulta que publicaste
+          en la comunidad.
+        </p>
+
+      </section>
+
+      <section class="solicitud-form">
+
+        <div *ngIf="!solicitudEnviada">
+
+          <div class="form-group">
+
+            <label for="motivo">
+              ¿Qué necesitas reforzar?
+            </label>
+
+            <textarea
+              id="motivo"
+              rows="6"
+              [(ngModel)]="motivo"
+              placeholder="Cuéntale al ayudante qué parte necesitas comprender mejor..."
+            ></textarea>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="modalidad">
+              Modalidad preferida
+            </label>
+
+            <select
+              id="modalidad"
+              [(ngModel)]="modalidad"
+            >
+
+              <option
+                value=""
+                disabled
+              >
+                Selecciona una modalidad
+              </option>
+
+              <option value="ONLINE">
+                Online
+              </option>
+
+              <option value="PRESENCIAL">
+                Presencial
+              </option>
+
+            </select>
+
+          </div>
+
+          <div class="form-actions">
+
+            <button
+              class="cancel-button"
+              type="button"
+              [routerLink]="['/detalle-consulta', idConsulta]"
+            >
+              Cancelar
+            </button>
+
+            <button
+              class="request-button"
+              type="button"
+              (click)="solicitarTutoria()"
+            >
+              Solicitar ayudante
+            </button>
+
+          </div>
+
+        </div>
+
+        <div
+          class="solicitud-confirmacion"
+          *ngIf="solicitudEnviada"
+        >
+
+          <div class="confirmacion-icono">
+            ✓
+          </div>
+
+          <h2>
+            Solicitud enviada correctamente
+          </h2>
+
+          <p>
+            Tu solicitud de ayudante quedó pendiente de asignación.
+            Podrás revisar su estado desde Mis tutorías.
+          </p>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>
