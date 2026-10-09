@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
 
-  <div class="perfil-container">
+  <div class="page-container">
 
-    <header class="perfil-header">
+    <header class="page-header page-wide">
 
       <button
         class="back-button"
@@ -21,12 +21,12 @@
     </header>
 
     <main
-      class="perfil-content"
+      class="page-content page-wide"
       *ngIf="perfil"
     >
 
       <!-- IDENTIDAD -->
-      <section class="perfil-card">
+      <section class="page-card perfil-card">
 
         <div class="perfil-avatar">
           {{ perfil.nombre.charAt(0) }}
@@ -48,7 +48,7 @@
 
 
       <!-- DATOS PERSONALES -->
-      <section class="datos-card">
+      <section class="page-card datos-card">
 
         <h2>Datos personales</h2>
 
@@ -140,7 +140,7 @@
 
 
       <!-- MI ACTIVIDAD -->
-      <section class="actividad-card">
+      <section class="page-card actividad-card">
 
         <h2>Mi actividad</h2>
 

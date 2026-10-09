@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
 
-  <div class="publicacion-container">
+  <div class="page-container">
 
-    <header class="publicacion-header">
+    <header class="page-header">
 
       <button
         class="back-button"
@@ -20,7 +20,7 @@
     </header>
 
 
-    <main class="publicacion-form">
+    <main class="page-card">
 
       <!-- TÍTULO -->
       <div class="form-group">
@@ -100,7 +100,7 @@
       <div class="form-actions">
 
         <button
-          class="cancel-button"
+          class="secondary-button"
           type="button"
           routerLink="/comunidad"
         >
@@ -108,7 +108,7 @@
         </button>
 
         <button
-          class="publish-button"
+          class="primary-button"
           type="button"
           (click)="publicarConsulta()"
         >

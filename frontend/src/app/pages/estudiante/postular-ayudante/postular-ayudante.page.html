@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
 
-  <div class="ayudante-container">
+  <div class="page-container">
 
-    <header class="ayudante-header">
+    <header class="page-header">
 
       <button
         class="back-button"
@@ -20,7 +20,7 @@
 
     </header>
 
-    <main class="ayudante-content">
+    <main class="page-content">
 
       <section class="info-card">
 
@@ -90,7 +90,7 @@
 
       <!-- FORMULARIO -->
       <section
-        class="solicitud-card"
+        class="page-card solicitud-card"
         *ngIf="!solicitudEnviada"
       >
 
@@ -140,7 +140,7 @@
         <div class="form-actions">
 
           <button
-            class="cancel-button"
+            class="secondary-button"
             type="button"
             routerLink="/comunidad"
           >
@@ -148,7 +148,7 @@
           </button>
 
           <button
-            class="submit-button"
+            class="primary-button"
             type="button"
             (click)="enviarSolicitud()"
           >
@@ -162,7 +162,7 @@
 
       <!-- CONFIRMACIÓN -->
       <section
-        class="solicitud-card success-card"
+        class="page-card success-card"
         *ngIf="solicitudEnviada"
       >
 
@@ -179,7 +179,7 @@
         </p>
 
         <button
-          class="submit-button"
+          class="primary-button"
           type="button"
           routerLink="/comunidad"
         >

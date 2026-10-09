@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
 
-  <div class="editar-perfil-container">
+  <div class="page-container">
 
-    <header class="editar-perfil-header">
+    <header class="page-header">
 
       <button
         class="back-button"
@@ -21,7 +21,7 @@
     </header>
 
     <main
-      class="editar-perfil-form"
+      class="page-card"
       *ngIf="perfil"
     >
 
@@ -161,7 +161,7 @@
       <div class="form-actions">
 
         <button
-          class="cancel-button"
+          class="secondary-button"
           type="button"
           routerLink="/mi-perfil"
         >
@@ -169,7 +169,7 @@
         </button>
 
         <button
-          class="save-button"
+          class="primary-button"
           type="button"
           (click)="guardarCambios()"
         >

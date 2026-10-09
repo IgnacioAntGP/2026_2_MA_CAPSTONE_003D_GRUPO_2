@@ -1,17 +1,24 @@
 <ion-content [fullscreen]="true">
 
-  <div class="detalle-container">
+  <div class="page-container">
 
     <!-- ENCABEZADO -->
-    <header class="detalle-header">
+    <header class="detalle-header page-wide">
 
-      <button
-        class="back-button"
-        type="button"
-        routerLink="/comunidad"
-      >
-        ← Volver a Comunidad
-      </button>
+      <div>
+
+        <button
+          class="back-button"
+          type="button"
+          routerLink="/comunidad"
+        >
+          ← Volver a Comunidad
+        </button>
+
+        <span class="page-label">
+        </span>
+
+      </div>
 
       <button
         class="menu-button"
@@ -135,14 +142,14 @@
     </aside>
 
 
-    <!-- CONTENIDO DEL DETALLE -->
+    <!-- CONTENIDO -->
     <main
-      class="detalle-content"
+      class="page-content page-wide"
       *ngIf="consulta"
     >
 
       <!-- CONSULTA -->
-      <article class="consulta">
+      <article class="page-card consulta">
 
         <div class="consulta-meta">
 
@@ -150,21 +157,37 @@
             {{ consulta.asignatura }}
           </span>
 
-          <span>
+          <span class="fecha-consulta">
             {{ consulta.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
           </span>
 
         </div>
 
+
         <h1>
           {{ consulta.titulo }}
         </h1>
 
+
         <div class="autor">
-          Publicado por
+
+          <span>
+            Publicado por
+          </span>
+
           <strong>
             {{ consulta.autor }}
           </strong>
+
+        </div>
+
+
+        <div class="consulta-descripcion">
+
+          <p>
+            {{ consulta.descripcion }}
+          </p>
+
         </div>
 
 
@@ -176,7 +199,7 @@
             class="edit-button"
             [routerLink]="['/editar-publicacion', consulta.id_consulta]"
           >
-            Editar publicación
+            Editar
           </button>
 
           <button
@@ -184,14 +207,10 @@
             class="delete-button"
             (click)="eliminarPublicacion()"
           >
-            Eliminar publicación
+            Eliminar
           </button>
 
         </div>
-
-        <p class="consulta-texto">
-          {{ consulta.descripcion }}
-        </p>
 
       </article>
 
@@ -224,7 +243,7 @@
             </strong>
 
             <span>
-              {{ respuesta.fecha_respuesta | date:'dd/MM/yyyy - HH:mm'}}
+              {{ respuesta.fecha_respuesta | date:'dd/MM/yyyy - HH:mm' }}
             </span>
 
           </div>
@@ -247,7 +266,7 @@
 
 
       <!-- RESPONDER -->
-      <section class="responder">
+      <section class="page-card responder">
 
         <h2>
           ¿Quieres aportar a esta consulta?
@@ -260,7 +279,7 @@
         ></textarea>
 
         <button
-          class="response-button"
+          class="primary-button response-button"
           type="button"
           (click)="publicarRespuesta()"
         >
@@ -270,10 +289,14 @@
       </section>
 
 
-      <!-- SOLICITAR TUTORÍA -->
-      <section class="tutoria-card">
+      <!-- SOLICITAR AYUDANTE -->
+      <section class="ayudantia-card">
 
-        <div>
+        <div class="ayudantia-info">
+
+          <span class="ayudantia-label">
+            Apoyo personalizado
+          </span>
 
           <h2>
             ¿Necesitas ayuda más personalizada?
@@ -281,13 +304,13 @@
 
           <p>
             Si las respuestas de la comunidad no fueron suficientes,
-            puedes solicitar una ayudantia con un estudiante.
+            puedes solicitar una ayudantía con otro estudiante.
           </p>
 
         </div>
 
         <button
-          class="tutoria-button"
+          class="primary-button ayudantia-button"
           type="button"
           [routerLink]="[
             '/solicitar-ayudante',

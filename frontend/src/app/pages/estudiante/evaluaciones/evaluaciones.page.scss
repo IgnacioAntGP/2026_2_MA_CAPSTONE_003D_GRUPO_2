@@ -1,70 +1,32 @@
-.evaluaciones-container {
-  min-height: 100%;
-  padding: 24px;
-  background: #f5f7fb;
-  box-sizing: border-box;
-}
-
-.evaluaciones-header {
-  max-width: 800px;
-  margin: 0 auto 28px;
-
-  .back-button {
-    margin-bottom: 20px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: #3880ff;
-    font-size: 15px;
-    cursor: pointer;
-  }
-
-  h1 {
-    margin: 0 0 6px;
-    font-size: 30px;
-    font-weight: 700;
-    color: #1f2937;
-  }
-
-  p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 15px;
-  }
-}
-
-.evaluaciones-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 .evaluaciones-section {
   margin-bottom: 28px;
 
   h2 {
     margin: 0 0 14px;
+
     font-size: 19px;
+
     color: #1f2937;
   }
 }
 
 .evaluacion-card {
-  padding: 22px;
   margin-bottom: 12px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
 
   h3 {
     margin: 14px 0 8px;
+
     font-size: 18px;
     line-height: 1.4;
+
     color: #1f2937;
   }
 
   p {
     margin: 0;
+
     color: #6b7280;
+
     font-size: 14px;
     line-height: 1.5;
   }
@@ -74,53 +36,93 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   gap: 12px;
 }
 
 .asignatura {
-  font-size: 13px;
-  font-weight: 600;
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #eef4ff;
+
   color: #3880ff;
+
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .estado {
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #fff7ed;
+
+  color: #c2410c;
+
   font-size: 12px;
   font-weight: 600;
-  color: #c2410c;
 }
 
 .fecha {
-  font-size: 13px;
   color: #9ca3af;
+
+  font-size: 13px;
 }
 
 .evaluate-button {
+  width: auto;
+
   margin-top: 18px;
-  padding: 11px 16px;
-  border: none;
-  border-radius: 8px;
-  background: #3880ff;
-  color: #ffffff;
+
   font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
 }
 
 .calificacion {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
   margin: 14px 0 10px;
+}
+
+.estrellas {
   color: #f59e0b;
+
   font-size: 22px;
   letter-spacing: 2px;
+}
 
-  span {
-    margin-left: 10px;
-    color: #374151;
-    font-size: 14px;
-    letter-spacing: 0;
-  }
+.nota {
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .comentario {
   padding-top: 14px;
+
   border-top: 1px solid #f0f0f0;
+}
+
+@media (max-width: 600px) {
+
+  .evaluacion-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .calificacion {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .evaluate-button {
+    width: 100%;
+  }
+
 }

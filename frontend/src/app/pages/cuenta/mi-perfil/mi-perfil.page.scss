@@ -1,51 +1,7 @@
-.perfil-container {
-  min-height: 100%;
-  padding: 24px;
-  background: #f5f7fb;
-  box-sizing: border-box;
-}
-
-.perfil-header {
-  max-width: 800px;
-  margin: 0 auto 28px;
-
-  .back-button {
-    margin-bottom: 20px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: #3880ff;
-    font-size: 15px;
-    cursor: pointer;
-  }
-
-  h1 {
-    margin: 0 0 6px;
-    font-size: 30px;
-    font-weight: 700;
-    color: #1f2937;
-  }
-
-  p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 15px;
-  }
-}
-
-.perfil-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 .perfil-card,
 .datos-card,
 .actividad-card {
   margin-bottom: 16px;
-  padding: 24px;
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
 }
 
 .perfil-card {
@@ -57,19 +13,23 @@
 .perfil-avatar {
   width: 64px;
   height: 64px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   flex-shrink: 0;
+
   border-radius: 50%;
+
   background: #e8eefc;
   color: #3880ff;
+
   font-size: 24px;
   font-weight: 700;
 }
 
 .perfil-identidad {
-
   h2 {
     margin: 0 0 6px;
     font-size: 21px;
@@ -84,7 +44,6 @@
 
 .datos-card,
 .actividad-card {
-
   h2 {
     margin: 0 0 18px;
     font-size: 18px;
@@ -96,8 +55,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   gap: 20px;
+
   padding: 14px 0;
+
   border-bottom: 1px solid #f0f0f0;
 
   &:last-child {
@@ -119,20 +81,27 @@
 
 .actividad-grid {
   display: grid;
+
   grid-template-columns: repeat(3, 1fr);
+
   gap: 12px;
 }
 
 .actividad-item {
   padding: 18px 12px;
+
   text-align: center;
+
   border: 1px solid #f0f0f0;
   border-radius: 10px;
 
   strong {
     display: block;
+
     margin-bottom: 6px;
+
     font-size: 24px;
+
     color: #1f2937;
   }
 
@@ -141,19 +110,25 @@
     color: #6b7280;
   }
 }
+
 .perfil-actions {
   display: flex;
   justify-content: flex-end;
+
   margin-top: 20px;
 }
 
 .edit-profile-button {
   padding: 10px 16px;
+
   border: 1px solid #3880ff;
   border-radius: 8px;
+
   background: #eaf2ff;
   color: #2563eb;
+
   font-size: 14px;
   font-weight: 600;
+
   cursor: pointer;
 }
