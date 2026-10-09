@@ -3,82 +3,87 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage)
-  },
-    {
-    path: 'comunidad',
     loadComponent: () =>
-      import('./pages/comunidad/comunidad.page').then((m) => m.ComunidadPage),
+      import('./pages/public/login/login.page')
+        .then((m) => m.LoginPage)
   },
   {
-  path: 'nueva-publicacion',
-  loadComponent: () =>
-    import('./pages/nueva-publicacion/nueva-publicacion.page')
-      .then((m) => m.NuevaPublicacionPage),
+    path: 'comunidad',
+    loadComponent: () =>
+      import('./pages/foro/comunidad/comunidad.page')
+        .then((m) => m.ComunidadPage)
+  },
+  {
+    path: 'nueva-publicacion',
+    loadComponent: () =>
+      import('./pages/estudiante/nueva-publicacion/nueva-publicacion.page')
+        .then((m) => m.NuevaPublicacionPage)
   },
   {
     path: 'detalle-consulta/:id',
     loadComponent: () =>
-      import('./pages/detalle-consulta/detalle-consulta.page')
-        .then((m) => m.DetalleConsultaPage),
+      import('./pages/foro/detalle-consulta/detalle-consulta.page')
+        .then((m) => m.DetalleConsultaPage)
   },
   {
-    path: 'solicitar-tutoria/:id',
+    path: 'solicitar-ayudante/:id',
     loadComponent: () =>
-      import('./pages/solicitar-tutoria/solicitar-tutoria.page')
-        .then((m) => m.SolicitarTutoriaPage),
+      import('./pages/estudiante/solicitar-ayudante/solicitar-ayudante.page')
+        .then((m) => m.SolicitarAyudantePage)
   },
   {
-  path: 'mis-tutorias',
-  loadComponent: () =>
-    import('./pages/mis-tutorias/mis-tutorias.page')
-      .then((m) => m.MisTutoriasPage),
+    path: 'mis-tutorias',
+    loadComponent: () =>
+      import('./pages/estudiante/mis-tutorias/mis-tutorias.page')
+        .then((m) => m.MisTutoriasPage)
   },
   {
-  path: 'mis-publicaciones',
-  loadComponent: () =>
-    import('./pages/mis-publicaciones/mis-publicaciones.page')
-      .then((m) => m.MisPublicacionesPage),
-  },   
-  {
-  path: 'evaluaciones',
-  loadComponent: () =>
-    import('./pages/evaluaciones/evaluaciones.page')
-      .then((m) => m.EvaluacionesPage),
-  },   
-  {
-  path: 'evaluar-tutoria',
-  loadComponent: () =>
-    import('./pages/evaluar-tutoria/evaluar-tutoria.page')
-      .then((m) => m.EvaluarTutoriaPage),
+    path: 'mis-publicaciones',
+    loadComponent: () =>
+      import('./pages/estudiante/mis-publicaciones/mis-publicaciones.page')
+        .then((m) => m.MisPublicacionesPage)
   },  
   {
-  path: 'mi-perfil',
-  loadComponent: () =>
-    import('./pages/mi-perfil/mi-perfil.page')
-      .then((m) => m.MiPerfilPage),
+    path: 'evaluaciones',
+    loadComponent: () =>
+      import('./pages/estudiante/evaluaciones/evaluaciones.page')
+        .then((m) => m.EvaluacionesPage)
   },  
   {
-  path: 'solicitar-ayudante',
-  loadComponent: () =>
-    import('./pages/solicitar-ayudante/solicitar-ayudante.page')
-      .then((m) => m.SolicitarAyudantePage),
+    path: 'evaluar-tutoria',
+    loadComponent: () =>
+      import('./pages/estudiante/evaluar-tutoria/evaluar-tutoria.page')
+        .then((m) => m.EvaluarTutoriaPage)
+  },
+  {
+    path: 'mi-perfil',
+    loadComponent: () =>
+      import('./pages/cuenta/mi-perfil/mi-perfil.page')
+        .then((m) => m.MiPerfilPage)
+  },
+  {
+    path: 'postular-ayudante',
+    loadComponent: () =>
+      import('./pages/estudiante/postular-ayudante/postular-ayudante.page')
+        .then((m) => m.PostularAyudantePage)
   },
   {
     path: 'editar-publicacion/:id',
     loadComponent: () =>
-      import('./pages/editar-publicacion/editar-publicacion.page')
-        .then(m => m.EditarPublicacionPage)
-  }, 
+      import('./pages/estudiante/editar-publicacion/editar-publicacion.page')
+        .then((m) => m.EditarPublicacionPage)
+  },
   {
-  path: 'editar-perfil',
-  loadComponent: () =>
-    import('./pages/editar-perfil/editar-perfil.page')
-      .then((m) => m.EditarPerfilPage),
+    path: 'editar-perfil',
+    loadComponent: () =>
+      import('./pages/cuenta/editar-perfil/editar-perfil.page')
+        .then((m) => m.EditarPerfilPage)
   },  
   {
     path: 'panel-ayudante',
-    loadComponent: () => import('./pages/panel-ayudante/panel-ayudante.page').then( m => m.PanelAyudantePage)
+    loadComponent: () =>
+      import('./pages/ayudante/panel-ayudante/panel-ayudante.page')
+        .then((m) => m.PanelAyudantePage)
   },
   {
     path: '',
