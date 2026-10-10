@@ -1,60 +1,17 @@
-.ayudante-container {
-  min-height: 100%;
-  padding: 24px;
-  background: #f5f7fb;
-  box-sizing: border-box;
-}
-
-.ayudante-header {
-  max-width: 700px;
-  margin: 0 auto 28px;
-
-  .back-button {
-    margin-bottom: 20px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: #3880ff;
-    font-size: 15px;
-    cursor: pointer;
-  }
-
-  h1 {
-    margin: 0 0 6px;
-    font-size: 30px;
-    font-weight: 700;
-    color: #1f2937;
-  }
-
-  p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 15px;
-  }
-}
-
-.ayudante-content {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.info-card,
-.solicitud-card {
-  margin-bottom: 16px;
-  padding: 24px;
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-}
-
-
 /* =========================
    INFORMACIÓN DEL AYUDANTE
    ========================= */
 
 .info-card {
-  border-left: 4px solid #3880ff;
+  margin-bottom: 16px;
+  padding: 24px;
+
   background: #f8fbff;
+
+  border-left: 4px solid #3880ff;
+  border-radius: 14px;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
 
   h2,
   p {
@@ -103,6 +60,7 @@
   justify-content: center;
 
   border-radius: 50%;
+
   background: rgba(56, 128, 255, 0.12);
   color: #3880ff;
 
@@ -113,13 +71,16 @@
 .helper-points {
   margin-top: 20px;
   padding-top: 16px;
+
   border-top: 1px solid #e5e7eb;
 }
 
 .helper-point {
   display: flex;
   align-items: flex-start;
+
   gap: 10px;
+
   margin-bottom: 10px;
 
   &:last-child {
@@ -133,7 +94,9 @@
 
   p {
     margin: 0;
+
     color: #4b5563;
+
     font-size: 14px;
     line-height: 1.5;
   }
@@ -145,91 +108,15 @@
    ========================= */
 
 .solicitud-card {
+  margin-bottom: 16px;
+
   h2 {
     margin: 0 0 22px;
+
     font-size: 19px;
+
     color: #1f2937;
   }
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 22px;
-
-  label {
-    margin-bottom: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #374151;
-  }
-
-  textarea {
-    width: 100%;
-    box-sizing: border-box;
-
-    padding: 13px 15px;
-
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-
-    background: #ffffff;
-    color: #1f2937;
-
-    font-family: inherit;
-    font-size: 15px;
-    line-height: 1.5;
-
-    resize: vertical;
-    outline: none;
-  }
-
-  textarea:focus {
-    border-color: #3880ff;
-    box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.12);
-  }
-}
-
-.field-help {
-  margin: -2px 0 9px;
-  color: #6b7280;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-
-/* =========================
-   ACCIONES
-   ========================= */
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 28px;
-}
-
-.cancel-button,
-.submit-button {
-  padding: 12px 18px;
-  border-radius: 8px;
-
-  font-size: 15px;
-  font-weight: 600;
-
-  cursor: pointer;
-}
-
-.cancel-button {
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-  color: #4b5563;
-}
-
-.submit-button {
-  border: none;
-  background: #3880ff;
-  color: #ffffff;
 }
 
 
@@ -243,18 +130,22 @@
 
   h2 {
     margin: 0 0 10px;
+
     font-size: 21px;
+
     color: #1f2937;
   }
 
   p {
     margin: 0 0 24px;
+
     color: #6b7280;
+
     font-size: 15px;
     line-height: 1.6;
   }
 
-  .submit-button {
+  .primary-button {
     min-width: 180px;
   }
 }
@@ -262,6 +153,7 @@
 .success-icon {
   width: 54px;
   height: 54px;
+
   margin: 0 auto 16px;
 
   display: flex;
@@ -284,26 +176,8 @@
 
 @media (max-width: 600px) {
 
-  .ayudante-container {
-    padding: 18px;
-  }
-
-  .info-card,
-  .solicitud-card {
+  .info-card {
     padding: 20px;
-  }
-
-  .ayudante-header h1 {
-    font-size: 26px;
-  }
-
-  .form-actions {
-    flex-direction: column-reverse;
-  }
-
-  .cancel-button,
-  .submit-button {
-    width: 100%;
   }
 
 }

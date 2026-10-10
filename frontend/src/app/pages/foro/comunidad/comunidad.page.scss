@@ -1,242 +1,308 @@
-.comunidad-container {
-  min-height: 100%;
-  padding: 24px;
-  background: #f5f7fb;
-  box-sizing: border-box;
-}
+/* =========================
+   ENCABEZADO
+   ========================= */
 
 .comunidad-header {
-  max-width: 900px;
-  margin: 0 auto 24px;
+  width: 100%;
+  margin: 0 auto 28px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   h1 {
     margin: 0 0 6px;
-    font-size: 30px;
+
+    font-size: 32px;
     font-weight: 700;
+
     color: #1f2937;
+
+    letter-spacing: -0.4px;
   }
 
   p {
     margin: 0;
+
     color: #6b7280;
+
     font-size: 15px;
+    line-height: 1.5;
   }
 }
 
-.profile-button {
-  padding: 10px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #374151;
-  font-size: 14px;
-  cursor: pointer;
-}
+
+/* =========================
+   BÚSQUEDA Y NUEVA PUBLICACIÓN
+   ========================= */
 
 .comunidad-actions {
-  max-width: 900px;
-  margin: 0 auto 16px;
+  margin: 0 auto 18px;
+
   display: flex;
   gap: 12px;
 
   input {
     flex: 1;
     min-width: 0;
-    padding: 13px 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #dbe1ea;
+    border-radius: 10px;
+
     background: #ffffff;
+
     color: #1f2937;
+
     font-size: 15px;
+
     outline: none;
+
     box-sizing: border-box;
+
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  input::placeholder {
+    color: #9ca3af;
   }
 
   input:focus {
     border-color: #3880ff;
-    box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.12);
+
+    box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.1);
   }
 }
 
 .new-post-button {
-  padding: 13px 18px;
-  border: none;
-  border-radius: 8px;
-  background: #3880ff;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
+  width: auto;
+
+  flex-shrink: 0;
+
+  padding-left: 20px;
+  padding-right: 20px;
+
   white-space: nowrap;
+
+  box-shadow: 0 3px 8px rgba(56, 128, 255, 0.18);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
+.new-post-button:hover {
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 12px rgba(56, 128, 255, 0.22);
+}
+
+
+/* =========================
+   FILTROS
+   ========================= */
+
 .filters {
-  max-width: 900px;
-  margin: 0 auto 20px;
+  margin: 0 auto 22px;
+
   display: flex;
   gap: 8px;
 }
 
 .filter {
-  padding: 9px 14px;
-  border: 1px solid #d1d5db;
+  padding: 8px 14px;
+
+  border: 1px solid #dbe1ea;
   border-radius: 20px;
+
   background: #ffffff;
+
   color: #4b5563;
-  font-size: 14px;
+
+  font-size: 13px;
+  font-weight: 500;
+
   cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.filter:hover {
+  border-color: #b8c7df;
+
+  background: #f8fafc;
 }
 
 .filter.active {
-  background: #3880ff;
   border-color: #3880ff;
+
+  background: #3880ff;
+
   color: #ffffff;
+
+  box-shadow: 0 2px 7px rgba(56, 128, 255, 0.18);
 }
 
+
+/* =========================
+   LISTADO DE CONSULTAS
+   ========================= */
+
 .consultas {
-  max-width: 900px;
   margin: 0 auto;
+
   display: flex;
   flex-direction: column;
+
   gap: 14px;
 }
 
+
+/* =========================
+   TARJETA DE CONSULTA
+   ========================= */
+
 .consulta-card {
-  padding: 20px;
-  border-radius: 12px;
+  position: relative;
+
+  padding: 22px;
+
+  border: 1px solid #edf0f5;
+  border-radius: 14px;
+
   background: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-  
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
 
   h2 {
-    margin: 12px 0 8px;
+    margin: 13px 0 8px;
+
+    color: #1f2937;
+
     font-size: 19px;
     font-weight: 600;
-    color: #1f2937;
+    line-height: 1.4;
   }
 
   p {
-    margin: 0 0 16px;
+    margin: 0 0 18px;
+
     color: #6b7280;
+
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 }
+
+.consulta-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #dbe5f4;
+
+  box-shadow: 0 6px 18px rgba(31, 41, 55, 0.08);
+}
+
+
+/* =========================
+   CABECERA DE TARJETA
+   ========================= */
 
 .consulta-header,
 .consulta-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  gap: 12px;
 }
 
 .asignatura {
-  font-size: 13px;
-  font-weight: 600;
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #eef4ff;
+
   color: #3880ff;
-}
 
-.fecha,
-.consulta-footer {
-  font-size: 13px;
-  color: #9ca3af;
-}
-
-.consulta-footer {
-  padding-top: 12px;
-  border-top: 1px solid #f0f0f0;
-}
-.menu-button {
-  width: 44px;
-  height: 44px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #374151;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.25);
-}
-
-.side-menu {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 11;
-  width: 300px;
-  height: 100%;
-  padding: 24px;
-  box-sizing: border-box;
-  background: #ffffff;
-  box-shadow: -4px 0 18px rgba(0, 0, 0, 0.12);
-}
-
-.side-menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 28px;
-
-  h2 {
-    margin: 0;
-    font-size: 22px;
-    color: #1f2937;
-  }
-}
-
-.close-menu-button {
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: transparent;
-  color: #6b7280;
-  font-size: 28px;
-  cursor: pointer;
-}
-
-.menu-section {
-  margin-bottom: 28px;
-}
-
-.menu-section-title {
-  display: block;
-  margin-bottom: 8px;
   font-size: 12px;
   font-weight: 700;
+}
+
+.fecha {
   color: #9ca3af;
-  text-transform: uppercase;
+
+  font-size: 12px;
 }
 
-.menu-item {
-  display: block;
-  width: 100%;
-  padding: 12px 0;
-  border: none;
-  background: transparent;
-  color: #374151;
-  font-size: 15px;
-  text-align: left;
-  cursor: pointer;
+
+/* =========================
+   PIE DE TARJETA
+   ========================= */
+
+.consulta-footer {
+  padding-top: 14px;
+
+  border-top: 1px solid #f0f2f5;
+
+  color: #8b95a5;
+
+  font-size: 12px;
 }
 
-.menu-item:hover {
-  color: #3880ff;
-}
 
-.menu-section-bottom {
-  border-top: 1px solid #f0f0f0;
-  padding-top: 16px;
-}
+/* =========================
+   RESPONSIVE
+   ========================= */
 
-.menu-item.logout {
-  color: #6b7280;
+@media (max-width: 600px) {
+
+  .comunidad-header {
+    align-items: flex-start;
+
+    h1 {
+      font-size: 28px;
+    }
+  }
+
+  .comunidad-actions {
+    flex-direction: column;
+  }
+
+  .new-post-button {
+    width: 100%;
+  }
+
+  .filters {
+    overflow-x: auto;
+
+    padding-bottom: 2px;
+  }
+
+  .filter {
+    flex-shrink: 0;
+  }
+
+  .consulta-card {
+    padding: 18px;
+  }
+
+  .consulta-header,
+  .consulta-footer {
+    align-items: flex-start;
+  }
+
 }

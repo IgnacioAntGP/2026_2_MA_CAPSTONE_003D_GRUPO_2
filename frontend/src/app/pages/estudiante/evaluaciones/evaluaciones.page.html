@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
 
-  <div class="evaluaciones-container">
+  <div class="page-container">
 
-    <header class="evaluaciones-header">
+    <header class="page-header page-wide">
 
       <button
         class="back-button"
@@ -20,13 +20,15 @@
 
     </header>
 
-    <main class="evaluaciones-content">
+    <main class="page-content page-wide">
 
       <section class="evaluaciones-section">
 
-        <h2>Pendientes de evaluación</h2>
+        <h2>
+          Pendientes de evaluación
+        </h2>
 
-        <article class="evaluacion-card pendiente">
+        <article class="page-card evaluacion-card pendiente">
 
           <div class="evaluacion-header">
 
@@ -49,7 +51,7 @@
           </p>
 
           <button
-            class="evaluate-button"
+            class="primary-button evaluate-button"
             type="button"
             routerLink="/evaluar-tutoria"
           >
@@ -60,11 +62,14 @@
 
       </section>
 
+
       <section class="evaluaciones-section">
 
-        <h2>Evaluaciones realizadas</h2>
+        <h2>
+          Evaluaciones realizadas
+        </h2>
 
-        <article class="evaluacion-card">
+        <article class="page-card evaluacion-card">
 
           <div class="evaluacion-header">
 

@@ -1,48 +1,82 @@
-// Contenedor principal con fondo gris claro
-.perfil-container {
-  min-height: 100%;
-  padding: 20px 16px;
-  background: #f5f7fb;
-  box-sizing: border-box;
+.panel-ayudante-container {
+  position: relative;
 }
 
-.perfil-content {
-  max-width: 800px;
-  margin: 0 auto;
+
+/* =========================
+   BIENVENIDA
+   ========================= */
+
+.ayudante-welcome {
+  margin-bottom: 22px;
+
+  h1 {
+    margin: 5px 0 7px;
+
+    color: #1f2937;
+
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  p {
+    max-width: 620px;
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+    line-height: 1.6;
+  }
 }
 
-// Tarjetas con elevación y bordes redondeados
-.perfil-card,
-.datos-card,
-.actividad-card {
-  margin-bottom: 16px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+.welcome-label {
+  color: #3880ff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-// 1. Tarjeta superior del perfil
+
+/* =========================
+   PERFIL
+   ========================= */
+
 .perfil-card {
+  margin-bottom: 16px;
+
   display: flex;
   align-items: center;
-  gap: 16px;
+
+  gap: 18px;
+
+  border-left: 4px solid #3880ff;
 }
 
 .perfil-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #e8eefc;
+  width: 64px;
+  height: 64px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   flex-shrink: 0;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  background: #e8eefc;
 
   img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
   }
 }
@@ -50,121 +84,602 @@
 .perfil-identidad {
   h2 {
     margin: 0 0 4px;
-    font-size: 20px;
-    font-weight: 700;
+
     color: #1f2937;
+
+    font-size: 20px;
   }
 
   p {
-    margin: 0 0 6px;
-    font-size: 14px;
+    margin: 0 0 8px;
+
     color: #6b7280;
-  }
 
-  .rol-badge {
-    display: inline-block;
-    padding: 3px 10px;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 6px;
-    background: #eaf2ff;
-    color: #2563eb;
+    font-size: 13px;
   }
 }
 
-// 2. Encabezados de sección y tarjetas
-.datos-card,
+.rol-badge {
+  display: inline-block;
+
+  padding: 4px 10px;
+
+  border-radius: 20px;
+
+  background: #eef4ff;
+
+  color: #2563eb;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   MÉTRICAS
+   ========================= */
+
 .actividad-card {
-  h2, h3 {
+  margin-bottom: 16px;
+
+  h3 {
     margin: 0 0 14px;
-    font-size: 17px;
-    font-weight: 700;
+
     color: #1f2937;
+
+    font-size: 17px;
   }
 }
 
-// Filas de datos
-.dato {
+.actividad-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 12px;
+}
+
+.actividad-item {
+  padding: 16px 10px;
+
+  text-align: center;
+
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+  strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #1f2937;
+
+    font-size: 21px;
+  }
+
+  span {
+    color: #6b7280;
+
+    font-size: 12px;
+  }
+}
+
+
+/* =========================
+   CONTENIDO DEL PANEL
+   ========================= */
+
+.datos-card {
+  margin-bottom: 16px;
+
+  h2 {
+    margin: 0 0 14px;
+
+    color: #1f2937;
+
+    font-size: 18px;
+  }
+}
+
+.panel-card-header {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
+
   gap: 16px;
+
+  margin-bottom: 12px;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.panel-header-actions {
+  display: flex;
+
+  gap: 8px;
+}
+
+.panel-button {
+  width: auto;
+
+  padding: 9px 14px;
+
+  font-size: 13px;
+}
+
+
+/* =========================
+   FILAS DE DATOS
+   ========================= */
+
+.dato {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 16px;
+
   padding: 12px 0;
+
   border-bottom: 1px solid #f0f0f0;
 
   &:last-child {
     border-bottom: none;
-    padding-bottom: 0;
   }
 }
 
+.dato-title {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #1f2937;
+
+  font-size: 14px;
+}
+
 .dato-label {
-  font-size: 13px;
   color: #6b7280;
+
+  font-size: 13px;
   font-weight: 500;
 }
 
 .dato-value {
+  min-width: 0;
+  max-width: 65%;
+
+  color: #374151;
+
   font-size: 14px;
-  color: #1f2937;
+  font-weight: 600;
+
   text-align: right;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+/* =========================
+   SOLICITUDES
+   ========================= */
+
+.solicitud-item {
+  padding: 14px 0;
+
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.solicitud-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 6px;
+}
+
+.solicitud-title {
+  display: block;
+
+  color: #1f2937;
+
+  font-size: 15px;
+}
+
+.solicitud-descripcion {
+  margin: 5px 0 8px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.solicitud-estudiante {
+  display: block;
+
+  margin-top: 5px;
+}
+
+.estado {
+  font-size: 12px;
   font-weight: 600;
 }
 
-// 3. Grid de métricas/resumen
-.actividad-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 8px;
+.estado-pendiente {
+  color: #c2410c;
 }
 
-.actividad-item {
-  padding: 14px 8px;
-  text-align: center;
-  border: 1px solid #f0f0f0;
-  border-radius: 10px;
-  background: #fafafa;
-
-  strong {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 20px;
-    color: #1f2937;
-  }
-
-  span {
-    font-size: 11px;
-    color: #6b7280;
-  }
+.estado-aceptada {
+  color: #16a34a;
 }
 
-// Botones y acciones
+.estado-proceso {
+  color: #2563eb;
+}
+
+.estado-rechazada {
+  color: #dc2626;
+}
+
 .perfil-actions {
   display: flex;
+
   justify-content: flex-end;
-  gap: 10px;
+
   margin-top: 14px;
 }
 
-.action-btn-primary {
-  padding: 9px 14px;
-  border: none;
+
+/* =========================
+   ESTADO VACÍO
+   ========================= */
+
+.empty-state {
+  padding: 18px 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+
+  text-align: center;
+
+  p {
+    margin: 0 0 12px;
+  }
+}
+
+
+/* =========================
+   NAVEGACIÓN INFERIOR
+   ========================= */
+
+.ayudante-bottom-nav {
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 20;
+
+  padding:
+    7px
+    max(16px, calc((100vw - 800px) / 2));
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border-top: 1px solid #e5e7eb;
+
+  box-shadow: 0 -4px 16px rgba(31, 41, 55, 0.07);
+
+  backdrop-filter: blur(10px);
+
+  ion-segment {
+    --background: transparent;
+
+    width: 100%;
+  }
+
+  ion-segment-button {
+    --background: transparent;
+    --background-checked: #eef4ff;
+
+    --color: #6b7280;
+    --color-checked: #3880ff;
+
+    --indicator-color: transparent;
+
+    min-height: 58px;
+
+    border-radius: 10px;
+
+    text-transform: none;
+
+    ion-icon {
+      margin-bottom: 3px;
+
+      font-size: 21px;
+    }
+
+    ion-label {
+      font-size: 11px;
+      font-weight: 600;
+    }
+  }
+}
+
+.bottom-nav-space {
+  height: 90px;
+}
+
+
+/* =========================
+   AYUDANTÍA 1:1
+   ========================= */
+
+.modal-content {
+  --background: #f5f7fb;
+}
+
+.ayudantia-session {
+  min-height: 100%;
+}
+
+
+/* ENCABEZADO DE LA SESIÓN */
+
+.session-header {
+  margin-bottom: 22px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  h1 {
+    margin: 5px 0 7px;
+
+    color: #1f2937;
+
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  p {
+    max-width: 560px;
+
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+.close-session-button {
+  width: auto;
+
+  flex-shrink: 0;
+}
+
+
+/* PERFIL DEL ESTUDIANTE */
+
+.session-profile {
+  margin-bottom: 16px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  border-left: 4px solid #3880ff;
+}
+
+.session-label {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #3880ff;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+
+/* DETALLE DE LA CONSULTA */
+
+.session-detail {
+  margin-bottom: 16px;
+}
+
+.session-section-header {
+  margin-bottom: 14px;
+
+  h2 {
+    margin: 4px 0 0;
+
+    color: #1f2937;
+
+    font-size: 18px;
+  }
+
+  p {
+    margin: 6px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+.session-description {
+  margin-top: 16px;
+
+  padding: 16px 18px;
+
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+  p {
+    margin: 7px 0 0;
+
+    color: #4b5563;
+
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+
+/* ACCIONES DE LA AYUDANTÍA */
+
+.session-actions-card {
+  margin-bottom: 16px;
+}
+
+.case-actions {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+.resolve-button,
+.escalate-button {
+  flex: 1;
+
+  padding: 12px 16px;
+
   border-radius: 8px;
-  background: #3880ff;
-  color: #ffffff;
-  font-size: 13px;
+
+  font-size: 14px;
   font-weight: 600;
+
   cursor: pointer;
 }
 
-.action-btn-outline {
-  padding: 9px 14px;
-  border: 1px solid #3880ff;
-  border-radius: 8px;
-  background: #eaf2ff;
-  color: #2563eb;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
+.resolve-button {
+  border: none;
+
+  background: #16a34a;
+
+  color: #ffffff;
+}
+
+.escalate-button {
+  border: 1px solid #dc2626;
+
+  background: #fef2f2;
+
+  color: #dc2626;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .ayudante-welcome {
+    h1 {
+      font-size: 26px;
+    }
+  }
+
+  .perfil-card {
+    align-items: flex-start;
+  }
+
+  .actividad-grid {
+    gap: 7px;
+  }
+
+  .actividad-item {
+    padding: 12px 6px;
+
+    strong {
+      font-size: 18px;
+    }
+
+    span {
+      font-size: 10px;
+    }
+  }
+
+  .panel-card-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .panel-header-actions {
+    width: 100%;
+  }
+
+  .panel-header-actions .panel-button {
+    flex: 1;
+  }
+
+  .solicitud-header {
+    align-items: flex-start;
+  }
+
+  .perfil-actions .panel-button {
+    width: 100%;
+  }
+
+
+  /* AYUDANTÍA 1:1 */
+
+  .session-header {
+    flex-direction: column;
+  }
+
+  .close-session-button {
+    width: 100%;
+  }
+
+  .session-profile {
+    align-items: flex-start;
+  }
+
+  .case-actions {
+    flex-direction: column;
+  }
+
+
+  /* NAVEGACIÓN INFERIOR */
+
+  .ayudante-bottom-nav {
+    padding: 7px 10px;
+  }
+
 }

@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
 
-  <div class="editar-container">
+  <div class="page-container">
 
-    <header class="editar-header">
+    <header class="page-header">
 
       <button
         class="back-button"
@@ -21,7 +21,7 @@
     </header>
 
     <main
-      class="editar-form"
+      class="page-card"
       *ngIf="consulta"
     >
 
@@ -87,7 +87,7 @@
       <div class="form-actions">
 
         <button
-          class="cancel-button"
+          class="secondary-button"
           type="button"
           [routerLink]="['/detalle-consulta', idConsulta]"
         >
@@ -95,7 +95,7 @@
         </button>
 
         <button
-          class="save-button"
+          class="primary-button"
           type="button"
           (click)="guardarCambios()"
         >
