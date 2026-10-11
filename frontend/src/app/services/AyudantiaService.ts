@@ -38,7 +38,7 @@ export class AyudantiaService {
         duda: s.titulo_duda || s.titulo,
         descripcion_duda: s.descripcion_duda || s.motivo,
         descripcion: s.descripcion_duda || s.motivo,
-        estado: s.estado,
+        estado: s.estado || 'PENDIENTE',
         nombre_estudiante: s.estudiante,
         estudiante: s.estudiante
       })))

@@ -2,6 +2,11 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./pages/public/login/login.page')
@@ -78,21 +83,37 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/cuenta/editar-perfil/editar-perfil.page')
         .then((m) => m.EditarPerfilPage)
-  },  
-  {
-    path: 'panel-ayudante',
-    loadComponent: () =>
-      import('./pages/ayudante/panel-ayudante/panel-ayudante.page')
-        .then((m) => m.PanelAyudantePage)
   },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    path: 'ayudante',
+    redirectTo: 'ayudante/tabs/panel',
+    pathMatch: 'full'   
+  },
+  {
+    path: 'ayudante/tabs',
+    loadComponent: () => import('./pages/ayudante/tabs/tabs.page').then(m => m.TabsPage),
+    children: [
+      {
+        path: 'panel',
+        loadComponent: () => import('./pages/ayudante/panel-ayudante/panel-ayudante.page').then(m => m.PanelAyudantePage)
+      },
+      {
+        path: 'solicitudes',
+        loadComponent: () => import('./pages/ayudante/solicitudes-pendientes/solicitudes-pendientes.page').then(m => m.SolicitudesPendientesPage)
+      },
+      {
+        path: 'mis-ayudantias',
+        loadComponent: () => import('./pages/ayudante/mis-ayudantias/mis-ayudantias.page').then(m => m.MisAyudantiasPage)
+      },
+      {
+        path: '',
+        redirectTo: 'panel',
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: '**',
     redirectTo: 'login',
   },
-
 ];

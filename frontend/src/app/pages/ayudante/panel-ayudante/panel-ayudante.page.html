@@ -1,560 +1,87 @@
 <ion-content [fullscreen]="true">
-
   <div class="page-container panel-ayudante-container">
-
     <main class="page-content page-wide">
 
       <!-- BIENVENIDA -->
-      <header class="ayudante-welcome">
-
-        <span class="welcome-label">
-          Espacio del ayudante
-        </span>
-
-        <h1>
+      <ion-card-header class="ayudante-welcome ion-no-padding ion-margin-bottom">
+        <ion-note class="welcome-label">
+          Panel del ayudante
+        </ion-note>
+        <ion-card-title>
           Bienvenido, {{ usuarioAyudante.nombre }}
-        </h1>
-
+        </ion-card-title>
         <p>
-          Revisa solicitudes, gestiona tus ayudantías y participa
-          en la comunidad de EntrePares.
+          Revisa solicitudes, gestiona tus ayudantías y participa en la comunidad de EntrePares aquí.
         </p>
+      </ion-card-header>
 
-      </header>
-
-
-      <!-- 1. DATOS GENERALES DEL PERFIL -->
-      <section class="page-card perfil-card">
-
-        <div class="perfil-avatar">
-
-          <img
-            [src]="usuarioAyudante.imagen"
-            alt="Avatar"
-          />
-
-        </div>
-
-        <div class="perfil-identidad">
-
-          <h2>
-            {{ usuarioAyudante.nombre }}
-          </h2>
-
-          <p>
-            {{ usuarioAyudante.email }}
-          </p>
-
-          <span class="rol-badge">
-            AYUDANTE
-          </span>
-
-        </div>
-
-      </section>
-
+      <!-- DATOS GENERALES DEL PERFIL -->
+      <ion-card class="page-card perfil-card ion-no-margin ion-margin-bottom">
+        <ion-item lines="none" class="ion-no-padding" style="--background: transparent; width: 100%;">
+          <ion-avatar slot="start" class="perfil-avatar">
+            <img [src]="usuarioAyudante.imagen" alt="Avatar" />
+          </ion-avatar>
+          <ion-label class="perfil-identidad">
+            <h2>{{ usuarioAyudante.nombre }}</h2>
+            <p>{{ usuarioAyudante.email }}</p>
+            <ion-badge color="primary" class="rol-badge">AYUDANTE</ion-badge>
+          </ion-label>
+        </ion-item>
+      </ion-card>
 
       <!-- RESUMEN DE ACTIVIDAD -->
-      <section class="page-card actividad-card">
-
+      <ion-card class="page-card actividad-card ion-no-margin ion-margin-bottom">
         <div class="actividad-grid">
-
           <div class="actividad-item">
-
-            <strong>
-              {{ solicitudesDisponibles.length }}
-            </strong>
-
-            <span>
-              Pendientes
-            </span>
-
+            <strong>{{ metricas.pendientes }}</strong>
+            <span>Pendientes</span>
           </div>
-
           <div class="actividad-item">
-
-            <strong>
-              {{ misAyudantias.length }}
-            </strong>
-
-            <span>
-              Activas
-            </span>
-
+            <strong>{{ metricas.activas }}</strong>
+            <span>Activas</span>
           </div>
-
           <div class="actividad-item">
-
-            <strong>
-              4.9 ★
-            </strong>
-
-            <span>
-              Evaluación
-            </span>
-
+            <strong>{{ metricas.evaluacion }}</strong>
+            <span>Evaluación</span>
           </div>
+        </div>
+      </ion-card>
 
+      <!-- VISTA DE LA COMUNIDAD (RESUMEN) -->
+      <ion-card class="page-card datos-card ion-no-margin">
+        <div class="panel-card-header">
+          <h2>Actividad de la Comunidad</h2>
+          <div class="panel-header-actions">
+            <ion-button
+              class="primary-button panel-button"
+              routerLink="/comunidad">
+              Ir a Comunidad
+            </ion-button>
+          </div>
         </div>
 
-      </section>
-
-
-      <!-- 2. VISTA DE LA COMUNIDAD -->
-      <section *ngIf="pestanaActiva === 'comunidad'">
-
-        <div class="page-card datos-card">
-
-          <div class="panel-card-header">
-
-            <h2>
-              Muro de la Comunidad
-            </h2>
-
-            <div class="panel-header-actions">
-
-              <button
-                class="primary-button panel-button"
-                type="button"
-                routerLink="/comunidad"
-              >
-                Ir a Foro Completo
-              </button>
-
-              <button
-                class="secondary-button panel-button"
-                type="button"
-                (click)="irAListaCompleta()"
-              >
-                Ver Solicitudes
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div
+        <ion-list lines="none" style="background: transparent;">
+          <ion-item
             *ngFor="let item of publicacionesComunidad"
-            class="dato"
+            class="dato ion-no-padding"
+            style="--background: transparent;"
           >
-
-            <div>
-
+            <ion-label>
               <strong class="dato-title">
-                {{ item.titulo }}
+                {{ item.titulo || item.titulo }}
               </strong>
-
-              <span class="dato-label">
-                {{ item.asignatura }} • Por: {{ item.autor }}
-              </span>
-
-            </div>
-
-            <span class="dato-value">
-              💬 {{ item.total_respuestas }}
-            </span>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- 3. SOLICITUDES DISPONIBLES -->
-      <section *ngIf="pestanaActiva === 'solicitudes'">
-
-        <div class="page-card datos-card">
-
-          <h2>
-            Solicitudes de Estudiantes
-          </h2>
-
-
-          <div
-            *ngIf="solicitudesDisponibles.length === 0"
-            class="empty-state"
-          >
-            No hay solicitudes pendientes en este momento.
-          </div>
-
-
-          <div
-            *ngFor="let solicitud of solicitudesDisponibles"
-            class="solicitud-item"
-          >
-
-            <div class="solicitud-header">
-
-              <span class="rol-badge">
-                {{ solicitud.asignatura }}
-              </span>
-
-              <span class="estado estado-pendiente">
-                Pendiente
-              </span>
-
-            </div>
-
-
-            <strong class="solicitud-title">
-              {{ solicitud.titulo_duda }}
-            </strong>
-
-            <p class="solicitud-descripcion">
-              {{ solicitud.descripcion }}
-            </p>
-
-            <span class="dato-label">
-              Estudiante: {{ solicitud.estudiante }}
-            </span>
-
-
-            <div class="perfil-actions">
-
-              <button
-                class="primary-button panel-button"
-                type="button"
-                (click)="aceptarSolicitud(solicitud)"
-              >
-                Aceptar Ayudantía
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- 4. MIS AYUDANTÍAS -->
-      <section *ngIf="pestanaActiva === 'mis-ayudantias'">
-
-        <div class="page-card datos-card">
-
-          <h2>
-            Mis Ayudantías
-          </h2>
-
-
-          <div
-            *ngIf="misAyudantias.length === 0"
-            class="empty-state"
-          >
-
-            <p>
-              Aún no has tomado ninguna tutoría.
-            </p>
-
-            <button
-              class="secondary-button panel-button"
-              type="button"
-              (click)="irAListaCompleta()"
-            >
-              Explorar disponibles
-            </button>
-
-          </div>
-
-
-          <div
-            *ngFor="let m of misAyudantias"
-            class="solicitud-item"
-          >
-
-            <div class="solicitud-header">
-
-              <span class="rol-badge">
-                {{ m.asignatura }}
-              </span>
-
-              <span
-                class="estado"
-                [class.estado-aceptada]="m.estado === 'ACEPTADA'"
-                [class.estado-proceso]="m.estado === 'EN_PROCESO'"
-                [class.estado-rechazada]="
-                  m.estado !== 'ACEPTADA' &&
-                  m.estado !== 'EN_PROCESO'
-                "
-              >
-                {{
-                  m.estado === 'EN_PROCESO'
-                    ? 'Esperando confirmación del estudiante'
-                    : m.estado
-                }}
-              </span>
-
-            </div>
-
-
-            <strong class="solicitud-title">
-              {{ m.titulo_duda }}
-            </strong>
-
-            <p class="dato-label solicitud-estudiante">
-              Estudiante: {{ m.estudiante }}
-            </p>
-
-
-            <!-- CONTACTO DIRECTO -->
-            <div
-              class="perfil-actions"
-              *ngIf="m.estado === 'ACEPTADA'"
-            >
-
-              <button
-                class="primary-button panel-button"
-                type="button"
-                (click)="abrirVentanaSesion(m)"
-              >
-                Contacto directo
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- ESPACIO PARA NAVEGACIÓN INFERIOR -->
-      <div class="bottom-nav-space"></div>
+              <p class="dato-label">
+                {{ item.asignatura || item.asignatura }} 
+                <span>• Por: {{ item.autor }}</span>
+              </p>
+            </ion-label>
+            <ion-badge slot="end" class="dato-value"> 
+              {{ item.total_respuestas || 0 }}
+            </ion-badge>
+          </ion-item>
+        </ion-list>
+      </ion-card>
 
     </main>
-
-
-    <!-- NAVEGACIÓN INFERIOR -->
-    <nav class="ayudante-bottom-nav">
-
-      <ion-segment
-        [value]="pestanaActiva"
-        (ionChange)="cambiarPestana($event)"
-      >
-
-        <ion-segment-button value="comunidad">
-
-          <ion-icon name="home-outline"></ion-icon>
-
-          <ion-label>
-            Comunidad
-          </ion-label>
-
-        </ion-segment-button>
-
-
-        <ion-segment-button value="solicitudes">
-
-          <ion-icon name="document-text-outline"></ion-icon>
-
-          <ion-label>
-            Solicitudes
-          </ion-label>
-
-        </ion-segment-button>
-
-
-        <ion-segment-button value="mis-ayudantias">
-
-          <ion-icon name="people-outline"></ion-icon>
-
-          <ion-label>
-            Ayudantías
-          </ion-label>
-
-        </ion-segment-button>
-
-      </ion-segment>
-
-    </nav>
-
   </div>
-
-
-  <!-- 5. VENTANA DE LA AYUDANTÍA 1:1 -->
-  <ion-modal [isOpen]="isModalSesionOpen">
-
-    <ng-template>
-
-      <ion-content class="modal-content">
-
-        <div class="page-container ayudantia-session">
-
-          <main class="page-content page-wide">
-
-            <!-- ENCABEZADO -->
-            <header class="session-header">
-
-              <div>
-
-                <span class="welcome-label">
-                  Ayudantía activa
-                </span>
-
-                <h1>
-                  Ayudantía 1:1
-                </h1>
-
-                <p>
-                  Revisa la consulta del estudiante y gestiona
-                  el resultado de la ayudantía.
-                </p>
-
-              </div>
-
-              <button
-                class="secondary-button close-session-button"
-                type="button"
-                (click)="cerrarVentanaSesion()"
-              >
-                Cerrar
-              </button>
-
-            </header>
-
-
-            <!-- ESTUDIANTE -->
-            <section class="page-card session-profile">
-
-              <div class="perfil-avatar">
-
-                <img
-                  src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                  alt="Estudiante"
-                />
-
-              </div>
-
-              <div class="perfil-identidad">
-
-                <span class="session-label">
-                  Estudiante
-                </span>
-
-                <h2>
-                  {{ ayudantiaEnSesion?.estudiante }}
-                </h2>
-
-                <span class="rol-badge">
-                  Enlace Directo Activo
-                </span>
-
-              </div>
-
-            </section>
-
-
-            <!-- DETALLE DE LA CONSULTA -->
-            <section class="page-card session-detail">
-
-              <div class="session-section-header">
-
-                <span class="session-label">
-                  Consulta
-                </span>
-
-                <h2>
-                  Detalle de la Consulta
-                </h2>
-
-              </div>
-
-
-              <div class="dato">
-
-                <span class="dato-label">
-                  Asignatura
-                </span>
-
-                <span class="dato-value">
-                  {{ ayudantiaEnSesion?.asignatura }}
-                </span>
-
-              </div>
-
-
-              <div class="dato">
-
-                <span class="dato-label">
-                  Duda
-                </span>
-
-                <span class="dato-value">
-                  {{ ayudantiaEnSesion?.duda }}
-                </span>
-
-              </div>
-
-
-              <div class="session-description">
-
-                <span class="dato-label">
-                  Descripción
-                </span>
-
-                <p>
-                  {{ ayudantiaEnSesion?.descripcion }}
-                </p>
-
-              </div>
-
-            </section>
-
-
-            <!-- ACCIONES -->
-            <section class="page-card session-actions-card">
-
-              <div class="session-section-header">
-
-                <span class="session-label">
-                  Gestión
-                </span>
-
-                <h2>
-                  Finalizar o Escalar Caso
-                </h2>
-
-                <p>
-                  Indica cómo continuará la solicitud después de la ayudantía.
-                </p>
-
-              </div>
-
-
-              <div class="case-actions">
-
-                <button
-                  class="resolve-button"
-                  type="button"
-                  (click)="cerrarCaso('resuelta')"
-                >
-                  Marcar Resuelta
-                </button>
-
-                <button
-                  class="escalate-button"
-                  type="button"
-                  (click)="cerrarCaso('escalada')"
-                >
-                  Escalar a Docente
-                </button>
-
-              </div>
-
-            </section>
-
-          </main>
-
-        </div>
-
-      </ion-content>
-
-    </ng-template>
-
-  </ion-modal>
-
 </ion-content>
