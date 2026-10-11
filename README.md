@@ -76,6 +76,28 @@ ionic serve
 
 4. Abrir en el navegador `http://localhost:8100/`
 
+### Pasos para levantar el Backend - API REST
+
+#### Variables de entorno
+
+Se debe crear un archivo `.env` en la carpeta de `backend/`, este env debe contener las siguientes claves:
+
+```javascript
+PORT=3000
+SUPABASE_URL:https://[TOKEN_URL].supabase.co
+SUPABASE_SERVICE_ROLE_KEY=[TOKEN]
+```
+
+El `TOKEN_URL` y `TOKEN` son claves secretas que operan dentro del entorno de supabase para la conexión con la URL del proyecto y el TOKEN que identifica al rol de developer (SOLICITAR A @IgnacioAntGP )
+
+#### Cómo usarse
+
+1. Configurar las variables de entorno en archivo `.env`
+
+2. Ejecutar en cmd en la ruta de `backend/` las siguientes líneas:
+    - `npm install` -> Para instalar los recursos para conectar con supabase y la política de CORS
+    - `npm run dev` -> Inicializa el servidor en el puerto 3000
+
 ## Contribución
 
 Para revisar la convención de ramas, nomenclatura de commits y versionado semántico exigidos para el proyecto, consulta el archivo `CONTRIBUTING.md`.
