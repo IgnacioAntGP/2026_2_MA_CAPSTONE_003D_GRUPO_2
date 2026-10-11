@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
-import { TicketService } from '../../../services/ConsultaService';
+import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 
 @Component({
@@ -11,7 +11,7 @@ import { Consulta } from '../../../models/IConsulta';
   templateUrl: './comunidad.page.html',
   styleUrls: ['./comunidad.page.scss'],
   standalone: true,
-  imports: [ IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink ]
+  imports: [IonContent, CommonModule, FormsModule, RouterLink]
 })
 export class ComunidadPage implements OnInit {
 

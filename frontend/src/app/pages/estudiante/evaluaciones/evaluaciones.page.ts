@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './evaluaciones.page.html',
   styleUrls: ['./evaluaciones.page.scss'],
   standalone:true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink]
+  imports: [IonContent, CommonModule, FormsModule, RouterLink]
 })
 export class EvaluacionesPage implements OnInit {
 

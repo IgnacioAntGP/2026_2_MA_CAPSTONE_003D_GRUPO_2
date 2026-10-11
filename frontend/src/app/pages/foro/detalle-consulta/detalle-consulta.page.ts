@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { RouterLink, ActivatedRoute,Router } from '@angular/router';
 
-import { TicketService } from '../../../services/ConsultaService';
+import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 import { RespuestaConsulta } from '../../../models/IRespuesta';
 
@@ -15,13 +15,10 @@ import { RespuestaConsulta } from '../../../models/IRespuesta';
   standalone: true,
   imports: [
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     CommonModule,
     FormsModule,
     RouterLink
-  ]
+]
 })
 export class DetalleConsultaPage implements OnInit {
 

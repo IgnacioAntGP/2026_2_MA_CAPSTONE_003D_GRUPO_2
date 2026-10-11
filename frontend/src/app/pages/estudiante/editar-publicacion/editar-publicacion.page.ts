@@ -9,7 +9,7 @@ import {
 } from '@ionic/angular';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { TicketService } from '../../../services/ConsultaService';
+import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 
 @Component({
@@ -19,9 +19,6 @@ import { Consulta } from '../../../models/IConsulta';
   standalone:true,
   imports: [
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     CommonModule,
     FormsModule,
     RouterLink

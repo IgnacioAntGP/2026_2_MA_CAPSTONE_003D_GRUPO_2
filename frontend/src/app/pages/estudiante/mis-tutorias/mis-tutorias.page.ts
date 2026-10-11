@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 
-import { TicketService } from '../../../services/ConsultaService';
+import { TicketService } from '../../../core/services/ConsultaService';
 import { MisTutoria } from '../../../models/IMisTutorias';
-import { AyudantiaService } from '../../../services/AyudantiaService';
+import { AyudantiaService } from '../../../core/services/AyudantiaService';
 
 @Component({
   selector: 'app-mis-tutorias',
@@ -15,13 +15,10 @@ import { AyudantiaService } from '../../../services/AyudantiaService';
   standalone:true,
   imports: [
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     CommonModule,
     FormsModule,
     RouterLink
-  ]
+]
 })
 export class MisTutoriasPage implements OnInit {
 
