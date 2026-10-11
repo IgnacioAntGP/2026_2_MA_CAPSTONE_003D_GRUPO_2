@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { AyudantiaService } from '../../../services/AyudantiaService';
+import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SolicitudAyudantia } from '../../../models/ISolicitudAyudantia';
 
 import {

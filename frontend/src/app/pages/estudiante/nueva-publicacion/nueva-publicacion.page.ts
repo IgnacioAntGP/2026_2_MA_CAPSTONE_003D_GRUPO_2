@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 
-import { TicketService } from '../../../services/ConsultaService';
+import { TicketService } from '../../../core/services/ConsultaService';
 import { NuevaConsulta } from '../../../models/IConsulta';
 
 @Component({
@@ -14,13 +14,10 @@ import { NuevaConsulta } from '../../../models/IConsulta';
   standalone:true,
   imports: [
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     CommonModule,
     FormsModule,
     RouterLink
-  ]
+]
 })
 export class NuevaPublicacionPage implements OnInit {
 

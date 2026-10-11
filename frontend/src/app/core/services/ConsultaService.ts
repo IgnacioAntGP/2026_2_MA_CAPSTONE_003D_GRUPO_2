@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Consulta, NuevaConsulta } from '../models/IConsulta';
+import { Consulta, NuevaConsulta } from '../../models/IConsulta';
 import {
   SolicitudAyudantia,
   SolicitudAyudantiaPayloadNuevo
-} from '../models/ISolicitudAyudantia';
-import { RespuestaConsulta } from '../models/IRespuesta';
-import { environment } from '../../environments/environment';
-import { MisTutoria } from '../models/IMisTutorias';
-import { PerfilUsuario } from '../models/IPerfil';
+} from '../../models/ISolicitudAyudantia';
+import { RespuestaConsulta } from '../../models/IRespuesta';
+import { environment } from '../../../environments/environment';
+import { MisTutoria } from '../../models/IMisTutorias';
+import { PerfilUsuario } from '../../models/IPerfil';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({

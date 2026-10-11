@@ -9,7 +9,7 @@ import {
 } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 
-import { TicketService } from '../../../services/ConsultaService';
+import { TicketService } from '../../../core/services/ConsultaService';
 
 @Component({
   selector: 'app-postular-ayudante',
@@ -18,13 +18,10 @@ import { TicketService } from '../../../services/ConsultaService';
   standalone:true,
   imports: [
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     CommonModule,
     FormsModule,
     RouterLink
-  ]
+]
 })
 export class PostularAyudantePage {
 
