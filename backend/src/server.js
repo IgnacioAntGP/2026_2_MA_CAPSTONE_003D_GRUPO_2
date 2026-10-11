@@ -917,7 +917,7 @@ app.get('/api/solicitudes-ayudantia/disponibles', async (req, res) => {
       titulo: item.consulta?.titulo || null,
       descripcion_duda: item.consulta?.descripcion || null,
       motivo: item.consulta?.descripcion || null,
-      estado: item.estado, // PENDIENTE
+      estado: item.estado || 'PENDIENTE', // PENDIENTE
       estudiante: item.consulta?.usuario ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim(): null,
       fecha_solicitud: item.fecha_solicitud,
     }));

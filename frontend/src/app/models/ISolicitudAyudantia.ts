@@ -1,7 +1,7 @@
 export interface SolicitudAyudantia {
   id_solicitud: number;
   asignatura: string;
-  modalidad: 'foro_abierto' | 'ayudantia_directa';
+  modalidad: string;
   titulo_duda: string;
   duda?: string;               // Alias para compatibilidad directa con el HTML
   descripcion_duda: string;
