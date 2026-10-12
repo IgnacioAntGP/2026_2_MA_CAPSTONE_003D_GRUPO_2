@@ -1,0 +1,352 @@
+/* =========================
+   BIENVENIDA
+   ========================= */
+
+.admin-welcome {
+  margin-bottom: 22px;
+
+  h1 {
+    margin: 5px 0 7px;
+
+    color: #1f2937;
+
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  p {
+    max-width: 620px;
+
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+.welcome-label {
+  color: #3880ff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   RESUMEN
+   ========================= */
+
+.admin-summary {
+  margin-bottom: 22px;
+}
+
+.summary-item {
+  padding: 16px;
+
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+  text-align: center;
+
+  strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #1f2937;
+
+    font-size: 24px;
+  }
+
+  span {
+    color: #6b7280;
+
+    font-size: 13px;
+  }
+}
+
+
+/* =========================
+   MENSAJES
+   ========================= */
+
+.admin-message {
+  text-align: center;
+
+  h2 {
+    margin: 0 0 8px;
+
+    color: #1f2937;
+
+    font-size: 18px;
+  }
+
+  p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+  }
+}
+
+
+/* =========================
+   SECCIÓN POSTULACIONES
+   ========================= */
+
+.postulaciones-section {
+  margin-top: 24px;
+}
+
+.section-header {
+  margin-bottom: 14px;
+
+  h2 {
+    margin: 4px 0 0;
+
+    color: #1f2937;
+
+    font-size: 20px;
+  }
+}
+
+.section-label {
+  color: #3880ff;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+
+/* =========================
+   TARJETA POSTULACIÓN
+   ========================= */
+
+.postulacion-card {
+  margin-bottom: 16px;
+}
+
+.postulacion-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 16px;
+
+  margin-bottom: 18px;
+}
+
+.postulacion-nombre {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #1f2937;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.postulacion-correo {
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+.estado-badge {
+  flex-shrink: 0;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #fff7ed;
+
+  color: #c2410c;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   INFORMACIÓN
+   ========================= */
+
+.postulacion-info {
+  margin-bottom: 18px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+
+  background: #f8fafc;
+}
+
+.info-row {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 16px;
+
+  padding: 8px 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.info-label {
+  color: #6b7280;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.info-value {
+  color: #374151;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-align: right;
+}
+
+
+/* =========================
+   MOTIVO / EXPERIENCIA
+   ========================= */
+
+.postulacion-block {
+  margin-top: 16px;
+
+  .block-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+
+    padding: 14px 16px;
+
+    border: 1px solid #edf0f5;
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    color: #4b5563;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    overflow-wrap: anywhere;
+  }
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.postulacion-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 22px;
+}
+
+.approve-button,
+.reject-button {
+  padding: 10px 16px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.approve-button {
+  border: none;
+
+  background: #3880ff;
+
+  color: #ffffff;
+}
+
+.reject-button {
+  border: 1px solid #dc2626;
+
+  background: #ffffff;
+
+  color: #dc2626;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .admin-welcome {
+    h1 {
+      font-size: 26px;
+    }
+  }
+
+  .postulacion-header {
+    flex-direction: column;
+  }
+
+  .info-row {
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+  .info-value {
+    text-align: left;
+  }
+
+  .postulacion-actions {
+    flex-direction: column-reverse;
+  }
+
+  .approve-button,
+  .reject-button {
+    width: 100%;
+  }
+
+}

@@ -30,7 +30,7 @@ class UsuarioController {
     }
   }
 
-  async solicitarAyudante(req, res) {
+  async postularAyudante(req, res) {
     const { id_usuario, motivo, experiencia } = req.body;
 
     if (!id_usuario || !motivo || !experiencia) {
@@ -38,13 +38,71 @@ class UsuarioController {
     }
 
     try {
-      const data = await usuarioAdapter.crearSolicitudAyudante({ id_usuario, motivo, experiencia });
+      const data = await usuarioAdapter.crearPostulacionAyudante({ id_usuario, motivo, experiencia });
       return res.status(201).json({
         mensaje: 'Solicitud de ayudante enviada correctamente.',
         solicitud: data
       });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      
+        return res
+          .status(err.statusCode || 500)
+          .json({
+            error: err.message
+          });
+      }
+  }
+
+  async obtenerPostulacionesPendientes(req, res) {
+    try {
+
+      const data =
+        await usuarioAdapter.obtenerPostulacionesPendientes();
+
+      return res.status(200).json(data);
+
+    } catch (err) {
+
+      return res.status(500).json({
+        error: err.message
+      });
+
+    }
+  }
+  async aprobarPostulacionAyudante(req, res) {
+    const { id_solicitud } = req.params;
+
+    try {
+      const data =
+        await usuarioAdapter.aprobarPostulacionAyudante(id_solicitud);
+
+      return res.status(200).json({
+        mensaje: 'Postulación aprobada correctamente.',
+        postulacion: data
+      });
+
+    } catch (err) {
+      return res.status(500).json({
+        error: err.message
+      });
+    }
+  }
+  async rechazarPostulacionAyudante(req, res) {
+    const { id_solicitud } = req.params;
+
+    try {
+      const data =
+        await usuarioAdapter.rechazarPostulacionAyudante(id_solicitud);
+
+      return res.status(200).json({
+        mensaje: 'Postulación rechazada correctamente.',
+        postulacion: data
+      });
+
+    } catch (err) {
+      return res.status(500).json({
+        error: err.message
+      });
     }
   }
 }

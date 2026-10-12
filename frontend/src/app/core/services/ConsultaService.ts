@@ -7,6 +7,7 @@ import {
   SolicitudAyudantia,
   SolicitudAyudantiaPayloadNuevo
 } from '../../models/ISolicitudAyudantia';
+import { PostulacionAyudante } from '../../models/IPostulacionAyudante';
 import { RespuestaConsulta } from '../../models/IRespuesta';
 import { environment } from '../../../environments/environment';
 import { MisTutoria } from '../../models/IMisTutorias';
@@ -171,15 +172,15 @@ export class TicketService {
 
   }
   
-  // 10. POST: Solicitar ser ayudante
-  solicitarSerAyudante(
+  // 10. POST: postular como ayudante
+  postularComoAyudante(
     idUsuario: number,
     motivo: string,
     experiencia: string
   ): Observable<any> {
 
     return this.http.post<any>(
-      `${this.apiUrl}/solicitudes-ayudante`,
+      `${this.apiUrl}/usuarios/postulaciones-ayudante`,
       {
         id_usuario: idUsuario,
         motivo,
@@ -187,6 +188,31 @@ export class TicketService {
       }
     );
 
+  }
+
+  // 11. GET: Obtener postulaciones pendientes para Administrador
+  obtenerPostulacionesPendientes(): Observable<PostulacionAyudante[]> {
+
+    return this.http.get<PostulacionAyudante[]>(
+      `${this.apiUrl}/usuarios/postulaciones-ayudante/pendientes`
+    );
+
+  }
+
+  // 12. PATCH: Aceptar postulaciones 
+  aprobarPostulacionAyudante(idSolicitud: number): Observable<any> {
+    return this.http.patch<any>(
+      `${this.apiUrl}/usuarios/postulaciones-ayudante/${idSolicitud}/aprobar`,
+      {}
+    );
+  }
+
+  // 13. PATCH: Rechazar postulaciones
+  rechazarPostulacionAyudante(idSolicitud: number): Observable<any> {
+    return this.http.patch<any>(
+      `${this.apiUrl}/usuarios/postulaciones-ayudante/${idSolicitud}/rechazar`,
+      {}
+    );
   }
 
 }

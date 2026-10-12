@@ -1,0 +1,520 @@
+.admin-welcome {
+  margin-bottom: 24px;
+}
+
+.welcome-label {
+  display: block;
+  margin-bottom: 6px;
+
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  color: #3880ff;
+}
+
+.admin-welcome h1 {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  color: #1f2937;
+}
+
+.admin-welcome p {
+  margin: 0;
+
+  line-height: 1.6;
+
+  color: #6b7280;
+}
+
+
+/* ==============================
+   RESUMEN
+================================ */
+
+.admin-summary {
+  margin-bottom: 28px;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.summary-item strong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 56px;
+  height: 56px;
+
+  border-radius: 14px;
+
+  font-size: 24px;
+  font-weight: 700;
+
+  color: #3880ff;
+  background: #eef4ff;
+}
+
+.summary-item span {
+  font-size: 15px;
+  font-weight: 600;
+
+  color: #374151;
+}
+
+
+/* ==============================
+   SECCIÓN
+================================ */
+
+.admin-section {
+  margin-top: 8px;
+}
+
+.section-header {
+  margin-bottom: 18px;
+}
+
+.section-label {
+  display: block;
+  margin-bottom: 5px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  color: #3880ff;
+}
+
+.section-header h2 {
+  margin: 0 0 6px;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  color: #1f2937;
+}
+
+.section-header p {
+  margin: 0;
+
+  line-height: 1.5;
+
+  color: #6b7280;
+}
+
+
+/* ==============================
+   OPCIONES ADMIN
+================================ */
+
+.admin-options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  width: 100%;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+a.admin-option {
+  cursor: pointer;
+}
+
+a.admin-option:hover {
+  transform: translateY(-2px);
+}
+
+.option-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 12px;
+
+  font-size: 23px;
+
+  background: #eef4ff;
+}
+
+.option-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.option-content h3 {
+  margin: 0 0 4px;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: #1f2937;
+}
+
+.option-content p {
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  color: #6b7280;
+}
+
+.option-arrow {
+  flex-shrink: 0;
+
+  font-size: 30px;
+  font-weight: 300;
+
+  color: #9ca3af;
+}
+
+
+/* ==============================
+   OPCIONES NO DISPONIBLES
+================================ */
+
+.admin-option-disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.option-status {
+  display: inline-block;
+
+  margin-top: 8px;
+  padding: 4px 8px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #6b7280;
+  background: #f3f4f6;
+}
+
+
+/* ==============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 600px) {
+
+  .admin-welcome h1 {
+    font-size: 24px;
+  }
+
+  .admin-option {
+    align-items: flex-start;
+  }
+
+  .option-icon {
+    width: 44px;
+    height: 44px;
+
+    font-size: 21px;
+  }
+
+}
+/* ==============================
+   BOTÓN SUPERIOR DEL MENÚ
+================================ */
+
+.admin-menu-header {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-bottom: 12px;
+}
+
+.admin-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+
+  font-size: 22px;
+
+  color: #374151;
+  background: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.admin-menu-button:hover {
+  background: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+
+/* ==============================
+   OVERLAY
+================================ */
+
+.admin-menu-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 998;
+
+  background: rgba(15, 23, 42, 0.35);
+}
+
+
+/* ==============================
+   MENÚ LATERAL
+================================ */
+
+.admin-side-menu {
+  position: fixed;
+
+  top: 0;
+  right: 0;
+
+  z-index: 999;
+
+  display: flex;
+  flex-direction: column;
+
+  width: min(340px, 88vw);
+  height: 100%;
+
+  padding: 24px 20px;
+
+  background: #ffffff;
+
+  box-shadow: -8px 0 30px rgba(15, 23, 42, 0.14);
+
+  transform: translateX(100%);
+
+  transition: transform 0.25s ease;
+}
+
+.admin-side-menu.open {
+  transform: translateX(0);
+}
+
+
+/* ==============================
+   PERFIL DEL ADMIN
+================================ */
+
+.admin-menu-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #ffffff;
+  background: #3880ff;
+}
+
+.admin-menu-profile > div:nth-child(2) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-menu-profile strong {
+  font-size: 15px;
+
+  color: #1f2937;
+}
+
+.admin-menu-profile span {
+  font-size: 13px;
+
+  color: #6b7280;
+}
+
+.admin-menu-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border: 0;
+  border-radius: 8px;
+
+  font-size: 26px;
+  line-height: 1;
+
+  color: #6b7280;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.admin-menu-close:hover {
+  background: #f3f4f6;
+}
+
+
+/* ==============================
+   NAVEGACIÓN
+================================ */
+
+.admin-menu-nav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+
+  padding-top: 18px;
+}
+
+.admin-menu-nav a,
+.admin-menu-nav button {
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 0;
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+
+  color: #374151;
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.admin-menu-nav a:hover {
+  color: #3880ff;
+  background: #eef4ff;
+}
+
+.admin-menu-nav button:disabled {
+  color: #9ca3af;
+
+  cursor: default;
+}
+
+
+/* ==============================
+   PIE DEL MENÚ
+================================ */
+
+.admin-menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding-top: 16px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.admin-menu-footer button {
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 0;
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+
+  color: #374151;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.admin-menu-footer button:disabled {
+  color: #9ca3af;
+
+  cursor: default;
+}
+
+.admin-menu-footer .logout-button {
+  color: #dc2626;
+}
+
+.admin-menu-footer .logout-button:hover {
+  background: #fef2f2;
+}
+
+
+/* ==============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 600px) {
+
+  .admin-side-menu {
+    width: 88vw;
+
+    padding: 20px 16px;
+  }
+
+}
