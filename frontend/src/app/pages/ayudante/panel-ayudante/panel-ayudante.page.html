@@ -1,36 +1,34 @@
 <ion-content [fullscreen]="true">
-  <div class="page-container panel-ayudante-container">
-    <main class="page-content page-wide">
+  <div class="page-container">
+    <div class="panel-layout-wrapper page-large">
 
-      <!-- BIENVENIDA -->
-      <ion-card-header class="ayudante-welcome ion-no-padding ion-margin-bottom">
-        <ion-note class="welcome-label">
+      <!-- ENCABEZADO -->
+      <header class="ayudante-welcome">
+        <span class="welcome-label">
           Panel del ayudante
-        </ion-note>
-        <ion-card-title>
+        </span>
+        <h1>
           Bienvenido, {{ usuarioAyudante.nombre }}
-        </ion-card-title>
+        </h1>
         <p>
           Revisa solicitudes, gestiona tus ayudantías y participa en la comunidad de EntrePares aquí.
         </p>
-      </ion-card-header>
+      </header>
 
-      <!-- DATOS GENERALES DEL PERFIL -->
-      <ion-card class="page-card perfil-card ion-no-margin ion-margin-bottom">
-        <ion-item lines="none" class="ion-no-padding" style="--background: transparent; width: 100%;">
-          <ion-avatar slot="start" class="perfil-avatar">
-            <img [src]="usuarioAyudante.imagen" alt="Avatar" />
-          </ion-avatar>
-          <ion-label class="perfil-identidad">
-            <h2>{{ usuarioAyudante.nombre }}</h2>
-            <p>{{ usuarioAyudante.email }}</p>
-            <ion-badge color="primary" class="rol-badge">AYUDANTE</ion-badge>
-          </ion-label>
-        </ion-item>
-      </ion-card>
+      <!-- 1. PERFIL -->
+      <section class="consulta-card perfil-card">
+        <div class="perfil-avatar">
+          <img [src]="usuarioAyudante.imagen" alt="Avatar" />
+        </div>
+        <div class="perfil-identidad">
+          <h2>{{ usuarioAyudante.nombre }}</h2>
+          <p>{{ usuarioAyudante.email }}</p>
+          <span class="rol-badge">AYUDANTE</span>
+        </div>
+      </section>
 
-      <!-- RESUMEN DE ACTIVIDAD -->
-      <ion-card class="page-card actividad-card ion-no-margin ion-margin-bottom">
+      <!-- 2. MÉTRICAS -->
+      <section class="consulta-card actividad-card">
         <div class="actividad-grid">
           <div class="actividad-item">
             <strong>{{ metricas.pendientes }}</strong>
@@ -45,43 +43,48 @@
             <span>Evaluación</span>
           </div>
         </div>
-      </ion-card>
+      </section>
 
-      <!-- VISTA DE LA COMUNIDAD (RESUMEN) -->
-      <ion-card class="page-card datos-card ion-no-margin">
+      <!-- 3. ACTIVIDAD DE LA COMUNIDAD -->
+      <section class="consulta-card datos-card">
         <div class="panel-card-header">
           <h2>Actividad de la Comunidad</h2>
-          <div class="panel-header-actions">
-            <ion-button
-              class="primary-button panel-button"
-              routerLink="/comunidad">
-              Ir a Comunidad
-            </ion-button>
-          </div>
+          <button
+            class="primary-button panel-button"
+            type="button"
+            routerLink="/comunidad"
+          >
+            Ir a Comunidad
+          </button>
         </div>
 
-        <ion-list lines="none" style="background: transparent;">
-          <ion-item
+        <div class="comunidad-resumen-lista">
+          <article
             *ngFor="let item of publicacionesComunidad"
-            class="dato ion-no-padding"
-            style="--background: transparent;"
+            class="dato-item"
+            [routerLink]="['/detalle-consulta', item.id_consulta]"
           >
-            <ion-label>
+            <div class="dato-info">
               <strong class="dato-title">
-                {{ item.titulo || item.titulo }}
+                {{ item.titulo }}
               </strong>
               <p class="dato-label">
-                {{ item.asignatura || item.asignatura }} 
+                <span class="asignatura">{{ item.asignatura }}</span>
                 <span>• Por: {{ item.autor }}</span>
               </p>
-            </ion-label>
-            <ion-badge slot="end" class="dato-value"> 
-              {{ item.total_respuestas || 0 }}
-            </ion-badge>
-          </ion-item>
-        </ion-list>
-      </ion-card>
+            </div>
 
-    </main>
+            <span class="dato-badge">
+             {{ item.total_respuestas || 0 }}
+            </span>
+          </article>
+
+          <div *ngIf="publicacionesComunidad && publicacionesComunidad.length === 0" class="empty-state">
+            <p>No hay actividad reciente en la comunidad.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
   </div>
 </ion-content>

@@ -1,67 +1,65 @@
 <ion-content [fullscreen]="true">
   <div class="page-container">
-    <main class="page-content page-wide">
+    <div class="panel-layout-wrapper page-large">
 
-      <ion-card-header class="ayudante-welcome ion-no-padding ion-margin-bottom">
-        <ion-note class="welcome-label">
+      <!-- ENCABEZADO -->
+      <header class="ayudante-welcome">
+        <span class="welcome-label">
           Bandeja de solicitudes
-        </ion-note>
-        <ion-card-title>
-          Solicitudes de Estudiantes
-        </ion-card-title>
+        </span>
+        <h1>Solicitudes de Estudiantes</h1>
         <p>
           Revisa las consultas pendientes y toma las ayudantías que deseas atender.
         </p>
-      </ion-card-header>
+      </header>
 
-      <ion-card class="page-card datos-card ion-no-margin">
-        <h2>Solicitudes Disponibles</h2>
+      <!-- CUERPO PRINCIPAL CON TARJETAS -->
+      <main class="consultas">
 
+        <!-- ESTADO VACÍO -->
         <div *ngIf="solicitudesDisponibles.length === 0" class="empty-state">
-          No hay solicitudes pendientes en este momento.
+          <p>No hay solicitudes pendientes en este momento.</p>
         </div>
 
-        <ion-card 
-          *ngFor="let solicitud of solicitudesDisponibles" 
-          class="solicitud-card solicitud-item"
+        <!-- TARJETAS DE SOLICITUDES -->
+        <article 
+          class="consulta-card" 
+          *ngFor="let solicitud of solicitudesDisponibles"
         >
-          <ion-card-header class="ion-no-padding-bottom">
-            <div class="solicitud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <ion-badge color="secondary" class="rol-badge">
-                {{ solicitud.asignatura }}
-              </ion-badge>
-              <ion-badge color="warning" class="estado estado-pendiente">
-                {{ solicitud.estado }}
-              </ion-badge>
-            </div>
+          <div class="consulta-header">
+            <span class="asignatura">
+              {{ solicitud.asignatura }}
+            </span>
+            <span class="estado estado-pendiente">
+              {{ solicitud.estado }}
+            </span>
+          </div>
 
-            <ion-card-title class="solicitud-title" style="font-size: 1.1rem;">
-              {{ solicitud.titulo_duda }}
-            </ion-card-title>
-          </ion-card-header>
+          <h2>{{ solicitud.titulo_duda }}</h2>
 
-          <ion-card-content>
-            <p class="solicitud-descripcion" style="margin: 8px 0;">
-              {{ solicitud.descripcion_duda || solicitud.descripcion }}
-            </p>
+          <p>
+            {{ solicitud.descripcion_duda || solicitud.descripcion }}
+          </p>
 
-            <ion-note class="dato-label" style="display: block; margin-bottom: 12px;">
-              Estudiante: {{ solicitud.nombre_estudiante || solicitud.estudiante }}
-            </ion-note>
+          <div class="consulta-footer">
+            <span>
+              Estudiante: <strong>{{ solicitud.nombre_estudiante || solicitud.estudiante }}</strong>
+            </span>
+          </div>
 
-            <div class="perfil-actions">
-              <ion-button
-                class="primary-button"
-                expand="block"
-                (click)="aceptarSolicitud(solicitud)"
-              >
-                Aceptar Ayudantía
-              </ion-button>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-card>
+          <div class="perfil-actions">
+            <button
+              class="primary-button"
+              type="button"
+              (click)="aceptarSolicitud(solicitud)"
+            >
+              ✓ Aceptar Ayudantía
+            </button>
+          </div>
+        </article>
 
-    </main>
+      </main>
+
+    </div>
   </div>
 </ion-content>
