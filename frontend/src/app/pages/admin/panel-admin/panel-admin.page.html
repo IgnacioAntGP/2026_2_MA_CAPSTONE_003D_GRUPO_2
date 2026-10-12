@@ -1,0 +1,311 @@
+<ion-content [fullscreen]="true">
+
+  <div class="page-container">
+
+    <main class="page-content page-wide">
+
+      <!-- BOTÓN MENÚ -->
+      <div class="admin-menu-header">
+
+        <button
+          class="admin-menu-button"
+          type="button"
+          (click)="toggleMenu()"
+          aria-label="Abrir menú"
+        >
+          ☰
+        </button>
+
+      </div>
+
+
+      <!-- OVERLAY -->
+      <div
+        class="admin-menu-overlay"
+        *ngIf="menuAbierto"
+        (click)="cerrarMenu()"
+      ></div>
+
+
+      <!-- MENÚ LATERAL -->
+      <aside
+        class="admin-side-menu"
+        [class.open]="menuAbierto"
+      >
+
+        <div class="admin-menu-profile">
+
+          <div class="admin-avatar">
+            A
+          </div>
+
+          <div>
+
+            <strong>
+              Administrador
+            </strong>
+
+            <span>
+              EntrePares
+            </span>
+
+          </div>
+
+          <button
+            class="admin-menu-close"
+            type="button"
+            (click)="cerrarMenu()"
+            aria-label="Cerrar menú"
+          >
+            ×
+          </button>
+
+        </div>
+
+
+        <nav class="admin-menu-nav">
+
+          <a
+            routerLink="/panel-admin"
+            (click)="cerrarMenu()"
+          >
+            Inicio
+          </a>
+
+          <a
+            routerLink="/postulaciones-ayudante"
+            (click)="cerrarMenu()"
+          >
+            Postulaciones
+          </a>
+
+          <button
+            type="button"
+            disabled
+          >
+            Usuarios
+          </button>
+
+          <button
+            type="button"
+            disabled
+          >
+            Comunidad
+          </button>
+
+          <button
+            type="button"
+            disabled
+          >
+            Gestión académica
+          </button>
+
+        </nav>
+
+
+        <div class="admin-menu-footer">
+
+          <button
+            type="button"
+            disabled
+          >
+            Mi perfil
+          </button>
+
+          <button
+            type="button"
+            class="logout-button"
+            routerLink="/login"
+            
+          >
+            Cerrar sesión
+          </button>
+
+        </div>
+
+      </aside>
+
+      <!-- BIENVENIDA -->
+      <header class="admin-welcome">
+
+        <span class="welcome-label">
+          Espacio de administración
+        </span>
+
+        <h1>
+          Bienvenido, Administrador
+        </h1>
+
+        <p>
+          Gestiona los principales elementos de la comunidad
+          EntrePares desde este panel.
+        </p>
+
+      </header>
+
+
+      <!-- RESUMEN -->
+      <section class="page-card admin-summary">
+
+        <div class="summary-item">
+
+          <strong>
+            {{ postulacionesPendientes.length }}
+          </strong>
+
+          <span>
+            Postulaciones pendientes
+          </span>
+
+        </div>
+
+      </section>
+
+
+      <!-- GESTIÓN -->
+      <section class="admin-section">
+
+        <div class="section-header">
+
+          <span class="section-label">
+            Gestión
+          </span>
+
+          <h2>
+            Herramientas de administración
+          </h2>
+
+          <p>
+            Selecciona una sección para gestionar la información
+            correspondiente.
+          </p>
+
+        </div>
+
+
+          <div class="admin-options">
+
+            <!-- POSTULACIONES -->
+            <a
+              class="page-card admin-option"
+              routerLink="/postulaciones-ayudante"
+            >
+
+              <div class="option-icon">
+                📄
+              </div>
+
+              <div class="option-content">
+
+                <h3>
+                  Postulaciones
+                </h3>
+
+                <p>
+                  Revisa las solicitudes de estudiantes que desean
+                  convertirse en ayudantes.
+                </p>
+
+              </div>
+
+              <span class="option-arrow">
+                ›
+              </span>
+
+            </a>
+
+
+            <!-- USUARIOS -->
+            <div
+              class="page-card admin-option admin-option-disabled"
+            >
+
+              <div class="option-icon">
+                👥
+              </div>
+
+              <div class="option-content">
+
+                <h3>
+                  Usuarios
+                </h3>
+
+                <p>
+                  Consulta y gestiona estudiantes y ayudantes registrados
+                  dentro de EntrePares.
+                </p>
+
+                <span class="option-status">
+                  Próximamente
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- COMUNIDAD -->
+            <div
+              class="page-card admin-option admin-option-disabled"
+            >
+
+              <div class="option-icon">
+                💬
+              </div>
+
+              <div class="option-content">
+
+                <h3>
+                  Comunidad
+                </h3>
+
+                <p>
+                  Supervisa consultas y publicaciones, y gestiona contenido
+                  que pueda incumplir las normas de la comunidad.
+                </p>
+
+                <span class="option-status">
+                  Próximamente
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- GESTIÓN ACADÉMICA -->
+            <div
+              class="page-card admin-option admin-option-disabled"
+            >
+
+              <div class="option-icon">
+                🎓
+              </div>
+
+              <div class="option-content">
+
+                <h3>
+                  Gestión académica
+                </h3>
+
+                <p>
+                  Administra carreras, asignaturas y la información académica
+                  utilizada por EntrePares.
+                </p>
+
+                <span class="option-status">
+                  Próximamente
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>

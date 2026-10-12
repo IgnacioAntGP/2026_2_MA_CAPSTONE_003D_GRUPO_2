@@ -1,0 +1,210 @@
+<ion-content [fullscreen]="true">
+
+  <div class="page-container">
+
+    <main class="page-content page-wide">
+      
+      <!-- VOLVER -->
+      <div class="page-header">
+
+        <button
+          class="back-button"
+          type="button"
+          routerLink="/panel-admin"
+        >
+          ← Volver
+        </button>
+
+      </div>
+
+      <!-- ENCABEZADO -->
+      <header class="admin-welcome">
+
+        <span class="welcome-label">
+          Gestión de ayudantes
+        </span>
+
+        <h1>
+          Postulaciones pendientes
+        </h1>
+
+        <p>
+          Revisa las postulaciones de estudiantes que desean convertirse
+          en ayudantes dentro de EntrePares.
+        </p>
+
+      </header>
+
+
+      <!-- RESUMEN -->
+      <section class="page-card admin-summary">
+
+        <div class="summary-item">
+
+          <strong>
+            {{ postulacionesPendientes.length }}
+          </strong>
+
+          <span>
+            Postulaciones pendientes
+          </span>
+
+        </div>
+
+      </section>
+
+
+      <!-- CARGANDO -->
+      <section
+        *ngIf="cargando"
+        class="page-card admin-message"
+      >
+
+        <p>
+          Cargando postulaciones...
+        </p>
+
+      </section>
+
+
+      <!-- SIN POSTULACIONES -->
+      <section
+        *ngIf="!cargando && postulacionesPendientes.length === 0"
+        class="page-card admin-message"
+      >
+
+        <h2>
+          No hay postulaciones pendientes
+        </h2>
+
+        <p>
+          Actualmente no existen estudiantes esperando revisión.
+        </p>
+
+      </section>
+
+
+      <!-- LISTADO -->
+      <section
+        *ngIf="!cargando && postulacionesPendientes.length > 0"
+        class="postulaciones-section"
+      >
+
+        <article
+          *ngFor="let postulacion of postulacionesPendientes"
+          class="page-card postulacion-card"
+        >
+
+          <!-- CABECERA -->
+          <div class="postulacion-header">
+
+            <div>
+
+              <span class="postulacion-nombre">
+                {{ postulacion.usuario.nombre }}
+                {{ postulacion.usuario.apellido }}
+              </span>
+
+              <span class="postulacion-correo">
+                {{ postulacion.usuario.correo }}
+              </span>
+
+            </div>
+
+
+            <span class="estado-badge">
+              {{ postulacion.estado }}
+            </span>
+
+          </div>
+
+
+          <!-- INFORMACIÓN -->
+          <div class="postulacion-info">
+
+            <div class="info-row">
+
+              <span class="info-label">
+                RUT
+              </span>
+
+              <span class="info-value">
+                {{ postulacion.usuario.rut }}
+              </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+              <span class="info-label">
+                Fecha de solicitud
+              </span>
+
+              <span class="info-value">
+                {{ postulacion.fecha_solicitud | date:'dd/MM/yyyy - HH:mm' }}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- MOTIVO -->
+          <div class="postulacion-block">
+
+            <span class="block-label">
+              Motivo de la postulación
+            </span>
+
+            <p>
+              {{ postulacion.motivo }}
+            </p>
+
+          </div>
+
+
+          <!-- EXPERIENCIA -->
+          <div class="postulacion-block">
+
+            <span class="block-label">
+              Experiencia
+            </span>
+
+            <p>
+              {{ postulacion.experiencia }}
+            </p>
+
+          </div>
+
+
+          <!-- ACCIONES -->
+          <div class="postulacion-actions">
+
+            <button
+              class="reject-button"
+              type="button"
+              (click)="rechazarPostulacion(postulacion)"
+            >
+              Rechazar
+            </button>
+
+            <button
+              class="approve-button"
+              type="button"
+              (click)="aprobarPostulacion(postulacion)"
+            >
+              Aprobar
+            </button>
+
+          </div>
+
+        </article>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>

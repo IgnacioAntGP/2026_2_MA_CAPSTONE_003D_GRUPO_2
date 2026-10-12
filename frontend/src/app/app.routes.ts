@@ -113,7 +113,17 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'panel-admin',
+    loadComponent: () => import('./pages/admin/panel-admin/panel-admin.page').then( m => m.PanelAdminPage)
+  },
+  {
+    path: 'postulaciones-ayudante',
+    loadComponent: () => import('./pages/admin/postulaciones-ayudante/postulaciones-ayudante.page').then( m => m.PostulacionesAyudantePage)
+  },
+  {
     path: '**',
     redirectTo: 'login',
-  },
+  }
+
+
 ];

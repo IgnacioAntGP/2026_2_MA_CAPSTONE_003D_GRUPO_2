@@ -118,14 +118,173 @@ class UsuarioAdapter {
   }
 
   // 10. Solicitar ser Ayudante
-  async crearSolicitudAyudante({ id_usuario, motivo, experiencia }) {
+  async crearPostulacionAyudante({
+    id_usuario,
+    motivo,
+    experiencia
+  }) {
+
+    // Verificar si el usuario ya tiene una postulación pendiente
+    const { data: postulacionesPendientes, error: errorValidacion } =
+      await supabase
+        .from('postulacion_ayudante')
+        .select('id_solicitud')
+        .eq('id_usuario', id_usuario)
+        .eq('estado', 'PENDIENTE')
+        .limit(1);
+
+    if (errorValidacion) {
+      throw errorValidacion;
+    }
+
+    if (
+      postulacionesPendientes &&
+      postulacionesPendientes.length > 0
+    ) {
+      const error = new Error(
+        'Ya existe una postulación pendiente para este usuario.'
+      );
+
+      error.statusCode = 409;
+
+      throw error;
+    }
+
+
+    // Crear nueva postulación
     const { data, error } = await supabase
-      .from('solicitud_ayudante')
-      .insert({ id_usuario, motivo, experiencia })
+      .from('postulacion_ayudante')
+      .insert({
+        id_usuario,
+        motivo,
+        experiencia,
+        estado: 'PENDIENTE'
+      })
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  }
+  async obtenerPostulacionesPendientes() {
+    const { data, error } = await supabase
+      .from('postulacion_ayudante')
+      .select(`
+        id_solicitud,
+        id_usuario,
+        motivo,
+        experiencia,
+        fecha_solicitud,
+        estado,
+        usuario (
+          nombre,
+          apellido,
+          correo,
+          rut
+        )
+      `)
+      .eq('estado', 'PENDIENTE')
+      .order('fecha_solicitud', { ascending: false });
+
+    if (error) throw error;
+
+    return data;
+  }
+
+  async aprobarPostulacionAyudante(id_solicitud) {
+    // 1. Obtener la postulación pendiente
+    const { data: postulacion, error: errorPostulacion } = await supabase
+      .from('postulacion_ayudante')
+      .select('*')
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'PENDIENTE')
+      .single();
+
+    if (errorPostulacion) throw errorPostulacion;
+
+    // 2. Obtener el rol Ayudante
+    const { data: rolAyudante, error: errorRol } = await supabase
+      .from('rol')
+      .select('id_rol')
+      .eq('nombre', 'Ayudante')
+      .single();
+
+    if (errorRol) throw errorRol;
+
+    // 3. Revisar si el usuario ya tiene el rol
+    const { data: usuarioRol, error: errorUsuarioRol } = await supabase
+      .from('usuario_rol')
+      .select('*')
+      .eq('id_usuario', postulacion.id_usuario)
+      .eq('id_rol', rolAyudante.id_rol)
+      .maybeSingle();
+
+    if (errorUsuarioRol) throw errorUsuarioRol;
+
+    // 4. Asignar rol si todavía no lo tiene
+    if (!usuarioRol) {
+      const { error: errorAsignacionRol } = await supabase
+        .from('usuario_rol')
+        .insert({
+          id_usuario: postulacion.id_usuario,
+          id_rol: rolAyudante.id_rol
+        });
+
+      if (errorAsignacionRol) throw errorAsignacionRol;
+    }
+
+    // 5. Revisar si ya existe perfil de ayudante
+    const { data: perfilAyudante, error: errorPerfil } = await supabase
+      .from('ayudante')
+      .select('*')
+      .eq('id_usuario', postulacion.id_usuario)
+      .maybeSingle();
+
+    if (errorPerfil) throw errorPerfil;
+
+    // 6. Crear perfil de ayudante si no existe
+    if (!perfilAyudante) {
+      const { error: errorCrearPerfil } = await supabase
+        .from('ayudante')
+        .insert({
+          id_usuario: postulacion.id_usuario,
+          descripcion: postulacion.experiencia
+        });
+
+      if (errorCrearPerfil) throw errorCrearPerfil;
+    }
+
+    // 7. Marcar la postulación como aprobada
+    const { data: postulacionActualizada, error: errorActualizar } =
+      await supabase
+        .from('postulacion_ayudante')
+        .update({
+          estado: 'APROBADA'
+        })
+        .eq('id_solicitud', id_solicitud)
+        .select()
+        .single();
+
+    if (errorActualizar) throw errorActualizar;
+
+    return postulacionActualizada;
+  }
+  async rechazarPostulacionAyudante(id_solicitud) {
+    const { data, error } = await supabase
+      .from('postulacion_ayudante')
+      .update({
+        estado: 'RECHAZADA'
+      })
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', 'PENDIENTE')
       .select()
       .single();
 
     if (error) throw error;
+
     return data;
   }
 }
