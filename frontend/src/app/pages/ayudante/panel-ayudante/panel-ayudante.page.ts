@@ -32,16 +32,6 @@ import {
     FormsModule,
     RouterLink,
     IonContent,
-    IonButton,
-    IonLabel,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonNote,
-    IonItem,
-    IonAvatar,
-    IonBadge,
-    IonList,
   ],
 })
 export class PanelAyudantePage implements OnInit {

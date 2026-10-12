@@ -1,0 +1,267 @@
+:host {
+  display: block;
+  width: 100%;
+
+  .panel-layout-wrapper {
+    width: 100%;
+    max-width: 900px !important;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .ayudante-welcome {
+    margin-bottom: 24px;
+
+    .welcome-label {
+      display: block;
+      margin-bottom: 4px;
+      color: #3880ff;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      color: #1f2937;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+    }
+
+    p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  }
+
+  .consultas {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .consulta-card {
+    padding: 22px;
+    border: 1px solid #edf0f5;
+    border-radius: 14px;
+    background: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+    box-sizing: border-box;
+
+    h2 {
+      margin: 12px 0 8px;
+      color: #1f2937;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  }
+
+  .consulta-header,
+  .consulta-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .asignatura {
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #eef4ff;
+    color: #3880ff;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .estado {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .consulta-footer {
+    padding-top: 12px;
+    border-top: 1px solid #f0f2f5;
+    color: #8b95a5;
+    font-size: 13px;
+  }
+
+  .perfil-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+
+    .primary-button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: #3880ff;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(56, 128, 255, 0.18);
+      transition: transform 0.15s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .empty-state {
+    padding: 24px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 15px;
+
+    .secondary-button {
+      margin-top: 12px;
+      padding: 10px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #4b5563;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+
+  /* MODAL SESIÓN 1:1 */
+  .modal-layout-wrapper {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .session-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #3880ff;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .perfil-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-left: 4px solid #3880ff;
+    margin-bottom: 16px;
+
+    .perfil-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #e8eefc;
+      flex-shrink: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .perfil-identidad {
+      h2 {
+        margin: 2px 0 6px;
+        font-size: 20px;
+        color: #1f2937;
+      }
+
+      .rol-badge-active {
+        display: inline-block;
+        padding: 3px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 20px;
+        background: #ecfdf5;
+        color: #16a34a;
+      }
+    }
+  }
+
+  .session-info-rows {
+    margin: 12px 0;
+
+    .session-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f2f5;
+
+      .row-label {
+        color: #6b7280;
+        font-size: 13px;
+      }
+
+      .row-val {
+        color: #1f2937;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .session-description {
+    padding: 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #edf0f5;
+
+    .row-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #6b7280;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin: 0;
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+
+  .case-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+
+    .resolve-button,
+    .escalate-button {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .resolve-button {
+      border: none;
+      background: #16a34a;
+      color: #ffffff;
+    }
+
+    .escalate-button {
+      border: 1px solid #dc2626;
+      background: #fef2f2;
+      color: #dc2626;
+    }
+  }
+}

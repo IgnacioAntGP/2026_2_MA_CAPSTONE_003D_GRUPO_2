@@ -1,685 +1,240 @@
-.panel-ayudante-container {
-  position: relative;
-}
+:host {
+  display: block;
+  width: 100%;
 
-
-/* =========================
-   BIENVENIDA
-   ========================= */
-
-.ayudante-welcome {
-  margin-bottom: 22px;
-
-  h1 {
-    margin: 5px 0 7px;
-
-    color: #1f2937;
-
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1.25;
-  }
-
-  p {
-    max-width: 620px;
-    margin: 0;
-
-    color: #6b7280;
-
-    font-size: 14px;
-    line-height: 1.6;
-  }
-}
-
-.welcome-label {
-  color: #3880ff;
-
-  font-size: 12px;
-  font-weight: 700;
-
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-
-/* =========================
-   PERFIL
-   ========================= */
-
-.perfil-card {
-  margin-bottom: 16px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 18px;
-
-  border-left: 4px solid #3880ff;
-}
-
-.perfil-avatar {
-  width: 64px;
-  height: 64px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  overflow: hidden;
-
-  border-radius: 50%;
-
-  background: #e8eefc;
-
-  img {
+  // Contenedor que manda sobre los max-width del global.scss
+  .panel-layout-wrapper {
     width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-  }
-}
-
-.perfil-identidad {
-  h2 {
-    margin: 0 0 4px;
-
-    color: #1f2937;
-
-    font-size: 20px;
+    max-width: 900px !important; // Mismo ancho que comunidad
+    margin: 0 auto;
+    box-sizing: border-box;
   }
 
-  p {
-    margin: 0 0 8px;
-
-    color: #6b7280;
-
-    font-size: 13px;
-  }
-}
-
-.rol-badge {
-  display: inline-block;
-
-  padding: 4px 10px;
-
-  border-radius: 20px;
-
-  background: #eef4ff;
-
-  color: #2563eb;
-
-  font-size: 11px;
-  font-weight: 700;
-}
-
-
-/* =========================
-   MÉTRICAS
-   ========================= */
-
-.actividad-card {
-  margin-bottom: 16px;
-
-  h3 {
-    margin: 0 0 14px;
-
-    color: #1f2937;
-
-    font-size: 17px;
-  }
-}
-
-.actividad-grid {
-  display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 12px;
-}
-
-.actividad-item {
-  padding: 16px 10px;
-
-  text-align: center;
-
-  border: 1px solid #edf0f5;
-  border-radius: 10px;
-
-  background: #f8fafc;
-
-  strong {
-    display: block;
-
-    margin-bottom: 5px;
-
-    color: #1f2937;
-
-    font-size: 21px;
-  }
-
-  span {
-    color: #6b7280;
-
-    font-size: 12px;
-  }
-}
-
-
-/* =========================
-   CONTENIDO DEL PANEL
-   ========================= */
-
-.datos-card {
-  margin-bottom: 16px;
-
-  h2 {
-    margin: 0 0 14px;
-
-    color: #1f2937;
-
-    font-size: 18px;
-  }
-}
-
-.panel-card-header {
-  display: flex;
-
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 16px;
-
-  margin-bottom: 12px;
-
-  h2 {
-    margin: 0;
-  }
-}
-
-.panel-header-actions {
-  display: flex;
-
-  gap: 8px;
-}
-
-.panel-button {
-  width: auto;
-
-  padding: 9px 14px;
-
-  font-size: 13px;
-}
-
-
-/* =========================
-   FILAS DE DATOS
-   ========================= */
-
-.dato {
-  display: flex;
-
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 16px;
-
-  padding: 12px 0;
-
-  border-bottom: 1px solid #f0f0f0;
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.dato-title {
-  display: block;
-
-  margin-bottom: 3px;
-
-  color: #1f2937;
-
-  font-size: 14px;
-}
-
-.dato-label {
-  color: #6b7280;
-
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.dato-value {
-  min-width: 0;
-  max-width: 65%;
-
-  color: #374151;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  text-align: right;
-
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-
-/* =========================
-   SOLICITUDES
-   ========================= */
-
-.solicitud-item {
-  padding: 14px 0;
-
-  border-bottom: 1px solid #f0f0f0;
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.solicitud-header {
-  display: flex;
-
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 12px;
-
-  margin-bottom: 6px;
-}
-
-.solicitud-title {
-  display: block;
-
-  color: #1f2937;
-
-  font-size: 15px;
-}
-
-.solicitud-descripcion {
-  margin: 5px 0 8px;
-
-  color: #6b7280;
-
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.solicitud-estudiante {
-  display: block;
-
-  margin-top: 5px;
-}
-
-.estado {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.estado-pendiente {
-  color: #c2410c;
-}
-
-.estado-aceptada {
-  color: #16a34a;
-}
-
-.estado-proceso {
-  color: #2563eb;
-}
-
-.estado-rechazada {
-  color: #dc2626;
-}
-
-.perfil-actions {
-  display: flex;
-
-  justify-content: flex-end;
-
-  margin-top: 14px;
-}
-
-
-/* =========================
-   ESTADO VACÍO
-   ========================= */
-
-.empty-state {
-  padding: 18px 0;
-
-  color: #6b7280;
-
-  font-size: 14px;
-
-  text-align: center;
-
-  p {
-    margin: 0 0 12px;
-  }
-}
-
-
-/* =========================
-   NAVEGACIÓN INFERIOR
-   ========================= */
-
-.ayudante-bottom-nav {
-  position: fixed;
-
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  z-index: 20;
-
-  padding:
-    7px
-    max(16px, calc((100vw - 800px) / 2));
-
-  background: rgba(255, 255, 255, 0.97);
-
-  border-top: 1px solid #e5e7eb;
-
-  box-shadow: 0 -4px 16px rgba(31, 41, 55, 0.07);
-
-  backdrop-filter: blur(10px);
-
-  ion-segment {
-    --background: transparent;
-
-    width: 100%;
-  }
-
-  ion-segment-button {
-    --background: transparent;
-    --background-checked: #eef4ff;
-
-    --color: #6b7280;
-    --color-checked: #3880ff;
-
-    --indicator-color: transparent;
-
-    min-height: 58px;
-
-    border-radius: 10px;
-
-    text-transform: none;
-
-    ion-icon {
-      margin-bottom: 3px;
-
-      font-size: 21px;
-    }
-
-    ion-label {
-      font-size: 11px;
-      font-weight: 600;
-    }
-  }
-}
-
-.bottom-nav-space {
-  height: 90px;
-}
-
-
-/* =========================
-   AYUDANTÍA 1:1
-   ========================= */
-
-.modal-content {
-  --background: #f5f7fb;
-}
-
-.ayudantia-session {
-  min-height: 100%;
-}
-
-
-/* ENCABEZADO DE LA SESIÓN */
-
-.session-header {
-  margin-bottom: 22px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  gap: 20px;
-
-  h1 {
-    margin: 5px 0 7px;
-
-    color: #1f2937;
-
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.25;
-  }
-
-  p {
-    max-width: 560px;
-
-    margin: 0;
-
-    color: #6b7280;
-
-    font-size: 14px;
-    line-height: 1.6;
-  }
-}
-
-.close-session-button {
-  width: auto;
-
-  flex-shrink: 0;
-}
-
-
-/* PERFIL DEL ESTUDIANTE */
-
-.session-profile {
-  margin-bottom: 16px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 18px;
-
-  border-left: 4px solid #3880ff;
-}
-
-.session-label {
-  display: block;
-
-  margin-bottom: 4px;
-
-  color: #3880ff;
-
-  font-size: 11px;
-  font-weight: 700;
-
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-
-
-/* DETALLE DE LA CONSULTA */
-
-.session-detail {
-  margin-bottom: 16px;
-}
-
-.session-section-header {
-  margin-bottom: 14px;
-
-  h2 {
-    margin: 4px 0 0;
-
-    color: #1f2937;
-
-    font-size: 18px;
-  }
-
-  p {
-    margin: 6px 0 0;
-
-    color: #6b7280;
-
-    font-size: 13px;
-    line-height: 1.5;
-  }
-}
-
-.session-description {
-  margin-top: 16px;
-
-  padding: 16px 18px;
-
-  border: 1px solid #edf0f5;
-  border-radius: 10px;
-
-  background: #f8fafc;
-
-  p {
-    margin: 7px 0 0;
-
-    color: #4b5563;
-
-    font-size: 14px;
-    line-height: 1.6;
-  }
-}
-
-
-/* ACCIONES DE LA AYUDANTÍA */
-
-.session-actions-card {
-  margin-bottom: 16px;
-}
-
-.case-actions {
-  display: flex;
-
-  gap: 10px;
-
-  margin-top: 18px;
-}
-
-.resolve-button,
-.escalate-button {
-  flex: 1;
-
-  padding: 12px 16px;
-
-  border-radius: 8px;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-}
-
-.resolve-button {
-  border: none;
-
-  background: #16a34a;
-
-  color: #ffffff;
-}
-
-.escalate-button {
-  border: 1px solid #dc2626;
-
-  background: #fef2f2;
-
-  color: #dc2626;
-}
-
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media (max-width: 600px) {
-
+  /* =========================
+     ENCABEZADO
+     ========================= */
   .ayudante-welcome {
+    margin-bottom: 24px;
+
+    .welcome-label {
+      display: block;
+      margin-bottom: 4px;
+      color: #3880ff;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     h1 {
-      font-size: 26px;
+      margin: 0 0 6px;
+      color: #1f2937;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+    }
+
+    p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.6;
     }
   }
 
+  /* =========================
+     TARJETAS (Idénticas a .consulta-card de Comunidad)
+     ========================= */
+  .consulta-card {
+    position: relative;
+    padding: 22px;
+    margin-bottom: 18px;
+    border: 1px solid #edf0f5;
+    border-radius: 14px;
+    background: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+    box-sizing: border-box;
+    width: 100%;
+
+    h2 {
+      margin: 0;
+      color: #1f2937;
+      font-size: 19px;
+      font-weight: 700;
+    }
+  }
+
+  /* =========================
+     1. TARJETA DE PERFIL
+     ========================= */
   .perfil-card {
-    align-items: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-left: 4px solid #3880ff;
+
+    .perfil-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #e8eefc;
+      flex-shrink: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .perfil-identidad {
+      h2 {
+        margin: 0 0 4px;
+        font-size: 20px;
+        color: #1f2937;
+      }
+
+      p {
+        margin: 0 0 6px;
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .rol-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 20px;
+        background: #eef4ff;
+        color: #3880ff;
+      }
+    }
   }
 
+  /* =========================
+     2. MÉTRICAS
+     ========================= */
   .actividad-grid {
-    gap: 7px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+
+    .actividad-item {
+      padding: 16px 10px;
+      text-align: center;
+      border: 1px solid #edf0f5;
+      border-radius: 10px;
+      background: #f8fafc;
+
+      strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 22px;
+        font-weight: 700;
+        color: #3880ff;
+      }
+
+      span {
+        font-size: 12px;
+        color: #6b7280;
+      }
+    }
   }
 
-  .actividad-item {
-    padding: 12px 6px;
-
-    strong {
-      font-size: 18px;
-    }
-
-    span {
-      font-size: 10px;
-    }
-  }
-
+  /* =========================
+     3. LISTA DE COMUNIDAD
+     ========================= */
   .panel-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .panel-button {
+      padding: 8px 16px;
+      font-size: 13px;
+      border-radius: 8px;
+      border: none;
+      background: #3880ff;
+      color: #ffffff;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(56, 128, 255, 0.18);
+      transition: transform 0.15s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .comunidad-resumen-lista {
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
+    gap: 12px;
   }
 
-  .panel-header-actions {
-    width: 100%;
+  .dato-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+    }
+
+    .dato-title {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .dato-label {
+      margin: 0;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .asignatura {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: #eef4ff;
+      color: #3880ff;
+      font-size: 11px;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .dato-badge {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
   }
 
-  .panel-header-actions .panel-button {
-    flex: 1;
+  .empty-state {
+    padding: 16px 0;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
   }
-
-  .solicitud-header {
-    align-items: flex-start;
-  }
-
-  .perfil-actions .panel-button {
-    width: 100%;
-  }
-
-
-  /* AYUDANTÍA 1:1 */
-
-  .session-header {
-    flex-direction: column;
-  }
-
-  .close-session-button {
-    width: 100%;
-  }
-
-  .session-profile {
-    align-items: flex-start;
-  }
-
-  .case-actions {
-    flex-direction: column;
-  }
-
-
-  /* NAVEGACIÓN INFERIOR */
-
-  .ayudante-bottom-nav {
-    padding: 7px 10px;
-  }
-
 }

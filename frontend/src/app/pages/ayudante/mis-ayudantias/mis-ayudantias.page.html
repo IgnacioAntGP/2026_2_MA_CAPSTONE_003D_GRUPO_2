@@ -1,84 +1,80 @@
 <ion-content [fullscreen]="true">
   <div class="page-container">
-    <main class="page-content page-wide">
+    <div class="panel-layout-wrapper page-large">
 
-      <ion-card-header class="ayudante-welcome ion-no-padding ion-margin-bottom">
-        <ion-note class="welcome-label">
+      <!-- ENCABEZADO -->
+      <header class="ayudante-welcome">
+        <span class="welcome-label">
           Seguimiento de tutorías
-        </ion-note>
-        <ion-card-title>
-          Mis Ayudantías
-        </ion-card-title>
+        </span>
+        <h1>Mis Ayudantías</h1>
         <p>
           Gestiona las ayudantías asignadas y accede al canal de contacto directo.
         </p>
-      </ion-card-header>
+      </header>
 
-      <ion-card class="page-card datos-card ion-no-margin">
-        <h2>Casos Asignados</h2>
+      <!-- CUERPO PRINCIPAL -->
+      <main class="consultas">
 
+        <!-- ESTADO VACÍO -->
         <div *ngIf="misAyudantias.length === 0" class="empty-state">
           <p>Aún no has tomado ninguna tutoría.</p>
-          <ion-button
-            class="secondary-button panel-button"
-            fill="outline"
+          <button
+            class="secondary-button"
+            type="button"
             routerLink="/ayudante/tabs/solicitudes"
           >
             Explorar disponibles
-          </ion-button>
+          </button>
         </div>
 
-        <ion-card 
-          *ngFor="let m of misAyudantias" 
-          class="solicitud-card solicitud-item"
+        <!-- TARJETAS DE CASOS ASIGNADOS -->
+        <article 
+          class="consulta-card" 
+          *ngFor="let m of misAyudantias"
         >
-          <ion-card-header class="ion-no-padding-bottom">
-            <div class="solicitud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <ion-badge color="secondary" class="rol-badge">
-                {{ m.asignatura }}
-              </ion-badge>
+          <div class="consulta-header">
+            <span class="asignatura">
+              {{ m.asignatura }}
+            </span>
+            <span 
+              class="estado"
+              [style.color]="m.estado === 'ACEPTADA' ? '#16a34a' : (m.estado === 'EN_PROCESO' ? '#2563eb' : '#6b7280')"
+            >
+              {{
+                m.estado === 'EN_PROCESO'
+                  ? 'Esperando confirmación del estudiante'
+                  : m.estado
+              }}
+            </span>
+          </div>
 
-              <ion-badge
-                class="estado"
-                [color]="m.estado === 'ACEPTADA' ? 'success' : (m.estado === 'EN_PROCESO' ? 'primary' : 'medium')"
-              >
-                {{
-                  m.estado === 'EN_PROCESO'
-                    ? 'Esperando confirmación del estudiante'
-                    : m.estado
-                }}
-              </ion-badge>
-            </div>
+          <h2>{{ m.titulo_duda }}</h2>
 
-            <ion-card-title class="solicitud-title" style="font-size: 1.1rem;">
-              {{ m.titulo_duda }}
-            </ion-card-title>
-          </ion-card-header>
+          <div class="consulta-footer">
+            <span>
+              Estudiante: <strong>{{ m.nombre_estudiante || m.estudiante }}</strong>
+            </span>
+          </div>
 
-          <ion-card-content>
-            <ion-note class="dato-label solicitud-estudiante" style="display: block; margin: 8px 0 12px 0;">
-              Estudiante: {{ m.nombre_estudiante || m.estudiante }}
-            </ion-note>
+          <!-- BOTÓN CONTACTO DIRECTO (Solo si fue Aceptada) -->
+          <div class="perfil-actions" *ngIf="m.estado === 'ACEPTADA'">
+            <button
+              class="primary-button"
+              type="button"
+              (click)="abrirVentanaSesion(m)"
+            >
+              💬 Contacto directo
+            </button>
+          </div>
+        </article>
 
-            <!-- CONTACTO DIRECTO -->
-            <div class="perfil-actions" *ngIf="m.estado === 'ACEPTADA'">
-              <ion-button
-                class="primary-button panel-button"
-                color="primary"
-                expand="block"
-                (click)="abrirVentanaSesion(m)"
-              >
-                Contacto directo
-              </ion-button>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-card>
+      </main>
 
-    </main>
+    </div>
   </div>
 
-  <!-- VENTANA DE LA AYUDANTÍA 1:1 CON COMPONENTES IONIC -->
+  <!-- MODAL DE LA SESIÓN 1:1 -->
   <ion-modal [isOpen]="isModalSesionOpen">
     <ng-template>
       <ion-header>
@@ -91,79 +87,67 @@
       </ion-header>
 
       <ion-content class="modal-content ion-padding">
-        <div class="page-container ayudantia-session">
-          <main class="page-content page-wide">
+        <div class="modal-layout-wrapper">
 
-            <!-- PERFIL DEL ESTUDIANTE -->
-            <ion-card class="page-card session-profile ion-no-margin ion-margin-bottom">
-              <ion-item lines="none" style="--background: transparent;">
-                <ion-avatar slot="start" class="perfil-avatar">
-                  <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Estudiante" />
-                </ion-avatar>
-                <ion-label class="perfil-identidad">
-                  <ion-note class="session-label">Estudiante</ion-note>
-                  <h2>{{ ayudantiaEnSesion?.nombre_estudiante || ayudantiaEnSesion?.estudiante }}</h2>
-                  <ion-badge color="success" class="rol-badge">Enlace Directo Activo</ion-badge>
-                </ion-label>
-              </ion-item>
-            </ion-card>
+          <!-- 1. PERFIL DEL ESTUDIANTE -->
+          <article class="consulta-card perfil-card">
+            <div class="perfil-avatar">
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Estudiante" />
+            </div>
+            <div class="perfil-identidad">
+              <span class="session-label">Estudiante</span>
+              <h2>{{ ayudantiaEnSesion?.nombre_estudiante || ayudantiaEnSesion?.estudiante }}</h2>
+              <span class="rol-badge-active">Enlace Directo Activo</span>
+            </div>
+          </article>
 
-            <!-- DETALLE DE LA CONSULTA -->
-            <ion-card class="page-card session-detail ion-no-margin ion-margin-bottom">
-              <ion-card-header class="session-section-header ion-no-padding ion-margin-bottom">
-                <ion-note class="session-label">Consulta</ion-note>
-                <ion-card-title>Detalle de la Consulta</ion-card-title>
-              </ion-card-header>
+          <!-- 2. DETALLE DE LA DUDA -->
+          <article class="consulta-card session-detail">
+            <span class="session-label">Consulta</span>
+            <h2>Detalle de la Consulta</h2>
 
-              <ion-list lines="full" style="background: transparent;">
-                <ion-item class="dato ion-no-padding" style="--background: transparent;">
-                  <ion-label class="dato-label">Asignatura</ion-label>
-                  <ion-note slot="end" class="dato-value">{{ ayudantiaEnSesion?.asignatura }}</ion-note>
-                </ion-item>
-
-                <ion-item class="dato ion-no-padding" style="--background: transparent;">
-                  <ion-label class="dato-label">Duda</ion-label>
-                  <ion-note slot="end" class="dato-value">{{ ayudantiaEnSesion?.titulo_duda }}</ion-note>
-                </ion-item>
-              </ion-list>
-
-              <div class="session-description ion-margin-top">
-                <ion-note class="dato-label">Descripción</ion-note>
-                <p>{{ ayudantiaEnSesion?.descripcion_duda || ayudantiaEnSesion?.descripcion }}</p>
+            <div class="session-info-rows">
+              <div class="session-row">
+                <span class="row-label">Asignatura:</span>
+                <strong class="row-val">{{ ayudantiaEnSesion?.asignatura }}</strong>
               </div>
-            </ion-card>
-
-            <!-- ACCIONES DE CIERRE / ESCALAMIENTO -->
-            <ion-card class="page-card session-actions-card ion-no-margin">
-              <ion-card-header class="session-section-header ion-no-padding ion-margin-bottom">
-                <ion-note class="session-label">Gestión</ion-note>
-                <ion-card-title>Finalizar o Escalar Caso</ion-card-title>
-                <p>Indica cómo continuará la solicitud después de la ayudantía.</p>
-              </ion-card-header>
-
-              <div class="case-actions" style="display: flex; gap: 10px;">
-                <ion-button
-                  expand="block"
-                  color="success"
-                  style="flex: 1;"
-                  (click)="cerrarCaso('resuelta')"
-                >
-                  Marcar Resuelta
-                </ion-button>
-
-                <ion-button
-                  expand="block"
-                  color="danger"
-                  fill="outline"
-                  style="flex: 1;"
-                  (click)="cerrarCaso('escalada')"
-                >
-                  Escalar a Docente
-                </ion-button>
+              <div class="session-row">
+                <span class="row-label">Duda:</span>
+                <strong class="row-val">{{ ayudantiaEnSesion?.titulo_duda }}</strong>
               </div>
-            </ion-card>
+            </div>
 
-          </main>
+            <div class="session-description">
+              <span class="row-label">Descripción:</span>
+              <p>{{ ayudantiaEnSesion?.descripcion_duda || ayudantiaEnSesion?.descripcion }}</p>
+            </div>
+          </article>
+
+          <!-- 3. GESTIÓN / ACCIONES -->
+          <article class="consulta-card">
+            <span class="session-label">Gestión</span>
+            <h2>Finalizar o Escalar Caso</h2>
+            <p>Indica cómo continuará la solicitud después de la ayudantía.</p>
+
+            <div class="case-actions">
+              <button
+                class="resolve-button"
+                type="button"
+                (click)="cerrarCaso('resuelta')"
+              >
+                Marcar Resuelta
+              </button>
+
+              <button
+                class="escalate-button"
+                type="button"
+                (click)="cerrarCaso('escalada')"
+              >
+                Escalar a Docente
+              </button>
+            </div>
+          </article>
+
         </div>
       </ion-content>
     </ng-template>
