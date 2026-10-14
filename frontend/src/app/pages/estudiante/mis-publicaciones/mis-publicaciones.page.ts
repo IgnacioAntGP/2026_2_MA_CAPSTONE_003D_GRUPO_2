@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-mis-publicaciones',
@@ -16,7 +17,8 @@ import { Consulta } from '../../../models/IConsulta';
     IonContent,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
   ]
 })
 export class MisPublicacionesPage implements OnInit {

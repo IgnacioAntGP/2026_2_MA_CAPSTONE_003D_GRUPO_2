@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { PerfilUsuario } from '../../../models/IPerfil';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-editar-perfil',
@@ -16,7 +17,8 @@ import { PerfilUsuario } from '../../../models/IPerfil';
     IonContent,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
   ]
 })
 export class EditarPerfilPage implements OnInit {

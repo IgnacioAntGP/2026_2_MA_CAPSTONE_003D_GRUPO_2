@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { TicketService } from '../../../core/services/ConsultaService';
 import { MisTutoria } from '../../../models/IMisTutorias';
 import { AyudantiaService } from '../../../core/services/AyudantiaService';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-mis-tutorias',
@@ -17,7 +18,8 @@ import { AyudantiaService } from '../../../core/services/AyudantiaService';
     IonContent,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
 ]
 })
 export class MisTutoriasPage implements OnInit {

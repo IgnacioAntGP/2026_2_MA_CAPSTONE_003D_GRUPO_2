@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { NuevaConsulta } from '../../../models/IConsulta';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-nueva-publicacion',
@@ -16,7 +17,8 @@ import { NuevaConsulta } from '../../../models/IConsulta';
     IonContent,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
 ]
 })
 export class NuevaPublicacionPage implements OnInit {

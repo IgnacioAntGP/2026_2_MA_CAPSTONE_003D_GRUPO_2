@@ -8,6 +8,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-postular-ayudante',
@@ -18,7 +19,8 @@ import { TicketService } from '../../../core/services/ConsultaService';
     IonContent,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
   ]
 })
 export class PostularAyudantePage {

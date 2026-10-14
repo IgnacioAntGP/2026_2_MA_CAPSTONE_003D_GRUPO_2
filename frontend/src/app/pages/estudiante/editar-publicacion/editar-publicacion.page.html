@@ -4,19 +4,23 @@
 
     <header class="page-header">
 
-      <button
-        class="back-button"
-        type="button"
-        [routerLink]="['/detalle-consulta', idConsulta]"
-      >
-        ← Volver a la consulta
-      </button>
+      <div>
+        <button
+          class="back-button"
+          type="button"
+          [routerLink]="['/detalle-consulta', idConsulta]"
+        >
+          ← Volver a la consulta
+        </button>
 
-      <h1>Editar publicación</h1>
+        <h1>Editar publicación</h1>
 
-      <p>
-        Modifica el contenido de tu consulta.
-      </p>
+        <p>
+          Modifica el contenido de tu consulta.
+        </p>
+      </div>
+
+      <app-side-menu></app-side-menu>
 
     </header>
 

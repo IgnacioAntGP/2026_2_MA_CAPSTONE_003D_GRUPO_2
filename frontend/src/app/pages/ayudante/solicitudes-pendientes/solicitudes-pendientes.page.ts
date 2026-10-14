@@ -3,16 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SolicitudAyudantia } from '../../../models/ISolicitudAyudantia';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 import {
-  IonContent,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
-  IonNote,
-  IonBadge,
-  IonButton
+  IonContent
 } from '@ionic/angular';
 
 @Component({
@@ -23,13 +17,7 @@ import {
   imports: [
     CommonModule,
     IonContent,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
-    IonNote,
-    IonBadge,
-    IonButton
+    SideMenuComponent
   ],
 })
 

@@ -4,20 +4,23 @@
 
     <header class="page-header">
 
-      <button
-        class="back-button"
-        type="button"
-        [routerLink]="['/detalle-consulta', idConsulta]"
-      >
-        ← Volver a la consulta
-      </button>
+      <div>
+        <button
+          class="back-button"
+          type="button"
+          [routerLink]="['/detalle-consulta', idConsulta]"
+        >
+          ← Volver a la consulta
+        </button>
 
-      <h1>Solicitar ayudante</h1>
+        <h1>Solicitar ayudante</h1>
 
-      <p>
-        Solicita apoyo personalizado de un Ayudante.
-      </p>
+        <p>
+          Solicita apoyo personalizado de un Ayudante.
+        </p>
+      </div>
 
+      <app-side-menu></app-side-menu>
     </header>
 
     <main

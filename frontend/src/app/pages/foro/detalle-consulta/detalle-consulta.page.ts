@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { RouterLink, ActivatedRoute,Router } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 import { RespuestaConsulta } from '../../../models/IRespuesta';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-detalle-consulta',
@@ -17,7 +18,8 @@ import { RespuestaConsulta } from '../../../models/IRespuesta';
     IonContent,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
 ]
 })
 export class DetalleConsultaPage implements OnInit {
