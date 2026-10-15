@@ -5,13 +5,14 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-comunidad',
   templateUrl: './comunidad.page.html',
   styleUrls: ['./comunidad.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, RouterLink]
+  imports: [IonContent, CommonModule, FormsModule, RouterLink, SideMenuComponent]
 })
 export class ComunidadPage implements OnInit {
 

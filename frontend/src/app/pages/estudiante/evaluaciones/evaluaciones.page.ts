@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-evaluaciones',
   templateUrl: './evaluaciones.page.html',
   styleUrls: ['./evaluaciones.page.scss'],
   standalone:true,
-  imports: [IonContent, CommonModule, FormsModule, RouterLink]
+  imports: [IonContent, CommonModule, FormsModule, RouterLink, SideMenuComponent]
 })
 export class EvaluacionesPage implements OnInit {
 

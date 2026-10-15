@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-editar-publicacion',
@@ -21,7 +22,8 @@ import { Consulta } from '../../../models/IConsulta';
     IonContent,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
   ]
 })
 export class EditarPublicacionPage implements OnInit {

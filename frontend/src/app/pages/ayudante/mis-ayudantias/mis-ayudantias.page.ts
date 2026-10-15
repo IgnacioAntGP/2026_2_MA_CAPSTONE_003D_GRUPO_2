@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SolicitudAyudantia } from '../../../models/ISolicitudAyudantia';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 import {
   IonContent,
@@ -10,18 +11,8 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
-  IonNote,
-  IonItem,
-  IonAvatar,
-  IonLabel,
-  IonBadge,
-  IonButton,
-  IonList,
   IonModal,
+  IonButton
 } from '@ionic/angular';
 
 @Component({
@@ -38,17 +29,8 @@ import {
     IonToolbar,
     IonTitle,
     IonButtons,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
-    IonNote,
-    IonItem,
-    IonAvatar,
-    IonLabel,
-    IonBadge,
     IonButton,
-    IonList,
+    SideMenuComponent
   ],
 })
 export class MisAyudantiasPage implements OnInit {

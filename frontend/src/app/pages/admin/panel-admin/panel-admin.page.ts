@@ -16,6 +16,7 @@ import {
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-panel-admin',
@@ -25,7 +26,8 @@ import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
   imports: [
     IonContent,
     CommonModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
   ]
 })
 export class PanelAdminPage implements OnInit, OnDestroy {

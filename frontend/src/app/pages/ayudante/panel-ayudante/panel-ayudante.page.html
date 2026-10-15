@@ -4,15 +4,18 @@
 
       <!-- ENCABEZADO -->
       <header class="ayudante-welcome">
-        <span class="welcome-label">
-          Panel del ayudante
-        </span>
-        <h1>
-          Bienvenido, {{ usuarioAyudante.nombre }}
-        </h1>
-        <p>
-          Revisa solicitudes, gestiona tus ayudantías y participa en la comunidad de EntrePares aquí.
-        </p>
+        <div>
+          <span class="welcome-label">
+            Panel del ayudante
+          </span>
+          <h1>
+            Bienvenido, {{ usuarioAyudante.nombre }}
+          </h1>
+          <p>
+            Revisa solicitudes, gestiona tus ayudantías y participa en la comunidad de EntrePares aquí.
+          </p>
+        </div>
+        <app-side-menu></app-side-menu>
       </header>
 
       <!-- 1. PERFIL -->

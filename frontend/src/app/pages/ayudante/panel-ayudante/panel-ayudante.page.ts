@@ -21,6 +21,7 @@ import {
 import {
   PublicacionComunidad
 } from '../../../models/ISolicitudAyudantia';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-panel-ayudante',
@@ -32,6 +33,7 @@ import {
     FormsModule,
     RouterLink,
     IonContent,
+    SideMenuComponent,
   ],
 })
 export class PanelAyudantePage implements OnInit {

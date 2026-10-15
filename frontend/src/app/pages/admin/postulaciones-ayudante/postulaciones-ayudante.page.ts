@@ -19,6 +19,7 @@ import {
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
+import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
   selector: 'app-postulaciones-ayudante',
@@ -29,7 +30,8 @@ import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
     IonContent,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SideMenuComponent
   ]
 })
 export class PostulacionesAyudantePage implements OnInit, OnDestroy {
