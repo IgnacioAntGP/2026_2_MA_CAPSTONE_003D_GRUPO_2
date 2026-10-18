@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS solicitud_ayudantia (
     id_solicitud BIGINT GENERATED ALWAYS AS IDENTITY,
     id_consulta BIGINT NOT NULL,
     id_ayudante BIGINT, -- NULL al crearse; se llena cuando un ayudante la toma
+    id_categoria BIGINT NOT NULL,
     modalidad VARCHAR(50) NOT NULL DEFAULT 'PRESENCIAL', -- Presencial, Online, etc.
     fecha_solicitud TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     estado VARCHAR(30) NOT NULL DEFAULT 'PENDIENTE', -- PENDIENTE, ACEPTADA, RECHAZADA, CANCELADA
@@ -129,6 +130,8 @@ CREATE TABLE IF NOT EXISTS solicitud_ayudantia (
         REFERENCES consulta (id_consulta) ON DELETE CASCADE,
     CONSTRAINT fk_solicitud_ayudante FOREIGN KEY (id_ayudante) 
         REFERENCES ayudante (id_ayudante) ON DELETE SET NULL
+    CONSTRAINT fk_solicitud_categoria FOREIGN KEY (id_categoria)
+        REFERENCES categoria_solicitud (id_categoria) ON DELETE RESTRICT
 );
 
 -- 9. AYUDANTÍA CONCRETADA
@@ -159,11 +162,22 @@ CREATE TABLE IF NOT EXISTS evaluacion (
     CONSTRAINT chk_evaluacion_rango CHECK (valoracion BETWEEN 1 AND 5)
 );
 
+-- 11. CATEGORÍAS DE CONSULTA
+CREATE TABLE IF NOT EXISTS categoria_solicitud (
+    id_categoria BIGINT GENERATED ALWAYS AS IDENTITY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    es_activo BOOLEAN NOT NULL DEFAULT TRUE,
+    CONSTRAINT pk_categoria_solicitud PRIMARY KEY (id_categoria),
+    CONSTRAINT uq_categoria_solicitud_nombre UNIQUE (nombre)
+);
+
 -- ÍNDICES DE RENDIMIENTO
 CREATE INDEX IF NOT EXISTS idx_consulta_usuario ON consulta (id_usuario);
 CREATE INDEX IF NOT EXISTS idx_consulta_asignatura ON consulta (id_asignatura);
 CREATE INDEX IF NOT EXISTS idx_respuesta_consulta ON respuesta (id_consulta);
 CREATE INDEX IF NOT EXISTS idx_solicitud_consulta ON solicitud_ayudantia (id_consulta);
 CREATE INDEX IF NOT EXISTS idx_solicitud_ayudante ON solicitud_ayudantia (id_ayudante);
+CREATE INDEX IF NOT EXISTS idx_solicitud_categoria ON solicitud_ayudantia (id_categoria);
 
 COMMIT;

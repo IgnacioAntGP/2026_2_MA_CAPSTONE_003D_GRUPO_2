@@ -54,4 +54,9 @@ INSERT INTO respuesta (id_consulta, id_usuario, contenido) VALUES
 (1, 3, 'Si necesitas trabajar con el índice del elemento, entonces puede ser más conveniente utilizar un for tradicional.'),
 (1, 4, 'También puedes utilizar otras alternativas dependiendo de lo que quieras hacer con la lista. Lo importante es entender qué necesitas antes de elegir.');
 
+-- Categoría de solicitud de muestra
+INSERT INTO categoria_solicitud (nombre, descripcion) VALUES
+('Ayudantía General', 'Consultas transversales que cualquier ayudante puede aceptar')
+ON CONFLICT (nombre) DO NOTHING;
+
 COMMIT;

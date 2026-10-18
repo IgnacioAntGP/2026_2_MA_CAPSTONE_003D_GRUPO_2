@@ -10,3 +10,4 @@ SELECT * FROM respuesta;
 SELECT * FROM solicitud_ayudantia;
 SELECT * FROM ayudantia;
 SELECT * FROM evaluacion;
+SELECT * FROM categoria_solicitud;
