@@ -7,6 +7,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
+import { CategoriaSolicitud } from '../../../models/IFiltros'
 
 @Component({
   selector: 'app-solicitar-ayudante',
@@ -22,6 +23,35 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
 ]
 })
 export class SolicitarAyudantePage implements OnInit {
+
+  categoria: CategoriaSolicitud [] = [
+    {
+      id_categoria: 1n,
+      nombre: 'Ayudantía General',
+      descripcion: 'Consultas transversales que cualquier ayudante puede aceptar',
+      esActivo: true,
+    },
+    {
+      id_categoria: 2n,
+      nombre: 'Ayudantía Especializada',
+      descripcion: 'Ayudantía enfocada en la especialidad',
+      esActivo: true,
+    },
+    {
+      id_categoria: 3n,
+      nombre: 'Ayudantía Teórica',
+      descripcion: 'Consultas teóricas de la asignatura o duda',
+      esActivo: true,
+    },
+    {
+      id_categoria: 4n,
+      nombre: 'Ayudantía Desactivada',
+      descripcion: 'Prueba de manejo de valores inactivos',
+      esActivo: false,
+    },
+  ]
+
+  idCategoriaSeleccionada: string = '';
 
   idConsulta!: number;
   consulta?: Consulta;

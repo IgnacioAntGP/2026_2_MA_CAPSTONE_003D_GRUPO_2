@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+  <ion-content [fullscreen]="true">
 
   <div class="page-container">
 
@@ -91,6 +91,18 @@
               </option>
 
             </select>
+
+            <div style="padding-top: 1rem;">
+              <label for="categoria">Categoría de mi Solicitud</label>
+              <select id="categoria" name="categoria" [(ngModel)]="idCategoriaSeleccionada">
+              <option [value]="''" disabled selected>Seleccione una categoria</option>
+              @for (item of categoria; track item.id_categoria) {
+                @if (item.esActivo == true){
+                  <option [value]=item.id_categoria>{{item.nombre}}</option>
+                }
+              }
+              </select>
+            </div>
 
           </div>
 
