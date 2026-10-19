@@ -2,11 +2,6 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
-  {
     path: 'login',
     loadComponent: () =>
       import('./pages/public/login/login.page')
@@ -121,7 +116,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/admin/postulaciones-ayudante/postulaciones-ayudante.page').then( m => m.PostulacionesAyudantePage)
   },
   {
+    path: 'categoria-solicitudes',
+    loadComponent: () => import('./pages/admin/categoria-solicitudes/categoria-solicitudes.page').then( m => m.CategoriaSolicitudesPage)
+  },
+  {
     path: '**',
     redirectTo: 'login',
-  }
+  },
+    {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
 ];
