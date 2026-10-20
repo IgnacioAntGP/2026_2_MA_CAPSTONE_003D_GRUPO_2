@@ -1,5 +1,9 @@
-const { crearCategoria } = require('../adapters/categoria.adapter');
+const {
+  crearCategoria,
+  obtenerCategoriasActivas
+} = require('../adapters/categoria.adapter');
 
+// Crea una nueva categoría.
 async function crearCategoriaController(req, res) {
   try {
     const { nombre, descripcion } = req.body;
@@ -28,6 +32,22 @@ async function crearCategoriaController(req, res) {
   }
 }
 
+// Obtiene las categorías activas.
+async function obtenerCategoriasActivasController(req, res) {
+  try {
+    const categorias = await obtenerCategoriasActivas();
+
+    return res.status(200).json(categorias);
+  } catch (error) {
+    console.error('Error al obtener categorías activas:', error);
+
+    return res.status(500).json({
+      error: 'No fue posible obtener las categorías activas.'
+    });
+  }
+}
+
 module.exports = {
-  crearCategoriaController
+  crearCategoriaController,
+  obtenerCategoriasActivasController
 };

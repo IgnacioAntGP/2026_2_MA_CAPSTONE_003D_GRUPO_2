@@ -2,11 +2,12 @@ const supabase = require('../config/supabase');
 
 class SolicitudAdapter {
   // 7. Solicitar ayudantía
-  async crearSolicitud({ id_consulta, modalidad, motivo }) {
+  async crearSolicitud({ id_consulta, id_categoria, modalidad, motivo }) {
     const { data, error } = await supabase
       .from('solicitud_ayudantia')
       .insert([{
         id_consulta,
+        id_categoria,
         modalidad,
         motivo,
         estado: 'PENDIENTE'

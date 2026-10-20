@@ -1,18 +1,37 @@
 const solicitudAdapter = require('../adapters/solicitud.adapter');
+const { obtenerCategoriaActivaPorId } = require('../adapters/categoria.adapter');
 
 class SolicitudController {
   async crear(req, res) {
-    const { id_consulta, modalidad, motivo } = req.body;
+    const { id_consulta, id_categoria, modalidad, motivo } = req.body;
 
-    if (!id_consulta || !modalidad || !motivo) {
-      return res.status(400).json({ error: 'Consulta, modalidad y motivo son obligatorios.' });
+    if (!id_consulta || !id_categoria || !modalidad || !motivo) {
+      return res.status(400).json({
+        error: 'Consulta, categoría, modalidad y motivo son obligatorios.'
+      });
     }
 
     try {
-      const data = await solicitudAdapter.crearSolicitud({ id_consulta, modalidad, motivo });
+      const categoria = await obtenerCategoriaActivaPorId(id_categoria);
+
+      if (!categoria) {
+        return res.status(400).json({
+          error: 'La categoría seleccionada no existe o no está activa.'
+        });
+      }
+
+      const data = await solicitudAdapter.crearSolicitud({
+        id_consulta,
+        id_categoria,
+        modalidad,
+        motivo
+      });
+
       return res.status(201).json(data);
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({
+        error: err.message
+      });
     }
   }
 
