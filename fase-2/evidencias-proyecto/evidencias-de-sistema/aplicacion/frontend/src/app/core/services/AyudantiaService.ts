@@ -25,7 +25,7 @@ export class AyudantiaService {
         total_respuestas: i.total_respuestas
       })))
     );
-  }
+  };
 
   // 2. Obtener solicitudes pendientes (disponibles para tomar) - GET /api/solicitudes-ayudantia/disponibles
   obtenerSolicitudesDisponibles(): Observable<SolicitudAyudantia[]> {
@@ -40,10 +40,16 @@ export class AyudantiaService {
         descripcion: s.descripcion_duda || s.motivo,
         estado: s.estado || 'PENDIENTE',
         nombre_estudiante: s.estudiante,
-        estudiante: s.estudiante
+        estudiante: s.estudiante,
+        id_categoria: s.id_categoria,
+        categoria_nombre: s.categoria?.nombre || s.categoria_nombre
       })))
     );
-  }
+  };
+
+  obtenerCategorias(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/categorias-solicitud`);
+  };
 
   // 3. Obtener "Mis Ayudantías" del usuario conectado
   obtenerMisAyudantias(idUsuario: number): Observable<SolicitudAyudantia[]> {
@@ -61,7 +67,7 @@ export class AyudantiaService {
         estudiante: s.estudiante
       })))
     );
-  }
+  };
 
   /**
    * Obtiene solicitudes filtradas por estado
@@ -72,7 +78,7 @@ export class AyudantiaService {
       params = params.set('estado', estado);
     }
     return this.http.get<SolicitudAyudantia[]>(this.apiUrl, { params });
-  }
+  };
 
   /**
    * Aceptar solicitud de ayudantía: PENDIENTE -> EN_PROCESO (Al presionar "Aceptar Ayudantía")
@@ -81,26 +87,26 @@ export class AyudantiaService {
     return this.http.patch<SolicitudAyudantia>(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/tomar`, {
         id_usuario: idUsuario
     });
-  }
+  };
 
   /**
    * Estudiante confirma al ayudante: EN_PROCESO -> ACEPTADA
    */
   confirmarAyudante(idSolicitud: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/aceptar`, {});
-  }
+  };
 
   /**
    * Estudiante rechaza al ayudante: EN_PROCESO -> PENDIENTE (id_ayudante vuelve a null)
    */
   rechazarAyudante(idSolicitud: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/rechazar-ayudante`, {});
-  }
+  };
 
   /**
    * Finalizar solicitud (ACEPTADA -> RESUELTA)
    */
   resolverSolicitud(idSolicitud: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/resolver`, {});
-  }
+  };
 }

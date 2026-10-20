@@ -11,6 +11,8 @@ export interface SolicitudAyudantia {
   estudiante?: string;         // Alias para compatibilidad directa con el HTML
   id_consulta?: number;
   id_ayudante?: number | null;
+  id_categoria?: number | bigint;
+  categoria_nombre?: string; // por ahora opcional, pero es para que el backend nos mande el nombre
 }
 
 export interface PublicacionComunidad{

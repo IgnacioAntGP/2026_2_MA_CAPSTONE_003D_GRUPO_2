@@ -19,6 +19,23 @@
       <!-- CUERPO PRINCIPAL CON TARJETAS -->
       <main class="consultas">
 
+        <!-- BARRA DE FILTRO POR CATEGORÍA -->
+      <section class="filtro-categoria-bar">
+        <label for="filtroCat">Filtrar por categoría:</label>
+        <select 
+          id="filtroCat" 
+          [(ngModel)]="categoriaSeleccionada" 
+          (change)="filtrarPorCategoria()"
+        >
+          <option value="todas">Todas las categorías</option>
+          @for (cat of categorias; track cat.id_categoria) {
+            <option [value]="cat.id_categoria">
+              {{ cat.nombre }}
+            </option>
+          }
+        </select>
+      </section>
+
         <!-- ESTADO VACÍO -->
         <div *ngIf="solicitudesDisponibles.length === 0" class="empty-state">
           <p>No hay solicitudes pendientes en este momento.</p>
