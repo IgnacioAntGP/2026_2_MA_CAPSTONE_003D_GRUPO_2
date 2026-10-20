@@ -1,23 +1,43 @@
 const solicitudAdapter = require('../adapters/solicitud.adapter');
+const { obtenerCategoriaActivaPorId } = require('../adapters/categoria.adapter');
 
 class SolicitudController {
   async crear(req, res) {
-    const { id_consulta, modalidad, motivo } = req.body;
+    const { id_consulta, id_categoria, modalidad, motivo } = req.body;
 
-    if (!id_consulta || !modalidad || !motivo) {
-      return res.status(400).json({ error: 'Consulta, modalidad y motivo son obligatorios.' });
+    if (!id_consulta || !id_categoria || !modalidad || !motivo) {
+      return res.status(400).json({
+        error: 'Consulta, categoría, modalidad y motivo son obligatorios.'
+      });
     }
 
     try {
-      const data = await solicitudAdapter.crearSolicitud({ id_consulta, modalidad, motivo });
+      const categoria = await obtenerCategoriaActivaPorId(id_categoria);
+
+      if (!categoria) {
+        return res.status(400).json({
+          error: 'La categoría seleccionada no existe o no está activa.'
+        });
+      }
+
+      const data = await solicitudAdapter.crearSolicitud({
+        id_consulta,
+        id_categoria,
+        modalidad,
+        motivo
+      });
+
       return res.status(201).json(data);
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({
+        error: err.message
+      });
     }
   }
 
   async listarPorEstudiante(req, res) {
     const { id_usuario } = req.params;
+
     try {
       const data = await solicitudAdapter.obtenerPorEstudiante(id_usuario);
       return res.status(200).json(data);
@@ -27,8 +47,24 @@ class SolicitudController {
   }
 
   async listarDisponibles(req, res) {
+    const { id_categoria } = req.query;
+
+    if (!id_categoria) {
+      return res.status(400).json({
+        error: 'La categoría es obligatoria.'
+      });
+    }
+
     try {
-      const data = await solicitudAdapter.obtenerDisponibles();
+      const categoria = await obtenerCategoriaActivaPorId(id_categoria);
+
+      if (!categoria) {
+        return res.status(400).json({
+          error: 'La categoría seleccionada no existe o no está activa.'
+        });
+      }
+
+      const data = await solicitudAdapter.obtenerDisponibles(id_categoria);
       return res.status(200).json(data);
     } catch (err) {
       return res.status(500).json({ error: err.message });
@@ -44,20 +80,31 @@ class SolicitudController {
 
       if (!ayudanteId && id_usuario) {
         const perfil = await solicitudAdapter.obtenerAyudantePorUsuario(id_usuario);
+
         if (!perfil) {
-          return res.status(404).json({ error: 'No se encontró un perfil de ayudante asociado al usuario proporcionado.' });
+          return res.status(404).json({
+            error: 'No se encontró un perfil de ayudante asociado al usuario proporcionado.'
+          });
         }
+
         ayudanteId = perfil.id_ayudante;
       }
 
       if (!ayudanteId) {
-        return res.status(400).json({ error: 'El ID del Ayudante o el ID del Usuario es obligatorio.' });
+        return res.status(400).json({
+          error: 'El ID del Ayudante o el ID del Usuario es obligatorio.'
+        });
       }
 
-      const data = await solicitudAdapter.tomarSolicitud(id_solicitud, ayudanteId);
+      const data = await solicitudAdapter.tomarSolicitud(
+        id_solicitud,
+        ayudanteId
+      );
 
       if (!data) {
-        return res.status(409).json({ error: 'La solicitud ya fue tomada o ya no se encuentra disponible.' });
+        return res.status(409).json({
+          error: 'La solicitud ya fue tomada o ya no se encuentra disponible.'
+        });
       }
 
       return res.status(200).json({
@@ -71,11 +118,14 @@ class SolicitudController {
 
   async aceptar(req, res) {
     const { id_solicitud } = req.params;
+
     try {
       const resultado = await solicitudAdapter.aceptarAyudante(id_solicitud);
 
       if (resultado.noDisponible) {
-        return res.status(409).json({ error: 'La solicitud no está disponible para ser aceptada.' });
+        return res.status(409).json({
+          error: 'La solicitud no está disponible para ser aceptada.'
+        });
       }
 
       return res.status(200).json({
@@ -90,11 +140,14 @@ class SolicitudController {
 
   async rechazar(req, res) {
     const { id_solicitud } = req.params;
+
     try {
       const data = await solicitudAdapter.rechazarAyudante(id_solicitud);
 
       if (!data) {
-        return res.status(409).json({ error: 'La solicitud no se encuentra esperando confirmación de un ayudante.' });
+        return res.status(409).json({
+          error: 'La solicitud no se encuentra esperando confirmación de un ayudante.'
+        });
       }
 
       return res.status(200).json({
@@ -108,15 +161,20 @@ class SolicitudController {
 
   async resolver(req, res) {
     const { id_solicitud } = req.params;
+
     try {
       const resultado = await solicitudAdapter.resolverAyudantia(id_solicitud);
 
       if (resultado.noAceptada) {
-        return res.status(409).json({ error: 'La solicitud no se encuentra en estado ACEPTADA.' });
+        return res.status(409).json({
+          error: 'La solicitud no se encuentra en estado ACEPTADA.'
+        });
       }
 
       if (resultado.noActiva) {
-        return res.status(409).json({ error: 'No existe una ayudantía activa asociada a esta solicitud.' });
+        return res.status(409).json({
+          error: 'No existe una ayudantía activa asociada a esta solicitud.'
+        });
       }
 
       return res.status(200).json({
@@ -131,6 +189,7 @@ class SolicitudController {
 
   async listarPorAyudante(req, res) {
     const { id_usuario } = req.params;
+
     try {
       const data = await solicitudAdapter.obtenerPorAyudante(id_usuario);
       return res.status(200).json(data);
