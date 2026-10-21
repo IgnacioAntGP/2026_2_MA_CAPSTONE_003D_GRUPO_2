@@ -25,12 +25,23 @@ export class AyudantiaService {
         total_respuestas: i.total_respuestas
       })))
     );
-  }
+  };
 
   // 2. Obtener solicitudes pendientes (disponibles para tomar) - GET /api/solicitudes-ayudantia/disponibles
-  obtenerSolicitudesDisponibles(): Observable<SolicitudAyudantia[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/solicitudes-ayudantia/disponibles`).pipe(
-      map(items => items.map(s => ({
+  obtenerSolicitudesDisponibles(idCategoria?: string): Observable<SolicitudAyudantia[]> {
+    let params = new HttpParams();
+    if (
+        idCategoria && 
+        idCategoria !== 'todas' && 
+        idCategoria !== 'null' && 
+        idCategoria !== 'undefined' &&
+        idCategoria.trim() !== ''
+      ) {
+        params = params.set('id_categoria', idCategoria);
+    }
+
+    return this.http.get<any[]>(`${this.apiUrl}/solicitudes-ayudantia/disponibles`, { params }).pipe(
+      map(items => (items || []).map(s => ({
         id_solicitud: s.id_solicitud,
         asignatura: s.asignatura,
         modalidad: s.modalidad,
@@ -40,10 +51,16 @@ export class AyudantiaService {
         descripcion: s.descripcion_duda || s.motivo,
         estado: s.estado || 'PENDIENTE',
         nombre_estudiante: s.estudiante,
-        estudiante: s.estudiante
+        estudiante: s.estudiante,
+        id_categoria: s.id_categoria,
+        categoria_nombre: s.categoria_solicitud?.nombre || s.categoria?.nombre || s.categoria_nombre || 'General'
       })))
     );
-  }
+  };
+
+  obtenerCategorias(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/categorias-solicitud`);
+  };
 
   // 3. Obtener "Mis Ayudantías" del usuario conectado
   obtenerMisAyudantias(idUsuario: number): Observable<SolicitudAyudantia[]> {
@@ -58,10 +75,15 @@ export class AyudantiaService {
         descripcion: s.descripcion_duda,
         estado: s.estado,
         nombre_estudiante: s.estudiante,
-        estudiante: s.estudiante
+        estudiante: s.estudiante,
+        categoria_nombre: 
+          s.categoria_nombre || 
+          s.categoria_solicitud?.nombre || 
+          s.categoria?.nombre || 
+          (Array.isArray(s.categoria_solicitud) ? s.categoria_solicitud[0]?.nombre : null)
       })))
     );
-  }
+  };
 
   /**
    * Obtiene solicitudes filtradas por estado
@@ -72,7 +94,7 @@ export class AyudantiaService {
       params = params.set('estado', estado);
     }
     return this.http.get<SolicitudAyudantia[]>(this.apiUrl, { params });
-  }
+  };
 
   /**
    * Aceptar solicitud de ayudantía: PENDIENTE -> EN_PROCESO (Al presionar "Aceptar Ayudantía")
@@ -81,26 +103,26 @@ export class AyudantiaService {
     return this.http.patch<SolicitudAyudantia>(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/tomar`, {
         id_usuario: idUsuario
     });
-  }
+  };
 
   /**
    * Estudiante confirma al ayudante: EN_PROCESO -> ACEPTADA
    */
   confirmarAyudante(idSolicitud: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/aceptar`, {});
-  }
+  };
 
   /**
    * Estudiante rechaza al ayudante: EN_PROCESO -> PENDIENTE (id_ayudante vuelve a null)
    */
   rechazarAyudante(idSolicitud: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/rechazar-ayudante`, {});
-  }
+  };
 
   /**
    * Finalizar solicitud (ACEPTADA -> RESUELTA)
    */
   resolverSolicitud(idSolicitud: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/resolver`, {});
-  }
+  };
 }

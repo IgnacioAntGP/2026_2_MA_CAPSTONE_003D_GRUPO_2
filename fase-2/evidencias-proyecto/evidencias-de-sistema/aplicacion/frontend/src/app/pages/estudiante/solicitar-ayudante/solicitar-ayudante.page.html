@@ -1,145 +1,88 @@
 <ion-content [fullscreen]="true">
-
   <div class="page-container">
-
     <header class="page-header">
-
       <div>
-        <button
-          class="back-button"
-          type="button"
-          [routerLink]="['/detalle-consulta', idConsulta]"
-        >
+        <button class="back-button" type="button" [routerLink]="['/detalle-consulta', idConsulta]">
           ← Volver a la consulta
         </button>
 
         <h1>Solicitar ayudante</h1>
 
-        <p>
-          Solicita apoyo personalizado de un Ayudante.
-        </p>
+        <p>Solicita apoyo personalizado de un Ayudante.</p>
       </div>
 
       <app-side-menu></app-side-menu>
     </header>
+    @if (consulta){
+    <main class="page-content">
+        <section class="consulta-resumen">
+          <span class="asignatura"> {{ consulta.asignatura }} </span>
 
-    <main
-      class="page-content"
-      *ngIf="consulta"
-    >
-
-      <section class="consulta-resumen">
-
-        <span class="asignatura">
-          {{ consulta.asignatura }}
-        </span>
-
-        <h2>
-          {{ consulta.titulo }}
-        </h2>
-
-        <p>
-          Esta solicitud de ayudante estará asociada a la consulta que publicaste
-          en la comunidad.
-        </p>
-
-      </section>
-
-      <section class="page-card">
-
-        <div *ngIf="!solicitudEnviada">
-
-          <div class="form-group">
-
-            <label for="motivo">
-              ¿Qué necesitas reforzar?
-            </label>
-
-            <textarea
-              id="motivo"
-              rows="6"
-              [(ngModel)]="motivo"
-              placeholder="Cuéntale al ayudante qué parte necesitas comprender mejor..."
-            ></textarea>
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="modalidad">
-              Modalidad preferida
-            </label>
-
-            <select
-              id="modalidad"
-              [(ngModel)]="modalidad"
-            >
-
-              <option
-                value=""
-                disabled
-              >
-                Selecciona una modalidad
-              </option>
-
-              <option value="ONLINE">
-                Online
-              </option>
-
-              <option value="PRESENCIAL">
-                Presencial
-              </option>
-
-            </select>
-
-          </div>
-
-          <div class="form-actions">
-
-            <button
-              class="secondary-button"
-              type="button"
-              [routerLink]="['/detalle-consulta', idConsulta]"
-            >
-              Cancelar
-            </button>
-
-            <button
-              class="primary-button"
-              type="button"
-              (click)="solicitarTutoria()"
-            >
-              Solicitar ayudante
-            </button>
-
-          </div>
-
-        </div>
-
-        <div
-          class="solicitud-confirmacion"
-          *ngIf="solicitudEnviada"
-        >
-
-          <div class="confirmacion-icono">
-            ✓
-          </div>
-
-          <h2>
-            Solicitud enviada correctamente
-          </h2>
+          <h2>{{ consulta.titulo }}</h2>
 
           <p>
-            Tu solicitud de ayudante quedó pendiente de asignación.
-            Podrás revisar su estado desde Mis tutorías.
+            Esta solicitud de ayudante estará asociada a la consulta que
+            publicaste en la comunidad.
           </p>
+        </section>
 
-        </div>
+        <section class="page-card">
+          @if(!solicitudEnviada){
+            <div class="form-group">
+              <label for="motivo"> ¿Qué necesitas reforzar? </label>
 
-      </section>
+              <textarea id="motivo" rows="6" [(ngModel)]="motivo"
+                placeholder="Cuéntale al ayudante qué parte necesitas comprender mejor..."></textarea>
+            </div>
 
+            <div class="form-group">
+              <label for="modalidad"> Modalidad preferida </label>
+
+              <select id="modalidad" [(ngModel)]="modalidad">
+                <option value="" disabled>Selecciona una modalidad</option>
+
+                <option value="ONLINE">Online</option>
+
+                <option value="PRESENCIAL">Presencial</option>
+              </select>
+
+              <div style="padding-top: 1rem">
+                <label for="categoria">Categoría de mi Solicitud</label>
+                <select id="categoria" name="categoria" [(ngModel)]="idCategoriaSeleccionada">
+                  <option [value]="" disabled selected>
+                    Seleccione una categoria
+                  </option>
+                  @for (item of categoria; track item.id_categoria) { @if
+                  (item.esActivo == true){
+                  <option [value]="item.id_categoria">{{item.nombre}}</option>
+                  } }
+                </select>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="secondary-button" type="button" [routerLink]="['/detalle-consulta', idConsulta]">
+                Cancelar
+              </button>
+
+              <button class="primary-button" type="button" (click)="solicitarAyudantia()">
+                Solicitar ayudante
+              </button>
+            </div>
+          }
+
+          <div class="solicitud-confirmacion" *ngIf="solicitudEnviada">
+            <div class="confirmacion-icono">✓</div>
+
+            <h2>Solicitud enviada correctamente</h2>
+
+            <p>
+              Tu solicitud de ayudante quedó pendiente de asignación. Podrás
+              revisar su estado desde Mis tutorías.
+            </p>
+          </div>
+        </section>
     </main>
-
+    }
   </div>
-
 </ion-content>

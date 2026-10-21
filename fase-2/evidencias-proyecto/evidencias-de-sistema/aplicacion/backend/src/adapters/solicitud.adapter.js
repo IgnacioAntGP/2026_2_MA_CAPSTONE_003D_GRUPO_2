@@ -71,8 +71,8 @@ class SolicitudAdapter {
   }
 
   // 11. Vista Ayudante - Solicitudes Disponibles: Obtener solicitudes sin ayudante asignado
-  async obtenerDisponibles(id_categoria) {
-    const { data, error } = await supabase
+  async obtenerDisponibles(id_categoria = null) {
+    let selectSolicitudes = supabase
       .from('solicitud_ayudantia')
       .select(`
         id_solicitud,
@@ -94,27 +94,36 @@ class SolicitudAdapter {
         )
       `)
       .eq('estado', 'PENDIENTE')
-      .is('id_ayudante', null)
-      .eq('id_categoria', id_categoria)
-      .order('fecha_solicitud', { ascending: true });
+      .is('id_ayudante', null);
+
+    const Cat = Number(id_categoria);
+      if (
+        id_categoria &&
+        id_categoria !== 'todas' &&
+        id_categoria !== 'null' &&
+        id_categoria !== 'undefined' &&
+        !isNaN(Cat)
+      ) {
+        selectSolicitudes = selectSolicitudes.eq('id_categoria', Cat);
+      }
+
+    const { data, error } = await selectSolicitudes.order('fecha_solicitud', { ascending: true });
 
     if (error) throw error;
 
-    return data.map((item) => ({
+    return (data || []).map((item) => ({
       id_solicitud: item.id_solicitud,
       id_consulta: item.id_consulta,
       id_categoria: item.id_categoria,
-      categoria: item.categoria_solicitud?.nombre || null,
-      asignatura: item.consulta?.asignatura?.nombre || null,
+      categoria_nombre: item.categoria_solicitud?.nombre || 'General',
+      asignatura: item.consulta?.asignatura?.nombre || 'General',
       modalidad: item.modalidad,
       titulo_duda: item.consulta?.titulo || null,
-      titulo: item.consulta?.titulo || null,
-      descripcion_duda: item.consulta?.descripcion || null,
-      motivo: item.consulta?.descripcion || null,
+      descripcion_duda: item.motivo || item.consulta?.descripcion || null,
       estado: item.estado || 'PENDIENTE',
-      estudiante: item.consulta?.usuario
-        ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
-        : null,
+      estudiante: item.consulta?.usuario 
+        ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim() 
+        : 'Estudiante',
       fecha_solicitud: item.fecha_solicitud
     }));
   }
