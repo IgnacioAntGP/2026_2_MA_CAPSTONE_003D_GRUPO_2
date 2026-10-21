@@ -12,7 +12,7 @@ export interface SolicitudAyudantia {
   id_consulta?: number;
   id_ayudante?: number | null;
   id_categoria?: number | bigint;
-  categoria_nombre?: string; // por ahora opcional, pero es para que el backend nos mande el nombre
+  categoria_nombre: string;
 }
 
 export interface PublicacionComunidad{

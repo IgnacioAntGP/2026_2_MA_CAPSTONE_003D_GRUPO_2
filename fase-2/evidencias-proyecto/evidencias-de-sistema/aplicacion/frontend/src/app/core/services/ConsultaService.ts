@@ -105,7 +105,6 @@ export class TicketService {
       {}
     );
   }
-  
 
   postularComoAyudante(idUsuario: number, motivo: string, experiencia: string): Observable<any> {
     return this.http.post<any>(

@@ -47,34 +47,28 @@ export class SolicitudesPendientesPage implements OnInit {
     this.cargarSolicitudes();
     this.cargarCategorias();
   }
-
-  ionViewWillEnter() {
-    this.cargarSolicitudes();
-    this.cargarCategorias();
-  }
-
-  cargarCategorias() {
-  // Mock temporal para probar la UI mientras tu compañero hace el back:
-  this.categorias = [
-    { id_categoria: 1, nombre: 'Ayudantía General', es_activo: true },
-    { id_categoria: 2, nombre: 'Revisión de Código / Proyecto', es_activo: true },
-    { id_categoria: 3, nombre: 'Preparación de Exámenes', es_activo: true }
-  ];
-  this.cdr.markForCheck();
-}
-
-  /*TODO: Descomentar cuando se expongan los edpoints 
+ 
   cargarCategorias() {
     this.ayudantiaService.obtenerCategorias().subscribe({
       next: (data) => {
-        // Solo mostramos categorías activas
         this.categorias = (data || []).filter(c => c.es_activo === true || c.esActivo === true);
         this.cdr.markForCheck();
       },
-      error: (e) => console.error('Error al cargar categorías en filtro:', e)
+      error: (e) => console.error('Error al cargar categorías:', e)
     });
   }
-    */
+
+  cargarSolicitudes() {
+    this.ayudantiaService.obtenerSolicitudesDisponibles().subscribe({
+      next: (data) => {
+        console.log("Arreglo que llega de las solicitudes", data)
+        this.todasLasSolicitudes = Array.isArray(data) ? [...data] : (data ? [data] : []);
+        this.filtrarPorCategoria(); // Aplica el filtro inicial
+        this.cdr.markForCheck();
+      },
+      error: (e) => console.error('Error cargando solicitudes:', e)
+    });
+  }
 
   filtrarPorCategoria() {
     if (this.categoriaSeleccionada === 'todas') {
@@ -85,17 +79,6 @@ export class SolicitudesPendientesPage implements OnInit {
       );
     }
     this.cdr.markForCheck();
-  }
-
-  cargarSolicitudes() {
-    this.ayudantiaService.obtenerSolicitudesDisponibles().subscribe({
-      next: (data) => {
-        console.log('Payload recibido en solicitudes-pendientes:', data);
-        this.solicitudesDisponibles = data;
-        this.cdr.markForCheck();
-      },
-      error: (e) => console.error('Error disponibles:', e),
-    });
   }
 
   aceptarSolicitud(solicitud: SolicitudAyudantia) {

@@ -28,9 +28,20 @@ export class AyudantiaService {
   };
 
   // 2. Obtener solicitudes pendientes (disponibles para tomar) - GET /api/solicitudes-ayudantia/disponibles
-  obtenerSolicitudesDisponibles(): Observable<SolicitudAyudantia[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/solicitudes-ayudantia/disponibles`).pipe(
-      map(items => items.map(s => ({
+  obtenerSolicitudesDisponibles(idCategoria?: string): Observable<SolicitudAyudantia[]> {
+    let params = new HttpParams();
+    if (
+        idCategoria && 
+        idCategoria !== 'todas' && 
+        idCategoria !== 'null' && 
+        idCategoria !== 'undefined' &&
+        idCategoria.trim() !== ''
+      ) {
+        params = params.set('id_categoria', idCategoria);
+    }
+
+    return this.http.get<any[]>(`${this.apiUrl}/solicitudes-ayudantia/disponibles`, { params }).pipe(
+      map(items => (items || []).map(s => ({
         id_solicitud: s.id_solicitud,
         asignatura: s.asignatura,
         modalidad: s.modalidad,
@@ -42,7 +53,7 @@ export class AyudantiaService {
         nombre_estudiante: s.estudiante,
         estudiante: s.estudiante,
         id_categoria: s.id_categoria,
-        categoria_nombre: s.categoria?.nombre || s.categoria_nombre
+        categoria_nombre: s.categoria_solicitud?.nombre || s.categoria?.nombre || s.categoria_nombre || 'General'
       })))
     );
   };
@@ -64,7 +75,12 @@ export class AyudantiaService {
         descripcion: s.descripcion_duda,
         estado: s.estado,
         nombre_estudiante: s.estudiante,
-        estudiante: s.estudiante
+        estudiante: s.estudiante,
+        categoria_nombre: 
+          s.categoria_nombre || 
+          s.categoria_solicitud?.nombre || 
+          s.categoria?.nombre || 
+          (Array.isArray(s.categoria_solicitud) ? s.categoria_solicitud[0]?.nombre : null)
       })))
     );
   };
