@@ -8,4 +8,5 @@ export interface CategoriaSolicitud{
 export interface NuevaCategoriaSolicitud{
     nombre: string;
     descripcion: string;
+    esActivo?: boolean;
 };

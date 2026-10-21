@@ -25,14 +25,26 @@
     <main class="page-content page-wide">
       <!-- toolbar de la tabla -->
       <div class="tabla-toolbar">
-        <button
-          class="primary-button"
-          type="button"
-          (click)="crearNuevaCategoria()"
-        >
+        <div class="botones-filtros">
+          <button class="secondary-button" type="button" 
+          [class.active]="filtroEstado === 'todos'"
+          (click)="filtrarPorEstado('todos')"
+          >Todos</button>
+          <button class="secondary-button" type="button" 
+          [class.active]="filtroEstado === 'activas'"
+          (click)="filtrarPorEstado('activas')"
+          >Activas</button>
+          <button class="secondary-button" type="button" 
+          [class.active]="filtroEstado === 'inactivas'"
+          (click)="filtrarPorEstado('inactivas')"
+          >Inactivas</button>
+        </div>
+        <div class="botones-acciones">
+          <button class="primary-button" type="button" (click)="crearNuevaCategoria()">
           <ion-icon name="add-outline"></ion-icon>
           Nueva Categoría
         </button>
+        </div>
       </div>
 
       <!-- Contenedor de la tabla-->
@@ -48,7 +60,7 @@
               <ion-col size="2" size-md="2" class="ion-text-end"><strong>Acciones</strong></ion-col>
             </ion-row>
             <!-- Datos de la Tabla -->
-            @for (i of categoriasSolicitud; track i.id_categoria) {
+            @for (i of categoriasVisibles; track i.id_categoria) {
             <ion-row class="tabla-fila ion-align-items-center">
               <ion-col size="4" size-md="3" class="col-destacado">{{i.nombre}}</ion-col>
               <ion-col size="4" size-md="5" class="col-descripcion">{{i.descripcion}}</ion-col>
@@ -95,4 +107,61 @@
       &copy; EntrePares 2026 - Construido en Ionic/Angular
     </footer>
   </div>
+
+    <!-- MODAL DE CREACIÓN / EDICIÓN -->
+  <ion-modal [isOpen]="isModalOpen" (willDismiss)="cerrarModal()">
+    <ng-template>
+      <div class="modal-card-admin">
+        <header class="modal-header">
+          <h2>Nueva Categoría</h2>
+          <button type="button" class="btn-close" (click)="cerrarModal()">✕</button>
+        </header>
+
+        <form (ngSubmit)="guardarCategoria()" class="modal-form">
+          <!-- Nombre -->
+          <div class="form-group">
+            <label for="cat-nombre">Nombre de la Categoría *</label>
+            <input
+              id="cat-nombre"
+              type="text"
+              maxlength="60"
+              placeholder="Ej: Programación Avanzada"
+              [(ngModel)]="nuevaCategoria.nombre"
+              name="nombre"
+              required
+            />
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group">
+            <label for="cat-desc">Descripción *</label>
+            <textarea
+              id="cat-desc"
+              rows="3"
+              maxlength="250"
+              placeholder="Describe el alcance de este filtro para los estudiantes..."
+              [(ngModel)]="nuevaCategoria.descripcion"
+              name="descripcion"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Acciones del Modal -->
+          <footer class="modal-actions">
+            <button type="button" class="secondary-button" (click)="cerrarModal()">
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="primary-button"
+              (click)="guardarCategoria()"
+              [disabled]="!nuevaCategoria.nombre.trim() || !nuevaCategoria.descripcion.trim()"
+            >
+              Guardar Categoría
+            </button>
+          </footer>
+        </form>
+      </div>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -1,40 +1,84 @@
-import { CategoriaSolicitud } from './../../../models/IFiltros';
-import { Component, OnInit } from '@angular/core';
+import { CategoriaSolicitud, NuevaCategoriaSolicitud } from './../../../models/IFiltros';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 import { RouterLink } from '@angular/router';
 import { addIcons,  } from 'ionicons';
-import { trashOutline, createOutline, checkmarkOutline, addOutline  } from 'ionicons/icons';
-import { IonContent, IonGrid, IonRow, IonCol, IonNote, IonButton, IonIcon, IonBadge } from '@ionic/angular';
+import { trashOutline, createOutline, checkmarkOutline, addOutline, refreshOutline  } from 'ionicons/icons';
+import { IonContent, IonGrid, IonRow, IonCol, IonNote, IonButton, IonIcon, IonBadge, IonModal } from '@ionic/angular';
+import { AdministracionService } from '../../../core/services/AdministracionService';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-categoria-solicitudes',
   templateUrl: './categoria-solicitudes.page.html',
   styleUrls: ['./categoria-solicitudes.page.scss'],
-  imports: [IonContent, IonGrid, IonRow, IonCol, IonNote, IonIcon, IonButton, IonBadge, CommonModule, FormsModule, SideMenuComponent, RouterLink,]
+  standalone: true,
+  imports: [IonContent, IonGrid, IonRow, IonCol, IonNote, IonIcon, IonButton, 
+    IonBadge, CommonModule, FormsModule, SideMenuComponent, RouterLink, IonModal,]
 })
-export class CategoriaSolicitudesPage implements OnInit {
+export class CategoriaSolicitudesPage implements OnInit, OnDestroy {
+  isModalOpen = false;
+  nuevaCategoria = {
+    nombre: '',
+    descripcion: ''
+  };
+  public categoriasSolicitud: CategoriaSolicitud[] = [];
+  private refrescoSubscription?: Subscription; 
 
-  categoriasSolicitud: CategoriaSolicitud[] = [
-    {
-      id_categoria: 1n, // Literal de tipo bigint (sufijo 'n')
-      nombre: 'Ayudantía General',
-      descripcion: 'Consultas transversales que cualquier ayudante puede aceptar',
-      esActivo: true
-    }
-  ];
-
-  constructor() { 
+  constructor(
+    private adminService: AdministracionService,
+    private cdr: ChangeDetectorRef
+  ) {
     addIcons({
       trashOutline,
       createOutline,
       checkmarkOutline,
-      addOutline
+      addOutline,
+      refreshOutline
     });
   }
 
   ngOnInit() {
+    this.refrescarCategorias();
+  }
+
+  ngOnDestroy() {
+    this.refrescoSubscription?.unsubscribe();
+  }
+
+  filtroEstado: 'todos' | 'activas' | 'inactivas' = 'todos';
+
+  filtrarPorEstado(estado: 'todos' | 'activas' | 'inactivas') {
+    this.filtroEstado = estado;
+  }
+
+  refrescarCategorias(){
+    this.adminService.obtenerCategorias().subscribe({
+      next: (data: CategoriaSolicitud[]) => {
+        this.categoriasSolicitud = Array.isArray(data) ? [...data] : [];
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.error('Error al refrescar las nuevas categorias:', error);
+      }
+    });
+  }
+
+  refrescarManual() {
+    this.adminService.obtenerCategorias();
+  }
+
+  // Lista filtrada reactiva
+  get categoriasVisibles(): CategoriaSolicitud[] {
+    if (this.filtroEstado === 'activas') {
+      return this.categoriasSolicitud.filter(c => c.esActivo);
+    }
+    if (this.filtroEstado === 'inactivas') {
+      return this.categoriasSolicitud.filter(c => !c.esActivo);
+    }
+    return this.categoriasSolicitud;
   }
 
   editarCategoria(cat: CategoriaSolicitud) {
@@ -49,8 +93,37 @@ export class CategoriaSolicitudesPage implements OnInit {
   }
 
   crearNuevaCategoria() {
-    // Preparación apra abrir un modal o un formulario interactivo
-    console.log('Abrir formulario para crear categoría');
+    this.nuevaCategoria = { nombre: '', descripcion: '' };
+    this.isModalOpen = true;
   }
 
+  cerrarModal() {
+    this.isModalOpen = false;
+    this.cdr.markForCheck();
+  }
+
+  guardarCategoria() {
+    const nombre = this.nuevaCategoria.nombre.trim();
+    const descripcion = this.nuevaCategoria.descripcion.trim();
+
+    if (!nombre || !descripcion) {
+      return;
+    }
+
+    const payload: NuevaCategoriaSolicitud = {
+      nombre,
+      descripcion
+    };
+
+    this.adminService.crearCategoria(payload).subscribe({
+      next: (categoriaCreada: CategoriaSolicitud) => {
+        this.categoriasSolicitud = [categoriaCreada, ...this.categoriasSolicitud];
+        this.cerrarModal();
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.error('Error al registrar la nueva categoría:', error);
+      }
+    });
+  }
 }

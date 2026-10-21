@@ -4,6 +4,9 @@
  * Estilos globales utilizados en toda la aplicación EntrePares.
  */
 
+ /* Importaciones Generales */
+@use "sass:color";
+
 /* =========================
    IONIC
    ========================= */
@@ -492,16 +495,56 @@ $color-white: #ffffff;
 
   .tabla-toolbar {
   display: flex;
-  justify-content: flex-end; // Alinea el botón al extremo derecho
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+
+    .botones-filtros {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .botones-acciones {
+      display: inline-flex;
+      align-items: center;
+    }
 
     .primary-button {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       font-size: 14px;
-      padding: 10px 16px;
+      padding: 10px 1rem;
+
+      &:hover {
+        background: color.adjust($color-primary, $lightness: -8%);
+      }
+
+      ion-icon {
+        font-size: 18px;
+      }
+    }
+
+    .secondary-button{
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 4px;
+      font-size: 14px;
+      padding: 5px 1rem;
+
+        &:hover {
+        background: #f3f4f6;
+        border-color: #9ca3af;
+      }
+
+      /* Estilo del botón seleccionado */
+      &.active {
+        background: color.adjust($color-white, $lightness: -8% );
+        border-color: $color-primary;
+        color: $color-primary;
+        font-weight: 600;
+      }
     }
   }
 

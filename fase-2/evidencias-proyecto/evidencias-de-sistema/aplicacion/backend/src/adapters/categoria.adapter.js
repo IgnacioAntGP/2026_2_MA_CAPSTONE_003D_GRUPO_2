@@ -7,7 +7,8 @@ async function crearCategoria({ nombre, descripcion }) {
     .insert([
       {
         nombre,
-        descripcion
+        descripcion,
+        es_activo: true
       }
     ])
     .select()
@@ -18,6 +19,20 @@ async function crearCategoria({ nombre, descripcion }) {
   }
 
   return data;
+}
+
+//Obtiene todas las categorias
+async function obtenerAllCategoriasAsync (){
+  const {data, error} = await supabase
+    .from('categoria_solicitud')
+    .select('id_categoria, nombre, descripcion, es_activo')
+    .order('nombre', {ascending : true});
+
+    if(error){
+      throw error;
+    }
+
+    return data;
 }
 
 // Obtiene las categorías activas.
@@ -53,6 +68,7 @@ async function obtenerCategoriaActivaPorId(id_categoria) {
 
 module.exports = {
   crearCategoria,
+  obtenerAllCategoriasAsync,
   obtenerCategoriasActivas,
   obtenerCategoriaActivaPorId
 };
