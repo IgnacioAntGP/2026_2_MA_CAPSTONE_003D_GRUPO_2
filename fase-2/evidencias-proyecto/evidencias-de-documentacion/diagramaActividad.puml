@@ -1,0 +1,46 @@
+@startuml diagramaActividadEntrepares
+skinparam defaultTextAlignment center
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+
+|Estudiante|
+start
+:Crear Ticket de Consulta;
+
+|Backend / Sistema|
+:Registrar Ticket (Estado: PENDIENTE);
+:Publicar en la bandeja general;
+
+|Ayudante|
+:Revisar Solicitudes Pendientes;
+:Seleccionar Solicitud de Ayudantía;
+
+|Backend / Sistema|
+if (¿Solicitud disponible y sin asignar?) then (Sí)
+  :Actualizar estado a EN_PROCESO;
+  :Vincular ID del Ayudante al Ticket;
+  
+  |Estudiante|
+  :Visualizar Ayudante asignado;
+  :Confirmar y aceptar vinculación;
+  
+  |Backend / Sistema|
+  :Cambiar estado a ACEPTADA;
+  
+  |Ayudante|
+  :Atender sesión de tutoría 1 a 1;
+  :Marcar sesión como finalizada;
+  
+  |Backend / Sistema|
+  :Actualizar estado del ticket a RESUELTA;
+  
+  |Estudiante|
+  :Evaluar y calificar la atención;
+  stop
+else (No, ya fue tomada)
+  |Ayudante|
+  :Mostrar mensaje de error;
+  :Refrescar bandeja de pendientes;
+  stop
+endif
+@enduml
