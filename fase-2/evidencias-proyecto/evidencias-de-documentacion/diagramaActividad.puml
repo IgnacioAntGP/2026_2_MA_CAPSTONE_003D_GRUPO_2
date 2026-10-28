@@ -5,30 +5,31 @@ skinparam ActivityBorderColor #A80036
 
 |Estudiante|
 start
-:Crear Ticket de Consulta;
+:Solicitar Ayudantía ;
 
 |Backend / Sistema|
-:Registrar Ticket (Estado: PENDIENTE);
-:Publicar en la bandeja general;
+:Registrar Solicitud (Estado: PENDIENTE);
+:Publicar en la bandeja general de los Ayudantes;
 
 |Ayudante|
 :Revisar Solicitudes Pendientes;
+:Filtrar solicitudes;
 :Seleccionar Solicitud de Ayudantía;
 
 |Backend / Sistema|
 if (¿Solicitud disponible y sin asignar?) then (Sí)
-  :Actualizar estado a EN_PROCESO;
-  :Vincular ID del Ayudante al Ticket;
+  :Actualizar estado Solicitud a EN_PROCESO;
+  :Vincular ID del Ayudante;
   
   |Estudiante|
   :Visualizar Ayudante asignado;
   :Confirmar y aceptar vinculación;
   
   |Backend / Sistema|
-  :Cambiar estado a ACEPTADA;
+  :Cambiar estado Solicitud a ACEPTADA;
   
   |Ayudante|
-  :Atender sesión de tutoría 1 a 1;
+  :Atender sesión de ayudantía 1 a 1;
   :Marcar sesión como finalizada;
   
   |Backend / Sistema|
