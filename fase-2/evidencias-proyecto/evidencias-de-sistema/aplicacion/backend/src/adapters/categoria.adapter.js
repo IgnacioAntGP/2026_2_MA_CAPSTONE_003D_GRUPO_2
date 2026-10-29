@@ -1,16 +1,15 @@
+const { CrearCategoriaAskDTO } = require('../dtos/categoria/categoria.ask.dto');
+const { CategoriaResolveDTO } = require('../dtos/categoria/categoria.resolve.dto');
 const supabase = require('../config/supabase');
 
 // Crea una nueva categoría.
-async function crearCategoria({ nombre, descripcion }) {
+async function crearCategoria( bodyRequest ) {
+
+  const payloadCategoria = new CrearCategoriaAskDTO(bodyRequest);
+
   const { data, error } = await supabase
     .from('categoria_solicitud')
-    .insert([
-      {
-        nombre,
-        descripcion,
-        es_activo: true
-      }
-    ])
+    .insert([ payloadCategoria ])
     .select()
     .single();
 
@@ -18,7 +17,7 @@ async function crearCategoria({ nombre, descripcion }) {
     throw error;
   }
 
-  return data;
+  return new CategoriaResolveDTO(data);
 }
 
 //Obtiene todas las categorias
@@ -32,7 +31,7 @@ async function obtenerAllCategoriasAsync (){
       throw error;
     }
 
-    return data;
+    return data.map((fila) => new CategoriaResolveDTO(fila));
 }
 
 // Obtiene las categorías activas.
@@ -47,7 +46,7 @@ async function obtenerCategoriasActivas() {
     throw error;
   }
 
-  return data;
+  return data.map((fila) => new CategoriaResolveDTO(fila));
 }
 
 // Obtiene una categoría activa por su ID.
@@ -63,7 +62,7 @@ async function obtenerCategoriaActivaPorId(id_categoria) {
     throw error;
   }
 
-  return data;
+  return data ? new CategoriaResolveDTO(data) : null;
 }
 
 module.exports = {
