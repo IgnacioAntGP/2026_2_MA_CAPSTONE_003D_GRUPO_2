@@ -49,24 +49,27 @@ class SolicitudController {
   async listarDisponibles(req, res) {
     const { id_categoria } = req.query;
 
-    if (!id_categoria) {
-      return res.status(400).json({
-        error: 'La categoría es obligatoria.'
-      });
-    }
-
     try {
-      const categoria = await obtenerCategoriaActivaPorId(id_categoria);
+      // Si se selecciona una categoría específica, se valida que exista y esté activa.
+      if (
+        id_categoria &&
+        id_categoria !== 'todas' &&
+        id_categoria !== 'null' &&
+        id_categoria !== 'undefined'
+      ) {
+        const categoria = await obtenerCategoriaActivaPorId(id_categoria);
 
-      if (!categoria) {
-        return res.status(400).json({
-          error: 'La categoría seleccionada no existe o no está activa.'
-        });
+        if (!categoria) {
+          return res.status(400).json({
+            error: 'La categoría seleccionada no existe o no está activa.'
+          });
+        }
       }
 
       const data = await solicitudAdapter.obtenerDisponibles(id_categoria);
       return res.status(200).json(data);
     } catch (err) {
+      console.error('Error en listarDisponibles:', err);
       return res.status(500).json({ error: err.message });
     }
   }

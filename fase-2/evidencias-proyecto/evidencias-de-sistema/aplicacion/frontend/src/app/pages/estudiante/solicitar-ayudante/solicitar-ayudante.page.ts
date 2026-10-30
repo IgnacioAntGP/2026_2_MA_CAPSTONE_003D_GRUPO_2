@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
+import { CategoriaSolicitud } from '../../../models/IFiltros'
 
 @Component({
   selector: 'app-solicitar-ayudante',
@@ -22,6 +23,10 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
 ]
 })
 export class SolicitarAyudantePage implements OnInit {
+
+  categoria: CategoriaSolicitud [] = []
+
+  idCategoriaSeleccionada: string = '';
 
   idConsulta!: number;
   consulta?: Consulta;
@@ -44,10 +49,10 @@ export class SolicitarAyudantePage implements OnInit {
     );
 
     this.cargarConsulta();
+    this.cargarCategorias();
   }
 
   cargarConsulta() {
-
     this.ticketService.obtenerConsultaPorId(this.idConsulta).subscribe({
       next: (data) => {
         this.consulta = data;
@@ -63,19 +68,19 @@ export class SolicitarAyudantePage implements OnInit {
 
   }
 
-  solicitarTutoria() {
-
+  solicitarAyudantia() {
     const motivo = this.motivo.trim();
 
-    if (!this.modalidad || !motivo) {
+    if (!this.modalidad || !motivo || !this.idCategoriaSeleccionada) {
       console.warn('Faltan campos obligatorios');
       return;
-    }
+    };
 
-    this.ticketService.solicitarTutoria(
+    this.ticketService.solicitarAyudantia(
       this.idConsulta,
       this.modalidad,
-      motivo
+      motivo,
+      Number(this.idCategoriaSeleccionada)
     ).subscribe({
       next: (respuesta) => {
 
@@ -89,7 +94,19 @@ export class SolicitarAyudantePage implements OnInit {
         console.error('Error al solicitar tutoría:', error);
       }
     });
-
   }
+
+  cargarCategorias() {
+  this.ticketService.obtenerCategorias().subscribe({
+    next: (data) => {
+      // Filtrar solo las que estén activas para los estudiantes
+      this.categoria = data.filter(c => c.esActivo);
+      this.cdr.markForCheck();
+    },
+    error: (error) => {
+      console.error('Error al cargar categorías:', error);
+    }
+  });
+}
 
 }

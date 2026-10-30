@@ -7,7 +7,7 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { IonContent } from '@ionic/angular';
+import { IonContent, IonIcon } from '@ionic/angular';
 
 import {
   interval,
@@ -17,6 +17,8 @@ import {
 import { TicketService } from '../../../core/services/ConsultaService';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
+import { hammerOutline  } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-panel-admin',
@@ -25,6 +27,7 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   standalone: true,
   imports: [
     IonContent,
+    IonIcon,
     CommonModule,
     RouterLink,
     SideMenuComponent
@@ -40,7 +43,11 @@ export class PanelAdminPage implements OnInit, OnDestroy {
   constructor(
     private ticketService: TicketService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    addIcons({
+      hammerOutline
+    })
+  }
 
   menuAbierto = false;
 

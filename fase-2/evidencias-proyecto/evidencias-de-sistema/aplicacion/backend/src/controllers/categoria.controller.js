@@ -1,5 +1,6 @@
 const {
   crearCategoria,
+  obtenerAllCategoriasAsync,
   obtenerCategoriasActivas
 } = require('../adapters/categoria.adapter');
 
@@ -32,6 +33,29 @@ async function crearCategoriaController(req, res) {
   }
 }
 
+// Obtiene todas las categorías creadas.
+async function obtenerAllCategorias(req, res) {
+  try {
+    const allCategorias = await obtenerAllCategoriasAsync();
+
+    if (!allCategorias || allCategorias.length === 0) {
+      return res.status(404).json({
+        mensaje: 'No se encontraron categorias registradas'
+      });
+    }
+
+    return res.status(200).json(allCategorias);
+  } catch (error) {
+    console.error('Error interno en controlador:', error);
+
+    return res.status(500).json({
+      error: error.message || 'No fue posible procesar la solicitud.',
+      codigo: 'INTERNAL_SERVER_ERROR',
+      detalle: error.message
+    });
+  }
+}
+
 // Obtiene las categorías activas.
 async function obtenerCategoriasActivasController(req, res) {
   try {
@@ -49,5 +73,6 @@ async function obtenerCategoriasActivasController(req, res) {
 
 module.exports = {
   crearCategoriaController,
+  obtenerAllCategorias,
   obtenerCategoriasActivasController
 };

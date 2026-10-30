@@ -70,9 +70,9 @@ class SolicitudAdapter {
     }));
   }
 
-  // 11. Vista Ayudante - Solicitudes Disponibles: Obtener solicitudes sin ayudante asignado
-  async obtenerDisponibles(id_categoria) {
-    const { data, error } = await supabase
+  // 11. Vista Ayudante - Solicitudes Disponibles
+  async obtenerDisponibles(id_categoria = null) {
+    let selectSolicitudes = supabase
       .from('solicitud_ayudantia')
       .select(`
         id_solicitud,
@@ -94,27 +94,42 @@ class SolicitudAdapter {
         )
       `)
       .eq('estado', 'PENDIENTE')
-      .is('id_ayudante', null)
-      .eq('id_categoria', id_categoria)
+      .is('id_ayudante', null);
+
+    const categoriaId = Number(id_categoria);
+
+    if (
+      id_categoria &&
+      id_categoria !== 'todas' &&
+      id_categoria !== 'null' &&
+      id_categoria !== 'undefined' &&
+      !isNaN(categoriaId)
+    ) {
+      selectSolicitudes = selectSolicitudes.eq('id_categoria', categoriaId);
+    }
+
+    const { data, error } = await selectSolicitudes
       .order('fecha_solicitud', { ascending: true });
 
     if (error) throw error;
 
-    return data.map((item) => ({
+    return (data || []).map((item) => ({
       id_solicitud: item.id_solicitud,
       id_consulta: item.id_consulta,
       id_categoria: item.id_categoria,
+
+      // Se mantienen ambos nombres temporalmente por compatibilidad.
       categoria: item.categoria_solicitud?.nombre || null,
-      asignatura: item.consulta?.asignatura?.nombre || null,
+      categoria_nombre: item.categoria_solicitud?.nombre || 'General',
+
+      asignatura: item.consulta?.asignatura?.nombre || 'General',
       modalidad: item.modalidad,
       titulo_duda: item.consulta?.titulo || null,
-      titulo: item.consulta?.titulo || null,
-      descripcion_duda: item.consulta?.descripcion || null,
-      motivo: item.consulta?.descripcion || null,
+      descripcion_duda: item.motivo || item.consulta?.descripcion || null,
       estado: item.estado || 'PENDIENTE',
       estudiante: item.consulta?.usuario
         ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
-        : null,
+        : 'Estudiante',
       fecha_solicitud: item.fecha_solicitud
     }));
   }
@@ -176,10 +191,14 @@ class SolicitudAdapter {
         .from('solicitud_ayudantia')
         .update({ estado: 'EN_PROCESO' })
         .eq('id_solicitud', id_solicitud);
+
       throw errorAyudantia;
     }
 
-    return { solicitud: solicitudActualizada, ayudantia };
+    return {
+      solicitud: solicitudActualizada,
+      ayudantia
+    };
   }
 
   // 14. Rechazar Ayudante
@@ -251,13 +270,17 @@ class SolicitudAdapter {
           fecha_fin: null
         })
         .eq('id_ayudantia', ayudantiaActual.id_ayudantia);
+
       throw errorResolver;
     }
 
-    return { solicitud: solicitudResuelta, ayudantia: ayudantiaFinalizada };
+    return {
+      solicitud: solicitudResuelta,
+      ayudantia: ayudantiaFinalizada
+    };
   }
 
-    // Helper para resolver perfil de ayudante por usuario
+  // Helper para resolver perfil de ayudante por usuario
   async obtenerAyudantePorUsuario(id_usuario) {
     const { data, error } = await supabase
       .from('ayudante')
@@ -272,6 +295,7 @@ class SolicitudAdapter {
   // 16. Mis Ayudantías (por ayudante)
   async obtenerPorAyudante(id_usuario) {
     const perfil = await this.obtenerAyudantePorUsuario(id_usuario);
+
     if (!perfil) return [];
 
     const { data, error } = await supabase

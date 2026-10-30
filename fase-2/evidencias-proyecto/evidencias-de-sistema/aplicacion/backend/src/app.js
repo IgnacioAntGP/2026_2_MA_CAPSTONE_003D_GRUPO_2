@@ -14,6 +14,8 @@ app.use(express.json());
 app.use('/api/consultas', consultaRoutes);
 app.use('/api/solicitudes-ayudantia', solicitudRoutes);
 app.use('/api/usuarios', usuarioRoutes);
+
 app.use('/api/categorias', categoriaRoutes);
+app.use('/api/categorias-solicitud', categoriaRoutes);
 
 module.exports = app;

@@ -4,6 +4,9 @@
  * Estilos globales utilizados en toda la aplicación EntrePares.
  */
 
+ /* Importaciones Generales */
+@use "sass:color";
+
 /* =========================
    IONIC
    ========================= */
@@ -103,6 +106,13 @@ $color-white: #ffffff;
     font-size: 15px;
     line-height: 1.5;
   }
+}
+
+/* FOOTER GENERAL */
+.page-footer{
+  text-align: center;
+  color: #9ca3af;
+  padding: 24px 0 32px;
 }
 
 
@@ -458,5 +468,157 @@ $color-white: #ffffff;
   .secondary-button {
     width: 100%;
   }
+}
 
+/*
+  TABLAS GLOBALES DE DATOS - ION-GRID
+*/
+
+.tabla-card {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: $color-white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06) !important;
+  overflow: hidden;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.tabla-responsive-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+  .tabla-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+    .botones-filtros {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .botones-acciones {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      padding: 10px 1rem;
+
+      &:hover {
+        background: color.adjust($color-primary, $lightness: -8%);
+      }
+
+      ion-icon {
+        font-size: 18px;
+      }
+    }
+
+    .secondary-button{
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 4px;
+      font-size: 14px;
+      padding: 5px 1rem;
+
+        &:hover {
+        background: #f3f4f6;
+        border-color: #9ca3af;
+      }
+
+      /* Estilo del botón seleccionado */
+      &.active {
+        background: color.adjust($color-white, $lightness: -8% );
+        border-color: $color-primary;
+        color: $color-primary;
+        font-weight: 600;
+      }
+    }
+  }
+
+.tabla-custom,
+ion-grid.tabla-custom {
+  width: 100%;
+  min-width: 600px;
+  background: $color-white !important;
+  padding: 0 !important;
+  margin: 0;
+  box-sizing: border-box;
+
+  /* Encabezado */
+  .tabla-header,
+  ion-row.tabla-header {
+    background-color: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Filas de datos */
+  .tabla-fila,
+  ion-row.tabla-fila {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: $color-text-primary;
+    transition: background-color 0.15s ease;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #fcfdfe;
+    }
+  }
+
+  /* Tipografías */
+  .col-destacado {
+    font-weight: 600;
+    color: $color-text-primary;
+  }
+
+  .col-descripcion {
+    font-size: 13px;
+    color: $color-text-secondary;
+    line-height: 1.5;
+  }
+
+  /* Columna de botones de acción */
+  .acciones-col {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+
+    ion-button {
+      margin: 0;
+      height: 32px;
+      --padding-start: 6px;
+      --padding-end: 6px;
+    }
+  }
+
+  /* Estado vacío de la tabla */
+  .tabla-vacia {
+    padding: 28px 16px;
+    text-align: center;
+    color: $color-text-secondary;
+  }
 }
