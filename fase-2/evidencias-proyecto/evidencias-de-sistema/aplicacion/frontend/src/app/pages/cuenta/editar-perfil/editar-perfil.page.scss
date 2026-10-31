@@ -1,1 +1,168 @@
-/* Los estilos de esta vista se encuentran en global.scss */
+/* =========================
+   ENCABEZADO
+   ========================= */
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 16px;
+
+  width: 100%;
+
+  margin-bottom: 16px;
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}
+
+
+.header-content {
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: #1f2937;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================
+   FORMULARIO
+   ========================= */
+
+.edit-profile-card {
+  width: 100%;
+
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  --background: #ffffff;
+
+  border: 1px solid #edf0f5;
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(0, 0, 0, 0.045);
+
+  ion-card-content {
+    padding: 24px;
+  }
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  margin-bottom: 18px;
+
+  label {
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+
+  ion-input,
+  ion-select {
+    --background: #ffffff;
+
+    --border-color: #d1d5db;
+    --border-radius: 8px;
+
+    --highlight-color-focused: #3880ff;
+
+    font-size: 14px;
+  }
+
+
+  ion-input[disabled] {
+    --background: #f8fafc;
+
+    opacity: 0.75;
+  }
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 24px;
+
+  ion-button {
+    margin: 0;
+
+    min-height: 42px;
+
+    --border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-transform: none;
+  }
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .header-content {
+
+    h1 {
+      font-size: 27px;
+    }
+
+  }
+
+
+  .edit-profile-card {
+
+    ion-card-content {
+      padding: 20px;
+    }
+
+  }
+
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    ion-button {
+      width: 100%;
+    }
+  }
+
+}

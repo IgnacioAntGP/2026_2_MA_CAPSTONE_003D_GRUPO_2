@@ -1,54 +1,329 @@
+/* =========================
+   ENCABEZADO
+   ========================= */
+
 .header-top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  margin-bottom: 16px;
 }
+
+
+/* =========================
+   TOOLBAR
+   ========================= */
+
+.tabla-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 16px;
+
+  margin-bottom: 18px;
+}
+
+
+.botones-filtros {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  ion-button {
+    margin: 0;
+
+    min-height: 36px;
+
+    --border-color: #d1d5db;
+    --color: #4b5563;
+
+    --border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-transform: none;
+  }
+
+
+  ion-button.active {
+    --background: #eef4ff;
+    --border-color: #3880ff;
+    --color: #3880ff;
+  }
+}
+
+
+.botones-acciones {
+
+  ion-button {
+    margin: 0;
+
+    text-transform: none;
+  }
+}
+
+
+/* =========================
+   TARJETA TABLA
+   ========================= */
+
+.tabla-card {
+  width: 100%;
+
+  margin: 0;
+
+  --background: #ffffff;
+
+  border: 1px solid #edf0f5;
+  border-radius: 14px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+
+  ion-card-content {
+    padding: 0;
+  }
+}
+
+
+.tabla-responsive-container {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+.tabla-custom {
+  min-width: 680px;
+
+  padding: 0;
+}
+
+
+/* =========================
+   TABLA
+   ========================= */
+
+.tabla-header {
+  min-height: 52px;
+
+  padding: 0 10px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  background: #f8fafc;
+
+  color: #374151;
+
+  font-size: 13px;
+}
+
+
+.tabla-fila {
+  min-height: 62px;
+
+  padding: 0 10px;
+
+  border-bottom: 1px solid #edf0f5;
+
+  color: #4b5563;
+
+  font-size: 13px;
+
+  transition: background 0.15s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: #fafbfc;
+  }
+}
+
+
+.col-destacado {
+  color: #1f2937;
+
+  font-weight: 600;
+}
+
+
+.col-descripcion {
+  color: #6b7280;
+
+  line-height: 1.4;
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.acciones-col {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 2px;
+
+  ion-button {
+    margin: 0;
+  }
+}
+
+
+/* =========================
+   ESTADO VACÍO
+   ========================= */
+
+.tabla-vacia {
+  min-height: 90px;
+
+  ion-note {
+    color: #6b7280;
+
+    font-size: 14px;
+  }
+}
+
+
+/* =========================
+   MODAL
+   ========================= */
 
 ion-modal {
   --width: 520px;
   --height: auto;
+
   --border-radius: 14px;
-  --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 
-  .modal-card-admin {
-    background: #ffffff;
-    padding: 24px;
-    box-sizing: border-box;
+  --box-shadow:
+    0 10px 25px
+    rgba(0, 0, 0, 0.15);
+}
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
 
-      h2 {
-        margin: 0;
-        font-size: 20px;
-        font-weight: 700;
-        color: #1f2937;
-      }
+ion-modal ion-toolbar {
+  --background: #ffffff;
 
-      .btn-close {
-        background: transparent;
-        border: none;
-        font-size: 18px;
-        color: #6b7280;
-        cursor: pointer;
-        padding: 4px;
+  --border-color: #edf0f5;
 
-        &:hover {
-          color: #111827;
-        }
-      }
-    }
+  ion-title {
+    color: #1f2937;
 
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 24px;
+    font-size: 19px;
+    font-weight: 700;
+  }
+}
+
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  label {
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  ion-input,
+  ion-textarea {
+    --background: #ffffff;
+
+    --border-color: #d1d5db;
+    --border-radius: 8px;
+
+    --highlight-color-focused: #3880ff;
+
+    font-size: 14px;
+  }
+}
+
+
+/* =========================
+   ACCIONES MODAL
+   ========================= */
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 6px;
+
+  ion-button {
+    margin: 0;
+
+    min-height: 40px;
+
+    --border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-transform: none;
+  }
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .tabla-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+
+  .botones-filtros {
+
+    ion-button {
+      flex: 1;
     }
   }
+
+
+  .botones-acciones {
+
+    ion-button {
+      width: 100%;
+    }
+  }
+
+
+  ion-modal {
+    --width: calc(100% - 24px);
+  }
+
+
+  .modal-actions {
+    flex-direction: column-reverse;
+
+    ion-button {
+      width: 100%;
+    }
+  }
+
 }

@@ -1,1 +1,16 @@
-/* Los estilos de esta vista se encuentran en global.scss */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}

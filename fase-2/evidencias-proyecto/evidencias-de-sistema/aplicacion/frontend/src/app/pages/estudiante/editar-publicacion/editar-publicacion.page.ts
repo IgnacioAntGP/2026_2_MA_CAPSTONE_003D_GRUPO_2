@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar
+  IonButton,
+  IonInput,
+  IonSelect,
+  IonSelectOption,
+  IonTextarea
 } from '@ionic/angular';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
@@ -17,9 +19,14 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   selector: 'app-editar-publicacion',
   templateUrl: './editar-publicacion.page.html',
   styleUrls: ['./editar-publicacion.page.scss'],
-  standalone:true,
+  standalone: true,
   imports: [
     IonContent,
+    IonButton,
+    IonInput,
+    IonSelect,
+    IonSelectOption,
+    IonTextarea,
     CommonModule,
     FormsModule,
     RouterLink,

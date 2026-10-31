@@ -1,84 +1,172 @@
 <ion-content [fullscreen]="true">
+
   <div class="page-container">
+
     <div class="panel-layout-wrapper page-large">
 
       <!-- ENCABEZADO -->
       <header class="ayudante-welcome">
+
         <div>
+
           <span class="welcome-label">
             Bandeja de solicitudes
           </span>
-          <h1>Solicitudes de Estudiantes</h1>
+
+          <h1>
+            Solicitudes de Estudiantes
+          </h1>
+
           <p>
-            Revisa las consultas pendientes y toma las ayudantías que deseas atender.
+            Revisa las consultas pendientes y toma las ayudantías
+            que deseas atender.
           </p>
+
         </div>
+
         <app-side-menu></app-side-menu>
+
       </header>
 
-      <!-- CUERPO PRINCIPAL CON TARJETAS -->
+
       <main class="consultas">
 
-        <!-- BARRA DE FILTRO POR CATEGORÍA -->
-        <section class="filtro-categoria-bar">
-          <label for="filtroCat">Filtrar por categoría:</label>
-          <select 
-            id="filtroCat" 
-            [(ngModel)]="categoriaSeleccionada" 
-            (change)="filtrarPorCategoria()"
-          >
-            <option value="todas">Todas las categorías</option>
-            @for (cat of categorias; track cat.id_categoria) {
-              <option [value]="cat.id_categoria">
-                {{ cat.nombre }}
-              </option>
-            }
-          </select>
-        </section>
+        <!-- FILTRO -->
+        <ion-card class="filtro-card">
+
+          <ion-card-content>
+
+            <div class="form-group filtro-group">
+
+              <label>
+                Filtrar por categoría
+              </label>
+
+              <ion-select
+                fill="outline"
+                [(ngModel)]="categoriaSeleccionada"
+                (ionChange)="filtrarPorCategoria()"
+                placeholder="Selecciona una categoría"
+              >
+
+                <ion-select-option value="todas">
+                  Todas las categorías
+                </ion-select-option>
+
+                @for (cat of categorias; track cat.id_categoria) {
+
+                  <ion-select-option
+                    [value]="cat.id_categoria.toString()"
+                  >
+                    {{ cat.nombre }}
+                  </ion-select-option>
+
+                }
+
+              </ion-select>
+
+            </div>
+
+          </ion-card-content>
+
+        </ion-card>
+
 
         <!-- ESTADO VACÍO -->
-        <div *ngIf="solicitudesDisponibles.length === 0" class="empty-state">
-          <p>No hay solicitudes pendientes en este momento.</p>
-        </div>
-
-        <!-- TARJETAS DE SOLICITUDES -->
-        <article 
-          class="consulta-card" 
-          *ngFor="let solicitud of solicitudesDisponibles"
+        <div
+          *ngIf="solicitudesDisponibles.length === 0"
+          class="empty-state"
         >
-          <div class="consulta-header">
-            <span class="asignatura">{{ solicitud.asignatura }}</span>
-            @if (solicitud.categoria_nombre) {
-              <span class="categoria-badge" style="color:#3880ff">{{ solicitud.categoria_nombre }}</span>
-            }
-            <span class="estado estado-pendiente">{{ solicitud.estado }}</span>
-          </div>
-
-          <h2>{{ solicitud.titulo_duda }}</h2>
 
           <p>
-            {{ solicitud.descripcion_duda || solicitud.descripcion }}
+            No hay solicitudes pendientes en este momento.
           </p>
 
-          <div class="consulta-footer">
-            <span>
-              Estudiante: <strong>{{ solicitud.nombre_estudiante || solicitud.estudiante }}</strong>
-            </span>
-          </div>
+        </div>
 
-          <div class="perfil-actions">
-            <button
-              class="primary-button"
-              type="button"
-              (click)="aceptarSolicitud(solicitud)"
-            >
-              ✓ Aceptar Ayudantía
-            </button>
-          </div>
-        </article>
+
+        <!-- SOLICITUDES -->
+        <ion-card
+          class="consulta-card"
+          *ngFor="let solicitud of solicitudesDisponibles"
+        >
+
+          <ion-card-content>
+
+            <!-- ENCABEZADO -->
+            <div class="consulta-header">
+
+              <div class="consulta-tags">
+
+                <ion-chip class="asignatura-chip">
+                  {{ solicitud.asignatura }}
+                </ion-chip>
+
+                @if (solicitud.categoria_nombre) {
+
+                  <ion-chip class="categoria-chip">
+                    {{ solicitud.categoria_nombre }}
+                  </ion-chip>
+
+                }
+
+              </div>
+
+
+              <ion-badge class="estado-badge pendiente">
+                {{ solicitud.estado }}
+              </ion-badge>
+
+            </div>
+
+
+            <!-- CONTENIDO -->
+            <h2>
+              {{ solicitud.titulo_duda }}
+            </h2>
+
+            <p class="consulta-descripcion">
+              {{ solicitud.descripcion_duda || solicitud.descripcion }}
+            </p>
+
+
+            <!-- ESTUDIANTE -->
+            <div class="consulta-footer">
+
+              <span>
+                Estudiante:
+                <strong>
+                  {{
+                    solicitud.nombre_estudiante ||
+                    solicitud.estudiante
+                  }}
+                </strong>
+              </span>
+
+            </div>
+
+
+            <!-- ACCIÓN -->
+            <div class="perfil-actions">
+
+              <ion-button
+                class="aceptar-button"
+                type="button"
+                (click)="aceptarSolicitud(solicitud)"
+              >
+                ✓ Aceptar Ayudantía
+              </ion-button>
+
+            </div>
+
+          </ion-card-content>
+
+        </ion-card>
 
       </main>
 
     </div>
+
   </div>
+
 </ion-content>

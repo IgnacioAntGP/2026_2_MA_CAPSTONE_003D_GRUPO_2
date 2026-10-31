@@ -1,30 +1,50 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent } from '@ionic/angular';
+import {
+  IonContent,
+  IonButton,
+  IonTextarea,
+  IonSelect,
+  IonSelectOption,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonChip
+} from '@ionic/angular';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
-import { CategoriaSolicitud } from '../../../models/IFiltros'
+import { CategoriaSolicitud } from '../../../models/IFiltros';
 
 @Component({
   selector: 'app-solicitar-ayudante',
   templateUrl: './solicitar-ayudante.page.html',
   styleUrls: ['./solicitar-ayudante.page.scss'],
-  standalone:true,
+  standalone: true,
   imports: [
     IonContent,
+    IonButton,
+    IonTextarea,
+    IonSelect,
+    IonSelectOption,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonChip,
     CommonModule,
     FormsModule,
     RouterLink,
     SideMenuComponent
-]
+  ]
 })
 export class SolicitarAyudantePage implements OnInit {
 
-  categoria: CategoriaSolicitud [] = []
+  categoria: CategoriaSolicitud[] = [];
 
   idCategoriaSeleccionada: string = '';
 
@@ -53,60 +73,117 @@ export class SolicitarAyudantePage implements OnInit {
   }
 
   cargarConsulta() {
-    this.ticketService.obtenerConsultaPorId(this.idConsulta).subscribe({
-      next: (data) => {
-        this.consulta = data;
 
-        this.cdr.markForCheck();
+    this.ticketService
+      .obtenerConsultaPorId(this.idConsulta)
+      .subscribe({
 
-        console.log('Consulta para tutoría:', data);
-      },
-      error: (error) => {
-        console.error('Error al cargar consulta:', error);
-      }
-    });
+        next: (data) => {
+
+          this.consulta = data;
+
+          this.cdr.markForCheck();
+
+          console.log(
+            'Consulta para tutoría:',
+            data
+          );
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error al cargar consulta:',
+            error
+          );
+
+        }
+
+      });
 
   }
 
   solicitarAyudantia() {
+
     const motivo = this.motivo.trim();
 
-    if (!this.modalidad || !motivo || !this.idCategoriaSeleccionada) {
-      console.warn('Faltan campos obligatorios');
+    if (
+      !this.modalidad ||
+      !motivo ||
+      !this.idCategoriaSeleccionada
+    ) {
+
+      console.warn(
+        'Faltan campos obligatorios'
+      );
+
       return;
-    };
+    }
 
-    this.ticketService.solicitarAyudantia(
-      this.idConsulta,
-      this.modalidad,
-      motivo,
-      Number(this.idCategoriaSeleccionada)
-    ).subscribe({
-      next: (respuesta) => {
+    this.ticketService
+      .solicitarAyudantia(
+        this.idConsulta,
+        this.modalidad,
+        motivo,
+        Number(this.idCategoriaSeleccionada)
+      )
+      .subscribe({
 
-        console.log('Solicitud de tutoría creada:', respuesta);
+        next: (respuesta) => {
 
-        this.solicitudEnviada = true;
+          console.log(
+            'Solicitud de tutoría creada:',
+            respuesta
+          );
 
-        this.cdr.markForCheck();
-      },
-      error: (error) => {
-        console.error('Error al solicitar tutoría:', error);
-      }
-    });
+          this.solicitudEnviada = true;
+
+          this.cdr.markForCheck();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error al solicitar tutoría:',
+            error
+          );
+
+        }
+
+      });
+
   }
 
   cargarCategorias() {
-  this.ticketService.obtenerCategorias().subscribe({
-    next: (data) => {
-      // Filtrar solo las que estén activas para los estudiantes
-      this.categoria = data.filter(c => c.esActivo);
-      this.cdr.markForCheck();
-    },
-    error: (error) => {
-      console.error('Error al cargar categorías:', error);
-    }
-  });
-}
+
+    this.ticketService
+      .obtenerCategorias()
+      .subscribe({
+
+        next: (data) => {
+
+          // Solo se muestran categorías activas.
+          this.categoria = data.filter(
+            categoria => categoria.esActivo
+          );
+
+          this.cdr.markForCheck();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error al cargar categorías:',
+            error
+          );
+
+        }
+
+      });
+
+  }
 
 }

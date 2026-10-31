@@ -3,9 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   AlertController,
-  IonContent
+  IonContent,
+  IonButton,
+  IonTextarea,
+  IonCard,
+  IonCardContent
 } from '@ionic/angular';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
@@ -17,6 +21,10 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   standalone: true,
   imports: [
     IonContent,
+    IonButton,
+    IonTextarea,
+    IonCard,
+    IonCardContent,
     CommonModule,
     FormsModule,
     RouterLink,
@@ -35,7 +43,6 @@ export class PostularAyudantePage {
 
   constructor(
     private ticketService: TicketService,
-    private router: Router,
     private cdr: ChangeDetectorRef,
     private alertController: AlertController
   ) {}
@@ -58,11 +65,13 @@ export class PostularAyudantePage {
     const experiencia = this.experiencia.trim();
 
     if (!motivo || !experiencia) {
+
       console.warn(
         'Motivo y experiencia son obligatorios.'
       );
 
       return;
+
     }
 
     this.ticketService
@@ -96,7 +105,6 @@ export class PostularAyudantePage {
             error
           );
 
-          // Ya existe una postulación pendiente
           if (error.status === 409) {
 
             const alert = await this.alertController.create({
@@ -109,9 +117,9 @@ export class PostularAyudantePage {
             await alert.present();
 
             return;
+
           }
 
-          // Cualquier otro error
           const alert = await this.alertController.create({
             header: 'Error',
             message:

@@ -1,27 +1,35 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AyudantiaService } from '../../../core/services/AyudantiaService';
 
 import {
   IonContent,
   IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonNote,
-  IonItem,
+  IonCardContent,
   IonAvatar,
-  IonLabel,
   IonBadge,
   IonButton,
   IonList,
+  IonItem,
+  IonLabel,
+  IonChip
 } from '@ionic/angular';
+
+import { AyudantiaService } from '../../../core/services/AyudantiaService';
 
 import {
   PublicacionComunidad
 } from '../../../models/ISolicitudAyudantia';
-import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
+
+import {
+  SideMenuComponent
+} from '../../../shared/components/side-menu/side-menu.page';
+
 
 @Component({
   selector: 'app-panel-ayudante',
@@ -30,10 +38,18 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     RouterLink,
     IonContent,
-    SideMenuComponent,
+    IonCard,
+    IonCardContent,
+    IonAvatar,
+    IonBadge,
+    IonButton,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonChip,
+    SideMenuComponent
   ],
 })
 export class PanelAyudantePage implements OnInit {
@@ -46,54 +62,113 @@ export class PanelAyudantePage implements OnInit {
     imagen: '../assets/icon/favicon.png',
   };
 
+
   metricas = {
     pendientes: 0,
     activas: 0,
     evaluacion: '4.9',
   };
 
+
   publicacionesComunidad: PublicacionComunidad[] = [];
 
-  constructor (
-    private ayudantiaService: 
-    AyudantiaService, private cdr: ChangeDetectorRef
+
+  constructor(
+    private ayudantiaService: AyudantiaService,
+    private cdr: ChangeDetectorRef
   ) {}
+
 
   ngOnInit() {
     this.cargarMetaData();
   }
 
-  // Hook del ciclo de vida de Ionic:
-  // Se ejecuta cada vez que la página se vuelve a mostrar
+
   ionViewWillEnter() {
     this.cargarMetaData();
   }
 
-  // Carga inicial desde PostgreSQL / Node
+
   cargarMetaData() {
-    this.ayudantiaService.obtenerPublicacionesComunidad().subscribe({
-      next: (data) => {
-        console.log('Payload recibido en panel-ayudante:', data);
-        this.publicacionesComunidad = data.slice(0, 3); // Mostrar solo las primeras 3 publicaciones
-        this.cdr.markForCheck();
-      },
-      error: (e) => console.error('Error comunidad:', e),
-    });
 
-    this.ayudantiaService.obtenerSolicitudesDisponibles().subscribe({
-      next: (data) => {
-        this.metricas.pendientes = data.length;
-        this.cdr.markForCheck();
-      },
-      error: (e) => console.error('Error disponibles:', e)
-    });
+    this.ayudantiaService
+      .obtenerPublicacionesComunidad()
+      .subscribe({
 
-    this.ayudantiaService.obtenerMisAyudantias(this.usuarioAyudante.id_usuario).subscribe({
-      next: (data) => {
-        this.metricas.activas = data.length;
-        this.cdr.markForCheck();
-      },
-      error: (e) => console.error('Error mis ayudantías:', e)
-    });
+        next: (data) => {
+
+          console.log(
+            'Payload recibido en panel-ayudante:',
+            data
+          );
+
+          this.publicacionesComunidad = data.slice(0, 3);
+
+          this.cdr.markForCheck();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error comunidad:',
+            error
+          );
+
+        }
+
+      });
+
+
+    this.ayudantiaService
+      .obtenerSolicitudesDisponibles()
+      .subscribe({
+
+        next: (data) => {
+
+          this.metricas.pendientes = data.length;
+
+          this.cdr.markForCheck();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error disponibles:',
+            error
+          );
+
+        }
+
+      });
+
+
+    this.ayudantiaService
+      .obtenerMisAyudantias(
+        this.usuarioAyudante.id_usuario
+      )
+      .subscribe({
+
+        next: (data) => {
+
+          this.metricas.activas = data.length;
+
+          this.cdr.markForCheck();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error mis ayudantías:',
+            error
+          );
+
+        }
+
+      });
+
   }
+
 }

@@ -1,51 +1,103 @@
-.consulta-resumen {
-  margin-bottom: 16px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 
-  .asignatura {
-    font-size: 13px;
-    font-weight: 600;
-    color: #3880ff;
+  gap: 20px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
   }
 
-  h2 {
-    margin: 10px 0 8px;
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}
+
+
+/* =========================
+   RESUMEN CONSULTA
+   ========================= */
+
+.consulta-resumen {
+  width: 100%;
+
+  margin: 0 0 16px;
+
+  --background: #ffffff;
+
+  border-radius: 12px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  ion-card-header {
+    padding-bottom: 8px;
+  }
+
+  ion-card-title {
+    margin-top: 10px;
+
+    color: #1f2937;
+
     font-size: 19px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  ion-card-content {
+    padding-top: 0;
+
+    p {
+      margin: 0;
+
+      color: #6b7280;
+
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+}
+
+.asignatura-chip {
+  height: 28px;
+
+  margin: 0;
+
+  --background: rgba(56, 128, 255, 0.1);
+  --color: #3880ff;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* =========================
+   CONFIRMACIÓN
+   ========================= */
+
+.solicitud-confirmacion {
+  text-align: center;
+
+  h2 {
+    margin-bottom: 10px;
+
     color: #1f2937;
   }
 
   p {
     margin: 0;
+
     color: #6b7280;
-    font-size: 14px;
+
     line-height: 1.5;
   }
 }
 
-.solicitud-confirmacion {
-  text-align: center;
-}
-
 .confirmacion-icono {
   margin: 0 auto 16px;
-  font-size: 42px;
+
   color: #3880ff;
-}
 
-.solicitud-confirmacion h2 {
-  margin-bottom: 10px;
-  color: #1f2937;
-}
-
-.solicitud-confirmacion p {
-  margin: 0;
-  color: #6b7280;
-  line-height: 1.5;
-}
-
-.form-group textarea {
-  min-height: 140px;
+  font-size: 42px;
 }

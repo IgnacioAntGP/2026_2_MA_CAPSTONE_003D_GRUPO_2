@@ -5,114 +5,144 @@
     <header class="page-header page-wide">
 
       <div>
-        <button
+
+        <ion-button
           class="back-button"
           type="button"
+          fill="clear"
           routerLink="/comunidad"
         >
           ← Volver a Comunidad
-        </button>
+        </ion-button>
 
-        <h1>Evaluaciones</h1>
+        <h1>
+          Evaluaciones
+        </h1>
 
         <p>
           Revisa y evalúa las tutorías que has realizado.
         </p>
+
       </div>
 
       <app-side-menu></app-side-menu>
 
     </header>
 
+
     <main class="page-content page-wide">
 
+      <!-- PENDIENTES -->
       <section class="evaluaciones-section">
 
         <h2>
           Pendientes de evaluación
         </h2>
 
-        <article class="page-card evaluacion-card pendiente">
+        <ion-card class="evaluacion-card">
 
-          <div class="evaluacion-header">
+          <ion-card-header>
 
-            <span class="asignatura">
-              Programación
-            </span>
+            <div class="evaluacion-header">
 
-            <span class="estado">
-              Pendiente de evaluación
-            </span>
+              <ion-chip class="asignatura-chip">
+                Programación
+              </ion-chip>
 
-          </div>
+              <ion-badge class="estado-badge pendiente">
+                Pendiente de evaluación
+              </ion-badge>
 
-          <h3>
-            ¿Cómo puedo recorrer una lista en Java?
-          </h3>
+            </div>
 
-          <p>
-            Tutoría realizada recientemente.
-          </p>
+            <ion-card-title>
+              ¿Cómo puedo recorrer una lista en Java?
+            </ion-card-title>
 
-          <button
-            class="primary-button evaluate-button"
-            type="button"
-            routerLink="/evaluar-tutoria"
-          >
-            Evaluar tutoría
-          </button>
+          </ion-card-header>
 
-        </article>
+
+          <ion-card-content>
+
+            <p class="descripcion">
+              Tutoría realizada recientemente.
+            </p>
+
+            <div class="evaluacion-actions">
+
+              <ion-button
+                class="primary-button"
+                type="button"
+                routerLink="/evaluar-tutoria"
+              >
+                Evaluar tutoría
+              </ion-button>
+
+            </div>
+
+          </ion-card-content>
+
+        </ion-card>
 
       </section>
 
 
+      <!-- REALIZADAS -->
       <section class="evaluaciones-section">
 
         <h2>
           Evaluaciones realizadas
         </h2>
 
-        <article class="page-card evaluacion-card">
+        <ion-card class="evaluacion-card">
 
-          <div class="evaluacion-header">
+          <ion-card-header>
 
-            <span class="asignatura">
-              Bases de Datos
-            </span>
+            <div class="evaluacion-header">
 
-            <span class="fecha">
-              Hace 5 días
-            </span>
+              <ion-chip class="asignatura-chip">
+                Bases de Datos
+              </ion-chip>
 
-          </div>
+              <ion-note class="fecha">
+                Hace 5 días
+              </ion-note>
 
-          <h3>
-            Problema con una consulta SQL
-          </h3>
-
-          <div class="calificacion">
-
-            <div class="estrellas">
-              <span class="estrella completa">★</span>
-              <span class="estrella completa">★</span>
-              <span class="estrella completa">★</span>
-              <span class="estrella completa">★</span>
-              <span class="estrella parcial">★</span>
             </div>
 
-            <span class="nota">
-              4,8 / 5
-            </span>
+            <ion-card-title>
+              Problema con una consulta SQL
+            </ion-card-title>
 
-          </div>
+          </ion-card-header>
 
-          <p class="comentario">
-            La explicación fue clara y me ayudó a entender
-            el problema con la consulta.
-          </p>
 
-        </article>
+          <ion-card-content>
+
+            <div class="calificacion">
+
+              <div class="estrellas">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+
+              <span class="nota">
+                4,8 / 5
+              </span>
+
+            </div>
+
+            <p class="comentario">
+              La explicación fue clara y me ayudó a entender
+              el problema con la consulta.
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
 
       </section>
 

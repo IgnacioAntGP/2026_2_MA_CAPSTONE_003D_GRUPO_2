@@ -1,22 +1,52 @@
+/* =========================
+   TARJETAS
+   ========================= */
+
 .perfil-card,
 .datos-card,
 .actividad-card {
-  margin-bottom: 16px;
+  width: 100%;
+
+  margin: 0 0 16px;
+
+  --background: #ffffff;
+
+  border: 1px solid #edf0f5;
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(0, 0, 0, 0.045);
+
+  ion-card-content {
+    padding: 22px;
+  }
 }
+
+
+/* =========================
+   PERFIL
+   ========================= */
 
 .perfil-card {
-  display: flex;
-  align-items: center;
-  gap: 18px;
+  border-left: 4px solid #3880ff;
+
+  ion-card-content {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+  }
 }
 
-.perfil-avatar {
-  width: 64px;
-  height: 64px;
 
+.perfil-avatar {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  width: 64px;
+  height: 64px;
 
   flex-shrink: 0;
 
@@ -29,27 +59,50 @@
   font-weight: 700;
 }
 
+
 .perfil-identidad {
+
   h2 {
-    margin: 0 0 6px;
-    font-size: 21px;
+    margin: 0 0 7px;
+
     color: #1f2937;
+
+    font-size: 21px;
   }
 
-  .rol {
-    font-size: 14px;
-    color: #6b7280;
-  }
 }
+
+
+.rol-badge {
+  --background: #eef4ff;
+  --color: #3880ff;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   DATOS
+   ========================= */
 
 .datos-card,
 .actividad-card {
+
   h2 {
     margin: 0 0 18px;
-    font-size: 18px;
+
     color: #1f2937;
+
+    font-size: 18px;
   }
+
 }
+
 
 .dato {
   display: flex;
@@ -62,54 +115,33 @@
 
   border-bottom: 1px solid #f0f0f0;
 
-  &:last-child {
+  &:last-of-type {
     border-bottom: none;
-    padding-bottom: 0;
   }
 }
+
 
 .dato-label {
-  font-size: 13px;
   color: #9ca3af;
+
+  font-size: 13px;
 }
+
 
 .dato-value {
-  font-size: 14px;
   color: #374151;
+
+  font-size: 14px;
+
   text-align: right;
+
+  overflow-wrap: anywhere;
 }
 
-.actividad-grid {
-  display: grid;
 
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 12px;
-}
-
-.actividad-item {
-  padding: 18px 12px;
-
-  text-align: center;
-
-  border: 1px solid #f0f0f0;
-  border-radius: 10px;
-
-  strong {
-    display: block;
-
-    margin-bottom: 6px;
-
-    font-size: 24px;
-
-    color: #1f2937;
-  }
-
-  span {
-    font-size: 12px;
-    color: #6b7280;
-  }
-}
+/* =========================
+   ACCIONES
+   ========================= */
 
 .perfil-actions {
   display: flex;
@@ -118,17 +150,193 @@
   margin-top: 20px;
 }
 
+
 .edit-profile-button {
-  padding: 10px 16px;
+  margin: 0;
 
-  border: 1px solid #3880ff;
-  border-radius: 8px;
+  --background: #ffffff;
 
-  background: #eaf2ff;
-  color: #2563eb;
+  --color: #2563eb;
+
+  --border-color: #3880ff;
+  --border-radius: 8px;
 
   font-size: 14px;
   font-weight: 600;
 
-  cursor: pointer;
+  text-transform: none;
+}
+
+
+/* =========================
+   ACTIVIDAD
+   ========================= */
+
+.actividad-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+
+  width: 100%;
+}
+
+
+.actividad-item {
+  min-width: 0;
+
+  padding: 18px 8px;
+
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+  text-align: center;
+
+  strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #3880ff;
+
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  span {
+    display: block;
+
+    color: #6b7280;
+
+    font-size: 12px;
+  }
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .perfil-card {
+
+    ion-card-content {
+      align-items: flex-start;
+    }
+
+  }
+
+
+  .dato {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 5px;
+  }
+
+
+  .dato-value {
+    text-align: left;
+  }
+
+
+  .perfil-actions {
+
+    ion-button {
+      width: 100%;
+    }
+
+  }
+
+
+  /*
+   * Mantenemos las métricas horizontales,
+   * igual que en panel-ayudante.
+   */
+  .actividad-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+
+  .actividad-item {
+    padding: 14px 5px;
+
+    strong {
+      font-size: 20px;
+    }
+
+    span {
+      font-size: 10px;
+    }
+  }
+
+}
+/* =========================
+   ENCABEZADO
+   ========================= */
+
+.page-header {
+  display: block;
+}
+
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 16px;
+
+  width: 100%;
+
+  margin-bottom: 16px;
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}
+
+
+.header-content {
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: #1f2937;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .header-content {
+
+    h1 {
+      font-size: 27px;
+    }
+
+  }
+
 }

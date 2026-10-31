@@ -7,14 +7,15 @@
       <!-- BOTÓN MENÚ -->
       <div class="admin-menu-header">
 
-        <button
+        <ion-button
           class="admin-menu-button"
           type="button"
+          fill="outline"
           (click)="toggleMenu()"
           aria-label="Abrir menú"
         >
           ☰
-        </button>
+        </ion-button>
 
       </div>
 
@@ -39,7 +40,7 @@
             A
           </div>
 
-          <div>
+          <div class="admin-profile-data">
 
             <strong>
               Administrador
@@ -51,84 +52,97 @@
 
           </div>
 
-          <button
+          <ion-button
             class="admin-menu-close"
             type="button"
+            fill="clear"
             (click)="cerrarMenu()"
             aria-label="Cerrar menú"
           >
             ×
-          </button>
+          </ion-button>
 
         </div>
 
 
+        <!-- NAVEGACIÓN -->
         <nav class="admin-menu-nav">
 
-          <a
+          <ion-button
+            type="button"
+            fill="clear"
             routerLink="/panel-admin"
             (click)="cerrarMenu()"
           >
             Inicio
-          </a>
+          </ion-button>
 
-          <a
+          <ion-button
+            type="button"
+            fill="clear"
             routerLink="/postulaciones-ayudante"
             (click)="cerrarMenu()"
           >
             Postulaciones
-          </a>
+          </ion-button>
 
-          <button
+          <ion-button
             type="button"
+            fill="clear"
             disabled
           >
             Usuarios
-          </button>
+          </ion-button>
 
-          <button
+          <ion-button
             type="button"
+            fill="clear"
             disabled
           >
             Comunidad
-          </button>
+          </ion-button>
 
-          <button
+          <ion-button
             type="button"
+            fill="clear"
             disabled
           >
             Gestión académica
-          </button>
+          </ion-button>
 
         </nav>
 
 
+        <!-- PIE MENÚ -->
         <div class="admin-menu-footer">
 
-          <button
+          <ion-button
             type="button"
+            fill="clear"
             disabled
           >
             Mi perfil
-          </button>
+          </ion-button>
 
-          <button
-            type="button"
+          <ion-button
             class="logout-button"
+            type="button"
+            fill="clear"
             routerLink="/login"
-            
           >
             Cerrar sesión
-          </button>
+          </ion-button>
 
         </div>
 
       </aside>
 
+
       <!-- BIENVENIDA -->
       <header class="admin-welcome">
 
         <div>
+
           <span class="welcome-label">
             Espacio de administración
           </span>
@@ -141,28 +155,34 @@
             Gestiona los principales elementos de la comunidad
             EntrePares desde este panel.
           </p>
+
         </div>
 
         <app-side-menu></app-side-menu>
+
       </header>
 
 
       <!-- RESUMEN -->
-      <section class="page-card admin-summary">
+      <ion-card class="admin-summary">
 
-        <div class="summary-item">
+        <ion-card-content>
 
-          <strong>
-            {{ postulacionesPendientes.length }}
-          </strong>
+          <div class="summary-item">
 
-          <span>
-            Postulaciones pendientes
-          </span>
+            <strong>
+              {{ postulacionesPendientes.length }}
+            </strong>
 
-        </div>
+            <span>
+              Postulaciones pendientes
+            </span>
 
-      </section>
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
 
 
       <!-- GESTIÓN -->
@@ -186,13 +206,15 @@
         </div>
 
 
-          <div class="admin-options">
+        <div class="admin-options">
 
-            <!-- POSTULACIONES -->
-            <a
-              class="page-card admin-option"
-              routerLink="/postulaciones-ayudante"
-            >
+          <!-- POSTULACIONES -->
+          <ion-card
+            class="admin-option admin-option-active"
+            routerLink="/postulaciones-ayudante"
+          >
+
+            <ion-card-content>
 
               <div class="option-icon">
                 📄
@@ -215,13 +237,17 @@
                 ›
               </span>
 
-            </a>
+            </ion-card-content>
+
+          </ion-card>
 
 
-            <!-- USUARIOS -->
-            <div
-              class="page-card admin-option admin-option-disabled"
-            >
+          <!-- USUARIOS -->
+          <ion-card
+            class="admin-option admin-option-disabled"
+          >
+
+            <ion-card-content>
 
               <div class="option-icon">
                 👥
@@ -238,19 +264,23 @@
                   dentro de EntrePares.
                 </p>
 
-                <span class="option-status">
+                <ion-badge class="option-status">
                   Próximamente
-                </span>
+                </ion-badge>
 
               </div>
 
-            </div>
+            </ion-card-content>
+
+          </ion-card>
 
 
-            <!-- COMUNIDAD -->
-            <div
-              class="page-card admin-option admin-option-disabled"
-            >
+          <!-- COMUNIDAD -->
+          <ion-card
+            class="admin-option admin-option-disabled"
+          >
+
+            <ion-card-content>
 
               <div class="option-icon">
                 💬
@@ -267,19 +297,23 @@
                   que pueda incumplir las normas de la comunidad.
                 </p>
 
-                <span class="option-status">
+                <ion-badge class="option-status">
                   Próximamente
-                </span>
+                </ion-badge>
 
               </div>
 
-            </div>
+            </ion-card-content>
+
+          </ion-card>
 
 
-            <!-- GESTIÓN ACADÉMICA -->
-            <div
-              class="page-card admin-option admin-option-disabled"
-            >
+          <!-- GESTIÓN ACADÉMICA -->
+          <ion-card
+            class="admin-option admin-option-disabled"
+          >
+
+            <ion-card-content>
 
               <div class="option-icon">
                 🎓
@@ -296,28 +330,52 @@
                   utilizada por EntrePares.
                 </p>
 
-                <span class="option-status">
+                <ion-badge class="option-status">
                   Próximamente
-                </span>
+                </ion-badge>
 
               </div>
 
-            </div>
+            </ion-card-content>
 
-            <!-- Configuración de filtros y matchmaking -->
-            <a class="page-card admin-option" routerLink="/categoria-solicitudes">
+          </ion-card>
+
+
+          <!-- FILTROS -->
+          <ion-card
+            class="admin-option admin-option-active"
+            routerLink="/categoria-solicitudes"
+          >
+
+            <ion-card-content>
+
               <div class="option-icon">
                 <ion-icon name="hammer-outline"></ion-icon>
               </div>
-              <div class="option-content">
-                <h3>Filtros activos</h3>
-                <p>Administra los filtros a implementar para las ayudantías: 
-                  <strong>Categoria de las Solicitudes</strong>
-                </p>
-              </div>
-            </a>
 
-          </div>
+              <div class="option-content">
+
+                <h3>
+                  Filtros activos
+                </h3>
+
+                <p>
+                  Administra los filtros a implementar para las ayudantías:
+                  <strong>Categoría de las Solicitudes</strong>
+                </p>
+
+              </div>
+
+              <span class="option-arrow">
+                ›
+              </span>
+
+            </ion-card-content>
+
+          </ion-card>
+
+        </div>
+
       </section>
 
     </main>

@@ -12,8 +12,10 @@
   background: #f5f7fb;
 }
 
+
 .login-wrapper {
   width: 100%;
+
   max-width: 430px;
 }
 
@@ -49,6 +51,7 @@
   }
 }
 
+
 .login-label {
   color: #3880ff;
 
@@ -56,6 +59,7 @@
   font-weight: 700;
 
   text-transform: uppercase;
+
   letter-spacing: 0.6px;
 }
 
@@ -76,8 +80,11 @@
   border: 1px solid #edf0f5;
   border-radius: 14px;
 
-  box-shadow: 0 4px 18px rgba(31, 41, 55, 0.07);
+  box-shadow:
+    0 4px 18px
+    rgba(31, 41, 55, 0.07);
 }
+
 
 .login-form-header {
   margin-bottom: 24px;
@@ -102,6 +109,39 @@
 
 
 /* =========================
+   CAMPOS
+   ========================= */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  margin-bottom: 18px;
+
+  > label {
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+
+  ion-input {
+    --background: #ffffff;
+
+    --border-color: #d1d5db;
+    --border-radius: 8px;
+
+    --highlight-color-focused: #3880ff;
+
+    font-size: 14px;
+  }
+}
+
+
+/* =========================
    CONTRASEÑA
    ========================= */
 
@@ -112,51 +152,49 @@
 
   gap: 12px;
 
-  margin-bottom: 8px;
-
   label {
-    margin: 0;
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
   }
 }
 
-.password-group {
-  label {
-    margin-bottom: 0;
-  }
-}
 
 .forgot-password {
-  padding: 0;
+  min-height: auto;
 
-  border: none;
+  margin: 0;
 
-  background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
 
-  color: #3880ff;
+  --color: #3880ff;
 
   font-size: 12px;
   font-weight: 600;
 
-  cursor: pointer;
-}
-
-.forgot-password:hover {
-  text-decoration: underline;
+  text-transform: none;
 }
 
 
 /* =========================
-   BOTÓN INGRESAR
+   INGRESAR
    ========================= */
 
 .login-button {
   width: 100%;
 
-  margin-top: 4px;
+  min-height: 44px;
 
-  padding: 13px 18px;
+  margin: 4px 0 0;
+
+  --border-radius: 8px;
 
   font-size: 15px;
+  font-weight: 600;
+
+  text-transform: none;
 }
 
 
@@ -169,7 +207,7 @@
   align-items: center;
   justify-content: center;
 
-  gap: 5px;
+  gap: 3px;
 
   margin-top: 22px;
 
@@ -184,23 +222,21 @@
   }
 }
 
+
 .register-button {
-  padding: 0;
+  min-height: auto;
 
-  border: none;
+  margin: 0;
 
-  background: transparent;
+  --padding-start: 3px;
+  --padding-end: 3px;
 
-  color: #3880ff;
+  --color: #3880ff;
 
   font-size: 13px;
   font-weight: 700;
 
-  cursor: pointer;
-}
-
-.register-button:hover {
-  text-decoration: underline;
+  text-transform: none;
 }
 
 
@@ -214,15 +250,20 @@
     padding: 24px 18px;
   }
 
+
   .login-header {
+
     h1 {
       font-size: 30px;
     }
+
   }
+
 
   .login-form {
     padding: 22px;
   }
+
 
   .password-label {
     align-items: flex-start;

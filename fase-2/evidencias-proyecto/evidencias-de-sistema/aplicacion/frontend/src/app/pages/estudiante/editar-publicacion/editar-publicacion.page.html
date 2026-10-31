@@ -5,106 +5,122 @@
     <header class="page-header">
 
       <div>
-        <button
+
+        <ion-button
           class="back-button"
           type="button"
+          fill="clear"
           [routerLink]="['/detalle-consulta', idConsulta]"
         >
           ← Volver a la consulta
-        </button>
+        </ion-button>
 
-        <h1>Editar publicación</h1>
+        <h1>
+          Editar publicación
+        </h1>
 
         <p>
           Modifica el contenido de tu consulta.
         </p>
+
       </div>
 
       <app-side-menu></app-side-menu>
 
     </header>
 
+
     <main
       class="page-card"
       *ngIf="consulta"
     >
 
+      <!-- TÍTULO -->
       <div class="form-group">
 
-        <label for="titulo">
+        <label>
           Título
         </label>
 
-        <input
-          id="titulo"
+        <ion-input
           type="text"
+          fill="outline"
           [(ngModel)]="titulo"
-        />
+        >
+        </ion-input>
 
       </div>
 
+
+      <!-- ASIGNATURA -->
       <div class="form-group">
 
-        <label for="asignatura">
+        <label>
           Asignatura
         </label>
 
-        <select
-          id="asignatura"
+        <ion-select
+          fill="outline"
           [(ngModel)]="idAsignatura"
         >
 
-          <option [ngValue]="1">
+          <ion-select-option [value]="1">
             Programación
-          </option>
+          </ion-select-option>
 
-          <option [ngValue]="2">
+          <ion-select-option [value]="2">
             Bases de Datos
-          </option>
+          </ion-select-option>
 
-          <option [ngValue]="3">
+          <ion-select-option [value]="3">
             Matemáticas
-          </option>
+          </ion-select-option>
 
-          <option [ngValue]="4">
+          <ion-select-option [value]="4">
             Ingeniería de Software
-          </option>
+          </ion-select-option>
 
-        </select>
+        </ion-select>
 
       </div>
 
+
+      <!-- DESCRIPCIÓN -->
       <div class="form-group">
 
-        <label for="descripcion">
+        <label>
           Describe tu duda
         </label>
 
-        <textarea
-          id="descripcion"
+        <ion-textarea
+          fill="outline"
           rows="7"
           [(ngModel)]="descripcion"
-        ></textarea>
+        >
+        </ion-textarea>
 
       </div>
 
+
+      <!-- ACCIONES -->
       <div class="form-actions">
 
-        <button
+        <ion-button
           class="secondary-button"
           type="button"
+          fill="outline"
           [routerLink]="['/detalle-consulta', idConsulta]"
         >
           Cancelar
-        </button>
+        </ion-button>
 
-        <button
+        <ion-button
           class="primary-button"
           type="button"
           (click)="guardarCambios()"
         >
           Guardar cambios
-        </button>
+        </ion-button>
 
       </div>
 

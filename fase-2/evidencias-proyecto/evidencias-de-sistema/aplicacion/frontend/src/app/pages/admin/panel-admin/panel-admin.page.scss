@@ -1,34 +1,59 @@
+/* ==============================
+   BIENVENIDA
+================================ */
+
 .admin-welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
   margin-bottom: 24px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
 }
+
 
 .welcome-label {
   display: block;
+
   margin-bottom: 6px;
+
+  color: #3880ff;
 
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 
-  color: #3880ff;
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
 }
+
 
 .admin-welcome h1 {
   margin: 0 0 8px;
 
+  color: #1f2937;
+
   font-size: 28px;
   font-weight: 700;
-
-  color: #1f2937;
 }
+
 
 .admin-welcome p {
   margin: 0;
 
-  line-height: 1.6;
-
   color: #6b7280;
+
+  line-height: 1.6;
 }
 
 
@@ -37,14 +62,30 @@
 ================================ */
 
 .admin-summary {
-  margin-bottom: 28px;
+  width: 100%;
+
+  margin: 0 0 28px;
+
+  --background: #ffffff;
+
+  border: 1px solid #edf0f5;
+  border-radius: 14px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+
+  ion-card-content {
+    padding: 20px;
+  }
 }
+
 
 .summary-item {
   display: flex;
   align-items: center;
+
   gap: 16px;
 }
+
 
 .summary-item strong {
   display: flex;
@@ -56,18 +97,19 @@
 
   border-radius: 14px;
 
-  font-size: 24px;
-  font-weight: 700;
-
   color: #3880ff;
   background: #eef4ff;
+
+  font-size: 24px;
+  font-weight: 700;
 }
 
+
 .summary-item span {
+  color: #374151;
+
   font-size: 15px;
   font-weight: 600;
-
-  color: #374151;
 }
 
 
@@ -79,37 +121,44 @@
   margin-top: 8px;
 }
 
+
 .section-header {
   margin-bottom: 18px;
 }
 
+
 .section-label {
   display: block;
+
   margin-bottom: 5px;
+
+  color: #3880ff;
 
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 
-  color: #3880ff;
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
 }
+
 
 .section-header h2 {
   margin: 0 0 6px;
 
+  color: #1f2937;
+
   font-size: 21px;
   font-weight: 700;
-
-  color: #1f2937;
 }
+
 
 .section-header p {
   margin: 0;
 
-  line-height: 1.5;
-
   color: #6b7280;
+
+  line-height: 1.5;
 }
 
 
@@ -120,30 +169,46 @@
 .admin-options {
   display: flex;
   flex-direction: column;
+
   gap: 14px;
 }
 
-.admin-option {
-  display: flex;
-  align-items: center;
-  gap: 16px;
 
+.admin-option {
   width: 100%;
 
-  text-decoration: none;
+  margin: 0;
+
+  --background: #ffffff;
+
+  border: 1px solid #edf0f5;
+  border-radius: 14px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+
+  ion-card-content {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 18px 20px;
+  }
+}
+
+
+.admin-option-active {
+  cursor: pointer;
 
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 }
 
-a.admin-option {
-  cursor: pointer;
-}
-
-a.admin-option:hover {
-  transform: translateY(-2px);
-}
 
 .option-icon {
   display: flex;
@@ -157,41 +222,52 @@ a.admin-option:hover {
 
   border-radius: 12px;
 
+  background: #eef4ff;
+
   font-size: 23px;
 
-  background: #eef4ff;
+  ion-icon {
+    color: #3880ff;
+
+    font-size: 22px;
+  }
 }
+
 
 .option-content {
   flex: 1;
+
   min-width: 0;
 }
+
 
 .option-content h3 {
   margin: 0 0 4px;
 
+  color: #1f2937;
+
   font-size: 17px;
   font-weight: 700;
-
-  color: #1f2937;
 }
+
 
 .option-content p {
   margin: 0;
 
+  color: #6b7280;
+
   font-size: 14px;
   line-height: 1.5;
-
-  color: #6b7280;
 }
+
 
 .option-arrow {
   flex-shrink: 0;
 
+  color: #9ca3af;
+
   font-size: 30px;
   font-weight: 300;
-
-  color: #9ca3af;
 }
 
 
@@ -201,47 +277,26 @@ a.admin-option:hover {
 
 .admin-option-disabled {
   opacity: 0.65;
+
   cursor: default;
 }
 
-.option-status {
-  display: inline-block;
 
+.option-status {
   margin-top: 8px;
+
+  --background: #f3f4f6;
+  --color: #6b7280;
+
   padding: 4px 8px;
 
   border-radius: 999px;
 
   font-size: 11px;
   font-weight: 700;
-
-  color: #6b7280;
-  background: #f3f4f6;
 }
 
 
-/* ==============================
-   RESPONSIVE
-================================ */
-
-@media (max-width: 600px) {
-
-  .admin-welcome h1 {
-    font-size: 24px;
-  }
-
-  .admin-option {
-    align-items: flex-start;
-  }
-
-  .option-icon {
-    width: 44px;
-    height: 44px;
-
-    font-size: 21px;
-  }
-
-}
 /* ==============================
    BOTÓN SUPERIOR DEL MENÚ
 ================================ */
@@ -253,32 +308,23 @@ a.admin-option:hover {
   margin-bottom: 12px;
 }
 
-.admin-menu-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
+.admin-menu-button {
   width: 42px;
   height: 42px;
 
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
+  margin: 0;
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  --border-color: #d1d5db;
+  --border-radius: 10px;
+
+  --background: #ffffff;
+  --color: #374151;
 
   font-size: 22px;
-
-  color: #374151;
-  background: #ffffff;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.admin-menu-button:hover {
-  background: #f3f4f6;
-  border-color: #cbd5e1;
 }
 
 
@@ -288,6 +334,7 @@ a.admin-option:hover {
 
 .admin-menu-overlay {
   position: fixed;
+
   inset: 0;
 
   z-index: 998;
@@ -325,24 +372,27 @@ a.admin-option:hover {
   transition: transform 0.25s ease;
 }
 
+
 .admin-side-menu.open {
   transform: translateX(0);
 }
 
 
 /* ==============================
-   PERFIL DEL ADMIN
+   PERFIL ADMIN
 ================================ */
 
 .admin-menu-profile {
   display: flex;
   align-items: center;
+
   gap: 12px;
 
   padding-bottom: 20px;
 
   border-bottom: 1px solid #e5e7eb;
 }
+
 
 .admin-avatar {
   display: flex;
@@ -356,152 +406,152 @@ a.admin-option:hover {
 
   border-radius: 50%;
 
-  font-size: 18px;
-  font-weight: 700;
-
   color: #ffffff;
   background: #3880ff;
+
+  font-size: 18px;
+  font-weight: 700;
 }
 
-.admin-menu-profile > div:nth-child(2) {
+
+.admin-profile-data {
   display: flex;
   flex: 1;
   flex-direction: column;
+
   gap: 2px;
+
+  strong {
+    color: #1f2937;
+
+    font-size: 15px;
+  }
+
+  span {
+    color: #6b7280;
+
+    font-size: 13px;
+  }
 }
 
-.admin-menu-profile strong {
-  font-size: 15px;
-
-  color: #1f2937;
-}
-
-.admin-menu-profile span {
-  font-size: 13px;
-
-  color: #6b7280;
-}
 
 .admin-menu-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   width: 34px;
   height: 34px;
 
-  border: 0;
-  border-radius: 8px;
+  margin: 0;
 
-  font-size: 26px;
-  line-height: 1;
+  --padding-start: 0;
+  --padding-end: 0;
 
-  color: #6b7280;
-  background: transparent;
+  --color: #6b7280;
 
-  cursor: pointer;
-}
-
-.admin-menu-close:hover {
-  background: #f3f4f6;
+  font-size: 25px;
 }
 
 
 /* ==============================
-   NAVEGACIÓN
+   NAVEGACIÓN MENÚ
 ================================ */
 
 .admin-menu-nav {
   display: flex;
   flex: 1;
   flex-direction: column;
+
   gap: 6px;
 
   padding-top: 18px;
-}
 
-.admin-menu-nav a,
-.admin-menu-nav button {
-  width: 100%;
+  ion-button {
+    width: 100%;
 
-  padding: 12px 14px;
+    margin: 0;
 
-  border: 0;
-  border-radius: 10px;
+    --padding-start: 14px;
+    --padding-end: 14px;
 
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: left;
-  text-decoration: none;
+    --background: transparent;
+    --color: #374151;
 
-  color: #374151;
-  background: transparent;
+    --border-radius: 10px;
 
-  cursor: pointer;
+    justify-content: flex-start;
 
-  transition:
-    background 0.15s ease,
-    color 0.15s ease;
-}
+    font-size: 14px;
+    font-weight: 600;
 
-.admin-menu-nav a:hover {
-  color: #3880ff;
-  background: #eef4ff;
-}
+    text-transform: none;
 
-.admin-menu-nav button:disabled {
-  color: #9ca3af;
+    &::part(native) {
+      justify-content: flex-start;
+    }
+  }
 
-  cursor: default;
+  ion-button:not([disabled]):hover {
+    --background: #eef4ff;
+    --color: #3880ff;
+  }
+
+  ion-button[disabled] {
+    --color: #9ca3af;
+
+    opacity: 1;
+  }
 }
 
 
 /* ==============================
-   PIE DEL MENÚ
+   PIE MENÚ
 ================================ */
 
 .admin-menu-footer {
   display: flex;
   flex-direction: column;
+
   gap: 6px;
 
   padding-top: 16px;
 
   border-top: 1px solid #e5e7eb;
+
+  ion-button {
+    width: 100%;
+
+    margin: 0;
+
+    --padding-start: 14px;
+    --padding-end: 14px;
+
+    --background: transparent;
+    --color: #374151;
+
+    --border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-transform: none;
+
+    &::part(native) {
+      justify-content: flex-start;
+    }
+  }
+
+  ion-button[disabled] {
+    --color: #9ca3af;
+
+    opacity: 1;
+  }
 }
 
-.admin-menu-footer button {
-  width: 100%;
 
-  padding: 12px 14px;
+.logout-button {
+  --color: #dc2626 !important;
 
-  border: 0;
-  border-radius: 10px;
-
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: left;
-
-  color: #374151;
-  background: transparent;
-
-  cursor: pointer;
-}
-
-.admin-menu-footer button:disabled {
-  color: #9ca3af;
-
-  cursor: default;
-}
-
-.admin-menu-footer .logout-button {
-  color: #dc2626;
-}
-
-.admin-menu-footer .logout-button:hover {
-  background: #fef2f2;
+  &:hover {
+    --background: #fef2f2 !important;
+  }
 }
 
 
@@ -510,6 +560,32 @@ a.admin-option:hover {
 ================================ */
 
 @media (max-width: 600px) {
+
+  .admin-welcome {
+
+    h1 {
+      font-size: 24px;
+    }
+
+  }
+
+
+  .admin-option {
+
+    ion-card-content {
+      align-items: flex-start;
+    }
+
+  }
+
+
+  .option-icon {
+    width: 44px;
+    height: 44px;
+
+    font-size: 21px;
+  }
+
 
   .admin-side-menu {
     width: 88vw;

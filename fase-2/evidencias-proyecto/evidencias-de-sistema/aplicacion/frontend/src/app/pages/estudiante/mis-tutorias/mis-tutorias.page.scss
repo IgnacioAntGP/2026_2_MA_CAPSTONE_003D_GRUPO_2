@@ -1,46 +1,102 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}
+
+
+/* =========================
+   LISTADO
+   ========================= */
+
 .mis-tutorias-list {
   display: flex;
   flex-direction: column;
+
   gap: 14px;
 }
 
-.tutoria-card {
-  padding: 22px;
 
-  background: #ffffff;
+/* =========================
+   TARJETA
+   ========================= */
+
+.tutoria-card {
+  width: 100%;
+
+  margin: 0;
+
+  --background: #ffffff;
 
   border-radius: 12px;
 
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
 
-  h2 {
-    margin: 14px 0 8px;
+  ion-card-header {
+    padding-bottom: 10px;
+  }
 
-    font-size: 19px;
-    line-height: 1.4;
+  ion-card-title {
+    margin-top: 10px;
 
     color: #1f2937;
+
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  ion-card-content {
+    padding-top: 0;
   }
 }
 
+
+/* =========================
+   ENCABEZADO TARJETA
+   ========================= */
+
 .tutoria-card-header {
   display: flex;
-
   justify-content: space-between;
   align-items: center;
 
   gap: 12px;
 }
 
-.asignatura {
+.asignatura-chip {
+  height: 28px;
+
+  margin: 0;
+
+  --background: rgba(56, 128, 255, 0.1);
+  --color: #3880ff;
+
   font-size: 13px;
   font-weight: 600;
-
-  color: #3880ff;
 }
 
-.estado {
+
+/* =========================
+   ESTADO
+   ========================= */
+
+.estado-badge {
   padding: 6px 10px;
+
+  --background: #f3f4f6;
+  --color: #4b5563;
 
   border-radius: 20px;
 
@@ -48,10 +104,30 @@
   font-weight: 600;
 }
 
-.estado.pendiente {
-  background: #fff7ed;
-  color: #c2410c;
+.estado-badge.pendiente {
+  --background: #fff7ed;
+  --color: #c2410c;
 }
+
+.estado-badge.en-proceso {
+  --background: #eff6ff;
+  --color: #1d4ed8;
+}
+
+.estado-badge.aceptada {
+  --background: #ecfdf5;
+  --color: #047857;
+}
+
+.estado-badge.resuelta {
+  --background: #f3f4f6;
+  --color: #4b5563;
+}
+
+
+/* =========================
+   DESCRIPCIÓN
+   ========================= */
 
 .descripcion {
   margin: 0 0 18px;
@@ -62,6 +138,11 @@
   line-height: 1.5;
 }
 
+
+/* =========================
+   INFORMACIÓN
+   ========================= */
+
 .tutoria-info {
   display: flex;
 
@@ -70,82 +151,101 @@
   padding-top: 16px;
 
   border-top: 1px solid #f0f0f0;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+  }
 }
 
-.tutoria-info > div {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 4px;
+.ayudante-info {
+  margin-top: 16px;
 }
 
 .info-label {
-  font-size: 12px;
-
   color: #9ca3af;
+
+  font-size: 12px;
 }
 
 .info-value {
-  font-size: 14px;
-
   color: #374151;
+
+  font-size: 14px;
 }
+
+
+/* =========================
+   ACCIONES
+   ========================= */
 
 .tutoria-actions {
   display: flex;
 
   gap: 8px;
 
-  margin-top: 14px;
-}
+  margin-top: 18px;
 
-.accept-button,
-.reject-button {
-  flex: 1;
+  ion-button {
+    flex: 1;
 
-  padding: 10px;
+    margin: 0;
 
-  border-radius: 6px;
+    --border-radius: 8px;
 
-  font-weight: 600;
+    font-weight: 600;
 
-  cursor: pointer;
-}
-
-.accept-button {
-  border: none;
-
-  background-color: #16a34a;
-
-  color: #ffffff;
-}
-
-.reject-button {
-  border: 1px solid #dc2626;
-
-  background-color: transparent;
-
-  color: #dc2626;
+    text-transform: none;
+  }
 }
 
 .contact-action {
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
-.contact-button {
-  width: 100%;
 
-  padding: 10px;
+/* =========================
+   ESTADO VACÍO
+   ========================= */
 
-  border: none;
-  border-radius: 6px;
+.empty-state {
+  padding: 30px;
 
-  background-color: #2563eb;
+  color: #6b7280;
 
-  color: #ffffff;
+  text-align: center;
 
-  font-weight: 600;
+  p {
+    margin: 0;
+  }
+}
 
-  cursor: pointer;
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .tutoria-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tutoria-info {
+    flex-direction: column;
+
+    gap: 14px;
+  }
+
+  .tutoria-actions {
+    flex-direction: column;
+
+    ion-button {
+      width: 100%;
+    }
+  }
+
 }

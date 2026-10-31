@@ -1,88 +1,193 @@
 <ion-content [fullscreen]="true">
+
   <div class="page-container">
+
     <header class="page-header">
+
       <div>
-        <button class="back-button" type="button" [routerLink]="['/detalle-consulta', idConsulta]">
+
+        <ion-button
+          class="back-button"
+          type="button"
+          fill="clear"
+          [routerLink]="['/detalle-consulta', idConsulta]"
+        >
           ← Volver a la consulta
-        </button>
+        </ion-button>
 
-        <h1>Solicitar ayudante</h1>
+        <h1>
+          Solicitar ayudante
+        </h1>
 
-        <p>Solicita apoyo personalizado de un Ayudante.</p>
+        <p>
+          Solicita apoyo personalizado de un Ayudante.
+        </p>
+
       </div>
 
       <app-side-menu></app-side-menu>
+
     </header>
-    @if (consulta){
-    <main class="page-content">
-        <section class="consulta-resumen">
-          <span class="asignatura"> {{ consulta.asignatura }} </span>
 
-          <h2>{{ consulta.titulo }}</h2>
 
-          <p>
-            Esta solicitud de ayudante estará asociada a la consulta que
-            publicaste en la comunidad.
-          </p>
-        </section>
+    @if (consulta) {
 
-        <section class="page-card">
-          @if(!solicitudEnviada){
-            <div class="form-group">
-              <label for="motivo"> ¿Qué necesitas reforzar? </label>
+      <main class="page-content">
 
-              <textarea id="motivo" rows="6" [(ngModel)]="motivo"
-                placeholder="Cuéntale al ayudante qué parte necesitas comprender mejor..."></textarea>
-            </div>
+        <!-- RESUMEN DE LA CONSULTA -->
+        <ion-card class="consulta-resumen">
 
-            <div class="form-group">
-              <label for="modalidad"> Modalidad preferida </label>
+          <ion-card-header>
 
-              <select id="modalidad" [(ngModel)]="modalidad">
-                <option value="" disabled>Selecciona una modalidad</option>
+            <ion-chip class="asignatura-chip">
+              {{ consulta.asignatura }}
+            </ion-chip>
 
-                <option value="ONLINE">Online</option>
+            <ion-card-title>
+              {{ consulta.titulo }}
+            </ion-card-title>
 
-                <option value="PRESENCIAL">Presencial</option>
-              </select>
+          </ion-card-header>
 
-              <div style="padding-top: 1rem">
-                <label for="categoria">Categoría de mi Solicitud</label>
-                <select id="categoria" name="categoria" [(ngModel)]="idCategoriaSeleccionada">
-                  <option [value]="" disabled selected>
-                    Seleccione una categoria
-                  </option>
-                  @for (item of categoria; track item.id_categoria) { @if
-                  (item.esActivo == true){
-                  <option [value]="item.id_categoria">{{item.nombre}}</option>
-                  } }
-                </select>
-              </div>
-            </div>
-
-            <div class="form-actions">
-              <button class="secondary-button" type="button" [routerLink]="['/detalle-consulta', idConsulta]">
-                Cancelar
-              </button>
-
-              <button class="primary-button" type="button" (click)="solicitarAyudantia()">
-                Solicitar ayudante
-              </button>
-            </div>
-          }
-
-          <div class="solicitud-confirmacion" *ngIf="solicitudEnviada">
-            <div class="confirmacion-icono">✓</div>
-
-            <h2>Solicitud enviada correctamente</h2>
+          <ion-card-content>
 
             <p>
-              Tu solicitud de ayudante quedó pendiente de asignación. Podrás
-              revisar su estado desde Mis tutorías.
+              Esta solicitud de ayudante estará asociada a la consulta que
+              publicaste en la comunidad.
             </p>
-          </div>
+
+          </ion-card-content>
+
+        </ion-card>
+
+
+        <!-- SOLICITUD -->
+        <section class="page-card">
+
+          @if (!solicitudEnviada) {
+
+            <!-- MOTIVO -->
+            <div class="form-group">
+
+              <label>
+                ¿Qué necesitas reforzar?
+              </label>
+
+              <ion-textarea
+                fill="outline"
+                rows="6"
+                [(ngModel)]="motivo"
+                placeholder="Cuéntale al ayudante qué parte necesitas comprender mejor..."
+              >
+              </ion-textarea>
+
+            </div>
+
+
+            <!-- MODALIDAD -->
+            <div class="form-group">
+
+              <label>
+                Modalidad preferida
+              </label>
+
+              <ion-select
+                fill="outline"
+                [(ngModel)]="modalidad"
+                placeholder="Selecciona una modalidad"
+              >
+
+                <ion-select-option value="ONLINE">
+                  Online
+                </ion-select-option>
+
+                <ion-select-option value="PRESENCIAL">
+                  Presencial
+                </ion-select-option>
+
+              </ion-select>
+
+            </div>
+
+
+            <!-- CATEGORÍA -->
+            <div class="form-group">
+
+              <label>
+                Categoría de mi solicitud
+              </label>
+
+              <ion-select
+                fill="outline"
+                [(ngModel)]="idCategoriaSeleccionada"
+                placeholder="Selecciona una categoría"
+              >
+
+                @for (item of categoria; track item.id_categoria) {
+
+                  <ion-select-option
+                    [value]="item.id_categoria.toString()"
+                  >
+                    {{ item.nombre }}
+                  </ion-select-option>
+
+                }
+
+              </ion-select>
+
+            </div>
+
+
+            <!-- ACCIONES -->
+            <div class="form-actions">
+
+              <ion-button
+                class="secondary-button"
+                type="button"
+                fill="outline"
+                [routerLink]="['/detalle-consulta', idConsulta]"
+              >
+                Cancelar
+              </ion-button>
+
+              <ion-button
+                class="primary-button"
+                type="button"
+                (click)="solicitarAyudantia()"
+              >
+                Solicitar ayudante
+              </ion-button>
+
+            </div>
+
+          } @else {
+
+            <!-- CONFIRMACIÓN -->
+            <div class="solicitud-confirmacion">
+
+              <div class="confirmacion-icono">
+                ✓
+              </div>
+
+              <h2>
+                Solicitud enviada correctamente
+              </h2>
+
+              <p>
+                Tu solicitud de ayudante quedó pendiente de asignación.
+                Podrás revisar su estado desde Mis tutorías.
+              </p>
+
+            </div>
+
+          }
+
         </section>
-    </main>
+
+      </main>
+
     }
+
   </div>
+
 </ion-content>

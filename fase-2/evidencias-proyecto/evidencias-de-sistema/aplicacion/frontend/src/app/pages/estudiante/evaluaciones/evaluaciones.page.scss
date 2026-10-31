@@ -1,36 +1,81 @@
+/* =========================
+   HEADER
+   ========================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}
+
+
+/* =========================
+   SECCIONES
+   ========================= */
+
 .evaluaciones-section {
   margin-bottom: 28px;
 
   h2 {
     margin: 0 0 14px;
 
-    font-size: 19px;
-
     color: #1f2937;
+
+    font-size: 19px;
+    font-weight: 600;
   }
 }
+
+
+/* =========================
+   TARJETAS
+   ========================= */
 
 .evaluacion-card {
-  margin-bottom: 12px;
+  width: 100%;
 
-  h3 {
-    margin: 14px 0 8px;
+  margin: 0 0 12px;
 
-    font-size: 18px;
-    line-height: 1.4;
+  --background: #ffffff;
+
+  border-radius: 12px;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
+  ion-card-header {
+    padding-bottom: 10px;
+  }
+
+  ion-card-title {
+    margin-top: 10px;
 
     color: #1f2937;
+
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
   }
 
-  p {
-    margin: 0;
-
-    color: #6b7280;
-
-    font-size: 14px;
-    line-height: 1.5;
+  ion-card-content {
+    padding-top: 0;
   }
 }
+
+
+/* =========================
+   ENCABEZADO DE TARJETA
+   ========================= */
 
 .evaluacion-header {
   display: flex;
@@ -40,30 +85,30 @@
   gap: 12px;
 }
 
-.asignatura {
-  padding: 5px 10px;
+.asignatura-chip {
+  height: 28px;
 
-  border-radius: 20px;
+  margin: 0;
 
-  background: #eef4ff;
+  --background: rgba(56, 128, 255, 0.1);
+  --color: #3880ff;
 
-  color: #3880ff;
-
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.estado {
-  padding: 5px 10px;
+.estado-badge {
+  padding: 6px 10px;
 
   border-radius: 20px;
-
-  background: #fff7ed;
-
-  color: #c2410c;
 
   font-size: 12px;
   font-weight: 600;
+}
+
+.estado-badge.pendiente {
+  --background: #fff7ed;
+  --color: #c2410c;
 }
 
 .fecha {
@@ -72,28 +117,54 @@
   font-size: 13px;
 }
 
-.evaluate-button {
-  width: auto;
 
-  margin-top: 18px;
+/* =========================
+   CONTENIDO
+   ========================= */
+
+.descripcion {
+  margin: 0;
+
+  color: #6b7280;
 
   font-size: 14px;
+  line-height: 1.5;
 }
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.evaluacion-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 18px;
+}
+
+
+/* =========================
+   CALIFICACIÓN
+   ========================= */
 
 .calificacion {
   display: flex;
   align-items: center;
 
-  gap: 10px;
+  gap: 12px;
 
-  margin: 14px 0 10px;
+  margin: 4px 0 14px;
 }
 
 .estrellas {
+  display: flex;
+
+  gap: 2px;
+
   color: #f59e0b;
 
   font-size: 22px;
-  letter-spacing: 2px;
 }
 
 .nota {
@@ -104,10 +175,22 @@
 }
 
 .comentario {
+  margin: 0;
+
   padding-top: 14px;
 
   border-top: 1px solid #f0f0f0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  line-height: 1.5;
 }
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
 
 @media (max-width: 600px) {
 
@@ -119,10 +202,16 @@
   .calificacion {
     align-items: flex-start;
     flex-direction: column;
+
+    gap: 6px;
   }
 
-  .evaluate-button {
-    width: 100%;
+  .evaluacion-actions {
+
+    ion-button {
+      width: 100%;
+    }
+
   }
 
 }

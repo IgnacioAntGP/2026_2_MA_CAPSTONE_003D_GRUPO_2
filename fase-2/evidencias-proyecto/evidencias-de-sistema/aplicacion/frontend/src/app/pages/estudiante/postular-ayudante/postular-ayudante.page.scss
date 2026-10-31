@@ -1,17 +1,44 @@
 /* =========================
+   HEADER
+   ========================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}
+
+
+/* =========================
    INFORMACIÓN DEL AYUDANTE
    ========================= */
 
 .info-card {
-  margin-bottom: 16px;
-  padding: 24px;
+  width: 100%;
 
-  background: #f8fbff;
+  margin: 0 0 16px;
+
+  --background: #f8fbff;
 
   border-left: 4px solid #3880ff;
   border-radius: 14px;
 
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
+  ion-card-content {
+    padding: 24px;
+  }
 
   h2,
   p {
@@ -20,13 +47,17 @@
 
   h2 {
     margin-bottom: 12px;
-    font-size: 19px;
+
     color: #1f2937;
+
+    font-size: 19px;
   }
 
   p {
     margin-bottom: 10px;
+
     color: #6b7280;
+
     font-size: 14px;
     line-height: 1.6;
 
@@ -36,9 +67,11 @@
   }
 }
 
+
 .info-card-header {
   display: flex;
   align-items: flex-start;
+
   gap: 14px;
 
   h2 {
@@ -50,23 +83,27 @@
   }
 }
 
+
 .info-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
   width: 32px;
   height: 32px;
   min-width: 32px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   border-radius: 50%;
 
   background: rgba(56, 128, 255, 0.12);
+
   color: #3880ff;
 
   font-size: 17px;
   font-weight: 700;
 }
+
 
 .helper-points {
   margin-top: 20px;
@@ -74,6 +111,7 @@
 
   border-top: 1px solid #e5e7eb;
 }
+
 
 .helper-point {
   display: flex;
@@ -89,6 +127,7 @@
 
   span {
     color: #3880ff;
+
     font-weight: 700;
   }
 
@@ -113,9 +152,9 @@
   h2 {
     margin: 0 0 22px;
 
-    font-size: 19px;
-
     color: #1f2937;
+
+    font-size: 19px;
   }
 }
 
@@ -125,15 +164,28 @@
    ========================= */
 
 .success-card {
+  width: 100%;
+
+  margin: 0;
+
+  --background: #ffffff;
+
+  border-radius: 14px;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
   text-align: center;
-  padding: 32px 24px;
+
+  ion-card-content {
+    padding: 32px 24px;
+  }
 
   h2 {
     margin: 0 0 10px;
 
-    font-size: 21px;
-
     color: #1f2937;
+
+    font-size: 21px;
   }
 
   p {
@@ -150,19 +202,22 @@
   }
 }
 
+
 .success-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
   width: 54px;
   height: 54px;
 
   margin: 0 auto 16px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   border-radius: 50%;
 
   background: #ecfdf5;
+
   color: #059669;
 
   font-size: 26px;
@@ -177,7 +232,11 @@
 @media (max-width: 600px) {
 
   .info-card {
-    padding: 20px;
+
+    ion-card-content {
+      padding: 20px;
+    }
+
   }
 
 }
