@@ -457,21 +457,33 @@ ion-button.secondary-button {
    MENÚ LATERAL
    ========================= */
 
-.menu-button {
+ion-button.menu-button {
   width: 44px;
   height: 44px;
+  min-height: 44px;
 
-  border: 1px solid $color-border;
-  border-radius: 8px;
+  margin: 0;
 
-  background: $color-white;
+  --padding-start: 0;
+  --padding-end: 0;
 
-  color: $color-text-label;
+  --background: #{$color-white};
+  --background-hover: #f3f4f6;
+
+  --color: #{$color-text-label};
+
+  --border-color: #{$color-border};
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 8px;
+
+  --box-shadow: none;
 
   font-size: 22px;
 
-  cursor: pointer;
+  text-transform: none;
 }
+
 
 .menu-overlay {
   position: fixed;
@@ -482,6 +494,7 @@ ion-button.secondary-button {
 
   background: rgba(0, 0, 0, 0.25);
 }
+
 
 .side-menu {
   position: fixed;
@@ -503,6 +516,7 @@ ion-button.secondary-button {
   box-shadow: -4px 0 18px rgba(0, 0, 0, 0.12);
 }
 
+
 .side-menu-header {
   display: flex;
 
@@ -520,24 +534,34 @@ ion-button.secondary-button {
   }
 }
 
-.close-menu-button {
+
+ion-button.close-menu-button {
   width: 36px;
   height: 36px;
+  min-height: 36px;
 
-  border: none;
+  margin: 0;
 
-  background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
 
-  color: $color-text-secondary;
+  --background: transparent;
+  --background-hover: #f3f4f6;
+
+  --color: #{$color-text-secondary};
+
+  --box-shadow: none;
 
   font-size: 28px;
 
-  cursor: pointer;
+  text-transform: none;
 }
+
 
 .menu-section {
   margin-bottom: 28px;
 }
+
 
 .menu-section-title {
   display: block;
@@ -552,29 +576,42 @@ ion-button.secondary-button {
   text-transform: uppercase;
 }
 
-.menu-item {
-  display: block;
 
+ion-button.menu-item {
   width: 100%;
+  min-height: 42px;
 
-  padding: 12px 0;
+  margin: 0;
 
-  border: none;
+  --padding-start: 0;
+  --padding-end: 0;
 
-  background: transparent;
+  --background: transparent;
+  --background-hover: transparent;
 
-  color: $color-text-label;
+  --color: #{$color-text-label};
+
+  --box-shadow: none;
 
   font-size: 15px;
+  font-weight: 400;
 
   text-align: left;
+  text-transform: none;
 
-  cursor: pointer;
+  letter-spacing: normal;
 }
 
-.menu-item:hover {
-  color: $color-primary;
+
+ion-button.menu-item::part(native) {
+  justify-content: flex-start;
 }
+
+
+ion-button.menu-item:hover {
+  --color: #{$color-primary};
+}
+
 
 .menu-section-bottom {
   padding-top: 16px;
@@ -582,11 +619,10 @@ ion-button.secondary-button {
   border-top: 1px solid #f0f0f0;
 }
 
-.menu-item.logout {
-  color: $color-text-secondary;
+
+ion-button.menu-item.logout {
+  --color: #{$color-text-secondary};
 }
-
-
 /* =========================
    RESPONSIVE GLOBAL
    ========================= */
