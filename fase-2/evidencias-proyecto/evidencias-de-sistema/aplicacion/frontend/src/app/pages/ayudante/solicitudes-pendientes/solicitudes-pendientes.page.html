@@ -44,6 +44,10 @@
 
               <ion-select
                 fill="outline"
+                interface="popover"
+                [interfaceOptions]="{
+                  cssClass: 'entrepares-select-popover'
+                }"
                 [(ngModel)]="categoriaSeleccionada"
                 (ionChange)="filtrarPorCategoria()"
                 placeholder="Selecciona una categoría"
@@ -120,28 +124,50 @@
             </div>
 
 
-            <!-- CONTENIDO -->
-            <h2>
-              {{ solicitud.titulo_duda }}
-            </h2>
+            <!-- CONSULTA -->
+            <div class="consulta-content">
 
-            <p class="consulta-descripcion">
-              {{ solicitud.descripcion_duda || solicitud.descripcion }}
-            </p>
+              <h2>
+                {{ solicitud.titulo_duda }}
+              </h2>
+
+              <p class="consulta-descripcion">
+                {{ solicitud.descripcion_duda || solicitud.descripcion }}
+              </p>
+
+            </div>
 
 
             <!-- ESTUDIANTE -->
-            <div class="consulta-footer">
+            <div class="estudiante-section">
 
-              <span>
-                Estudiante:
+              <div class="estudiante-avatar">
+
+                {{
+                  (
+                    solicitud.nombre_estudiante ||
+                    solicitud.estudiante ||
+                    'E'
+                  ).charAt(0)
+                }}
+
+              </div>
+
+
+              <div class="estudiante-info">
+
+                <span class="estudiante-label">
+                  Solicitud realizada por
+                </span>
+
                 <strong>
                   {{
                     solicitud.nombre_estudiante ||
                     solicitud.estudiante
                   }}
                 </strong>
-              </span>
+
+              </div>
 
             </div>
 

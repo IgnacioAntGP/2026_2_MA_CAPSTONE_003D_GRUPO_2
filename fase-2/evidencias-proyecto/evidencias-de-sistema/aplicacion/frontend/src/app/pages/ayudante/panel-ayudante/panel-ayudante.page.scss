@@ -1,7 +1,45 @@
+/* =====================================================
+   PANEL DEL AYUDANTE - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
+/* =========================
+   HOST
+   ========================= */
+
 :host {
   display: block;
 
   width: 100%;
+}
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+
+.page-container {
+  background: $background;
 }
 
 
@@ -46,22 +84,22 @@
   .welcome-label {
     display: block;
 
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 
-    color: #3880ff;
+    color: $secondary;
 
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
 
     text-transform: uppercase;
 
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
   }
 
   h1 {
     margin: 0 0 6px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 32px;
     font-weight: 700;
@@ -72,7 +110,7 @@
   p {
     margin: 0;
 
-    color: #6b7280;
+    color: $text-secondary;
 
     font-size: 15px;
     line-height: 1.6;
@@ -89,12 +127,14 @@
 
   margin: 0 0 18px;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
+  border: 1px solid $border;
   border-radius: 14px;
 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
 
   ion-card-content {
     padding: 22px;
@@ -103,10 +143,12 @@
   h2 {
     margin: 0;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 19px;
     font-weight: 700;
+
+    letter-spacing: -0.15px;
   }
 }
 
@@ -116,8 +158,10 @@
    ========================= */
 
 .perfil-card {
-  border-left: 4px solid #3880ff;
+  border-left:
+    4px solid $secondary;
 }
+
 
 .perfil-content {
   display: flex;
@@ -125,6 +169,7 @@
 
   gap: 16px;
 }
+
 
 .perfil-avatar {
   width: 60px;
@@ -134,7 +179,10 @@
 
   --border-radius: 50%;
 
-  background: #e8eefc;
+  background: $secondary-soft;
+
+  border:
+    1px solid rgba(36, 107, 106, 0.14);
 
   img {
     width: 100%;
@@ -144,26 +192,32 @@
   }
 }
 
+
 .perfil-identidad {
 
   h2 {
     margin: 0 0 4px;
 
+    color: $text-primary;
+
     font-size: 20px;
+    font-weight: 700;
   }
 
   p {
     margin: 0 0 7px;
 
-    color: #6b7280;
+    color: $text-secondary;
 
     font-size: 14px;
   }
+
 }
 
+
 .rol-badge {
-  --background: #eef4ff;
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
   padding: 5px 10px;
 
@@ -181,22 +235,27 @@
 .actividad-grid {
   display: grid;
 
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
 
   gap: 12px;
 
   width: 100%;
 }
 
+
 .actividad-item {
   min-width: 0;
 
   padding: 16px 10px;
 
-  border: 1px solid #edf0f5;
+  border:
+    1px solid rgba(36, 107, 106, 0.12);
+
   border-radius: 10px;
 
-  background: #f8fafc;
+  background:
+    rgba(233, 243, 242, 0.42);
 
   text-align: center;
 
@@ -205,7 +264,7 @@
 
     margin-bottom: 4px;
 
-    color: #3880ff;
+    color: $secondary;
 
     font-size: 22px;
     font-weight: 700;
@@ -214,7 +273,7 @@
   span {
     display: block;
 
-    color: #6b7280;
+    color: $text-secondary;
 
     font-size: 12px;
 
@@ -237,10 +296,29 @@
   margin-bottom: 16px;
 }
 
+
 .panel-button {
   min-height: 40px;
 
+  --background: #{$primary};
+
+  --background-hover: #b8452c;
+  --background-focused: #b8452c;
+  --background-activated: #a93f29;
+
+  --color: #ffffff;
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.22);
+
   font-size: 13px;
+  font-weight: 600;
+
+  text-transform: none;
 }
 
 
@@ -251,10 +329,14 @@
 }
 
 
+/* =========================
+   PUBLICACIONES
+   ========================= */
+
 .dato-item {
   margin-bottom: 10px;
 
-  --background: #f8fafc;
+  --background: #faf9f7;
 
   --border-radius: 10px;
 
@@ -262,13 +344,24 @@
   --padding-end: 14px;
   --inner-padding-end: 0;
 
-  border: 1px solid #e2e8f0;
+  border: 1px solid $border;
   border-radius: 10px;
 
   cursor: pointer;
 
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+
   &:last-child {
     margin-bottom: 0;
+  }
+
+  &:hover {
+    --background: #{$secondary-soft};
+
+    border-color:
+      rgba(36, 107, 106, 0.18);
   }
 
   ion-label {
@@ -282,12 +375,18 @@
 
   margin-bottom: 7px;
 
-  color: #1f2937;
+  color: $text-primary;
 
   font-size: 15px;
   font-weight: 600;
+
+  line-height: 1.4;
 }
 
+
+/* =========================
+   METADATOS
+   ========================= */
 
 .dato-meta {
   display: flex;
@@ -296,37 +395,46 @@
 
   gap: 6px;
 
-  color: #6b7280;
+  color: $text-secondary;
 
   font-size: 13px;
 }
 
+
+/* =========================
+   ASIGNATURA
+   ========================= */
 
 .asignatura-chip {
   height: 25px;
 
   margin: 0;
 
-  --background: #eef4ff;
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
   font-size: 11px;
   font-weight: 700;
 }
 
 
+/* =========================
+   RESPUESTAS
+   ========================= */
+
 .respuestas-badge {
   min-width: 32px;
 
-  --background: #ffffff;
-  --color: #4b5563;
+  --background: #{$surface};
+  --color: #{$text-secondary};
 
   padding: 6px 9px;
 
-  border: 1px solid #d1d5db;
+  border: 1px solid $border;
   border-radius: 20px;
 
   font-size: 12px;
+  font-weight: 600;
 }
 
 
@@ -337,7 +445,7 @@
 .empty-state {
   padding: 18px 0;
 
-  color: #6b7280;
+  color: $text-secondary;
 
   font-size: 14px;
 
@@ -364,13 +472,9 @@
   }
 
 
-  /*
-   * Las métricas se mantienen horizontales.
-   * Solo reducimos espacio y tipografía para
-   * que entren correctamente en pantallas pequeñas.
-   */
   .actividad-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
 
     gap: 8px;
   }

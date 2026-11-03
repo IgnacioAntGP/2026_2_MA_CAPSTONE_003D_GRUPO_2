@@ -1,3 +1,39 @@
+/* =====================================================
+   DETALLE CONSULTA - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+$danger: #c24141;
+$danger-soft: #fff1f1;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+.page-container {
+  background: $background;
+}
+
+
 /* =========================
    ENCABEZADO
    ========================= */
@@ -24,8 +60,32 @@
 }
 
 
+.detalle-header .back-button {
+  margin: 0;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
 /* =========================
-   CONSULTA
+   CONSULTA PRINCIPAL
    ========================= */
 
 .consulta-card {
@@ -33,14 +93,16 @@
 
   margin: 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
-  border-radius: 14px;
+  border: 1px solid $border;
+  border-left: 4px solid $primary;
+
+  border-radius: 12px;
 
   box-shadow:
-    0 2px 10px
-    rgba(0, 0, 0, 0.045);
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
 
   ion-card-content {
     padding: 24px;
@@ -49,14 +111,20 @@
   h1 {
     margin: 18px 0 8px;
 
-    color: #1f2937;
+    color: $text-primary;
 
-    font-size: 26px;
+    font-size: 27px;
     font-weight: 700;
     line-height: 1.35;
+
+    letter-spacing: -0.4px;
   }
 }
 
+
+/* =========================
+   META
+   ========================= */
 
 .consulta-meta {
   display: flex;
@@ -72,8 +140,8 @@
 
   margin: 0;
 
-  --background: #eef4ff;
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
   font-size: 12px;
   font-weight: 700;
@@ -81,7 +149,7 @@
 
 
 .fecha-consulta {
-  color: #9ca3af;
+  color: $text-muted;
 
   font-size: 12px;
 }
@@ -99,12 +167,14 @@
 
   margin-bottom: 22px;
 
-  color: #6b7280;
+  color: $text-muted;
 
   font-size: 13px;
 
   strong {
-    color: #374151;
+    color: $secondary;
+
+    font-weight: 650;
   }
 }
 
@@ -114,26 +184,20 @@
    ========================= */
 
 .consulta-descripcion {
-  padding: 18px 20px;
-
-  border: 1px solid #eef2f7;
-  border-radius: 10px;
-
-  background: #f8fafc;
+  padding: 2px 0;
 
   p {
     margin: 0;
 
-    color: #4b5563;
+    color: #5f5954;
 
     font-size: 15px;
-    line-height: 1.7;
+    line-height: 1.75;
   }
 }
 
-
 /* =========================
-   ACCIONES AUTOR
+   ACCIONES
    ========================= */
 
 .autor-actions {
@@ -142,12 +206,18 @@
 
   gap: 8px;
 
-  margin-top: 18px;
+  margin-top: 24px;
+  padding-top: 16px;
+
+  border-top: 1px solid rgba($border, 0.85);
 
   ion-button {
+    min-height: 34px;
+
     margin: 0;
 
-    --border-radius: 7px;
+    --border-radius: 8px;
+    --box-shadow: none;
 
     font-size: 12px;
     font-weight: 600;
@@ -158,20 +228,35 @@
 
 
 .edit-button {
-  --color: #2563eb;
+  --color: #{$secondary};
 
-  --border-color: #bfdbfe;
+  --border-color:
+    rgba(36, 107, 106, 0.3);
 
-  --background: #eff6ff;
+  --background: #{$secondary-soft};
+
+  --background-hover: #dceceb;
+  --background-focused: #dceceb;
+  --background-activated: #dceceb;
+
+  --ripple-color:
+    rgba(36, 107, 106, 0.14);
 }
 
 
 .delete-button {
-  --color: #dc2626;
+  --color: #{$danger};
 
-  --border-color: #fecaca;
+  --border-color: #f0caca;
 
-  --background: #fff5f5;
+  --background: #{$danger-soft};
+
+  --background-hover: #ffe5e5;
+  --background-focused: #ffe5e5;
+  --background-activated: #ffe5e5;
+
+  --ripple-color:
+    rgba(194, 65, 65, 0.12);
 }
 
 
@@ -180,7 +265,7 @@
    ========================= */
 
 .respuestas {
-  margin-top: 24px;
+  margin-top: 30px;
 }
 
 
@@ -189,49 +274,57 @@
   justify-content: space-between;
   align-items: center;
 
+  gap: 16px;
+
   margin-bottom: 14px;
 
   h2 {
     margin: 0;
 
-    color: #1f2937;
+    color: $text-primary;
 
-    font-size: 20px;
+    font-size: 21px;
+    font-weight: 700;
   }
 
   ion-note {
-    color: #9ca3af;
+    color: $text-muted;
 
     font-size: 13px;
   }
 }
 
 
+/* =========================
+   RESPUESTA INDIVIDUAL
+   ========================= */
+
 .respuesta-card {
   width: 100%;
 
-  margin: 0 0 12px;
+  margin: 0 0 10px;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
-  border-radius: 12px;
+  border: 1px solid $border;
+  border-left:
+    3px solid rgba(36, 107, 106, 0.55);
 
-  box-shadow:
-    0 2px 10px
-    rgba(0, 0, 0, 0.045);
+  border-radius: 10px;
+
+  box-shadow: none;
 
   ion-card-content {
-    padding: 20px;
+    padding: 18px 20px;
   }
 
   p {
     margin: 12px 0 0;
 
-    color: #4b5563;
+    color: $text-secondary;
 
     font-size: 15px;
-    line-height: 1.6;
+    line-height: 1.65;
   }
 }
 
@@ -244,13 +337,14 @@
   gap: 12px;
 
   strong {
-    color: #374151;
+    color: $secondary;
 
     font-size: 14px;
+    font-weight: 650;
   }
 
   ion-note {
-    color: #9ca3af;
+    color: $text-muted;
 
     font-size: 12px;
   }
@@ -262,21 +356,24 @@
    ========================= */
 
 .sin-respuestas {
-  padding: 20px;
+  padding: 22px;
 
-  border: 1px solid #edf0f5;
-  border-radius: 12px;
+  border:
+    1px solid rgba(36, 107, 106, 0.16);
 
-  background: #f8fafc;
+  border-radius: 10px;
+
+  background: $secondary-soft;
 
   text-align: center;
 
   p {
     margin: 0;
 
-    color: #6b7280;
+    color: $secondary;
 
     font-size: 14px;
+    font-weight: 500;
   }
 }
 
@@ -290,14 +387,12 @@
 
   margin: 28px 0 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
-  border-radius: 14px;
+  border: 1px solid $border;
+  border-radius: 12px;
 
-  box-shadow:
-    0 2px 10px
-    rgba(0, 0, 0, 0.045);
+  box-shadow: none;
 
   ion-card-content {
     padding: 22px;
@@ -306,18 +401,23 @@
   h2 {
     margin: 0 0 14px;
 
-    color: #1f2937;
+    color: $text-primary;
 
-    font-size: 18px;
+    font-size: 19px;
+    font-weight: 700;
   }
 
   ion-textarea {
-    --background: #ffffff;
+    --background: #{$surface};
 
-    --border-color: #d1d5db;
-    --border-radius: 8px;
+    --color: #{$text-primary};
 
-    --highlight-color-focused: #3880ff;
+    --placeholder-color: #{$text-muted};
+
+    --border-color: #{$border};
+    --border-radius: 9px;
+
+    --highlight-color-focused: #{$primary};
 
     font-size: 15px;
     line-height: 1.5;
@@ -336,7 +436,20 @@
 .response-button {
   margin: 0;
 
+  --background: #{$primary};
+
+  --background-hover: #b8452c;
+  --background-focused: #b8452c;
+  --background-activated: #a93f29;
+
+  --color: #ffffff;
+
   --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.24);
 
   font-size: 14px;
   font-weight: 600;
@@ -352,16 +465,16 @@
 .ayudantia-card {
   width: 100%;
 
-  margin: 24px 0 0;
+  margin: 22px 0 0;
 
-  --background: #ffffff;
+  --background: #{$secondary-soft};
 
-  border: 1px solid #dbeafe;
-  border-radius: 14px;
+  border:
+    1px solid rgba(36, 107, 106, 0.2);
 
-  box-shadow:
-    0 3px 12px
-    rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+
+  box-shadow: none;
 
   ion-card-content {
     display: flex;
@@ -371,13 +484,6 @@
     gap: 24px;
 
     padding: 22px;
-
-    background:
-      linear-gradient(
-        135deg,
-        #ffffff,
-        #f8fbff
-      );
   }
 }
 
@@ -390,29 +496,32 @@
   h2 {
     margin: 5px 0 8px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 18px;
+    font-weight: 700;
   }
 
   p {
     margin: 0;
 
-    color: #6b7280;
+    color: $text-secondary;
 
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.55;
   }
 }
 
 
 .ayudantia-label {
-  color: #3880ff;
+  color: $secondary;
 
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 
   text-transform: uppercase;
+
+  letter-spacing: 0.6px;
 }
 
 
@@ -421,7 +530,20 @@
 
   margin: 0;
 
+  --background: #{$secondary};
+
+  --background-hover: #1f5e5d;
+  --background-focused: #1f5e5d;
+  --background-activated: #1a5352;
+
+  --color: #ffffff;
+
   --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.2);
 
   font-size: 14px;
   font-weight: 600;
@@ -439,6 +561,10 @@
 @media (max-width: 600px) {
 
   .consulta-card {
+
+    ion-card-content {
+      padding: 20px;
+    }
 
     h1 {
       font-size: 23px;

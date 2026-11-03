@@ -61,6 +61,7 @@
 
           <ion-card-content>
 
+            <!-- ENCABEZADO -->
             <div class="consulta-header">
 
               <ion-chip class="asignatura-chip">
@@ -87,19 +88,43 @@
             </div>
 
 
-            <h2>
-              {{ m.titulo_duda }}
-            </h2>
+            <!-- CONSULTA -->
+            <div class="ayudantia-content">
+
+              <h2>
+                {{ m.titulo_duda }}
+              </h2>
+
+            </div>
 
 
-            <div class="consulta-footer">
+            <!-- ESTUDIANTE -->
+            <div class="estudiante-section">
 
-              <span>
-                Estudiante:
+              <div class="estudiante-avatar">
+
+                {{
+                  (
+                    m.nombre_estudiante ||
+                    m.estudiante ||
+                    'E'
+                  ).charAt(0)
+                }}
+
+              </div>
+
+
+              <div class="estudiante-info">
+
+                <span class="estudiante-label">
+                  Ayudantía con
+                </span>
+
                 <strong>
                   {{ m.nombre_estudiante || m.estudiante }}
                 </strong>
-              </span>
+
+              </div>
 
             </div>
 
@@ -138,7 +163,7 @@
 
       <ion-header>
 
-        <ion-toolbar color="primary">
+        <ion-toolbar class="session-toolbar">
 
           <ion-title>
             Ayudantía 1:1
@@ -147,6 +172,7 @@
           <ion-buttons slot="end">
 
             <ion-button
+              class="modal-close-button"
               (click)="cerrarVentanaSesion()"
             >
               Cerrar

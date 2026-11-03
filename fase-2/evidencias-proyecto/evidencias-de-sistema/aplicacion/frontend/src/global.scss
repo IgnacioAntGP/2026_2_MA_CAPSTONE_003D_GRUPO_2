@@ -905,3 +905,146 @@ ion-grid.tabla-custom {
     text-align: center;
   }
 }
+/* =========================
+   SELECT ENTREPARES
+   ========================= */
+
+ion-popover.entrepares-select-popover {
+  --width: 280px;
+  --background: #ffffff;
+  --box-shadow:
+    0 8px 28px
+    rgba(37, 35, 33, 0.12);
+}
+
+
+ion-popover.entrepares-select-popover::part(content) {
+  border: 1px solid #e4dfd8;
+  border-radius: 12px;
+}
+
+
+ion-popover.entrepares-select-popover ion-list {
+  padding: 6px;
+
+  background: #ffffff;
+}
+
+
+ion-popover.entrepares-select-popover ion-item {
+  --background: #ffffff;
+
+  --background-hover: #fbede8;
+  --background-focused: #fbede8;
+  --background-activated: #fbede8;
+
+  --color: #252321;
+
+  --border-radius: 8px;
+
+  margin: 2px 0;
+
+  font-size: 14px;
+}
+
+
+ion-popover.entrepares-select-popover ion-radio {
+  --color: #d8d2cb;
+  --color-checked: #c94f32;
+}
+/* =====================================================
+   ALERTAS ENTREPARES
+   ===================================================== */
+
+ion-alert.entrepares-alert {
+  --background: #ffffff;
+  --color: #252321;
+
+  --backdrop-opacity: 0.38;
+
+  --width: calc(100% - 40px);
+  --max-width: 360px;
+}
+
+
+/* Contenedor */
+ion-alert.entrepares-alert .alert-wrapper {
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #e4dfd8;
+  border-top: 4px solid #c94f32;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 32px
+    rgba(37, 35, 33, 0.14);
+}
+
+
+/* Encabezado */
+ion-alert.entrepares-alert .alert-head {
+  padding:
+    22px 22px 8px;
+}
+
+
+/* Título */
+ion-alert.entrepares-alert .alert-title {
+  color: #252321;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  text-align: left;
+}
+
+
+/* Mensaje */
+ion-alert.entrepares-alert .alert-message {
+  padding:
+    0 22px 20px;
+
+  color: #6d6965;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  text-align: left;
+}
+
+
+/* Zona del botón */
+ion-alert.entrepares-alert .alert-button-group {
+  padding:
+    10px 12px 12px;
+
+  border-top: 1px solid #e4dfd8;
+}
+
+
+/* Botón aceptar */
+ion-alert.entrepares-alert .alert-button {
+  min-height: 38px;
+
+  margin: 0;
+
+  color: #c94f32 !important;
+
+  background: #fbede8;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-transform: none;
+}
+
+
+/* Hover */
+ion-alert.entrepares-alert .alert-button:hover {
+  background: #f7ddd5;
+}

@@ -93,10 +93,13 @@
 
               <ion-select
                 fill="outline"
+                interface="popover"
+                [interfaceOptions]="{
+                  cssClass: 'entrepares-select-popover'
+                }"
                 [(ngModel)]="modalidad"
                 placeholder="Selecciona una modalidad"
               >
-
                 <ion-select-option value="ONLINE">
                   Online
                 </ion-select-option>
@@ -104,7 +107,6 @@
                 <ion-select-option value="PRESENCIAL">
                   Presencial
                 </ion-select-option>
-
               </ion-select>
 
             </div>
@@ -119,10 +121,13 @@
 
               <ion-select
                 fill="outline"
+                interface="popover"
+                [interfaceOptions]="{
+                  cssClass: 'entrepares-select-popover'
+                }"
                 [(ngModel)]="idCategoriaSeleccionada"
                 placeholder="Selecciona una categoría"
               >
-
                 @for (item of categoria; track item.id_categoria) {
 
                   <ion-select-option
@@ -132,7 +137,6 @@
                   </ion-select-option>
 
                 }
-
               </ion-select>
 
             </div>

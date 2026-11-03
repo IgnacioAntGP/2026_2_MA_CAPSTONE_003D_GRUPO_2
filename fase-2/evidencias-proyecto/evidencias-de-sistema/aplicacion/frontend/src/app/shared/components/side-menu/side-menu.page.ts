@@ -3,8 +3,24 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import {
-  IonButton
+  IonButton,
+  IonIcon
 } from '@ionic/angular';
+
+import { addIcons } from 'ionicons';
+
+import {
+  menuOutline,
+  closeOutline,
+  documentTextOutline,
+  schoolOutline,
+  starOutline,
+  personOutline,
+  ribbonOutline,
+  peopleOutline,
+  settingsOutline,
+  logOutOutline
+} from 'ionicons/icons';
 
 
 @Component({
@@ -15,12 +31,31 @@ import {
   imports: [
     CommonModule,
     RouterLink,
-    IonButton
+    IonButton,
+    IonIcon
   ]
 })
 export class SideMenuComponent {
 
   menuAbierto: boolean = false;
+
+
+  constructor() {
+
+    addIcons({
+      menuOutline,
+      closeOutline,
+      documentTextOutline,
+      schoolOutline,
+      starOutline,
+      personOutline,
+      ribbonOutline,
+      peopleOutline,
+      settingsOutline,
+      logOutOutline
+    });
+
+  }
 
 
   alternarMenu(): void {

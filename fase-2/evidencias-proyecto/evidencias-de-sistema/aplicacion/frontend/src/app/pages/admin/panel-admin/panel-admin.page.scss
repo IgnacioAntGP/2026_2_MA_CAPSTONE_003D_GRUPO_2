@@ -1,6 +1,43 @@
-/* ==============================
-   BIENVENIDA
-================================ */
+/* =====================================================
+   PANEL ADMINISTRADOR - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+$warning: #b8662f;
+$warning-soft: #fff4e8;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
+   ========================= */
 
 .admin-welcome {
   display: flex;
@@ -13,6 +50,7 @@
 
   > div {
     flex: 1;
+
     min-width: 0;
   }
 
@@ -25,56 +63,61 @@
 .welcome-label {
   display: block;
 
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 
-  color: #3880ff;
+  color: $primary;
 
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 
-  letter-spacing: 0.04em;
+  letter-spacing: 0.6px;
 
   text-transform: uppercase;
 }
 
 
 .admin-welcome h1 {
-  margin: 0 0 8px;
+  margin: 0 0 6px;
 
-  color: #1f2937;
+  color: $text-primary;
 
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
+
+  letter-spacing: -0.4px;
 }
 
 
 .admin-welcome p {
   margin: 0;
 
-  color: #6b7280;
+  color: $text-secondary;
 
+  font-size: 15px;
   line-height: 1.6;
 }
 
 
-/* ==============================
+/* =========================
    RESUMEN
-================================ */
+   ========================= */
 
 .admin-summary {
   width: 100%;
 
   margin: 0 0 28px;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
+  border: 1px solid $border;
   border-radius: 14px;
 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
 
   ion-card-content {
-    padding: 20px;
+    padding: 20px 22px;
   }
 }
 
@@ -95,10 +138,16 @@
   min-width: 56px;
   height: 56px;
 
+  flex-shrink: 0;
+
+  border:
+    1px solid rgba(184, 102, 47, 0.14);
+
   border-radius: 14px;
 
-  color: #3880ff;
-  background: #eef4ff;
+  color: $warning;
+
+  background: $warning-soft;
 
   font-size: 24px;
   font-weight: 700;
@@ -106,16 +155,18 @@
 
 
 .summary-item span {
-  color: #374151;
+  color: $text-primary;
 
   font-size: 15px;
   font-weight: 600;
+
+  line-height: 1.4;
 }
 
 
-/* ==============================
+/* =========================
    SECCIÓN
-================================ */
+   ========================= */
 
 .admin-section {
   margin-top: 8px;
@@ -132,12 +183,12 @@
 
   margin-bottom: 5px;
 
-  color: #3880ff;
+  color: $secondary;
 
   font-size: 12px;
   font-weight: 700;
 
-  letter-spacing: 0.04em;
+  letter-spacing: 0.6px;
 
   text-transform: uppercase;
 }
@@ -146,25 +197,28 @@
 .section-header h2 {
   margin: 0 0 6px;
 
-  color: #1f2937;
+  color: $text-primary;
 
   font-size: 21px;
   font-weight: 700;
+
+  letter-spacing: -0.2px;
 }
 
 
 .section-header p {
   margin: 0;
 
-  color: #6b7280;
+  color: $text-secondary;
 
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 
-/* ==============================
+/* =========================
    OPCIONES ADMIN
-================================ */
+   ========================= */
 
 .admin-options {
   display: flex;
@@ -179,12 +233,14 @@
 
   margin: 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
+  border: 1px solid $border;
   border-radius: 14px;
 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
 
   ion-card-content {
     display: flex;
@@ -197,18 +253,35 @@
 }
 
 
+/* =========================
+   OPCIONES DISPONIBLES
+   ========================= */
+
 .admin-option-active {
   cursor: pointer;
 
   transition:
     transform 0.15s ease,
+    border-color 0.15s ease,
     box-shadow 0.15s ease;
 
   &:hover {
-    transform: translateY(-2px);
+    transform:
+      translateY(-2px);
+
+    border-color:
+      rgba(201, 79, 50, 0.28);
+
+    box-shadow:
+      0 5px 16px
+      rgba(37, 35, 33, 0.07);
   }
 }
 
+
+/* =========================
+   ICONOS
+   ========================= */
 
 .option-icon {
   display: flex;
@@ -220,19 +293,28 @@
   width: 48px;
   height: 48px;
 
+  border:
+    1px solid rgba(201, 79, 50, 0.12);
+
   border-radius: 12px;
 
-  background: #eef4ff;
+  background: $primary-soft;
 
-  font-size: 23px;
+  color: $primary;
+
+  font-size: 22px;
 
   ion-icon {
-    color: #3880ff;
+    color: $primary;
 
     font-size: 22px;
   }
 }
 
+
+/* =========================
+   CONTENIDO OPCIÓN
+   ========================= */
 
 .option-content {
   flex: 1;
@@ -242,331 +324,137 @@
 
 
 .option-content h3 {
-  margin: 0 0 4px;
+  margin: 0 0 5px;
 
-  color: #1f2937;
+  color: $text-primary;
 
   font-size: 17px;
   font-weight: 700;
+
+  letter-spacing: -0.1px;
 }
 
 
 .option-content p {
   margin: 0;
 
-  color: #6b7280;
+  color: $text-secondary;
 
   font-size: 14px;
   line-height: 1.5;
+
+  strong {
+    color: #5f5954;
+
+    font-weight: 600;
+  }
 }
 
+
+/* =========================
+   FLECHA
+   ========================= */
 
 .option-arrow {
   flex-shrink: 0;
 
-  color: #9ca3af;
+  color: $primary;
 
   font-size: 30px;
   font-weight: 300;
+
+  line-height: 1;
 }
 
 
-/* ==============================
+/* =========================
    OPCIONES NO DISPONIBLES
-================================ */
+   ========================= */
 
 .admin-option-disabled {
-  opacity: 0.65;
+  --background: #faf9f7;
+
+  border-color:
+    rgba(228, 223, 216, 0.8);
+
+  box-shadow: none;
 
   cursor: default;
+
+
+  .option-icon {
+    background: #f3f1ee;
+
+    border-color:
+      rgba(228, 223, 216, 0.9);
+
+    filter: grayscale(0.25);
+
+    opacity: 0.72;
+  }
+
+
+  .option-content h3 {
+    color: $text-secondary;
+  }
+
+
+  .option-content p {
+    color: $text-muted;
+  }
 }
 
 
+/* =========================
+   PRÓXIMAMENTE
+   ========================= */
+
 .option-status {
-  margin-top: 8px;
+  margin-top: 9px;
 
-  --background: #f3f4f6;
-  --color: #6b7280;
+  --background: #f0eeeb;
+  --color: #77716b;
 
-  padding: 4px 8px;
+  padding: 4px 9px;
 
   border-radius: 999px;
 
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
+
+  letter-spacing: 0.2px;
 }
 
 
-/* ==============================
-   BOTÓN SUPERIOR DEL MENÚ
-================================ */
-
-.admin-menu-header {
-  display: flex;
-  justify-content: flex-end;
-
-  margin-bottom: 12px;
-}
-
-
-.admin-menu-button {
-  width: 42px;
-  height: 42px;
-
-  margin: 0;
-
-  --padding-start: 0;
-  --padding-end: 0;
-
-  --border-color: #d1d5db;
-  --border-radius: 10px;
-
-  --background: #ffffff;
-  --color: #374151;
-
-  font-size: 22px;
-}
-
-
-/* ==============================
-   OVERLAY
-================================ */
-
-.admin-menu-overlay {
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 998;
-
-  background: rgba(15, 23, 42, 0.35);
-}
-
-
-/* ==============================
-   MENÚ LATERAL
-================================ */
-
-.admin-side-menu {
-  position: fixed;
-
-  top: 0;
-  right: 0;
-
-  z-index: 999;
-
-  display: flex;
-  flex-direction: column;
-
-  width: min(340px, 88vw);
-  height: 100%;
-
-  padding: 24px 20px;
-
-  background: #ffffff;
-
-  box-shadow: -8px 0 30px rgba(15, 23, 42, 0.14);
-
-  transform: translateX(100%);
-
-  transition: transform 0.25s ease;
-}
-
-
-.admin-side-menu.open {
-  transform: translateX(0);
-}
-
-
-/* ==============================
-   PERFIL ADMIN
-================================ */
-
-.admin-menu-profile {
-  display: flex;
-  align-items: center;
-
-  gap: 12px;
-
-  padding-bottom: 20px;
-
-  border-bottom: 1px solid #e5e7eb;
-}
-
-
-.admin-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  width: 46px;
-  height: 46px;
-
-  border-radius: 50%;
-
-  color: #ffffff;
-  background: #3880ff;
-
-  font-size: 18px;
-  font-weight: 700;
-}
-
-
-.admin-profile-data {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-
-  gap: 2px;
-
-  strong {
-    color: #1f2937;
-
-    font-size: 15px;
-  }
-
-  span {
-    color: #6b7280;
-
-    font-size: 13px;
-  }
-}
-
-
-.admin-menu-close {
-  width: 34px;
-  height: 34px;
-
-  margin: 0;
-
-  --padding-start: 0;
-  --padding-end: 0;
-
-  --color: #6b7280;
-
-  font-size: 25px;
-}
-
-
-/* ==============================
-   NAVEGACIÓN MENÚ
-================================ */
-
-.admin-menu-nav {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-
-  gap: 6px;
-
-  padding-top: 18px;
-
-  ion-button {
-    width: 100%;
-
-    margin: 0;
-
-    --padding-start: 14px;
-    --padding-end: 14px;
-
-    --background: transparent;
-    --color: #374151;
-
-    --border-radius: 10px;
-
-    justify-content: flex-start;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    text-transform: none;
-
-    &::part(native) {
-      justify-content: flex-start;
-    }
-  }
-
-  ion-button:not([disabled]):hover {
-    --background: #eef4ff;
-    --color: #3880ff;
-  }
-
-  ion-button[disabled] {
-    --color: #9ca3af;
-
-    opacity: 1;
-  }
-}
-
-
-/* ==============================
-   PIE MENÚ
-================================ */
-
-.admin-menu-footer {
-  display: flex;
-  flex-direction: column;
-
-  gap: 6px;
-
-  padding-top: 16px;
-
-  border-top: 1px solid #e5e7eb;
-
-  ion-button {
-    width: 100%;
-
-    margin: 0;
-
-    --padding-start: 14px;
-    --padding-end: 14px;
-
-    --background: transparent;
-    --color: #374151;
-
-    --border-radius: 10px;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    text-transform: none;
-
-    &::part(native) {
-      justify-content: flex-start;
-    }
-  }
-
-  ion-button[disabled] {
-    --color: #9ca3af;
-
-    opacity: 1;
-  }
-}
-
-
-.logout-button {
-  --color: #dc2626 !important;
-
-  &:hover {
-    --background: #fef2f2 !important;
-  }
-}
-
-
-/* ==============================
+/* =========================
    RESPONSIVE
-================================ */
+   ========================= */
 
 @media (max-width: 600px) {
 
   .admin-welcome {
 
     h1 {
-      font-size: 24px;
+      font-size: 27px;
     }
 
+  }
+
+
+  .admin-summary {
+
+    ion-card-content {
+      padding: 18px;
+    }
+
+  }
+
+
+  .summary-item strong {
+    min-width: 52px;
+    height: 52px;
+
+    font-size: 22px;
   }
 
 
@@ -574,6 +462,8 @@
 
     ion-card-content {
       align-items: flex-start;
+
+      padding: 17px 18px;
     }
 
   }
@@ -583,14 +473,18 @@
     width: 44px;
     height: 44px;
 
-    font-size: 21px;
+    font-size: 20px;
+
+    ion-icon {
+      font-size: 20px;
+    }
   }
 
 
-  .admin-side-menu {
-    width: 88vw;
+  .option-arrow {
+    margin-top: 4px;
 
-    padding: 20px 16px;
+    font-size: 27px;
   }
 
 }

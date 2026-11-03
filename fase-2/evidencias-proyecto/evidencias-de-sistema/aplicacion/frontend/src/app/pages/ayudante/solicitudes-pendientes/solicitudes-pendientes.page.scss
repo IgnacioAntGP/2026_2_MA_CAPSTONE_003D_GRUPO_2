@@ -1,7 +1,51 @@
+/* =====================================================
+   SOLICITUDES PENDIENTES - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+$success: #37805f;
+$success-soft: #edf7f1;
+
+$warning: #b8662f;
+$warning-soft: #fff4e8;
+
+
+/* =========================
+   HOST
+   ========================= */
+
 :host {
   display: block;
 
   width: 100%;
+}
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+
+.page-container {
+  background: $background;
 }
 
 
@@ -46,22 +90,22 @@
   .welcome-label {
     display: block;
 
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 
-    color: #3880ff;
+    color: $secondary;
 
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
 
     text-transform: uppercase;
 
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
   }
 
   h1 {
     margin: 0 0 6px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 32px;
     font-weight: 700;
@@ -72,7 +116,7 @@
   p {
     margin: 0;
 
-    color: #6b7280;
+    color: $text-secondary;
 
     font-size: 15px;
     line-height: 1.6;
@@ -101,12 +145,14 @@
 
   margin: 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
+  border: 1px solid $border;
   border-radius: 14px;
 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
 
   ion-card-content {
     padding: 18px 22px;
@@ -117,14 +163,51 @@
 .filtro-group {
   margin-bottom: 0;
 
+  label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #5f5954;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+
   ion-select {
     max-width: 320px;
+
+    --background: #{$surface};
+
+    --color: #5f5954;
+
+    --placeholder-color: #{$text-muted};
+    --placeholder-opacity: 1;
+
+    --border-color: #{$border};
+    --border-radius: 8px;
+
+    --highlight-color-focused: #{$primary};
+
+    font-size: 14px;
+  }
+
+
+  ion-select.ion-focused {
+    --border-color: #{$primary};
+
+    box-shadow:
+      0 0 0 3px
+      rgba(201, 79, 50, 0.07);
+
+    border-radius: 8px;
   }
 }
 
 
 /* =========================
-   TARJETAS
+   TARJETA SOLICITUD
    ========================= */
 
 .consulta-card {
@@ -132,32 +215,23 @@
 
   margin: 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
+  border: 1px solid $border;
   border-radius: 14px;
 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
 
   ion-card-content {
     padding: 22px;
-  }
-
-  h2 {
-    margin: 14px 0 8px;
-
-    color: #1f2937;
-
-    font-size: 19px;
-    font-weight: 700;
-
-    line-height: 1.4;
   }
 }
 
 
 /* =========================
-   CABECERA SOLICITUD
+   CABECERA
    ========================= */
 
 .consulta-header {
@@ -166,6 +240,8 @@
   align-items: center;
 
   gap: 12px;
+
+  margin-bottom: 16px;
 }
 
 
@@ -177,6 +253,10 @@
   gap: 6px;
 }
 
+
+/* =========================
+   CHIPS
+   ========================= */
 
 .asignatura-chip,
 .categoria-chip {
@@ -190,14 +270,14 @@
 
 
 .asignatura-chip {
-  --background: #eef4ff;
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 }
 
 
 .categoria-chip {
-  --background: #f3f4f6;
-  --color: #4b5563;
+  --background: #f3f1ee;
+  --color: #625d58;
 }
 
 
@@ -206,29 +286,49 @@
    ========================= */
 
 .estado-badge {
+  flex-shrink: 0;
+
   padding: 6px 10px;
 
   border-radius: 20px;
 
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 
 .estado-badge.pendiente {
-  --background: #fff7ed;
-  --color: #c2410c;
+  --background: #{$warning-soft};
+  --color: #{$warning};
 }
 
 
 /* =========================
-   DESCRIPCIÓN
+   CONSULTA
    ========================= */
 
-.consulta-descripcion {
-  margin: 0 0 14px;
+.consulta-content {
+  padding-bottom: 18px;
 
-  color: #6b7280;
+  h2 {
+    margin: 0 0 8px;
+
+    color: $text-primary;
+
+    font-size: 19px;
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    letter-spacing: -0.15px;
+  }
+}
+
+
+.consulta-descripcion {
+  margin: 0;
+
+  color: #5f5954;
 
   font-size: 15px;
   line-height: 1.6;
@@ -236,21 +336,70 @@
 
 
 /* =========================
-   PIE
+   ESTUDIANTE
    ========================= */
 
-.consulta-footer {
-  padding-top: 12px;
+.estudiante-section {
+  display: flex;
+  align-items: center;
 
-  border-top: 1px solid #f0f2f5;
+  gap: 12px;
 
-  color: #8b95a5;
+  padding: 14px 0;
 
-  font-size: 13px;
+  border-top:
+    1px solid rgba(228, 223, 216, 0.8);
+}
+
+
+.estudiante-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  background: $primary-soft;
+
+  border:
+    1px solid rgba(201, 79, 50, 0.14);
+
+  border-radius: 50%;
+
+  color: $primary;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+.estudiante-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+
+  min-width: 0;
 
   strong {
-    color: #4b5563;
+    color: $text-primary;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    line-height: 1.35;
   }
+}
+
+
+.estudiante-label {
+  color: $text-muted;
+
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 
@@ -262,21 +411,34 @@
   display: flex;
   justify-content: flex-end;
 
-  margin-top: 14px;
+  margin-top: 4px;
 }
 
 
-.aceptar-button {
-  margin: 0;
+/* =========================
+   ACEPTAR AYUDANTÍA
+   ========================= */
 
+.aceptar-button {
+  min-width: 190px;
   min-height: 42px;
 
-  --background: #16a34a;
-  --background-hover: #15803d;
+  margin: 0;
+
+  --background: #{$success};
+
+  --background-hover: #2f6f53;
+  --background-focused: #2f6f53;
+  --background-activated: #285f47;
 
   --color: #ffffff;
 
   --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.2);
 
   font-size: 14px;
   font-weight: 600;
@@ -292,7 +454,7 @@
 .empty-state {
   padding: 24px;
 
-  color: #6b7280;
+  color: $text-secondary;
 
   font-size: 15px;
 
@@ -319,6 +481,15 @@
   }
 
 
+  .filtro-card {
+
+    ion-card-content {
+      padding: 18px;
+    }
+
+  }
+
+
   .filtro-group {
 
     ion-select {
@@ -328,9 +499,42 @@
   }
 
 
+  .consulta-card {
+
+    ion-card-content {
+      padding: 18px;
+    }
+
+  }
+
+
   .consulta-header {
     align-items: flex-start;
     flex-direction: column;
+
+    margin-bottom: 14px;
+  }
+
+
+  .consulta-content {
+
+    h2 {
+      font-size: 18px;
+    }
+
+  }
+
+
+  .estudiante-section {
+    padding: 13px 0;
+  }
+
+
+  .estudiante-avatar {
+    width: 38px;
+    height: 38px;
+
+    font-size: 13px;
   }
 
 
@@ -340,6 +544,11 @@
       width: 100%;
     }
 
+  }
+
+
+  .aceptar-button {
+    min-width: 0;
   }
 
 }

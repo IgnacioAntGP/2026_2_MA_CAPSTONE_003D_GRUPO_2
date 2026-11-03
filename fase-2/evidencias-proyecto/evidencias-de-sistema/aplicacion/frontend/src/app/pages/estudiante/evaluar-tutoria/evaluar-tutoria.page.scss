@@ -1,5 +1,38 @@
+/* =====================================================
+   EVALUAR TUTORÍA - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
 /* =========================
-   HEADER
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
    ========================= */
 
 .page-header {
@@ -17,11 +50,70 @@
   app-side-menu {
     flex-shrink: 0;
   }
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
 }
 
 
 /* =========================
-   RESUMEN
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0 0 18px;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   CONTENIDO
+   ========================= */
+
+.page-content {
+  max-width: 760px;
+}
+
+
+/* =========================
+   RESUMEN TUTORÍA
    ========================= */
 
 .tutoria-resumen {
@@ -29,54 +121,70 @@
 
   margin: 0 0 16px;
 
-  --background: #ffffff;
+  --background: #{$surface};
+
+  border: 1px solid $border;
+  border-left: 4px solid $secondary;
 
   border-radius: 12px;
 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
 
   ion-card-header {
-    padding-bottom: 8px;
+    padding:
+      20px 22px 8px;
   }
 
   ion-card-title {
-    margin-top: 10px;
+    margin-top: 12px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 19px;
-    font-weight: 600;
+    font-weight: 650;
     line-height: 1.4;
+
+    letter-spacing: -0.15px;
   }
 
   ion-card-content {
-    padding-top: 0;
+    padding:
+      0 22px 20px;
 
     p {
       margin: 0;
 
-      color: #6b7280;
+      color: $text-secondary;
 
       font-size: 14px;
+      line-height: 1.55;
 
       strong {
-        color: #374151;
+        color: $text-primary;
+
+        font-weight: 650;
       }
     }
   }
 }
 
 
+/* =========================
+   ASIGNATURA
+   ========================= */
+
 .asignatura-chip {
   height: 28px;
 
   margin: 0;
 
-  --background: rgba(56, 128, 255, 0.1);
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 
@@ -85,7 +193,75 @@
    ========================= */
 
 .evaluacion-form {
+  padding: 26px;
+
   margin-bottom: 16px;
+
+  background: $surface;
+
+  border: 1px solid $border;
+  border-radius: 12px;
+
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
+}
+
+
+/* =========================
+   CAMPOS
+   ========================= */
+
+.form-group {
+  margin-bottom: 23px;
+
+  label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #5f5954;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  ion-textarea {
+    --background: #{$surface};
+
+    --color: #4f4a46;
+
+    --placeholder-color: #{$text-muted};
+    --placeholder-opacity: 1;
+
+    --border-color: #{$border};
+    --border-radius: 9px;
+
+    --highlight-color-focused: #{$primary};
+
+    color: #4f4a46;
+
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  ion-textarea.ion-focused {
+    --border-color: #{$primary};
+
+    box-shadow:
+      0 0 0 3px
+      rgba(201, 79, 50, 0.07);
+
+    border-radius: 9px;
+  }
+}
+
+
+ion-textarea::part(native) {
+  color: #4f4a46;
+
+  font-weight: 400;
 }
 
 
@@ -111,10 +287,19 @@
   --padding-end: 0;
 
   --background: transparent;
-  --background-hover: transparent;
-  --background-activated: transparent;
 
-  --color: #f59e0b;
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
 
   font-size: 30px;
 
@@ -123,11 +308,92 @@
 
 
 .rating-help {
-  margin-top: 8px;
+  display: block;
 
-  color: #9ca3af;
+  margin-top: 4px;
 
-  font-size: 13px;
+  color: $text-muted;
+
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 30px;
+  padding-top: 20px;
+
+  border-top:
+    1px solid rgba($border, 0.8);
+}
+
+
+/* =========================
+   CANCELAR
+   ========================= */
+
+.secondary-button {
+  min-height: 42px;
+
+  --background: #{$surface};
+
+  --background-hover: #f2efeb;
+  --background-focused: #f2efeb;
+  --background-activated: #ece8e3;
+
+  --border-color: #{$border};
+
+  --color: #{$text-secondary};
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(109, 105, 101, 0.1);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   ENVIAR EVALUACIÓN
+   ========================= */
+
+.primary-button {
+  min-height: 42px;
+
+  --background: #{$primary};
+
+  --background-hover: #b8452c;
+  --background-focused: #b8452c;
+  --background-activated: #a93f29;
+
+  --color: #ffffff;
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.22);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
 }
 
 
@@ -137,15 +403,54 @@
 
 @media (max-width: 600px) {
 
+  .page-header {
+
+    h1 {
+      font-size: 27px;
+    }
+
+  }
+
+
+  .tutoria-resumen {
+
+    ion-card-header {
+      padding:
+        18px 18px 8px;
+    }
+
+    ion-card-content {
+      padding:
+        0 18px 18px;
+    }
+
+  }
+
+
+  .evaluacion-form {
+    padding: 20px;
+  }
+
+
   .rating {
     gap: 0;
   }
+
 
   .rating-button {
     width: 38px;
     height: 38px;
 
     font-size: 27px;
+  }
+
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    ion-button {
+      width: 100%;
+    }
   }
 
 }

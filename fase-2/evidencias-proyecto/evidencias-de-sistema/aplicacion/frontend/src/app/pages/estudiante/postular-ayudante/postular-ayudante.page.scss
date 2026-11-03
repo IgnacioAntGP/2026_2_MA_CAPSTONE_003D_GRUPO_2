@@ -1,5 +1,41 @@
+/* =====================================================
+   POSTULAR COMO AYUDANTE - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+$success: #37805f;
+$success-soft: #edf7f1;
+
+
 /* =========================
-   HEADER
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
    ========================= */
 
 .page-header {
@@ -17,6 +53,65 @@
   app-side-menu {
     flex-shrink: 0;
   }
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0 0 18px;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   CONTENIDO
+   ========================= */
+
+.page-content {
+  max-width: 760px;
 }
 
 
@@ -29,41 +124,19 @@
 
   margin: 0 0 16px;
 
-  --background: #f8fbff;
+  --background: #{$surface};
 
-  border-left: 4px solid #3880ff;
-  border-radius: 14px;
+  border: 1px solid $border;
+  border-left: 4px solid $secondary;
 
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
 
   ion-card-content {
-    padding: 24px;
-  }
-
-  h2,
-  p {
-    margin-top: 0;
-  }
-
-  h2 {
-    margin-bottom: 12px;
-
-    color: #1f2937;
-
-    font-size: 19px;
-  }
-
-  p {
-    margin-bottom: 10px;
-
-    color: #6b7280;
-
-    font-size: 14px;
-    line-height: 1.6;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
+    padding: 22px;
   }
 }
 
@@ -75,18 +148,27 @@
   gap: 14px;
 
   h2 {
-    margin: 2px 0 8px;
+    margin: 2px 0 7px;
+
+    color: $text-primary;
+
+    font-size: 18px;
+    font-weight: 650;
   }
 
   p {
     margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 14px;
+    line-height: 1.55;
   }
 }
 
 
 .info-icon {
   display: flex;
-
   align-items: center;
   justify-content: center;
 
@@ -94,22 +176,27 @@
   height: 32px;
   min-width: 32px;
 
+  color: $secondary;
+
+  background: $secondary-soft;
+
   border-radius: 50%;
 
-  background: rgba(56, 128, 255, 0.12);
-
-  color: #3880ff;
-
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 
+/* =========================
+   PUNTOS INFORMATIVOS
+   ========================= */
+
 .helper-points {
-  margin-top: 20px;
+  margin-top: 18px;
   padding-top: 16px;
 
-  border-top: 1px solid #e5e7eb;
+  border-top:
+    1px solid rgba($border, 0.8);
 }
 
 
@@ -126,15 +213,16 @@
   }
 
   span {
-    color: #3880ff;
+    color: $secondary;
 
+    font-size: 14px;
     font-weight: 700;
   }
 
   p {
     margin: 0;
 
-    color: #4b5563;
+    color: #5f5954;
 
     font-size: 14px;
     line-height: 1.5;
@@ -147,15 +235,189 @@
    ========================= */
 
 .solicitud-card {
+  padding: 26px;
+
   margin-bottom: 16px;
 
-  h2 {
-    margin: 0 0 22px;
+  background: $surface;
 
-    color: #1f2937;
+  border: 1px solid $border;
+  border-radius: 12px;
+
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
+
+  h2 {
+    margin: 0 0 24px;
+
+    color: $text-primary;
 
     font-size: 19px;
+    font-weight: 650;
   }
+}
+
+
+/* =========================
+   CAMPOS
+   ========================= */
+
+.form-group {
+  margin-bottom: 24px;
+
+  label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #5f5954;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  ion-textarea {
+    --background: #{$surface};
+
+    --color: #4f4a46;
+
+    --placeholder-color: #{$text-muted};
+    --placeholder-opacity: 1;
+
+    --border-color: #{$border};
+    --border-radius: 9px;
+
+    --highlight-color-focused: #{$primary};
+
+    color: #4f4a46;
+
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  ion-textarea.ion-focused {
+    --border-color: #{$primary};
+
+    box-shadow:
+      0 0 0 3px
+      rgba(201, 79, 50, 0.07);
+
+    border-radius: 9px;
+  }
+}
+
+
+.field-help {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: $text-muted;
+
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+
+ion-textarea::part(native) {
+  color: #4f4a46;
+
+  font-weight: 400;
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 30px;
+  padding-top: 20px;
+
+  border-top:
+    1px solid rgba($border, 0.8);
+}
+
+
+/* =========================
+   CANCELAR
+   ========================= */
+
+.secondary-button {
+  min-height: 42px;
+
+  --background: #{$surface};
+
+  --background-hover: #f2efeb;
+  --background-focused: #f2efeb;
+  --background-activated: #ece8e3;
+
+  --border-color: #{$border};
+
+  --color: #{$text-secondary};
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(109, 105, 101, 0.1);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   ENVIAR SOLICITUD
+   ========================= */
+
+.primary-button {
+  min-height: 42px;
+
+  --background: #{$primary};
+
+  --background-hover: #b8452c;
+  --background-focused: #b8452c;
+  --background-activated: #a93f29;
+
+  --color: #ffffff;
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.22);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+
+  transition:
+    opacity 0.15s ease,
+    filter 0.15s ease;
+}
+
+
+/* Mientras se está enviando */
+.primary-button[disabled] {
+  --background: #d78370;
+  --color: rgba(255, 255, 255, 0.95);
+
+  opacity: 1;
+
+  cursor: default;
 }
 
 
@@ -168,32 +430,38 @@
 
   margin: 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border-radius: 14px;
+  border: 1px solid $border;
+  border-radius: 12px;
 
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
 
   text-align: center;
 
   ion-card-content {
-    padding: 32px 24px;
+    padding: 34px 24px;
   }
 
   h2 {
-    margin: 0 0 10px;
+    margin: 0 0 9px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 21px;
+    font-weight: 700;
   }
 
   p {
-    margin: 0 0 24px;
+    max-width: 470px;
 
-    color: #6b7280;
+    margin: 0 auto 24px;
 
-    font-size: 15px;
+    color: $text-secondary;
+
+    font-size: 14px;
     line-height: 1.6;
   }
 
@@ -205,7 +473,6 @@
 
 .success-icon {
   display: flex;
-
   align-items: center;
   justify-content: center;
 
@@ -214,11 +481,14 @@
 
   margin: 0 auto 16px;
 
+  color: $success;
+
+  background: $success-soft;
+
+  border:
+    1px solid rgba(55, 128, 95, 0.18);
+
   border-radius: 50%;
-
-  background: #ecfdf5;
-
-  color: #059669;
 
   font-size: 26px;
   font-weight: 700;
@@ -231,12 +501,40 @@
 
 @media (max-width: 600px) {
 
+  .page-header {
+
+    h1 {
+      font-size: 27px;
+    }
+
+  }
+
+
   .info-card {
 
     ion-card-content {
-      padding: 20px;
+      padding: 19px;
     }
 
+  }
+
+
+  .info-card-header {
+    gap: 11px;
+  }
+
+
+  .solicitud-card {
+    padding: 20px;
+  }
+
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    ion-button {
+      width: 100%;
+    }
   }
 
 }

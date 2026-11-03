@@ -7,27 +7,35 @@
 
       <div class="header-top-bar">
 
-        <ion-button
-          class="back-button"
-          type="button"
-          fill="clear"
-          routerLink="/panel-admin"
-        >
-          ← Volver a Mi Panel
-        </ion-button>
+        <div>
+
+          <ion-button
+            class="back-button"
+            type="button"
+            fill="clear"
+            routerLink="/panel-admin"
+          >
+            ← Volver a Mi Panel
+          </ion-button>
+
+          <span class="welcome-label">
+            Configuración administrativa
+          </span>
+
+          <h1>
+            Categorías de solicitudes
+          </h1>
+
+          <p>
+            Gestiona los filtros que utilizan los estudiantes
+            al solicitar una ayudantía.
+          </p>
+
+        </div>
 
         <app-side-menu></app-side-menu>
 
       </div>
-
-      <h1>
-        Configuración de Categorías
-      </h1>
-
-      <p>
-        Gestiona los filtros aplicados por los Estudiantes
-        para sus Solicitudes
-      </p>
 
     </header>
 
@@ -38,6 +46,7 @@
       <!-- TOOLBAR -->
       <div class="tabla-toolbar">
 
+        <!-- FILTROS -->
         <div class="botones-filtros">
 
           <ion-button
@@ -73,6 +82,7 @@
         </div>
 
 
+        <!-- NUEVA CATEGORÍA -->
         <div class="botones-acciones">
 
           <ion-button
@@ -104,7 +114,7 @@
 
             <ion-grid class="tabla-custom">
 
-              <!-- ENCABEZADO TABLA -->
+              <!-- ENCABEZADO -->
               <ion-row
                 class="tabla-header ion-align-items-center"
               >
@@ -113,30 +123,41 @@
                   size="4"
                   size-md="3"
                 >
-                  <strong>Categoría</strong>
+                  <strong>
+                    Categoría
+                  </strong>
                 </ion-col>
+
 
                 <ion-col
                   size="4"
                   size-md="5"
                 >
-                  <strong>Descripción</strong>
+                  <strong>
+                    Descripción
+                  </strong>
                 </ion-col>
+
 
                 <ion-col
                   size="2"
                   size-md="2"
                   class="ion-text-center"
                 >
-                  <strong>Estado</strong>
+                  <strong>
+                    Estado
+                  </strong>
                 </ion-col>
+
 
                 <ion-col
                   size="2"
                   size-md="2"
                   class="ion-text-end"
                 >
-                  <strong>Acciones</strong>
+                  <strong>
+                    Acciones
+                  </strong>
                 </ion-col>
 
               </ion-row>
@@ -152,24 +173,31 @@
                   class="tabla-fila ion-align-items-center"
                 >
 
+                  <!-- CATEGORÍA -->
                   <ion-col
                     size="4"
                     size-md="3"
                     class="col-destacado"
                   >
+
                     {{ i.nombre }}
+
                   </ion-col>
 
 
+                  <!-- DESCRIPCIÓN -->
                   <ion-col
                     size="4"
                     size-md="5"
                     class="col-descripcion"
                   >
+
                     {{ i.descripcion }}
+
                   </ion-col>
 
 
+                  <!-- ESTADO -->
                   <ion-col
                     size="2"
                     size-md="2"
@@ -177,17 +205,17 @@
                   >
 
                     <ion-badge
-                      [color]="
-                        i.esActivo
-                          ? 'success'
-                          : 'medium'
-                      "
+                      class="estado-badge"
+                      [class.estado-activo]="i.esActivo"
+                      [class.estado-inactivo]="!i.esActivo"
                     >
+
                       {{
                         i.esActivo
                           ? 'ACTIVO'
                           : 'INACTIVO'
                       }}
+
                     </ion-badge>
 
                   </ion-col>
@@ -200,14 +228,13 @@
                     class="acciones-col"
                   >
 
+                    <!-- DESACTIVAR / REACTIVAR -->
                     <ion-button
+                      class="estado-action-button"
+                      [class.desactivar-button]="i.esActivo"
+                      [class.reactivar-button]="!i.esActivo"
                       fill="clear"
                       size="small"
-                      [color]="
-                        i.esActivo
-                          ? 'danger'
-                          : 'success'
-                      "
                       (click)="
                         alternarEstadoCategoria(
                           i.id_categoria
@@ -232,10 +259,11 @@
                     </ion-button>
 
 
+                    <!-- EDITAR -->
                     <ion-button
+                      class="editar-button"
                       fill="clear"
                       size="small"
-                      color="primary"
                       (click)="editarCategoria(i)"
                       aria-label="Editar categoría"
                     >
@@ -287,14 +315,18 @@
     <footer
       class="page-footer ion-text-center ion-padding-top"
     >
-      &copy; EntrePares 2026 - Construido en Ionic/Angular
+      &copy; EntrePares 2026 
     </footer>
 
   </div>
 
 
-  <!-- MODAL NUEVA CATEGORÍA -->
+  <!-- =================================================
+       MODAL NUEVA CATEGORÍA
+       ================================================= -->
+
   <ion-modal
+    class="categoria-modal"
     [isOpen]="isModalOpen"
     (willDismiss)="cerrarModal()"
   >
@@ -303,7 +335,7 @@
 
       <ion-header>
 
-        <ion-toolbar>
+        <ion-toolbar class="modal-toolbar">
 
           <ion-title>
             Nueva Categoría
@@ -312,6 +344,7 @@
           <ion-buttons slot="end">
 
             <ion-button
+              class="modal-close-button"
               type="button"
               (click)="cerrarModal()"
             >
@@ -325,12 +358,27 @@
       </ion-header>
 
 
-      <ion-content class="ion-padding">
+      <ion-content class="modal-content ion-padding">
 
         <form
           class="modal-form"
           (ngSubmit)="guardarCategoria()"
         >
+
+          <!-- INTRODUCCIÓN -->
+          <div class="modal-intro">
+
+            <span class="modal-label">
+              Configuración
+            </span>
+
+            <p>
+              Crea una nueva categoría para clasificar
+              las solicitudes de ayudantía.
+            </p>
+
+          </div>
+
 
           <!-- NOMBRE -->
           <div class="form-group">

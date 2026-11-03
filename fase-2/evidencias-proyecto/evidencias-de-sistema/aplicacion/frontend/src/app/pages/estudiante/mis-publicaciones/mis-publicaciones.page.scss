@@ -1,3 +1,40 @@
+/* =====================================================
+   MIS PUBLICACIONES - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
+   ========================= */
+
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -13,44 +50,130 @@
   app-side-menu {
     flex-shrink: 0;
   }
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
 }
+
+
+/* =========================
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0 0 18px;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   LISTADO
+   ========================= */
 
 .mis-publicaciones-list {
   display: flex;
   flex-direction: column;
 
-  gap: 14px;
+  gap: 12px;
 }
+
+
+/* =========================
+   PUBLICACIÓN
+   ========================= */
 
 .publicacion-card {
   width: 100%;
 
   margin: 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
+  border: 1px solid $border;
   border-radius: 12px;
 
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
+
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
 
   ion-card-header {
-    padding-bottom: 10px;
+    padding: 20px 22px 10px;
   }
 
   ion-card-title {
-    margin-top: 10px;
+    margin-top: 14px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 19px;
-    font-weight: 600;
+    font-weight: 650;
     line-height: 1.4;
+
+    letter-spacing: -0.15px;
   }
 
   ion-card-content {
-    padding-top: 0;
+    padding: 0 22px 20px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+
+    border-color:
+      rgba($primary, 0.35);
+
+    box-shadow:
+      0 5px 14px
+      rgba(37, 35, 33, 0.055);
   }
 }
+
+
+/* =========================
+   CABECERA TARJETA
+   ========================= */
 
 .publicacion-card-header,
 .publicacion-footer {
@@ -61,59 +184,134 @@
   gap: 12px;
 }
 
+
 .asignatura-chip {
   height: 28px;
 
   margin: 0;
 
-  --background: rgba(56, 128, 255, 0.1);
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
 }
+
 
 .fecha {
-  color: #9ca3af;
+  color: $text-muted;
 
-  font-size: 13px;
+  font-size: 12px;
 }
+
+
+/* =========================
+   DESCRIPCIÓN
+   ========================= */
 
 .descripcion {
-  margin: 0 0 16px;
+  margin: 0 0 18px;
 
-  color: #6b7280;
+  color: $text-secondary;
 
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
+
+
+/* =========================
+   PIE
+   ========================= */
 
 .publicacion-footer {
   padding-top: 14px;
 
-  border-top: 1px solid #f0f0f0;
+  border-top:
+    1px solid rgba($border, 0.75);
 
   ion-note {
-    color: #9ca3af;
+    color: $text-muted;
 
-    font-size: 13px;
+    font-size: 12px;
+  }
+
+
+  /* Estado de tutoría actual */
+  ion-note:last-child {
+    padding: 5px 9px;
+
+    color: $secondary;
+
+    background: $secondary-soft;
+
+    border-radius: 20px;
+
+    font-weight: 600;
   }
 }
 
-.empty-state {
-  padding: 30px;
 
-  color: #6b7280;
+/* =========================
+   ESTADO VACÍO
+   ========================= */
+
+.empty-state {
+  padding: 38px 20px;
+
+  color: $text-secondary;
 
   text-align: center;
+
+  p {
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 1.5;
+  }
 }
 
 
+/* =========================
+   RESPONSIVE
+   ========================= */
+
 @media (max-width: 600px) {
 
-  .publicacion-card-header,
+  .page-header {
+
+    h1 {
+      font-size: 27px;
+    }
+
+  }
+
+
+  .publicacion-card {
+
+    ion-card-header {
+      padding:
+        18px 18px 10px;
+    }
+
+    ion-card-content {
+      padding:
+        0 18px 18px;
+    }
+
+  }
+
+
+  .publicacion-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
   .publicacion-footer {
     align-items: flex-start;
+
+    gap: 9px;
+
     flex-direction: column;
   }
 

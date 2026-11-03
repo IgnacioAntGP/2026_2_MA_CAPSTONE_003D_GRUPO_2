@@ -53,11 +53,15 @@
         </label>
 
         <ion-select
+          class="asignatura-select"
           fill="outline"
+          interface="popover"
+          [interfaceOptions]="{
+            cssClass: 'entrepares-select-popover'
+          }"
           [(ngModel)]="idAsignatura"
           placeholder="Selecciona una asignatura"
         >
-
           <ion-select-option [value]="1">
             Programación
           </ion-select-option>
@@ -73,7 +77,6 @@
           <ion-select-option [value]="4">
             Ingeniería de Software
           </ion-select-option>
-
         </ion-select>
 
       </div>

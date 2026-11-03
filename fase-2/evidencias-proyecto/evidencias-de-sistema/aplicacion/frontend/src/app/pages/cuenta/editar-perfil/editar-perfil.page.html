@@ -44,6 +44,52 @@
 
       <ion-card-content>
 
+
+        <!-- FOTO E IDENTIDAD -->
+        <section class="profile-photo-section">
+
+          <div class="profile-avatar">
+
+            <span>
+              {{ perfil.nombre.charAt(0) }}
+            </span>
+
+          </div>
+
+
+          <div class="profile-photo-info">
+
+            <div class="profile-identity">
+
+              <h2>
+                {{ perfil.nombre }}
+                {{ perfil.apellido }}
+              </h2>
+
+              <span class="profile-role">
+                Estudiante
+              </span>
+
+            </div>
+
+
+            <ion-button
+              class="change-photo-button"
+              type="button"
+              fill="outline"
+            >
+              Cambiar foto
+            </ion-button>
+
+          </div>
+
+        </section>
+
+
+        <!-- SEPARADOR -->
+        <div class="profile-divider"></div>
+
+
         <!-- NOMBRE -->
         <div class="form-group">
 
@@ -121,6 +167,9 @@
           <ion-select
             fill="outline"
             interface="popover"
+            [interfaceOptions]="{
+              cssClass: 'entrepares-select-popover'
+            }"
             placeholder="Selecciona tu semestre"
             [(ngModel)]="semestre"
           >

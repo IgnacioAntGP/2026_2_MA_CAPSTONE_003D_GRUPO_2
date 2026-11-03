@@ -1,3 +1,46 @@
+/* =====================================================
+   MIS TUTORÍAS - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+$success: #37805f;
+$success-soft: #edf7f1;
+
+$danger: #c24141;
+$danger-soft: #fff1f1;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
+   ========================= */
+
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -13,6 +56,56 @@
   app-side-menu {
     flex-shrink: 0;
   }
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0 0 18px;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
 }
 
 
@@ -24,7 +117,7 @@
   display: flex;
   flex-direction: column;
 
-  gap: 14px;
+  gap: 12px;
 }
 
 
@@ -37,28 +130,49 @@
 
   margin: 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
+  border: 1px solid $border;
   border-radius: 12px;
 
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
+
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
 
   ion-card-header {
-    padding-bottom: 10px;
+    padding: 20px 22px 10px;
   }
 
   ion-card-title {
-    margin-top: 10px;
+    margin-top: 14px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 19px;
-    font-weight: 600;
+    font-weight: 650;
     line-height: 1.4;
+
+    letter-spacing: -0.15px;
   }
 
   ion-card-content {
-    padding-top: 0;
+    padding: 0 22px 20px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+
+    border-color:
+      rgba($secondary, 0.3);
+
+    box-shadow:
+      0 5px 14px
+      rgba(37, 35, 33, 0.055);
   }
 }
 
@@ -75,67 +189,83 @@
   gap: 12px;
 }
 
+
+/* =========================
+   ASIGNATURA
+   ========================= */
+
 .asignatura-chip {
   height: 28px;
 
   margin: 0;
 
-  --background: rgba(56, 128, 255, 0.1);
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 
 /* =========================
-   ESTADO
+   ESTADOS
    ========================= */
 
 .estado-badge {
   padding: 6px 10px;
 
-  --background: #f3f4f6;
-  --color: #4b5563;
+  --background: #f1efec;
+  --color: #6d6965;
 
   border-radius: 20px;
 
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.2px;
 }
 
+
+/* Esperando que un ayudante tome la solicitud */
 .estado-badge.pendiente {
-  --background: #fff7ed;
-  --color: #c2410c;
+  --background: #{$primary-soft};
+  --color: #{$primary};
 }
 
+
+/* Un ayudante tomó la solicitud */
 .estado-badge.en-proceso {
-  --background: #eff6ff;
-  --color: #1d4ed8;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 }
 
+
+/* Ayudante confirmado */
 .estado-badge.aceptada {
-  --background: #ecfdf5;
-  --color: #047857;
+  --background: #{$success-soft};
+  --color: #{$success};
 }
 
+
+/* Tutoría finalizada */
 .estado-badge.resuelta {
-  --background: #f3f4f6;
-  --color: #4b5563;
+  --background: #f1efec;
+  --color: #625e5a;
 }
 
 
 /* =========================
-   DESCRIPCIÓN
+   MOTIVO
    ========================= */
 
 .descripcion {
   margin: 0 0 18px;
 
-  color: #6b7280;
+  color: $text-secondary;
 
   font-size: 14px;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 
@@ -150,35 +280,53 @@
 
   padding-top: 16px;
 
-  border-top: 1px solid #f0f0f0;
+  border-top:
+    1px solid rgba($border, 0.8);
 
   > div {
     display: flex;
     flex-direction: column;
 
-    gap: 4px;
+    gap: 5px;
   }
 }
+
 
 .ayudante-info {
   margin-top: 16px;
 }
 
-.info-label {
-  color: #9ca3af;
 
-  font-size: 12px;
+.info-label {
+  color: $text-muted;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.35px;
 }
 
+
 .info-value {
-  color: #374151;
+  color: #514c48;
 
   font-size: 14px;
+  font-weight: 400;
+}
+
+
+/* Nombre del ayudante */
+.ayudante-info .info-value {
+  color: $secondary;
+
+  font-weight: 600;
 }
 
 
 /* =========================
-   ACCIONES
+   ACEPTAR / RECHAZAR
    ========================= */
 
 .tutoria-actions {
@@ -186,23 +334,107 @@
 
   gap: 8px;
 
-  margin-top: 18px;
+  margin-top: 20px;
+  padding-top: 16px;
+
+  border-top:
+    1px solid rgba($border, 0.8);
 
   ion-button {
     flex: 1;
 
+    min-height: 40px;
+
     margin: 0;
 
     --border-radius: 8px;
+    --box-shadow: none;
 
+    font-size: 13px;
     font-weight: 600;
 
     text-transform: none;
   }
 }
 
+
+/* Aceptar ayudante */
+.tutoria-actions ion-button:first-child {
+  --background: #{$secondary};
+
+  --background-hover: #1f5e5d;
+  --background-focused: #1f5e5d;
+  --background-activated: #1a5352;
+
+  --color: #ffffff;
+
+  --border-color: #{$secondary};
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.2);
+}
+
+
+/* Rechazar ayudante */
+.tutoria-actions ion-button:last-child {
+  --background: #{$surface};
+
+  --background-hover: #{$danger-soft};
+  --background-focused: #{$danger-soft};
+  --background-activated: #{$danger-soft};
+
+  --border-color: #{$danger};
+
+  --color: #{$danger};
+
+  --ripple-color:
+    rgba(194, 65, 65, 0.12);
+}
+
+
+/* =========================
+   CONTACTO DIRECTO
+   ========================= */
+
 .contact-action {
-  margin-top: 18px;
+  margin-top: 20px;
+  padding-top: 16px;
+
+  border-top:
+    1px solid rgba($border, 0.8);
+}
+
+
+.contact-action .primary-button {
+  min-height: 42px;
+
+  margin: 0;
+
+  --background: #{$secondary-soft};
+
+  --background-hover: #dceceb;
+  --background-focused: #dceceb;
+  --background-activated: #d4e7e6;
+
+  --color: #{$secondary};
+
+  --border-color:
+    rgba(36, 107, 106, 0.35);
+
+  --border-style: solid;
+  --border-width: 1px;
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(36, 107, 106, 0.12);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
 }
 
 
@@ -211,14 +443,17 @@
    ========================= */
 
 .empty-state {
-  padding: 30px;
+  padding: 38px 20px;
 
-  color: #6b7280;
+  color: $text-secondary;
 
   text-align: center;
 
   p {
     margin: 0;
+
+    font-size: 14px;
+    line-height: 1.5;
   }
 }
 
@@ -229,16 +464,43 @@
 
 @media (max-width: 600px) {
 
+  .page-header {
+
+    h1 {
+      font-size: 27px;
+    }
+
+  }
+
+
+  .tutoria-card {
+
+    ion-card-header {
+      padding:
+        18px 18px 10px;
+    }
+
+    ion-card-content {
+      padding:
+        0 18px 18px;
+    }
+
+  }
+
+
   .tutoria-card-header {
     align-items: flex-start;
+
     flex-direction: column;
   }
+
 
   .tutoria-info {
     flex-direction: column;
 
     gap: 14px;
   }
+
 
   .tutoria-actions {
     flex-direction: column;

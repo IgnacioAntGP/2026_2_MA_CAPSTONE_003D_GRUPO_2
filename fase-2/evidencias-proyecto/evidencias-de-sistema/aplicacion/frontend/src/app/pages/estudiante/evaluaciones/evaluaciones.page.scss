@@ -1,5 +1,38 @@
+/* =====================================================
+   EVALUACIONES - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
 /* =========================
-   HEADER
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
    ========================= */
 
 .page-header {
@@ -17,6 +50,56 @@
   app-side-menu {
     flex-shrink: 0;
   }
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0 0 18px;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
 }
 
 
@@ -25,15 +108,17 @@
    ========================= */
 
 .evaluaciones-section {
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 
   h2 {
     margin: 0 0 14px;
 
-    color: #1f2937;
+    color: $text-primary;
 
-    font-size: 19px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 650;
+
+    letter-spacing: -0.1px;
   }
 }
 
@@ -47,93 +132,137 @@
 
   margin: 0 0 12px;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
+  border: 1px solid $border;
   border-radius: 12px;
 
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
+
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
 
   ion-card-header {
-    padding-bottom: 10px;
+    padding:
+      20px 22px 14px;
   }
 
   ion-card-title {
-    margin-top: 10px;
+    margin: 0 0 12px;
 
-    color: #1f2937;
+    color: $text-primary;
 
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 19px;
+    font-weight: 650;
     line-height: 1.4;
+
+    letter-spacing: -0.15px;
   }
 
   ion-card-content {
-    padding-top: 0;
+    padding:
+      0 22px 20px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+
+    border-color:
+      rgba($secondary, 0.28);
+
+    box-shadow:
+      0 5px 14px
+      rgba(37, 35, 33, 0.055);
   }
 }
 
 
 /* =========================
-   ENCABEZADO DE TARJETA
+   METADATOS
    ========================= */
 
 .evaluacion-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
-  gap: 12px;
+  flex-wrap: wrap;
+
+  gap: 8px 12px;
 }
+
+
+/* =========================
+   ASIGNATURA
+   ========================= */
 
 .asignatura-chip {
   height: 28px;
 
   margin: 0;
 
-  --background: rgba(56, 128, 255, 0.1);
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
 }
+
+
+/* =========================
+   ESTADO PENDIENTE
+   ========================= */
 
 .estado-badge {
   padding: 6px 10px;
 
   border-radius: 20px;
 
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.15px;
 }
+
 
 .estado-badge.pendiente {
-  --background: #fff7ed;
-  --color: #c2410c;
-}
-
-.fecha {
-  color: #9ca3af;
-
-  font-size: 13px;
+  --background: #{$primary-soft};
+  --color: #{$primary};
 }
 
 
 /* =========================
-   CONTENIDO
+   FECHA
+   ========================= */
+
+.fecha {
+  color: $text-muted;
+
+  font-size: 12px;
+}
+
+
+/* =========================
+   DESCRIPCIÓN
    ========================= */
 
 .descripcion {
-  margin: 0;
+  margin: 2px 0 0;
 
-  color: #6b7280;
+  color: $text-secondary;
 
   font-size: 14px;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 
 /* =========================
-   ACCIONES
+   ACCIÓN
    ========================= */
 
 .evaluacion-actions {
@@ -141,6 +270,37 @@
   justify-content: flex-end;
 
   margin-top: 18px;
+  padding-top: 16px;
+
+  border-top:
+    1px solid rgba($border, 0.8);
+}
+
+
+.primary-button {
+  min-height: 42px;
+
+  margin: 0;
+
+  --background: #{$primary};
+
+  --background-hover: #b8452c;
+  --background-focused: #b8452c;
+  --background-activated: #a93f29;
+
+  --color: #ffffff;
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.22);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
 }
 
 
@@ -152,39 +312,58 @@
   display: flex;
   align-items: center;
 
-  gap: 12px;
+  flex-wrap: wrap;
 
-  margin: 4px 0 14px;
+  gap: 8px;
+
+  margin: 2px 0 16px;
 }
+
 
 .estrellas {
   display: flex;
+  align-items: center;
 
   gap: 2px;
 
-  color: #f59e0b;
+  color: $primary;
 
-  font-size: 22px;
+  font-size: 20px;
+  line-height: 1;
 }
+
 
 .nota {
-  color: #374151;
+  padding: 5px 9px;
 
-  font-size: 14px;
-  font-weight: 600;
+  color: $secondary;
+
+  background: $secondary-soft;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
 }
+
+
+/* =========================
+   COMENTARIO
+   ========================= */
 
 .comentario {
   margin: 0;
 
   padding-top: 14px;
 
-  border-top: 1px solid #f0f0f0;
+  border-top:
+    1px solid rgba($border, 0.8);
 
-  color: #6b7280;
+  color: $text-secondary;
 
   font-size: 14px;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 
@@ -194,17 +373,47 @@
 
 @media (max-width: 600px) {
 
-  .evaluacion-header {
-    align-items: flex-start;
-    flex-direction: column;
+  .page-header {
+
+    h1 {
+      font-size: 27px;
+    }
+
   }
+
+
+  .evaluaciones-section {
+    margin-bottom: 28px;
+  }
+
+
+  .evaluacion-card {
+
+    ion-card-header {
+      padding:
+        18px 18px 13px;
+    }
+
+    ion-card-content {
+      padding:
+        0 18px 18px;
+    }
+
+  }
+
+
+  .evaluacion-header {
+    justify-content: flex-start;
+  }
+
 
   .calificacion {
-    align-items: flex-start;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
 
-    gap: 6px;
+    gap: 8px;
   }
+
 
   .evaluacion-actions {
 

@@ -1,3 +1,37 @@
+/* =====================================================
+   MI PERFIL - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+
+.page-container {
+  background: $background;
+}
+
+
 /* =========================
    TARJETAS
    ========================= */
@@ -9,14 +43,14 @@
 
   margin: 0 0 16px;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  border: 1px solid #edf0f5;
+  border: 1px solid $border;
   border-radius: 14px;
 
   box-shadow:
     0 2px 10px
-    rgba(0, 0, 0, 0.045);
+    rgba(37, 35, 33, 0.045);
 
   ion-card-content {
     padding: 22px;
@@ -29,13 +63,20 @@
    ========================= */
 
 .perfil-card {
-  border-left: 4px solid #3880ff;
+  border:
+    1px solid $border;
+
+  border-left:
+    4px solid $primary;
 
   ion-card-content {
     display: flex;
     align-items: center;
 
-    gap: 18px;
+    gap: 20px;
+
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 }
 
@@ -45,17 +86,21 @@
   align-items: center;
   justify-content: center;
 
-  width: 64px;
-  height: 64px;
+  width: 68px;
+  height: 68px;
 
   flex-shrink: 0;
 
   border-radius: 50%;
 
-  background: #e8eefc;
-  color: #3880ff;
+  background: $primary-soft;
 
-  font-size: 24px;
+  border:
+    1px solid rgba(201, 79, 50, 0.14);
+
+  color: $primary;
+
+  font-size: 25px;
   font-weight: 700;
 }
 
@@ -63,19 +108,26 @@
 .perfil-identidad {
 
   h2 {
-    margin: 0 0 7px;
+    margin: 0 0 9px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 21px;
+    font-weight: 700;
+
+    letter-spacing: -0.2px;
   }
 
 }
 
 
+/* =========================
+   ROL
+   ========================= */
+
 .rol-badge {
-  --background: #eef4ff;
-  --color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
   padding: 5px 10px;
 
@@ -96,9 +148,12 @@
   h2 {
     margin: 0 0 18px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 18px;
+    font-weight: 700;
+
+    letter-spacing: -0.15px;
   }
 
 }
@@ -113,7 +168,8 @@
 
   padding: 14px 0;
 
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom:
+    1px solid rgba(228, 223, 216, 0.8);
 
   &:last-of-type {
     border-bottom: none;
@@ -122,16 +178,18 @@
 
 
 .dato-label {
-  color: #9ca3af;
+  color: $text-secondary;
 
   font-size: 13px;
+  font-weight: 500;
 }
 
 
 .dato-value {
-  color: #374151;
+  color: #4f4a46;
 
   font-size: 14px;
+  font-weight: 500;
 
   text-align: right;
 
@@ -154,12 +212,21 @@
 .edit-profile-button {
   margin: 0;
 
-  --background: #ffffff;
+  --background: #{$surface};
 
-  --color: #2563eb;
+  --background-hover: #{$secondary-soft};
+  --background-focused: #{$secondary-soft};
+  --background-activated: #{$secondary-soft};
 
-  --border-color: #3880ff;
+  --color: #{$secondary};
+
+  --border-color: #{$secondary};
   --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(36, 107, 106, 0.12);
 
   font-size: 14px;
   font-weight: 600;
@@ -189,19 +256,26 @@
 
   padding: 18px 8px;
 
-  border: 1px solid #edf0f5;
+  border:
+    1px solid rgba(36, 107, 106, 0.12);
+
   border-radius: 10px;
 
-  background: #f8fafc;
+  background:
+    rgba(233, 243, 242, 0.42);
 
   text-align: center;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 
   strong {
     display: block;
 
     margin-bottom: 6px;
 
-    color: #3880ff;
+    color: $secondary;
 
     font-size: 24px;
     font-weight: 700;
@@ -210,75 +284,14 @@
   span {
     display: block;
 
-    color: #6b7280;
+    color: $text-secondary;
 
     font-size: 12px;
+    line-height: 1.35;
   }
 }
 
 
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media (max-width: 600px) {
-
-  .perfil-card {
-
-    ion-card-content {
-      align-items: flex-start;
-    }
-
-  }
-
-
-  .dato {
-    align-items: flex-start;
-    flex-direction: column;
-
-    gap: 5px;
-  }
-
-
-  .dato-value {
-    text-align: left;
-  }
-
-
-  .perfil-actions {
-
-    ion-button {
-      width: 100%;
-    }
-
-  }
-
-
-  /*
-   * Mantenemos las métricas horizontales,
-   * igual que en panel-ayudante.
-   */
-  .actividad-grid {
-    grid-template-columns:
-      repeat(3, minmax(0, 1fr));
-
-    gap: 8px;
-  }
-
-
-  .actividad-item {
-    padding: 14px 5px;
-
-    strong {
-      font-size: 20px;
-    }
-
-    span {
-      font-size: 10px;
-    }
-  }
-
-}
 /* =========================
    ENCABEZADO
    ========================= */
@@ -305,12 +318,46 @@
 }
 
 
+/* =========================
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   TÍTULO
+   ========================= */
+
 .header-content {
 
   h1 {
     margin: 0 0 6px;
 
-    color: #1f2937;
+    color: $text-primary;
 
     font-size: 30px;
     font-weight: 700;
@@ -321,7 +368,7 @@
   p {
     margin: 0;
 
-    color: #6b7280;
+    color: $text-secondary;
 
     font-size: 15px;
     line-height: 1.5;
@@ -329,7 +376,76 @@
 }
 
 
+/* =========================
+   RESPONSIVE
+   ========================= */
+
 @media (max-width: 600px) {
+
+  .perfil-card {
+
+    ion-card-content {
+      align-items: center;
+
+      gap: 16px;
+
+      padding-top: 22px;
+      padding-bottom: 22px;
+    }
+
+  }
+
+
+  .perfil-avatar {
+    width: 62px;
+    height: 62px;
+
+    font-size: 23px;
+  }
+
+
+  .dato {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 5px;
+  }
+
+
+  .dato-value {
+    text-align: left;
+  }
+
+
+  .perfil-actions {
+
+    ion-button {
+      width: 100%;
+    }
+
+  }
+
+
+  .actividad-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+
+  .actividad-item {
+    padding: 14px 5px;
+
+    strong {
+      font-size: 20px;
+    }
+
+    span {
+      font-size: 10px;
+    }
+  }
+
 
   .header-content {
 
