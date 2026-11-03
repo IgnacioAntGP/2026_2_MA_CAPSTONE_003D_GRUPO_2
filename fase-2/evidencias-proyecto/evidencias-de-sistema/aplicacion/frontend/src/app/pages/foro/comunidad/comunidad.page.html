@@ -6,15 +6,11 @@
     <header class="comunidad-header page-large">
 
       <div>
-
-        <h1>
-          Comunidad
-        </h1>
+        <h1>Comunidad</h1>
 
         <p>
           Preguntas y respuestas entre estudiantes
         </p>
-
       </div>
 
       <app-side-menu></app-side-menu>
@@ -29,6 +25,8 @@
         class="searchbar"
         placeholder="Buscar una consulta..."
         show-clear-button="focus"
+        [debounce]="150"
+        (ionInput)="actualizarBusqueda($event)"
       ></ion-searchbar>
 
 
@@ -49,32 +47,41 @@
 
 
     <!-- FILTROS -->
-    <div class="filters page-large">
+    <div class="community-filters page-large">
+
+        <ion-select
+          class="subject-select"
+          aria-label="Filtrar por asignatura"
+          interface="popover"
+          [interfaceOptions]="{
+            cssClass: 'entrepares-select-popover'
+          }"
+          [value]="asignaturaSeleccionada"
+          (ionChange)="cambiarAsignatura($event)"
+        >
+
+        <ion-select-option value="TODAS">
+          Todas las asignaturas
+        </ion-select-option>
+
+        <ion-select-option
+          *ngFor="let asignatura of asignaturas"
+          [value]="asignatura"
+        >
+          {{ asignatura }}
+        </ion-select-option>
+
+      </ion-select>
+
 
       <ion-button
-        class="filter active"
+        class="unanswered-filter"
+        [class.active]="soloSinRespuesta"
         type="button"
-        size="small"
-      >
-        Recientes
-      </ion-button>
-
-      <ion-button
-        class="filter"
-        type="button"
-        size="small"
         fill="outline"
+        (click)="alternarSinRespuesta()"
       >
-        Sin respuesta
-      </ion-button>
-
-      <ion-button
-        class="filter"
-        type="button"
-        size="small"
-        fill="outline"
-      >
-        Mis publicaciones
+        Necesitan respuesta
       </ion-button>
 
     </div>
@@ -85,7 +92,7 @@
 
       <ion-card
         class="consulta-card"
-        *ngFor="let consulta of consultas"
+        *ngFor="let consulta of consultasFiltradas"
         [routerLink]="[
           '/detalle-consulta',
           consulta.id_consulta
@@ -155,6 +162,19 @@
         </ion-card-content>
 
       </ion-card>
+
+
+      <!-- SIN RESULTADOS -->
+      <div
+        class="empty-state"
+        *ngIf="consultasFiltradas.length === 0"
+      >
+        <strong>No encontramos consultas</strong>
+
+        <span>
+          Prueba cambiando la búsqueda o los filtros seleccionados.
+        </span>
+      </div>
 
     </main>
 

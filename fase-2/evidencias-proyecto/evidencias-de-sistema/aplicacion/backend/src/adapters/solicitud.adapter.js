@@ -117,11 +117,7 @@ class SolicitudAdapter {
       id_solicitud: item.id_solicitud,
       id_consulta: item.id_consulta,
       id_categoria: item.id_categoria,
-
-      // Se mantienen ambos nombres temporalmente por compatibilidad.
-      categoria: item.categoria_solicitud?.nombre || null,
       categoria_nombre: item.categoria_solicitud?.nombre || 'General',
-
       asignatura: item.consulta?.asignatura?.nombre || 'General',
       modalidad: item.modalidad,
       titulo_duda: item.consulta?.titulo || null,

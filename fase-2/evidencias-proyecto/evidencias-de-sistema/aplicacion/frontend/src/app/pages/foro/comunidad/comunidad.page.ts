@@ -15,7 +15,9 @@ import {
   IonCard,
   IonCardContent,
   IonChip,
-  IonNote
+  IonNote,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/angular';
 
 import { addIcons } from 'ionicons';
@@ -34,6 +36,7 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   imports: [
     CommonModule,
     RouterLink,
+
     IonContent,
     IonSearchbar,
     IonButton,
@@ -42,6 +45,9 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     IonCardContent,
     IonChip,
     IonNote,
+    IonSelect,
+    IonSelectOption,
+
     SideMenuComponent
   ]
 })
@@ -50,6 +56,12 @@ export class ComunidadPage implements OnInit {
   menuAbierto = false;
 
   consultas: Consulta[] = [];
+
+  textoBusqueda = '';
+
+  asignaturaSeleccionada = 'TODAS';
+
+  soloSinRespuesta = false;
 
 
   constructor(
@@ -93,6 +105,107 @@ export class ComunidadPage implements OnInit {
         }
 
       });
+
+  }
+
+
+  get asignaturas(): string[] {
+
+    return [
+      ...new Set(
+        this.consultas
+          .map(
+            (consulta) =>
+              consulta.asignatura?.trim()
+          )
+          .filter(
+            (asignatura):
+              asignatura is string =>
+              !!asignatura
+          )
+      )
+    ].sort(
+      (a, b) =>
+        a.localeCompare(b)
+    );
+
+  }
+
+
+  get consultasFiltradas(): Consulta[] {
+
+    const busqueda =
+      this.textoBusqueda
+        .trim()
+        .toLowerCase();
+
+
+    return this.consultas.filter(
+      (consulta) => {
+
+        const coincideAsignatura =
+          this.asignaturaSeleccionada === 'TODAS' ||
+          consulta.asignatura ===
+            this.asignaturaSeleccionada;
+
+
+        const necesitaRespuesta =
+          !this.soloSinRespuesta ||
+          (consulta.total_respuestas ?? 0) === 0;
+
+
+        const coincideBusqueda =
+          !busqueda ||
+          consulta.titulo
+            .toLowerCase()
+            .includes(busqueda) ||
+          consulta.descripcion
+            .toLowerCase()
+            .includes(busqueda) ||
+          (consulta.asignatura ?? '')
+            .toLowerCase()
+            .includes(busqueda) ||
+          (consulta.autor ?? '')
+            .toLowerCase()
+            .includes(busqueda);
+
+
+        return (
+          coincideAsignatura &&
+          necesitaRespuesta &&
+          coincideBusqueda
+        );
+
+      }
+    );
+
+  }
+
+
+  actualizarBusqueda(
+    event: CustomEvent
+  ): void {
+
+    this.textoBusqueda =
+      event.detail.value ?? '';
+
+  }
+
+
+  cambiarAsignatura(
+    event: CustomEvent
+  ): void {
+
+    this.asignaturaSeleccionada =
+      event.detail.value ?? 'TODAS';
+
+  }
+
+
+  alternarSinRespuesta(): void {
+
+    this.soloSinRespuesta =
+      !this.soloSinRespuesta;
 
   }
 
