@@ -1,6 +1,14 @@
 const supabase = require('../config/supabase');
+const utilsAdapter = require('./utils.adapter'); 
+const {
+    ConsultaComunidadResolveDTO,
+    ConsultaUsuarioResolveDTO,
+    ConsultaDetalleResolveDTO,
+    RespuestaConsultaResolveDTO
+} = require('../dto/consulta.resolve.dto');
 
 class ConsultaAdapter {
+  
   // 1. Vista Comunidad: Listar consultas con joins y total_respuestas
   async obtenerTodas() {
     const { data, error } = await supabase
@@ -27,16 +35,9 @@ class ConsultaAdapter {
 
     if (error) throw error;
 
-    return data.map((item) => ({
-      id_consulta: item.id_consulta,
-      titulo: item.titulo,
-      descripcion: item.descripcion,
-      fecha_creacion: item.fecha_creacion,
-      asignatura: item.asignatura?.nombre,
-      autor: item.usuario?.nombre,
-      total_respuestas: item.respuesta?.length || 0
-    }));
-  }
+    // Aplicando el DTO de resolución correspondiente
+    return (data || []).map(item => new ConsultaComunidadResolveDTO(item));
+  };
 
   // 2. Vista Nueva Publicación: Crear consulta
   async crear({ id_usuario, id_asignatura, titulo, descripcion }) {
@@ -48,7 +49,7 @@ class ConsultaAdapter {
 
     if (error) throw error;
     return data;
-  }
+  };
 
   // 3. Vista Mis Publicaciones: Listar por usuario
   async obtenerPorUsuario(id_usuario) {
@@ -63,7 +64,7 @@ class ConsultaAdapter {
           nombre
         ),
         solicitud_ayudantia (
-          id_solicitud,
+          id_postulacion,
           estado
         ),
         respuesta (
@@ -76,19 +77,19 @@ class ConsultaAdapter {
 
     if (error) throw error;
 
-    return data.map((item) => ({
-      id_consulta: item.id_consulta,
-      titulo: item.titulo,
-      descripcion: item.descripcion,
-      fecha_creacion: item.fecha_creacion,
-      asignatura: item.asignatura?.nombre,
-      total_respuestas: item.respuesta?.length || 0,
-      tutoria_solicitada: item.solicitud_ayudantia?.length > 0
-    }));
-  }
+    // Aplicando el DTO de resolución correspondiente a mis publicaciones
+    return (data || []).map(item => new ConsultaUsuarioResolveDTO(item));
+  };
 
   // 4. Vista Detalle de Consulta: Obtener por Consulta ID
   async obtenerPorId(id_consulta) {
+    const existe = await utilsAdapter.existeConsultaActiva(id_consulta);
+    if (!existe) {
+      const err = new Error('La consulta no existe o ha sido desactivada.');
+      err.statusCode = 404;
+      throw err;
+    }
+
     const { data, error } = await supabase
       .from('consulta')
       .select(`
@@ -114,16 +115,8 @@ class ConsultaAdapter {
 
     if (error) throw error;
 
-    return {
-      id_consulta: data.id_consulta,
-      id_usuario: data.id_usuario,
-      titulo: data.titulo,
-      descripcion: data.descripcion,
-      fecha_creacion: data.fecha_creacion,
-      asignatura: data.asignatura?.nombre,
-      autor: `${data.usuario?.nombre ?? ''} ${data.usuario?.apellido ?? ''}`.trim()
-    };
-  }
+    return new ConsultaDetalleResolveDTO(data);
+  };
 
   // 5. Vista Detalle Consulta: Respuestas
   async obtenerRespuestas(id_consulta) {
@@ -143,8 +136,10 @@ class ConsultaAdapter {
       .order('fecha_respuesta', { ascending: true });
 
     if (error) throw error;
-    return data;
-  }
+
+    // Retornando mapeado mediante el DTO de respuestas
+    return new RespuestaConsultaResolveDTO(data).respuestas;
+  };
 
   // 6. Vista Detalle Consulta: Agregar respuesta
   async agregarRespuesta(id_consulta, { id_usuario, contenido }) {
@@ -156,10 +151,17 @@ class ConsultaAdapter {
 
     if (error) throw error;
     return data;
-  }
+  };
 
   // 8. Vista Editar Publicación
   async actualizar(id_consulta, { titulo, id_asignatura, descripcion }) {
+    const existe = await utilsAdapter.existeConsultaActiva(id_consulta);
+    if (!existe) {
+      const err = new Error('No se puede actualizar una consulta inexistente.');
+      err.statusCode = 404;
+      throw err;
+    }
+
     const { data, error } = await supabase
       .from('consulta')
       .update({ titulo, id_asignatura, descripcion })
@@ -170,10 +172,17 @@ class ConsultaAdapter {
 
     if (error) throw error;
     return data;
-  }
+  };
 
-  // 9. Acción: Desactivar publicación (baja lógica)
+  // 9. Acción: Desactivar publicación
   async desactivar(id_consulta) {
+    const existe = await utilsAdapter.existeConsultaActiva(id_consulta);
+    if (!existe) {
+      const err = new Error('La consulta ya se encuentra inactiva o no existe.');
+      err.statusCode = 404;
+      throw err;
+    }
+
     const { data, error } = await supabase
       .from('consulta')
       .update({ estado: false })
@@ -184,7 +193,7 @@ class ConsultaAdapter {
 
     if (error) throw error;
     return data;
-  }
+  };
 }
 
 module.exports = new ConsultaAdapter();
