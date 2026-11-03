@@ -123,7 +123,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
     this.ticketService
       .aprobarPostulacionAyudante(
-        postulacion.id_solicitud
+        postulacion.id_postulacion
       )
       .subscribe({
 
@@ -131,12 +131,12 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
           console.log(
             'Postulación aprobada:',
-            postulacion.id_solicitud
+            postulacion.id_postulacion
           );
 
           this.postulacionesPendientes =
             this.postulacionesPendientes.filter(
-              p => p.id_solicitud !== postulacion.id_solicitud
+              p => p.id_postulacion !== postulacion.id_postulacion
             );
 
           this.cdr.detectChanges();
@@ -165,7 +165,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
     this.ticketService
       .rechazarPostulacionAyudante(
-        postulacion.id_solicitud
+        postulacion.id_postulacion
       )
       .subscribe({
 
@@ -173,12 +173,12 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
           console.log(
             'Postulación rechazada:',
-            postulacion.id_solicitud
+            postulacion.id_postulacion
           );
 
           this.postulacionesPendientes =
             this.postulacionesPendientes.filter(
-              p => p.id_solicitud !== postulacion.id_solicitud
+              p => p.id_postulacion !== postulacion.id_postulacion
             );
 
           this.cdr.detectChanges();

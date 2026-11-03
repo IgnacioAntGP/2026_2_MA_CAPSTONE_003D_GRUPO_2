@@ -11,7 +11,7 @@ router.post('/postulaciones-ayudante', (req, res) => usuarioController.postularA
 
 router.get('/postulaciones-ayudante/pendientes', (req, res) => usuarioController.obtenerPostulacionesPendientes(req, res));
 
-router.patch('/postulaciones-ayudante/:id_solicitud/aprobar', (req, res) => usuarioController.aprobarPostulacionAyudante(req, res));
+router.patch('/postulaciones-ayudante/:id_postulacion/aprobar', (req, res) => usuarioController.aprobarPostulacionAyudante(req, res));
 
-router.patch('/postulaciones-ayudante/:id_solicitud/rechazar', (req, res) =>usuarioController.rechazarPostulacionAyudante(req, res));
+router.patch('/postulaciones-ayudante/:id_postulacion/rechazar', (req, res) =>usuarioController.rechazarPostulacionAyudante(req, res));
 module.exports = router;

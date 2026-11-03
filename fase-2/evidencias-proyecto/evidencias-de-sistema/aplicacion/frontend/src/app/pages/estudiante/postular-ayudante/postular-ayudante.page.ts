@@ -40,6 +40,7 @@ export class PostularAyudantePage {
   idUsuarioActual = 1;
 
   solicitudEnviada = false;
+  enviandoSolicitud = false;
 
   constructor(
     private ticketService: TicketService,
@@ -53,6 +54,7 @@ export class PostularAyudantePage {
     this.motivo = '';
     this.experiencia = '';
     this.solicitudEnviada = false;
+    this.enviandoSolicitud = false;
 
     this.cdr.markForCheck();
 
@@ -60,6 +62,10 @@ export class PostularAyudantePage {
 
 
   enviarSolicitud() {
+
+    if (this.enviandoSolicitud) {
+      return;
+    }
 
     const motivo = this.motivo.trim();
     const experiencia = this.experiencia.trim();
@@ -71,8 +77,11 @@ export class PostularAyudantePage {
       );
 
       return;
-
     }
+
+
+    this.enviandoSolicitud = true;
+
 
     this.ticketService
       .postularComoAyudante(
@@ -89,14 +98,21 @@ export class PostularAyudantePage {
             respuesta
           );
 
+          this.enviandoSolicitud = false;
+
           this.solicitudEnviada = true;
 
           this.motivo = '';
           this.experiencia = '';
 
-          this.cdr.markForCheck();
+          /*
+          * Actualizamos inmediatamente la vista
+          * para mostrar la confirmación.
+          */
+          this.cdr.detectChanges();
 
         },
+
 
         error: async (error) => {
 
@@ -105,27 +121,56 @@ export class PostularAyudantePage {
             error
           );
 
+          this.enviandoSolicitud = false;
+
+          this.cdr.detectChanges();
+
+
           if (error.status === 409) {
 
-            const alert = await this.alertController.create({
-              header: 'Postulación pendiente',
-              message:
-                'Ya tienes una postulación pendiente. Debes esperar a que sea revisada antes de enviar una nueva.',
-              buttons: ['Aceptar']
-            });
+            const alert =
+              await this.alertController.create({
+
+                cssClass: 'entrepares-alert',
+
+                header: 'Postulación pendiente',
+
+                message:
+                  'Ya tienes una postulación pendiente. Debes esperar a que sea revisada antes de enviar una nueva.',
+
+                buttons: [
+                  {
+                    text: 'Aceptar',
+                    cssClass: 'entrepares-alert-button'
+                  }
+                ]
+
+              });
 
             await alert.present();
 
             return;
-
           }
 
-          const alert = await this.alertController.create({
-            header: 'Error',
-            message:
-              'No fue posible enviar la postulación. Intenta nuevamente.',
-            buttons: ['Aceptar']
-          });
+
+          const alert =
+            await this.alertController.create({
+
+              cssClass: 'entrepares-alert',
+
+              header: 'Error',
+
+              message:
+                'No fue posible enviar la postulación. Intenta nuevamente.',
+
+              buttons: [
+                {
+                  text: 'Aceptar',
+                  cssClass: 'entrepares-alert-button'
+                }
+              ]
+
+            });
 
           await alert.present();
 

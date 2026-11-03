@@ -174,9 +174,10 @@
           <ion-button
             class="primary-button"
             type="button"
+            [disabled]="enviandoSolicitud"
             (click)="enviarSolicitud()"
           >
-            Enviar solicitud
+            {{ enviandoSolicitud ? 'Enviando...' : 'Enviar solicitud' }}
           </ion-button>
 
         </div>
