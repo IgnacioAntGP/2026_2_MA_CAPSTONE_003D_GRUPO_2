@@ -7,56 +7,82 @@
 
       <div>
         <h1>Comunidad</h1>
-        <p>Preguntas y respuestas entre estudiantes</p>
+
+        <p>
+          Preguntas y respuestas entre estudiantes
+        </p>
       </div>
 
       <app-side-menu></app-side-menu>
 
     </header>
 
+
     <!-- BÚSQUEDA Y NUEVA PUBLICACIÓN -->
     <div class="comunidad-actions page-large">
 
-      <input
+      <ion-searchbar
         class="searchbar"
-        type="text"
         placeholder="Buscar una consulta..."
-      />
+        show-clear-button="focus"
+        [debounce]="150"
+        (ionInput)="actualizarBusqueda($event)"
+      ></ion-searchbar>
 
-      <button
-        class="primary-button new-post-button"
+
+      <ion-button
+        class="new-post-button"
         type="button"
         routerLink="/nueva-publicacion"
       >
-        + Nueva publicación
-      </button>
+        <ion-icon
+          slot="start"
+          name="add-outline"
+        ></ion-icon>
+
+        Nueva publicación
+      </ion-button>
 
     </div>
 
 
     <!-- FILTROS -->
-    <div class="filters page-large">
+    <div class="community-filters page-large">
 
-      <button
-        class="filter active"
-        type="button"
-      >
-        Recientes
-      </button>
+        <ion-select
+          class="subject-select"
+          aria-label="Filtrar por asignatura"
+          interface="popover"
+          [interfaceOptions]="{
+            cssClass: 'entrepares-select-popover'
+          }"
+          [value]="asignaturaSeleccionada"
+          (ionChange)="cambiarAsignatura($event)"
+        >
 
-      <button
-        class="filter"
-        type="button"
-      >
-        Sin respuesta
-      </button>
+        <ion-select-option value="TODAS">
+          Todas las asignaturas
+        </ion-select-option>
 
-      <button
-        class="filter"
+        <ion-select-option
+          *ngFor="let asignatura of asignaturas"
+          [value]="asignatura"
+        >
+          {{ asignatura }}
+        </ion-select-option>
+
+      </ion-select>
+
+
+      <ion-button
+        class="unanswered-filter"
+        [class.active]="soloSinRespuesta"
         type="button"
+        fill="outline"
+        (click)="alternarSinRespuesta()"
       >
-        Mis publicaciones
-      </button>
+        Necesitan respuesta
+      </ion-button>
 
     </div>
 
@@ -64,53 +90,91 @@
     <!-- CONSULTAS -->
     <main class="consultas page-large">
 
-      <article
+      <ion-card
         class="consulta-card"
-        *ngFor="let consulta of consultas"
-        [routerLink]="['/detalle-consulta', consulta.id_consulta]"
+        *ngFor="let consulta of consultasFiltradas"
+        [routerLink]="[
+          '/detalle-consulta',
+          consulta.id_consulta
+        ]"
       >
 
-        <div class="consulta-header">
+        <ion-card-content>
 
-          <span class="asignatura">
-            {{ consulta.asignatura }}
-          </span>
+          <div class="consulta-header">
 
-          <span class="fecha">
-            {{ consulta.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
-          </span>
+            <ion-chip class="asignatura-chip">
+              {{ consulta.asignatura }}
+            </ion-chip>
 
-        </div>
 
-        <h2>
-          {{ consulta.titulo }}
-        </h2>
+            <ion-note class="fecha">
+              {{
+                consulta.fecha_creacion
+                  | date:'dd/MM/yyyy - HH:mm'
+              }}
+            </ion-note>
 
-        <p>
-          {{ consulta.descripcion }}
-        </p>
+          </div>
 
-        <div class="consulta-footer">
 
-          <span *ngIf="(consulta.total_respuestas ?? 0) === 0">
-            Sin respuestas
-          </span>
+          <h2>
+            {{ consulta.titulo }}
+          </h2>
 
-          <span *ngIf="(consulta.total_respuestas ?? 0) === 1">
-            1 respuesta
-          </span>
 
-          <span *ngIf="(consulta.total_respuestas ?? 0) > 1">
-            {{ consulta.total_respuestas }} respuestas
-          </span>
+          <p class="consulta-descripcion">
+            {{ consulta.descripcion }}
+          </p>
 
-          <span>
-            Por: {{ consulta.autor }}
-          </span>
 
-        </div>
+          <div class="consulta-footer">
 
-      </article>
+            <ion-note>
+
+              <ng-container
+                *ngIf="(consulta.total_respuestas ?? 0) === 0"
+              >
+                Sin respuestas
+              </ng-container>
+
+              <ng-container
+                *ngIf="(consulta.total_respuestas ?? 0) === 1"
+              >
+                1 respuesta
+              </ng-container>
+
+              <ng-container
+                *ngIf="(consulta.total_respuestas ?? 0) > 1"
+              >
+                {{ consulta.total_respuestas }} respuestas
+              </ng-container>
+
+            </ion-note>
+
+
+            <ion-note>
+              Por: {{ consulta.autor }}
+            </ion-note>
+
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <!-- SIN RESULTADOS -->
+      <div
+        class="empty-state"
+        *ngIf="consultasFiltradas.length === 0"
+      >
+        <strong>No encontramos consultas</strong>
+
+        <span>
+          Prueba cambiando la búsqueda o los filtros seleccionados.
+        </span>
+      </div>
 
     </main>
 

@@ -1,128 +1,426 @@
-.evaluaciones-section {
-  margin-bottom: 28px;
+/* =====================================================
+   EVALUACIONES - ENTREPARES
+   ===================================================== */
 
-  h2 {
-    margin: 0 0 14px;
+$primary: #c94f32;
+$primary-soft: #fbede8;
 
-    font-size: 19px;
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
 
-    color: #1f2937;
-  }
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
 }
 
-.evaluacion-card {
-  margin-bottom: 12px;
+.page-container {
+  background: $background;
+}
 
-  h3 {
-    margin: 14px 0 8px;
 
-    font-size: 18px;
-    line-height: 1.4;
+/* =========================
+   ENCABEZADO
+   ========================= */
 
-    color: #1f2937;
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
   }
 
   p {
     margin: 0;
 
-    color: #6b7280;
+    color: $text-secondary;
 
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.5;
   }
 }
 
-.evaluacion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 
-  gap: 12px;
+/* =========================
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0 0 18px;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
 }
 
-.asignatura {
-  padding: 5px 10px;
 
-  border-radius: 20px;
+/* =========================
+   SECCIONES
+   ========================= */
 
-  background: #eef4ff;
+.evaluaciones-section {
+  margin-bottom: 32px;
 
-  color: #3880ff;
+  h2 {
+    margin: 0 0 14px;
+
+    color: $text-primary;
+
+    font-size: 18px;
+    font-weight: 650;
+
+    letter-spacing: -0.1px;
+  }
+}
+
+
+/* =========================
+   TARJETAS
+   ========================= */
+
+.evaluacion-card {
+  width: 100%;
+
+  margin: 0 0 12px;
+
+  --background: #{$surface};
+
+  border: 1px solid $border;
+  border-radius: 12px;
+
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
+
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+
+  ion-card-header {
+    padding:
+      20px 22px 14px;
+  }
+
+  ion-card-title {
+    margin: 0 0 12px;
+
+    color: $text-primary;
+
+    font-size: 19px;
+    font-weight: 650;
+    line-height: 1.4;
+
+    letter-spacing: -0.15px;
+  }
+
+  ion-card-content {
+    padding:
+      0 22px 20px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+
+    border-color:
+      rgba($secondary, 0.28);
+
+    box-shadow:
+      0 5px 14px
+      rgba(37, 35, 33, 0.055);
+  }
+}
+
+
+/* =========================
+   METADATOS
+   ========================= */
+
+.evaluacion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+
+  gap: 8px 12px;
+}
+
+
+/* =========================
+   ASIGNATURA
+   ========================= */
+
+.asignatura-chip {
+  height: 28px;
+
+  margin: 0;
+
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
   font-size: 12px;
   font-weight: 700;
 }
 
-.estado {
-  padding: 5px 10px;
+
+/* =========================
+   ESTADO PENDIENTE
+   ========================= */
+
+.estado-badge {
+  padding: 6px 10px;
 
   border-radius: 20px;
 
-  background: #fff7ed;
+  font-size: 11px;
+  font-weight: 700;
 
-  color: #c2410c;
-
-  font-size: 12px;
-  font-weight: 600;
+  letter-spacing: 0.15px;
 }
+
+
+.estado-badge.pendiente {
+  --background: #{$primary-soft};
+  --color: #{$primary};
+}
+
+
+/* =========================
+   FECHA
+   ========================= */
 
 .fecha {
-  color: #9ca3af;
+  color: $text-muted;
 
-  font-size: 13px;
+  font-size: 12px;
 }
 
-.evaluate-button {
-  width: auto;
 
-  margin-top: 18px;
+/* =========================
+   DESCRIPCIÓN
+   ========================= */
+
+.descripcion {
+  margin: 2px 0 0;
+
+  color: $text-secondary;
 
   font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
 }
+
+
+/* =========================
+   ACCIÓN
+   ========================= */
+
+.evaluacion-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top:
+    1px solid rgba($border, 0.8);
+}
+
+
+.primary-button {
+  min-height: 42px;
+
+  margin: 0;
+
+  --background: #{$primary};
+
+  --background-hover: #b8452c;
+  --background-focused: #b8452c;
+  --background-activated: #a93f29;
+
+  --color: #ffffff;
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.22);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   CALIFICACIÓN
+   ========================= */
 
 .calificacion {
   display: flex;
   align-items: center;
 
-  gap: 10px;
+  flex-wrap: wrap;
 
-  margin: 14px 0 10px;
+  gap: 8px;
+
+  margin: 2px 0 16px;
 }
+
 
 .estrellas {
-  color: #f59e0b;
+  display: flex;
+  align-items: center;
 
-  font-size: 22px;
-  letter-spacing: 2px;
+  gap: 2px;
+
+  color: $primary;
+
+  font-size: 20px;
+  line-height: 1;
 }
+
 
 .nota {
-  color: #374151;
+  padding: 5px 9px;
 
-  font-size: 14px;
-  font-weight: 600;
+  color: $secondary;
+
+  background: $secondary-soft;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
 }
+
+
+/* =========================
+   COMENTARIO
+   ========================= */
 
 .comentario {
+  margin: 0;
+
   padding-top: 14px;
 
-  border-top: 1px solid #f0f0f0;
+  border-top:
+    1px solid rgba($border, 0.8);
+
+  color: $text-secondary;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
 }
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
 
 @media (max-width: 600px) {
 
-  .evaluacion-header {
-    align-items: flex-start;
-    flex-direction: column;
+  .page-header {
+
+    h1 {
+      font-size: 27px;
+    }
+
   }
+
+
+  .evaluaciones-section {
+    margin-bottom: 28px;
+  }
+
+
+  .evaluacion-card {
+
+    ion-card-header {
+      padding:
+        18px 18px 13px;
+    }
+
+    ion-card-content {
+      padding:
+        0 18px 18px;
+    }
+
+  }
+
+
+  .evaluacion-header {
+    justify-content: flex-start;
+  }
+
 
   .calificacion {
-    align-items: flex-start;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 8px;
   }
 
-  .evaluate-button {
-    width: 100%;
+
+  .evaluacion-actions {
+
+    ion-button {
+      width: 100%;
+    }
+
   }
 
 }

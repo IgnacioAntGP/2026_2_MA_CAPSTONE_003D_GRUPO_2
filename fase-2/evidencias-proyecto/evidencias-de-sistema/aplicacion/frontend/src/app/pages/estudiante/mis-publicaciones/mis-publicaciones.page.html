@@ -3,81 +3,101 @@
   <div class="page-container">
 
     <header class="page-header page-wide">
+
       <div>
-          <button
-            class="back-button"
-            type="button"
-            routerLink="/comunidad"
-          >
-            ← Volver a Comunidad
-          </button>
+        <ion-button
+          class="back-button"
+          type="button"
+          fill="clear"
+          routerLink="/comunidad"
+        >
+          ← Volver a Comunidad
+        </ion-button>
 
-          <h1>Mis publicaciones</h1>
+        <h1>Mis publicaciones</h1>
 
-          <p>
-            Revisa las consultas que has publicado en la comunidad.
-          </p>
-        </div>
+        <p>
+          Revisa las consultas que has publicado en la comunidad.
+        </p>
+      </div>
 
-        <app-side-menu></app-side-menu>
+      <app-side-menu></app-side-menu>
+
     </header>
+
 
     <main class="page-content page-wide mis-publicaciones-list">
 
-      <article
+      <ion-card
         class="publicacion-card"
         *ngFor="let publicacion of publicaciones"
+        [button]="true"
         [routerLink]="[
           '/detalle-consulta',
           publicacion.id_consulta
         ]"
       >
 
-        <div class="publicacion-card-header">
+        <ion-card-header>
 
-          <span class="asignatura">
-            {{ publicacion.asignatura }}
-          </span>
+          <div class="publicacion-card-header">
 
-          <span class="fecha">
-            {{ publicacion.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
-          </span>
+            <ion-chip class="asignatura-chip">
+              {{ publicacion.asignatura }}
+            </ion-chip>
 
-        </div>
+            <ion-note class="fecha">
+              {{ publicacion.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
+            </ion-note>
 
-        <h2>
-          {{ publicacion.titulo }}
-        </h2>
+          </div>
 
+          <ion-card-title>
+            {{ publicacion.titulo }}
+          </ion-card-title>
+
+        </ion-card-header>
+
+
+        <ion-card-content>
+
+          <p class="descripcion">
+            {{ publicacion.descripcion }}
+          </p>
+
+          <div class="publicacion-footer">
+
+            <ion-note *ngIf="(publicacion.total_respuestas ?? 0) === 0">
+              Sin respuestas
+            </ion-note>
+
+            <ion-note *ngIf="(publicacion.total_respuestas ?? 0) === 1">
+              1 respuesta
+            </ion-note>
+
+            <ion-note *ngIf="(publicacion.total_respuestas ?? 0) > 1">
+              {{ publicacion.total_respuestas }} respuestas
+            </ion-note>
+
+            <ion-note>
+              Tutoría no solicitada
+            </ion-note>
+
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <div
+        class="empty-state"
+        *ngIf="publicaciones.length === 0"
+      >
         <p>
-          {{ publicacion.descripcion }}
+          Aún no has realizado publicaciones.
         </p>
-
-        <div class="publicacion-footer">
-
-          <span *ngIf="(publicacion.total_respuestas ?? 0) === 0">
-            Sin respuestas
-          </span>
-
-          <span *ngIf="(publicacion.total_respuestas ?? 0) === 1">
-            1 respuesta
-          </span>
-
-          <span *ngIf="(publicacion.total_respuestas ?? 0) > 1">
-            {{ publicacion.total_respuestas }} respuestas
-          </span>
-
-          <span>
-            Tutoría no solicitada
-          </span>
-
-        </div>
-
-      </article>
-
-      <p *ngIf="publicaciones.length === 0">
-        Aún no has realizado publicaciones.
-      </p>
+      </div>
 
     </main>
 

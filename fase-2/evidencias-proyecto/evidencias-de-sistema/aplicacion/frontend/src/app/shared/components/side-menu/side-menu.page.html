@@ -1,154 +1,246 @@
-<!-- Botón del menu -->
-    <button
-      class="menu-button"
+<!-- BOTÓN DEL MENÚ -->
+<ion-button
+  class="menu-button"
+  type="button"
+  fill="outline"
+  aria-label="Abrir menú"
+  (click)="alternarMenu()"
+>
+  <ion-icon
+    name="menu-outline"
+  ></ion-icon>
+</ion-button>
+
+
+<!-- OVERLAY DEL MENÚ -->
+<div
+  class="menu-overlay"
+  *ngIf="menuAbierto"
+  (click)="cerrarMenu()"
+></div>
+
+
+<!-- MENÚ LATERAL -->
+<aside
+  class="side-menu"
+  *ngIf="menuAbierto"
+>
+
+  <!-- CABECERA -->
+  <div class="side-menu-header">
+
+    <div class="side-menu-brand">
+
+      <img
+        class="brand-icon"
+        src="assets/icon/entrepares-icon.png"
+        alt="EntrePares"
+      />
+
+      <div class="brand-text">
+
+        <h2>EntrePares</h2>
+
+        <span>
+          Tu espacio académico
+        </span>
+
+      </div>
+
+    </div>
+
+    <ion-button
       type="button"
-      (click)="menuAbierto = !menuAbierto"
+      class="close-menu-button"
+      fill="clear"
+      aria-label="Cerrar menú"
+      (click)="cerrarMenu()"
     >
-      ☰
-    </button>
+      <ion-icon
+        name="close-outline"
+      ></ion-icon>
+    </ion-button>
 
-    <!-- OVERLAY DEL MENÚ -->
-    <div
-      class="menu-overlay"
-      *ngIf="menuAbierto"
-      (click)="menuAbierto = false"
-    ></div>
+  </div>
 
 
-    <!-- MENÚ LATERAL -->
-    <aside
-      class="side-menu"
-      *ngIf="menuAbierto"
+  <!-- CONTENIDO -->
+  <div class="side-menu-content">
+
+
+    <!-- MI ACTIVIDAD -->
+    <div class="menu-section">
+
+      <span class="menu-section-title">
+        Mi actividad
+      </span>
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/mis-publicaciones"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="document-text-outline"
+        ></ion-icon>
+
+        Mis publicaciones
+      </ion-button>
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/mis-tutorias"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="school-outline"
+        ></ion-icon>
+
+        Mis tutorías
+      </ion-button>
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/evaluaciones"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="star-outline"
+        ></ion-icon>
+
+        Evaluaciones
+      </ion-button>
+
+    </div>
+
+
+    <!-- MI CUENTA -->
+    <div class="menu-section">
+
+      <span class="menu-section-title">
+        Mi cuenta
+      </span>
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/mi-perfil"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="person-outline"
+        ></ion-icon>
+
+        Mi perfil
+      </ion-button>
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/postular-ayudante"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="ribbon-outline"
+        ></ion-icon>
+
+        Postula como ayudante
+      </ion-button>
+
+    </div>
+
+
+    <!-- AYUDANTÍAS -->
+    <div class="menu-section">
+
+      <span class="menu-section-title">
+        Ayudantías
+      </span>
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/ayudante"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="people-outline"
+        ></ion-icon>
+
+        Panel del Ayudante
+      </ion-button>
+
+    </div>
+
+
+    <!-- ADMINISTRACIÓN -->
+    <div class="menu-section">
+
+      <span class="menu-section-title">
+        Administración
+      </span>
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/panel-admin"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="settings-outline"
+        ></ion-icon>
+
+        Panel del Administrador
+      </ion-button>
+
+    </div>
+
+  </div>
+
+
+  <!-- CERRAR SESIÓN -->
+  <div class="menu-section-bottom">
+
+    <ion-button
+      type="button"
+      class="menu-item logout"
+      fill="clear"
+      expand="block"
+      routerLink="/login"
+      (click)="cerrarMenu()"
     >
+      <ion-icon
+        slot="start"
+        name="log-out-outline"
+      ></ion-icon>
 
-      <div class="side-menu-header">
+      Cerrar sesión
+    </ion-button>
 
-        <h2>Menú</h2>
+  </div>
 
-        <button
-          type="button"
-          class="close-menu-button"
-          (click)="menuAbierto = false"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-      <!-- MI ACTIVIDAD -->
-      <div class="menu-section">
-
-        <span class="menu-section-title">
-          Mi actividad
-        </span>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/mis-publicaciones"
-          (click)="menuAbierto = false"
-        >
-          Mis publicaciones
-        </button>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/mis-tutorias"
-          (click)="menuAbierto = false"
-        >
-          Mis tutorías
-        </button>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/evaluaciones"
-          (click)="menuAbierto = false"
-        >
-          Evaluaciones
-        </button>
-
-      </div>
-
-
-      <!-- MI CUENTA -->
-      <div class="menu-section">
-
-        <span class="menu-section-title">
-          Mi cuenta
-        </span>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/mi-perfil"
-          (click)="menuAbierto = false"
-        >
-          Mi perfil
-        </button>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/postular-ayudante"
-          (click)="menuAbierto = false"
-        >
-          Postula como ayudante
-        </button>
-
-      </div>
-
-
-      <!-- AYUDANTÍAS -->
-      <div class="menu-section">
-
-        <span class="menu-section-title">
-          Ayudantías
-        </span>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/ayudante"
-          (click)="menuAbierto = false"
-        >
-          Panel del Ayudante
-        </button>
-
-      </div>
-
-      <!-- Administracion -->
-      <div class="menu-section">
-
-        <span class="menu-section-title">
-          Administracion
-        </span>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/panel-admin"
-          (click)="menuAbierto = false"
-        >
-          Panel del Administrador
-        </button>
-
-      </div>
-
-      <!-- CERRAR SESIÓN -->
-      <div class="menu-section menu-section-bottom">
-
-        <button
-          type="button"
-          class="menu-item logout"
-          routerLink="/login"
-          (click)="menuAbierto = false"
-        >
-          Cerrar sesión
-        </button>
-
-      </div>
-
-    </aside>
+</aside>

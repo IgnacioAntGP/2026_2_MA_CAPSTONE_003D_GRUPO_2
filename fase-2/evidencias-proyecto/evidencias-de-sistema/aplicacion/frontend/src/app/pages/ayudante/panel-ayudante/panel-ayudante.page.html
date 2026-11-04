@@ -1,93 +1,210 @@
 <ion-content [fullscreen]="true">
+
   <div class="page-container">
+
     <div class="panel-layout-wrapper page-large">
 
       <!-- ENCABEZADO -->
       <header class="ayudante-welcome">
+
         <div>
+
           <span class="welcome-label">
             Panel del ayudante
           </span>
+
           <h1>
             Bienvenido, {{ usuarioAyudante.nombre }}
           </h1>
+
           <p>
-            Revisa solicitudes, gestiona tus ayudantías y participa en la comunidad de EntrePares aquí.
+            Revisa solicitudes, gestiona tus ayudantías y participa
+            en la comunidad de EntrePares aquí.
           </p>
+
         </div>
+
         <app-side-menu></app-side-menu>
+
       </header>
 
-      <!-- 1. PERFIL -->
-      <section class="consulta-card perfil-card">
-        <div class="perfil-avatar">
-          <img [src]="usuarioAyudante.imagen" alt="Avatar" />
-        </div>
-        <div class="perfil-identidad">
-          <h2>{{ usuarioAyudante.nombre }}</h2>
-          <p>{{ usuarioAyudante.email }}</p>
-          <span class="rol-badge">AYUDANTE</span>
-        </div>
-      </section>
 
-      <!-- 2. MÉTRICAS -->
-      <section class="consulta-card actividad-card">
-        <div class="actividad-grid">
-          <div class="actividad-item">
-            <strong>{{ metricas.pendientes }}</strong>
-            <span>Pendientes</span>
-          </div>
-          <div class="actividad-item">
-            <strong>{{ metricas.activas }}</strong>
-            <span>Activas</span>
-          </div>
-          <div class="actividad-item">
-            <strong>{{ metricas.evaluacion }}</strong>
-            <span>Evaluación</span>
-          </div>
-        </div>
-      </section>
+      <!-- PERFIL -->
+      <ion-card class="panel-card perfil-card">
 
-      <!-- 3. ACTIVIDAD DE LA COMUNIDAD -->
-      <section class="consulta-card datos-card">
-        <div class="panel-card-header">
-          <h2>Actividad de la Comunidad</h2>
-          <button
-            class="primary-button panel-button"
-            type="button"
-            routerLink="/comunidad"
-          >
-            Ir a Comunidad
-          </button>
-        </div>
+        <ion-card-content>
 
-        <div class="comunidad-resumen-lista">
-          <article
-            *ngFor="let item of publicacionesComunidad"
-            class="dato-item"
-            [routerLink]="['/detalle-consulta', item.id_consulta]"
-          >
-            <div class="dato-info">
-              <strong class="dato-title">
-                {{ item.titulo }}
-              </strong>
-              <p class="dato-label">
-                <span class="asignatura">{{ item.asignatura }}</span>
-                <span>• Por: {{ item.autor }}</span>
-              </p>
+          <div class="perfil-content">
+
+            <div class="perfil-avatar">
+              F
             </div>
 
-            <span class="dato-badge">
-             {{ item.total_respuestas || 0 }}
-            </span>
-          </article>
 
-          <div *ngIf="publicacionesComunidad && publicacionesComunidad.length === 0" class="empty-state">
-            <p>No hay actividad reciente en la comunidad.</p>
+            <div class="perfil-identidad">
+
+              <h2>
+                {{ usuarioAyudante.nombre }}
+              </h2>
+
+              <p>
+                {{ usuarioAyudante.email }}
+              </p>
+
+              <ion-badge class="rol-badge">
+                AYUDANTE
+              </ion-badge>
+
+            </div>
+
           </div>
-        </div>
-      </section>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <!-- MÉTRICAS -->
+      <ion-card class="panel-card actividad-card">
+
+        <ion-card-content>
+
+          <div class="actividad-grid">
+
+            <div class="actividad-item">
+
+              <strong>
+                {{ metricas.pendientes }}
+              </strong>
+
+              <span>
+                Pendientes
+              </span>
+
+            </div>
+
+
+            <div class="actividad-item">
+
+              <strong>
+                {{ metricas.activas }}
+              </strong>
+
+              <span>
+                Activas
+              </span>
+
+            </div>
+
+
+            <div class="actividad-item">
+
+              <strong>
+                {{ metricas.evaluacion }}
+              </strong>
+
+              <span>
+                Evaluación
+              </span>
+
+            </div>
+
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <!-- ACTIVIDAD COMUNIDAD -->
+      <ion-card class="panel-card comunidad-card">
+
+        <ion-card-content>
+
+          <div class="panel-card-header">
+
+            <h2>
+              Actividad de la Comunidad
+            </h2>
+
+            <ion-button
+              class="primary-button panel-button"
+              type="button"
+              routerLink="/comunidad"
+            >
+              Ir a Comunidad
+            </ion-button>
+
+          </div>
+
+
+          <ion-list
+            class="comunidad-resumen-lista"
+            lines="none"
+          >
+
+            <ion-item
+              class="dato-item"
+              *ngFor="let item of publicacionesComunidad"
+              [routerLink]="[
+                '/detalle-consulta',
+                item.id_consulta
+              ]"
+              button
+              detail="false"
+            >
+
+              <ion-label>
+
+                <strong class="dato-title">
+                  {{ item.titulo }}
+                </strong>
+
+                <div class="dato-meta">
+
+                  <ion-chip class="asignatura-chip">
+                    {{ item.asignatura }}
+                  </ion-chip>
+
+                  <span>
+                    Por: {{ item.autor }}
+                  </span>
+
+                </div>
+
+              </ion-label>
+
+
+              <ion-badge
+                slot="end"
+                class="respuestas-badge"
+              >
+                {{ item.total_respuestas || 0 }}
+              </ion-badge>
+
+            </ion-item>
+
+          </ion-list>
+
+
+          <div
+            class="empty-state"
+            *ngIf="
+              publicacionesComunidad &&
+              publicacionesComunidad.length === 0
+            "
+          >
+            <p>
+              No hay actividad reciente en la comunidad.
+            </p>
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
 
     </div>
+
   </div>
+
 </ion-content>

@@ -3,9 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   AlertController,
-  IonContent
+  IonContent,
+  IonButton,
+  IonTextarea,
+  IonCard,
+  IonCardContent
 } from '@ionic/angular';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
@@ -17,6 +21,10 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   standalone: true,
   imports: [
     IonContent,
+    IonButton,
+    IonTextarea,
+    IonCard,
+    IonCardContent,
     CommonModule,
     FormsModule,
     RouterLink,
@@ -32,10 +40,10 @@ export class PostularAyudantePage {
   idUsuarioActual = 1;
 
   solicitudEnviada = false;
+  enviandoSolicitud = false;
 
   constructor(
     private ticketService: TicketService,
-    private router: Router,
     private cdr: ChangeDetectorRef,
     private alertController: AlertController
   ) {}
@@ -46,6 +54,7 @@ export class PostularAyudantePage {
     this.motivo = '';
     this.experiencia = '';
     this.solicitudEnviada = false;
+    this.enviandoSolicitud = false;
 
     this.cdr.markForCheck();
 
@@ -54,16 +63,25 @@ export class PostularAyudantePage {
 
   enviarSolicitud() {
 
+    if (this.enviandoSolicitud) {
+      return;
+    }
+
     const motivo = this.motivo.trim();
     const experiencia = this.experiencia.trim();
 
     if (!motivo || !experiencia) {
+
       console.warn(
         'Motivo y experiencia son obligatorios.'
       );
 
       return;
     }
+
+
+    this.enviandoSolicitud = true;
+
 
     this.ticketService
       .postularComoAyudante(
@@ -80,14 +98,21 @@ export class PostularAyudantePage {
             respuesta
           );
 
+          this.enviandoSolicitud = false;
+
           this.solicitudEnviada = true;
 
           this.motivo = '';
           this.experiencia = '';
 
-          this.cdr.markForCheck();
+          /*
+          * Actualizamos inmediatamente la vista
+          * para mostrar la confirmación.
+          */
+          this.cdr.detectChanges();
 
         },
+
 
         error: async (error) => {
 
@@ -96,28 +121,56 @@ export class PostularAyudantePage {
             error
           );
 
-          // Ya existe una postulación pendiente
+          this.enviandoSolicitud = false;
+
+          this.cdr.detectChanges();
+
+
           if (error.status === 409) {
 
-            const alert = await this.alertController.create({
-              header: 'Postulación pendiente',
-              message:
-                'Ya tienes una postulación pendiente. Debes esperar a que sea revisada antes de enviar una nueva.',
-              buttons: ['Aceptar']
-            });
+            const alert =
+              await this.alertController.create({
+
+                cssClass: 'entrepares-alert',
+
+                header: 'Postulación pendiente',
+
+                message:
+                  'Ya tienes una postulación pendiente. Debes esperar a que sea revisada antes de enviar una nueva.',
+
+                buttons: [
+                  {
+                    text: 'Aceptar',
+                    cssClass: 'entrepares-alert-button'
+                  }
+                ]
+
+              });
 
             await alert.present();
 
             return;
           }
 
-          // Cualquier otro error
-          const alert = await this.alertController.create({
-            header: 'Error',
-            message:
-              'No fue posible enviar la postulación. Intenta nuevamente.',
-            buttons: ['Aceptar']
-          });
+
+          const alert =
+            await this.alertController.create({
+
+              cssClass: 'entrepares-alert',
+
+              header: 'Error',
+
+              message:
+                'No fue posible enviar la postulación. Intenta nuevamente.',
+
+              buttons: [
+                {
+                  text: 'Aceptar',
+                  cssClass: 'entrepares-alert-button'
+                }
+              ]
+
+            });
 
           await alert.present();
 

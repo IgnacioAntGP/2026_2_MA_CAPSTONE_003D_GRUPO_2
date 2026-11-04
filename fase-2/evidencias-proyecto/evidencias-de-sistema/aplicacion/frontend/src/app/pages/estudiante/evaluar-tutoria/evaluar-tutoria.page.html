@@ -5,49 +5,64 @@
     <header class="page-header">
 
       <div>
-        <button
+
+        <ion-button
           class="back-button"
           type="button"
+          fill="clear"
           routerLink="/evaluaciones"
         >
           ← Volver a Evaluaciones
-        </button>
+        </ion-button>
 
-        <h1>Evaluar tutoría</h1>
+        <h1>
+          Evaluar tutoría
+        </h1>
 
         <p>
           Comparte tu experiencia con la tutoría realizada.
         </p>
+
       </div>
 
       <app-side-menu></app-side-menu>
+
     </header>
 
 
     <main class="page-content">
 
       <!-- RESUMEN -->
-      <section class="tutoria-resumen">
+      <ion-card class="tutoria-resumen">
 
-        <span class="asignatura">
-          Programación
-        </span>
+        <ion-card-header>
 
-        <h2>
-          ¿Cómo puedo recorrer una lista en Java?
-        </h2>
+          <ion-chip class="asignatura-chip">
+            Programación
+          </ion-chip>
 
-        <p>
-          Tutor:
-          <strong>Felipe</strong>
-        </p>
+          <ion-card-title>
+            ¿Cómo puedo recorrer una lista en Java?
+          </ion-card-title>
 
-      </section>
+        </ion-card-header>
+
+        <ion-card-content>
+
+          <p>
+            Tutor:
+            <strong>Felipe</strong>
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
 
 
       <!-- FORMULARIO -->
       <section class="page-card evaluacion-form">
 
+        <!-- CALIFICACIÓN -->
         <div class="form-group">
 
           <label>
@@ -56,11 +71,45 @@
 
           <div class="rating">
 
-            <button type="button">★</button>
-            <button type="button">★</button>
-            <button type="button">★</button>
-            <button type="button">★</button>
-            <button type="button">★</button>
+            <ion-button
+              class="rating-button"
+              type="button"
+              fill="clear"
+            >
+              ★
+            </ion-button>
+
+            <ion-button
+              class="rating-button"
+              type="button"
+              fill="clear"
+            >
+              ★
+            </ion-button>
+
+            <ion-button
+              class="rating-button"
+              type="button"
+              fill="clear"
+            >
+              ★
+            </ion-button>
+
+            <ion-button
+              class="rating-button"
+              type="button"
+              fill="clear"
+            >
+              ★
+            </ion-button>
+
+            <ion-button
+              class="rating-button"
+              type="button"
+              fill="clear"
+            >
+              ★
+            </ion-button>
 
           </div>
 
@@ -71,37 +120,41 @@
         </div>
 
 
+        <!-- COMENTARIO -->
         <div class="form-group">
 
-          <label for="comentario">
+          <label>
             Comentario
           </label>
 
-          <textarea
-            id="comentario"
+          <ion-textarea
+            fill="outline"
             rows="6"
             placeholder="Cuéntanos cómo fue la tutoría y si te ayudó a resolver tu duda..."
-          ></textarea>
+          >
+          </ion-textarea>
 
         </div>
 
 
+        <!-- ACCIONES -->
         <div class="form-actions">
 
-          <button
+          <ion-button
             class="secondary-button"
             type="button"
+            fill="outline"
             routerLink="/evaluaciones"
           >
             Cancelar
-          </button>
+          </ion-button>
 
-          <button
+          <ion-button
             class="primary-button"
             type="button"
           >
             Enviar evaluación
-          </button>
+          </ion-button>
 
         </div>
 

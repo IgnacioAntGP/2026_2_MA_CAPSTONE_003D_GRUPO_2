@@ -2,186 +2,262 @@
 
   <div class="page-container">
 
+    <!-- ENCABEZADO -->
     <header class="page-header">
 
-      <div>
-        <button
+      <div class="header-top-row">
+
+        <ion-button
           class="back-button"
           type="button"
+          fill="clear"
           routerLink="/mi-perfil"
         >
           ← Volver a Mi perfil
-        </button>
+        </ion-button>
 
-        <h1>Editar perfil</h1>
+        <app-side-menu></app-side-menu>
+
+      </div>
+
+
+      <div class="header-content">
+
+        <h1>
+          Editar perfil
+        </h1>
 
         <p>
           Actualiza la información académica de tu perfil.
         </p>
+
       </div>
 
-      <app-side-menu></app-side-menu>
     </header>
 
-    <main
-      class="page-card"
+
+    <!-- FORMULARIO -->
+    <ion-card
+      class="edit-profile-card"
       *ngIf="perfil"
     >
 
-      <!-- NOMBRE -->
-      <div class="form-group">
-
-        <label for="nombre">
-          Nombre
-        </label>
-
-        <input
-          id="nombre"
-          type="text"
-          [value]="perfil.nombre + ' ' + perfil.apellido"
-          disabled
-        />
-
-      </div>
+      <ion-card-content>
 
 
-      <!-- RUT -->
-      <div class="form-group">
+        <!-- FOTO E IDENTIDAD -->
+        <section class="profile-photo-section">
 
-        <label for="rut">
-          RUT
-        </label>
+          <div class="profile-avatar">
 
-        <input
-          id="rut"
-          type="text"
-          [value]="perfil.rut"
-          disabled
-        />
+            <span>
+              {{ perfil.nombre.charAt(0) }}
+            </span>
 
-      </div>
+          </div>
 
 
-      <!-- CORREO -->
-      <div class="form-group">
+          <div class="profile-photo-info">
 
-        <label for="correo">
-          Correo
-        </label>
+            <div class="profile-identity">
 
-        <input
-          id="correo"
-          type="email"
-          [value]="perfil.correo"
-          disabled
-        />
+              <h2>
+                {{ perfil.nombre }}
+                {{ perfil.apellido }}
+              </h2>
 
-      </div>
+              <span class="profile-role">
+                Estudiante
+              </span>
 
-
-      <!-- CARRERA -->
-      <div class="form-group">
-
-        <label for="carrera">
-          Carrera
-        </label>
-
-        <input
-          id="carrera"
-          type="text"
-          [(ngModel)]="carrera"
-        />
-
-      </div>
+            </div>
 
 
-      <!-- SEMESTRE -->
-      <div class="form-group">
+            <ion-button
+              class="change-photo-button"
+              type="button"
+              fill="outline"
+            >
+              Cambiar foto
+            </ion-button>
 
-        <label for="semestre">
-          Semestre
-        </label>
+          </div>
 
-        <select
-          id="semestre"
-          [(ngModel)]="semestre"
-        >
-
-          <option [ngValue]="1">
-            1° semestre
-          </option>
-
-          <option [ngValue]="2">
-            2° semestre
-          </option>
-
-          <option [ngValue]="3">
-            3° semestre
-          </option>
-
-          <option [ngValue]="4">
-            4° semestre
-          </option>
-
-          <option [ngValue]="5">
-            5° semestre
-          </option>
-
-          <option [ngValue]="6">
-            6° semestre
-          </option>
-
-          <option [ngValue]="7">
-            7° semestre
-          </option>
-
-          <option [ngValue]="8">
-            8° semestre
-          </option>
-
-        </select>
-
-      </div>
+        </section>
 
 
-      <!-- INSTITUCIÓN -->
-      <div class="form-group">
-
-        <label for="institucion">
-          Institución
-        </label>
-
-        <input
-          id="institucion"
-          type="text"
-          [(ngModel)]="institucion"
-        />
-
-      </div>
+        <!-- SEPARADOR -->
+        <div class="profile-divider"></div>
 
 
-      <!-- ACCIONES -->
-      <div class="form-actions">
+        <!-- NOMBRE -->
+        <div class="form-group">
 
-        <button
-          class="secondary-button"
-          type="button"
-          routerLink="/mi-perfil"
-        >
-          Cancelar
-        </button>
+          <label>
+            Nombre
+          </label>
 
-        <button
-          class="primary-button"
-          type="button"
-          (click)="guardarCambios()"
-        >
-          Guardar cambios
-        </button>
+          <ion-input
+            type="text"
+            fill="outline"
+            [value]="perfil.nombre + ' ' + perfil.apellido"
+            disabled
+          ></ion-input>
 
-      </div>
+        </div>
 
-    </main>
+
+        <!-- RUT -->
+        <div class="form-group">
+
+          <label>
+            RUT
+          </label>
+
+          <ion-input
+            type="text"
+            fill="outline"
+            [value]="perfil.rut"
+            disabled
+          ></ion-input>
+
+        </div>
+
+
+        <!-- CORREO -->
+        <div class="form-group">
+
+          <label>
+            Correo
+          </label>
+
+          <ion-input
+            type="email"
+            fill="outline"
+            [value]="perfil.correo"
+            disabled
+          ></ion-input>
+
+        </div>
+
+
+        <!-- CARRERA -->
+        <div class="form-group">
+
+          <label>
+            Carrera
+          </label>
+
+          <ion-input
+            type="text"
+            fill="outline"
+            [(ngModel)]="carrera"
+          ></ion-input>
+
+        </div>
+
+
+        <!-- SEMESTRE -->
+        <div class="form-group">
+
+          <label>
+            Semestre
+          </label>
+
+          <ion-select
+            fill="outline"
+            interface="popover"
+            [interfaceOptions]="{
+              cssClass: 'entrepares-select-popover'
+            }"
+            placeholder="Selecciona tu semestre"
+            [(ngModel)]="semestre"
+          >
+
+            <ion-select-option [value]="1">
+              1° semestre
+            </ion-select-option>
+
+            <ion-select-option [value]="2">
+              2° semestre
+            </ion-select-option>
+
+            <ion-select-option [value]="3">
+              3° semestre
+            </ion-select-option>
+
+            <ion-select-option [value]="4">
+              4° semestre
+            </ion-select-option>
+
+            <ion-select-option [value]="5">
+              5° semestre
+            </ion-select-option>
+
+            <ion-select-option [value]="6">
+              6° semestre
+            </ion-select-option>
+
+            <ion-select-option [value]="7">
+              7° semestre
+            </ion-select-option>
+
+            <ion-select-option [value]="8">
+              8° semestre
+            </ion-select-option>
+
+          </ion-select>
+
+        </div>
+
+
+        <!-- INSTITUCIÓN -->
+        <div class="form-group">
+
+          <label>
+            Institución
+          </label>
+
+          <ion-input
+            type="text"
+            fill="outline"
+            [(ngModel)]="institucion"
+          ></ion-input>
+
+        </div>
+
+
+        <!-- ACCIONES -->
+        <div class="form-actions">
+
+          <ion-button
+            class="secondary-button"
+            type="button"
+            fill="outline"
+            routerLink="/mi-perfil"
+          >
+            Cancelar
+          </ion-button>
+
+
+          <ion-button
+            class="primary-button"
+            type="button"
+            [disabled]="
+              !carrera.trim() ||
+              !semestre ||
+              !institucion.trim()
+            "
+            (click)="guardarCambios()"
+          >
+            Guardar cambios
+          </ion-button>
+
+        </div>
+
+      </ion-card-content>
+
+    </ion-card>
 
   </div>
 
