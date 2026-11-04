@@ -7,7 +7,7 @@ class UtilsAdapter {
         const { data: postulacionesPendientes, error: errorValidacion } =
             await supabase
                 .from('postulacion_ayudante')
-                .select('id_solicitud')
+                .select('id_postulacion')
                 .eq('id_usuario', id_usuario)
                 .eq('estado', 'PENDIENTE')
                 .limit(1);
@@ -24,7 +24,7 @@ class UtilsAdapter {
         const { data: postulacionesAprobadas, error: errorValidacion } =
             await supabase
                 .from('postulacion_ayudante')
-                .select('id_solicitud')
+                .select('id_postulacion')
                 .eq('id_usuario', id_usuario)
                 .eq('estado', 'APROBADA')
                 .limit(1);

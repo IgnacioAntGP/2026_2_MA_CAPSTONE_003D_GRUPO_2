@@ -42,12 +42,12 @@ class PostulacionController {
   }
 
   async aprobarPostulacionAyudante(req, res) {
-    const { id_solicitud } = req.params;
+    const { id_postulacion } = req.params;
     const { id_asignatura } = req.body;
 
     try {
       const data = await _postulacionAdapter.aprobarPostulacionAyudante(
-        id_solicitud, 
+        id_postulacion, 
         id_asignatura || null
       );
 
@@ -68,11 +68,11 @@ class PostulacionController {
   }
 
   async rechazarPostulacionAyudante(req, res) {
-    const { id_solicitud } = req.params;
+    const { id_postulacion } = req.params;
 
     try {
       const data =
-        await _postulacionAdapter.rechazarPostulacionAyudante(id_solicitud);
+        await _postulacionAdapter.rechazarPostulacionAyudante(id_postulacion);
 
       return res.status(200).json({
         mensaje: 'Postulación rechazada correctamente.',

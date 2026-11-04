@@ -47,7 +47,7 @@ class PostulacionAdapter {
     const { data, error } = await supabase
       .from('postulacion_ayudante')
       .select(`
-        id_solicitud,
+        id_postulacion,
         id_usuario,
         motivo,
         experiencia,
@@ -70,12 +70,12 @@ class PostulacionAdapter {
   }
 
   // Aprobar postulación de ayudante
-  async aprobarPostulacionAyudante(id_solicitud, id_asignatura = null) {
+  async aprobarPostulacionAyudante(id_postulacion, id_asignatura = null) {
     // 1. Obtener la postulación pendiente
     const { data: postulacion, error: errorPostulacion } = await supabase
       .from('postulacion_ayudante')
       .select('*')
-      .eq('id_solicitud', id_solicitud)
+      .eq('id_postulacion', id_postulacion)
       .eq('estado', 'PENDIENTE')
       .maybeSingle();
 
@@ -133,7 +133,7 @@ class PostulacionAdapter {
         .update({
           estado: 'APROBADA'
         })
-        .eq('id_solicitud', id_solicitud)
+        .eq('id_postulacion', id_postulacion)
         .select()
         .maybeSingle();
 
@@ -149,19 +149,19 @@ class PostulacionAdapter {
     // 9. Retornar la postulación aprobada
     // Retornamos mapeado con el Resolve DTO de resolución
     return new ResolverPostulacionResolveDTO({
-      id_solicitud: postulacionActualizada.id_solicitud,
+      id_postulacion: postulacionActualizada.id_postulacion,
       mensaje: 'Postulación aprobada exitosamente'
     });
   }
 
   // Rechazar postulación de ayudante
-  async rechazarPostulacionAyudante(id_solicitud) {
+  async rechazarPostulacionAyudante(id_postulacion) {
     const { data, error } = await supabase
       .from('postulacion_ayudante')
       .update({
         estado: 'RECHAZADA'
       })
-      .eq('id_solicitud', id_solicitud)
+      .eq('id_postulacion', id_postulacion)
       .eq('estado', 'PENDIENTE')
       .select()
       .maybeSingle();
@@ -176,7 +176,7 @@ class PostulacionAdapter {
 
     // Retornamos mapeado con el Resolve DTO de resolución
     return new ResolverPostulacionResolveDTO({
-      id_solicitud: data.id_solicitud,
+      id_postulacion: data.id_postulacion,
       mensaje: 'Postulación rechazada exitosamente'
     });
   }

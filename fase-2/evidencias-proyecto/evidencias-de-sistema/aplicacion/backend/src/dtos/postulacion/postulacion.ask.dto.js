@@ -10,7 +10,7 @@ class CrearPostulacionAskDTO{
 // DTO para obtener la informacion de una postulacion
 class ObtenerPostulacionAskDTO{
     constructor(body = {}){
-        this.id_solicitud = body.id_solicitud || null;
+        this.id_postulacion = body.id_postulacion || null;
     }
 }
 
