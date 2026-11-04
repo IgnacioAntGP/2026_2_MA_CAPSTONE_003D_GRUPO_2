@@ -17,7 +17,7 @@ import {
   Subscription
 } from 'rxjs';
 
-import { TicketService } from '../../../core/services/ConsultaService';
+import {PostulacionService  } from '../../../core/services/PostulacionService';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
@@ -44,7 +44,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
 
   constructor(
-    private ticketService: TicketService,
+    private postulacionService: PostulacionService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -73,7 +73,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
       this.cargando = true;
     }
 
-    this.ticketService
+    this.postulacionService
       .obtenerPostulacionesPendientes()
       .subscribe({
 
@@ -109,7 +109,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
     postulacion: PostulacionAyudante
   ) {
 
-    this.ticketService
+    this.postulacionService
       .aprobarPostulacionAyudante(
         postulacion.id_solicitud
       )
@@ -153,7 +153,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
     postulacion: PostulacionAyudante
   ) {
 
-    this.ticketService
+    this.postulacionService
       .rechazarPostulacionAyudante(
         postulacion.id_solicitud
       )

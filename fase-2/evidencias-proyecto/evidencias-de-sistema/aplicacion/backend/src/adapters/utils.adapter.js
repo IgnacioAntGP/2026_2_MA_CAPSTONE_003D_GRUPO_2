@@ -1,41 +1,50 @@
 const supabase = require('../config/supabase');
 
-async function esAyudante(id_usuario) {
-  const { data, error } = await supabase
-    .from('ayudante')
-    .select('id_ayudante')
-    .eq('id_usuario', id_usuario)
-    .maybeSingle();
+class UtilsAdapter {
 
-  if (error) {
-    throw new Error(`Error al verificar si el usuario es ayudante: ${error.message}`);
-  }
+    // Verificar si el usuario ya tiene una postulación pendiente
+    async tienePostulacionPendiente(id_usuario) {
+        const { data: postulacionesPendientes, error: errorValidacion } =
+            await supabase
+                .from('postulacion_ayudante')
+                .select('id_postulacion')
+                .eq('id_usuario', id_usuario)
+                .eq('estado', 'PENDIENTE')
+                .limit(1);
 
-  return !!data;
-}
+        if (errorValidacion) {
+            throw errorValidacion;
+        }
 
-async function existePostulacionPendiente(id_consulta) {
-  const { data, error } = await supabase
-    .from('solicitud_ayudantia')
-    .select('id_solicitud')
-    .eq('id_consulta', id_consulta)
-    .eq('estado', 'PENDIENTE')
-    .maybeSingle();
+        return postulacionesPendientes && postulacionesPendientes.length > 0;
+    }
 
-  if (error) {
-    throw new Error(`Error al verificar postulaciones pendientes: ${error.message}`);
-  }
+    // Verififcar si el usuario ya tiene una postulación aprobada
+    async tienePostulacionAprobada(id_usuario) {
+        const { data: postulacionesAprobadas, error: errorValidacion } =
+            await supabase
+                .from('postulacion_ayudante')
+                .select('id_postulacion')
+                .eq('id_usuario', id_usuario)
+                .eq('estado', 'APROBADA')
+                .limit(1);
 
-  return !!data;
-}
+        if (errorValidacion) {
+            throw errorValidacion;
+        }
 
-async function existeConsultaActiva(id_consulta) {
-        const { data, error } = await supabase
-            .from('consulta')
-            .select('id_consulta')
-            .eq('id_consulta', id_consulta)
-            .eq('estado', true)
-            .maybeSingle();
+        return postulacionesAprobadas && postulacionesAprobadas.length > 0;
+    }
+
+    // Verificar si es ayudante
+    async esAyudante(id_usuario) {
+        const { data: usuarioRol, error: errorValidacion } =
+            await supabase
+                .from('usuario_rol')
+                .select('rol(nombre)')
+                .eq('id_usuario', id_usuario)
+                .eq('rol.nombre', 'Ayudante')
+                .limit(1);
 
         if (error) {
             throw new Error(`Error al verificar la consulta: ${error.message}`);
@@ -43,9 +52,6 @@ async function existeConsultaActiva(id_consulta) {
 
         return !!data;
     }
+}
 
-module.exports = {
-  esAyudante,
-  existePostulacionPendiente,
-  existeConsultaActiva
-};
+module.exports = new UtilsAdapter();
