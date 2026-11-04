@@ -5,7 +5,7 @@ const {
     ConsultaUsuarioResolveDTO,
     ConsultaDetalleResolveDTO,
     RespuestaConsultaResolveDTO
-} = require('../dto/consulta.resolve.dto');
+} = require('../dtos/consulta/consulta.resolve.dto');
 
 class ConsultaAdapter {
   
