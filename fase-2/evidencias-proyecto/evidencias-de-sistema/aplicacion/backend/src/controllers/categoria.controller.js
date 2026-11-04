@@ -1,33 +1,25 @@
-const {
-  crearCategoria,
-  obtenerAllCategoriasAsync,
-  obtenerCategoriasActivas
-} = require('../adapters/categoria.adapter');
+const categoriaAdapter = require('../adapters/categoria.adapter')
+const { CrearCategoriaAskDTO } = require('../dtos/categoria/categoria.ask.dto')
 
-// Crea una nueva categoría.
-async function crearCategoriaController(req, res) {
+async function crearNuevaCategoria(req, res) {
   try {
-    const { nombre, descripcion } = req.body;
+
+    const categoriaAsk = new CrearCategoriaAskDTO(req.body);
 
     if (!categoriaAsk.nombre) {
       return res.status(400).json({
-        error: 'El nombre de la categoría es obligatorio.'
-      });
+        error: 'El nombre de la categoria es obligatorio.'
+      })
     }
 
-    const categoria = await crearCategoria({
-      nombre: nombre.trim(),
-      descripcion: descripcion?.trim() || null
-    });
+    const categoriaNueva = await categoriaAdapter.crearCategoria(categoriaAsk);
 
     return res.status(201).json({
       mensaje: 'Categoría creada correctamente.',
-      categoria
+      categoria: categoriaNueva
     });
 
   } catch (error) {
-    console.error('Error al crear categoría:', error);
-
     return res.status(500).json({
       error: 'No fue posible crear la categoría.',
       codigo: 'INTERNAL_SERVER_ERROR',
@@ -36,15 +28,13 @@ async function crearCategoriaController(req, res) {
   }
 }
 
-// Obtener todas las categorias creadas
-async function obtenerAllCategorias(req, res){
-  
-  try{
-    const allCategorias = await obtenerAllCategoriasAsync();
+async function obtenerCategorias(req, res) {
+  try {
+    const allCategorias = await categoriaAdapter.obtenerAllCategoriasAsync();
     
     if (!allCategorias || allCategorias.length === 0) {
       return res.status(404).json({ 
-        mensaje: 'No se encontraron categorias registradas' 
+        mensaje: 'No se encontraron categorías registradas.' 
       });
     }
 
@@ -54,17 +44,22 @@ async function obtenerAllCategorias(req, res){
     console.error('Error al obtener todas las categorías:', error);
 
     return res.status(500).json({ 
-      error: error.message || 'No fue posible procesar la solicitud.', 
+      error: 'Error interno del sistema al obtener las categorías.', 
       codigo: 'INTERNAL_SERVER_ERROR',
       detalle: error.message
     });
   }
 }
 
-// Obtiene las categorías activas.
-async function obtenerCategoriasActivasController(req, res) {
+async function obtenerCategoriasActivas(req, res) {
   try {
-    const categorias = await obtenerCategoriasActivas();
+    const categorias = await categoriaAdapter.obtenerCategoriasActivas();
+
+    if (!categorias || categorias.length === 0) {
+      return res.status(404).json({
+        mensaje: 'No se encontraron categorías activas registradas.'
+      });
+    }
 
     return res.status(200).json(categorias);
 
@@ -111,7 +106,8 @@ async function obtenerDetalleCategoria(req, res) {
 }
 
 module.exports = {
-  crearCategoriaController,
-  obtenerAllCategorias,
-  obtenerCategoriasActivasController
+  crearNuevaCategoria,
+  obtenerCategorias,
+  obtenerCategoriasActivas,
+  obtenerDetalleCategoria
 };

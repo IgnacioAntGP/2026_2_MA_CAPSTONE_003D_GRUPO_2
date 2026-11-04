@@ -188,38 +188,17 @@ class UsuarioAdapter {
 
 
   // 7. Editar Perfil Académico
-  async actualizarPerfilEstudiante(
-    id_usuario,
-    {
-      carrera,
-      semestre,
-      institucion
-    }
-  ) {
-
-    const { data, error } =
-      await supabase
-        .from('estudiante')
-        .update({
-          carrera,
-          semestre,
-          institucion
-        })
-        .eq(
-          'id_usuario',
-          id_usuario
-        )
-        .select()
-        .single();
+  async actualizarPerfilEstudiante(id_usuario, { carrera, semestre, institucion }) {
+    const { data, error } = await supabase
+      .from('estudiante')
+      .update({ carrera, semestre, institucion })
+      .eq('id_usuario', id_usuario)
+      .select()
+      .single();
 
     if (error) throw error;
-
     return data;
   }
-
-
 }
 
-
-module.exports =
-  new UsuarioAdapter();
+module.exports = new UsuarioAdapter();
