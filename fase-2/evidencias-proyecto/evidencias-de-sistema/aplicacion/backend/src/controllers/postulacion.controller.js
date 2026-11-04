@@ -2,14 +2,23 @@ const _postulacionAdapter = require('../adapters/postulacion.adapter');
 
 class PostulacionController {
   async postularAyudante(req, res) {
-    const { id_usuario, motivo, experiencia } = req.body;
+    const { id_usuario, id_asignatura, motivo, experiencia } = req.body;
 
     if (!id_usuario || !motivo || !experiencia) {
       return res.status(400).json({ error: 'Usuario, motivo y experiencia son obligatorios.' });
     }
 
     try {
-      const data = await _postulacionAdapter.crearPostulacionAyudante({ id_usuario, motivo, experiencia });
+      // Limpiamos id_asignatura por si llega como string vacío o "null"
+      const asignaturaLimpia = (id_asignatura && id_asignatura !== 'null') ? Number(id_asignatura) : null;
+
+      const data = await _postulacionAdapter.crearPostulacionAyudante({ 
+        id_usuario, 
+        id_asignatura: asignaturaLimpia,  
+        motivo, 
+        experiencia 
+      });
+        
       return res.status(201).json({
         mensaje: 'Solicitud de ayudante enviada correctamente.',
         solicitud: data
@@ -45,11 +54,17 @@ class PostulacionController {
     const { id_postulacion } = req.params;
     const { id_asignatura } = req.body;
 
+    console.log('--- [DEBUG CONTROLLER] Aprobar Postulación ---');
+    console.log('1. id_postulacion recibido (params):', id_postulacion, typeof id_postulacion);
+    console.log('2. id_asignatura recibido (body):', id_asignatura, typeof id_asignatura);
+
     try {
       const data = await _postulacionAdapter.aprobarPostulacionAyudante(
         id_postulacion, 
         id_asignatura || null
       );
+
+      console.log('3. Postulación aprobada con éxito en adapter:', data);
 
       const mensajeExito = id_asignatura
         ? 'Postulación aprobada y especialidad asignada correctamente.'
@@ -61,6 +76,7 @@ class PostulacionController {
       });
 
     } catch (err) {
+      console.error('X. ERROR en aprobarPostulacionAyudante (Controller):', err.message);
       return res.status(500).json({
         error: err.message
       });

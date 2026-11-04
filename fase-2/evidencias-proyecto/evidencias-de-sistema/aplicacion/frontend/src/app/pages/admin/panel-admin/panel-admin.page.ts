@@ -22,7 +22,7 @@ import {
   Subscription
 } from 'rxjs';
 
-import { TicketService } from '../../../core/services/ConsultaService';
+import { PostulacionService  } from '../../../core/services/PostulacionService';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
@@ -57,7 +57,7 @@ export class PanelAdminPage implements OnInit, OnDestroy {
 
 
   constructor(
-    private ticketService: TicketService,
+    private postulacionService: PostulacionService,
     private cdr: ChangeDetectorRef
   ) {
 
@@ -86,7 +86,7 @@ export class PanelAdminPage implements OnInit, OnDestroy {
 
   cargarPostulacionesPendientes() {
 
-    this.ticketService
+    this.postulacionService
       .obtenerPostulacionesPendientes()
       .subscribe({
 
