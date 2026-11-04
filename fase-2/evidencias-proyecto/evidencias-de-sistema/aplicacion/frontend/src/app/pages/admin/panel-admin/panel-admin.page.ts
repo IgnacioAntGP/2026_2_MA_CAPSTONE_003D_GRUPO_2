@@ -7,7 +7,15 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular';
+
+import {
+  IonContent,
+  IonIcon,
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonBadge
+} from '@ionic/angular';
 
 import {
   interval,
@@ -17,8 +25,10 @@ import {
 import { PostulacionService  } from '../../../core/services/PostulacionService';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
-import { hammerOutline  } from 'ionicons/icons';
+
+import { hammerOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+
 
 @Component({
   selector: 'app-panel-admin',
@@ -28,6 +38,10 @@ import { addIcons } from 'ionicons';
   imports: [
     IonContent,
     IonIcon,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonBadge,
     CommonModule,
     RouterLink,
     SideMenuComponent
@@ -39,17 +53,20 @@ export class PanelAdminPage implements OnInit, OnDestroy {
 
   private refrescoSubscription?: Subscription;
 
+  menuAbierto = false;
+
 
   constructor(
     private postulacionService: PostulacionService,
     private cdr: ChangeDetectorRef
   ) {
+
     addIcons({
       hammerOutline
-    })
+    });
+
   }
 
-  menuAbierto = false;
 
   ngOnInit() {
 
@@ -100,13 +117,19 @@ export class PanelAdminPage implements OnInit, OnDestroy {
     this.refrescoSubscription?.unsubscribe();
 
   }
-  
+
+
   toggleMenu() {
+
     this.menuAbierto = !this.menuAbierto;
+
   }
 
+
   cerrarMenu() {
+
     this.menuAbierto = false;
+
   }
 
 }

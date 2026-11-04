@@ -46,12 +46,45 @@ class UtilsAdapter {
                 .eq('rol.nombre', 'Ayudante')
                 .limit(1);
 
-        if (error) {
-            throw new Error(`Error al verificar la consulta: ${error.message}`);
+        if (errorValidacion) {
+            throw errorValidacion;
         }
 
-        return !!data;
+        return usuarioRol && usuarioRol.length > 0;
     }
+
+    // Verificar si tiene perfil de ayudante
+    async tienePerfilAyudante(id_usuario) {
+        const { data: perfilAyudante, error: errorValidacion } =
+            await supabase
+                .from('ayudante')
+                .select('id_usuario')
+                .eq('id_usuario', id_usuario)
+                .limit(1);
+
+        if (errorValidacion) {
+            throw errorValidacion;
+        }
+
+        return perfilAyudante && perfilAyudante.length > 0;
+    }
+
+    // Obtener ayudante por id_usuario
+    async obtenerAyudantePorIdUsuario(id_usuario) {
+        const { data: ayudante, error: errorValidacion } =
+            await supabase
+                .from('ayudante')
+                .select('*')
+                .eq('id_usuario', id_usuario)
+                .single();
+
+        if (errorValidacion) {
+            throw errorValidacion;
+        }
+
+        return ayudante;
+    }
+
 }
 
 module.exports = new UtilsAdapter();

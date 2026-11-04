@@ -1,1 +1,596 @@
-/* Los estilos de esta vista se encuentran en global.scss */
+/* =====================================================
+   EDITAR PERFIL - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
+   ========================= */
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 16px;
+
+  width: 100%;
+
+  margin-bottom: 16px;
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}
+
+
+/* =========================
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   TÍTULO
+   ========================= */
+
+.header-content {
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================
+   TARJETA
+   ========================= */
+
+.edit-profile-card {
+  width: 100%;
+
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  --background: #{$surface};
+
+  border: 1px solid $border;
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
+
+  ion-card-content {
+    padding: 26px;
+  }
+}
+
+
+/* =========================
+   FOTO E IDENTIDAD
+   ========================= */
+
+.profile-photo-section {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 16px;
+
+  background: #faf9f7;
+
+  border: 1px solid $border;
+  border-radius: 12px;
+}
+
+
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 72px;
+  height: 72px;
+
+  flex-shrink: 0;
+
+  background: $primary-soft;
+
+  border:
+    1px solid rgba(201, 79, 50, 0.16);
+
+  border-radius: 50%;
+
+  color: $primary;
+
+  span {
+    font-size: 23px;
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+  }
+}
+
+
+.profile-photo-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  flex: 1;
+
+  gap: 18px;
+
+  min-width: 0;
+}
+
+
+.profile-identity {
+  min-width: 0;
+
+  h2 {
+    margin: 0 0 7px;
+
+    color: $text-primary;
+
+    font-size: 19px;
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    letter-spacing: -0.2px;
+  }
+}
+
+
+.profile-role {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 4px 9px;
+
+  background: $secondary-soft;
+
+  border-radius: 20px;
+
+  color: $secondary;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   CAMBIAR FOTO
+   ========================= */
+
+.change-photo-button {
+  flex-shrink: 0;
+
+  margin: 0;
+
+  min-height: 38px;
+
+  --background: #{$surface};
+
+  --background-hover: #{$secondary-soft};
+  --background-focused: #{$secondary-soft};
+  --background-activated: #{$secondary-soft};
+
+  --color: #{$secondary};
+
+  --border-color: #{$secondary};
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(36, 107, 106, 0.12);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   SEPARADOR
+   ========================= */
+
+.profile-divider {
+  width: 100%;
+
+  height: 1px;
+
+  margin: 24px 0;
+
+  background:
+    rgba(228, 223, 216, 0.9);
+}
+
+
+/* =========================
+   SECCIÓN DEL FORMULARIO
+   ========================= */
+
+.form-section-header {
+  margin-bottom: 22px;
+
+  h3 {
+    margin: 0 0 5px;
+
+    color: $text-primary;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    letter-spacing: -0.1px;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================
+   CAMPOS
+   ========================= */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  margin-bottom: 18px;
+
+  label {
+    color: #5f5954;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+
+  ion-input,
+  ion-select {
+    --background: #{$surface};
+
+    --color: #5f5954;
+
+    --placeholder-color: #{$text-muted};
+    --placeholder-opacity: 1;
+
+    --border-color: #{$border};
+    --border-radius: 8px;
+
+    --highlight-color-focused: #{$primary};
+
+    color: #5f5954;
+
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+
+  ion-input.ion-focused,
+  ion-select.ion-focused {
+    --border-color: #{$primary};
+
+    box-shadow:
+      0 0 0 3px
+      rgba(201, 79, 50, 0.07);
+
+    border-radius: 8px;
+  }
+}
+
+
+/* =========================
+   TEXTO DE LOS CAMPOS
+   ========================= */
+
+.form-group {
+
+  ion-input:not([disabled]) {
+    --color: #5f5954 !important;
+
+    color: #5f5954 !important;
+
+    font-weight: 400 !important;
+  }
+
+
+  ion-select {
+    --color: #5f5954 !important;
+
+    color: #5f5954 !important;
+
+    font-weight: 400 !important;
+  }
+
+}
+
+
+.form-group ion-input:not([disabled])::part(native) {
+  color: #5f5954 !important;
+
+  font-weight: 400 !important;
+}
+
+
+.form-group ion-select::part(text) {
+  color: #5f5954 !important;
+
+  font-weight: 400 !important;
+}
+
+
+/* =========================
+   CAMPOS NO EDITABLES
+   ========================= */
+
+.form-group {
+
+  ion-input[disabled] {
+    --background: #faf9f7;
+
+    --color: #{$text-secondary};
+
+    --border-color: #{$border};
+
+    opacity: 1;
+  }
+
+}
+
+
+ion-input[disabled]::part(native) {
+  color: $text-secondary;
+
+  font-weight: 500;
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 28px;
+  padding-top: 20px;
+
+  border-top:
+    1px solid rgba(228, 223, 216, 0.8);
+
+  ion-button {
+    margin: 0;
+
+    min-height: 42px;
+
+    --border-radius: 8px;
+
+    --box-shadow: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-transform: none;
+  }
+}
+
+
+/* =========================
+   CANCELAR
+   ========================= */
+
+.secondary-button {
+  --background: #{$surface};
+
+  --background-hover: #f2efeb;
+  --background-focused: #f2efeb;
+  --background-activated: #ece8e3;
+
+  --color: #{$text-secondary};
+
+  --border-color: #{$border};
+
+  --ripple-color:
+    rgba(109, 105, 101, 0.1);
+}
+
+
+/* =========================
+   GUARDAR CAMBIOS
+   ========================= */
+
+.primary-button {
+  --background: #{$primary};
+
+  --background-hover: #b8452c;
+  --background-focused: #b8452c;
+  --background-activated: #a93f29;
+
+  --color: #ffffff;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.22);
+}
+
+
+/* =========================
+   BOTÓN DESHABILITADO
+   ========================= */
+
+.primary-button[disabled] {
+  --background: #d9d4ce;
+
+  --color: #8b8580;
+
+  opacity: 1;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .header-content {
+
+    h1 {
+      font-size: 27px;
+    }
+
+  }
+
+
+  .edit-profile-card {
+
+    ion-card-content {
+      padding: 20px;
+    }
+
+  }
+
+
+  .profile-photo-section {
+    align-items: flex-start;
+
+    gap: 14px;
+
+    padding: 14px;
+  }
+
+
+  .profile-avatar {
+    width: 62px;
+    height: 62px;
+
+    span {
+      font-size: 20px;
+    }
+  }
+
+
+  .profile-photo-info {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+
+  .profile-identity {
+
+    h2 {
+      font-size: 18px;
+    }
+
+  }
+
+
+  .change-photo-button {
+    min-height: 34px;
+  }
+
+
+  .profile-divider {
+    margin: 22px 0;
+  }
+
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    ion-button {
+      width: 100%;
+    }
+  }
+
+}

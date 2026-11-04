@@ -1,5 +1,5 @@
 export interface PostulacionAyudante {
-  id_solicitud: number;
+  id_postulacion: number;
   id_usuario: number;
   motivo: string;
   experiencia: string;

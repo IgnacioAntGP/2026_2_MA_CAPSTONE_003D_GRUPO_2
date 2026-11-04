@@ -6,11 +6,17 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-import { IonContent } from '@ionic/angular';
-
 import { RouterLink } from '@angular/router';
+
+import {
+  IonContent,
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonBadge,
+  IonNote,
+  IonSpinner
+} from '@ionic/angular';
 
 import {
   interval,
@@ -21,6 +27,7 @@ import {PostulacionService  } from '../../../core/services/PostulacionService';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
+
 @Component({
   selector: 'app-postulaciones-ayudante',
   templateUrl: './postulaciones-ayudante.page.html',
@@ -28,8 +35,13 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   standalone: true,
   imports: [
     IonContent,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonBadge,
+    IonNote,
+    IonSpinner,
     CommonModule,
-    FormsModule,
     RouterLink,
     SideMenuComponent
   ]
@@ -111,7 +123,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
     this.postulacionService
       .aprobarPostulacionAyudante(
-        postulacion.id_solicitud
+        postulacion.id_postulacion
       )
       .subscribe({
 
@@ -119,18 +131,16 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
           console.log(
             'Postulación aprobada:',
-            postulacion.id_solicitud
+            postulacion.id_postulacion
           );
 
-          // Quitar inmediatamente de la lista
           this.postulacionesPendientes =
             this.postulacionesPendientes.filter(
-              p => p.id_solicitud !== postulacion.id_solicitud
+              p => p.id_postulacion !== postulacion.id_postulacion
             );
 
           this.cdr.detectChanges();
 
-          // Sincronizar nuevamente con backend
           this.cargarPostulacionesPendientes(false);
 
         },
@@ -155,7 +165,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
     this.postulacionService
       .rechazarPostulacionAyudante(
-        postulacion.id_solicitud
+        postulacion.id_postulacion
       )
       .subscribe({
 
@@ -163,18 +173,16 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
           console.log(
             'Postulación rechazada:',
-            postulacion.id_solicitud
+            postulacion.id_postulacion
           );
 
-          // Quitar inmediatamente de la lista
           this.postulacionesPendientes =
             this.postulacionesPendientes.filter(
-              p => p.id_solicitud !== postulacion.id_solicitud
+              p => p.id_postulacion !== postulacion.id_postulacion
             );
 
           this.cdr.detectChanges();
 
-          // Sincronizar nuevamente con backend
           this.cargarPostulacionesPendientes(false);
 
         },
@@ -195,7 +203,6 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
 
-    // Detener refresco automático al salir de la vista
     this.refrescoSubscription?.unsubscribe();
 
   }

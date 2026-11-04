@@ -1,25 +1,72 @@
-// src/adapters/postulacion.adapter.js
 const supabase = require('../config/supabase');
+const _utilsAdapter = require('./utils.adapter');
+const _especialidadAdapter = require('./especialidad.adapter');
+const { CrearPostulacionAskDTO } = require('../dtos/postulacion/postulacion.ask.dto');
+const { CrearPostulacionResolveDTO, ObtenerPostulacionResolveDTO, ResolverPostulacionResolveDTO } = require('../dtos/postulacion/postulacion.resolve.dto');
 
 class PostulacionAdapter {
-  /**
-   * Obtiene el listado completo de solicitudes pendientes o disponibles.
-   */
-  async obtenerDisponibles() {
+
+  // 10. Solicitar ser Ayudante
+  async crearPostulacionAyudante(rawBody) {
+    const inputDTO = new CrearPostulacionAskDTO(rawBody);
+
+    // Verificar si el usuario ya tiene una postulación pendiente
+    const tienePostulacionPendiente = await _utilsAdapter.tienePostulacionPendiente(inputDTO.id_usuario);
+
+    if (tienePostulacionPendiente) {
+      const error = new Error('Ya existe una postulación pendiente para este usuario.');
+      error.statusCode = 409;
+      throw error;
+    }
+
+    // Crear nueva postulación usando los datos del DTO de entrada
     const { data, error } = await supabase
-      .from('solicitud_ayudantia')
+      .from('postulacion_ayudante')
+      .insert({
+        id_usuario: inputDTO.id_usuario,
+        motivo: inputDTO.motivo,
+        experiencia: inputDTO.experiencia,
+        estado: 'PENDIENTE'
+      })
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    // Retornamos mapeado con el Resolve DTO de creación
+    return new CrearPostulacionResolveDTO({
+      ...data,
+      mensaje: 'Postulación creada exitosamente'
+    });
+  }
+
+  // Obtener postulaciones pendientes
+  async obtenerPostulacionesPendientes() {
+    const { data, error } = await supabase
+      .from('postulacion_ayudante')
       .select(`
         id_postulacion,
-        modalidad,
-        estado,
+        id_usuario,
         motivo,
-        consulta:id_consulta ( titulo, descripcion )
+        experiencia,
+        fecha_solicitud,
+        estado,
+        usuario (
+          nombre,
+          apellido,
+          correo,
+          rut
+        )
       `)
       .eq('estado', 'PENDIENTE')
       .order('fecha_solicitud', { ascending: false });
 
     if (error) throw error;
-    return data;
+
+    // Mapeamos cada elemento utilizando el Resolve DTO de obtención
+    return (data || []).map(item => new ObtenerPostulacionResolveDTO(item));
   }
 
   // Aprobar postulación de ayudante

@@ -1,1 +1,300 @@
-/* Los estilos de esta vista se encuentran en global.scss */
+/* =====================================================
+   EDITAR PUBLICACIÓN - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
+   ========================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+
+  h1 {
+    margin: 0 0 6px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================
+   VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0 0 18px;
+
+  --background: transparent;
+
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --ripple-color:
+    rgba(201, 79, 50, 0.12);
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   FORMULARIO
+   ========================= */
+
+.page-card {
+  max-width: 700px;
+
+  padding: 26px;
+
+  background: $surface;
+
+  border: 1px solid $border;
+  border-radius: 12px;
+
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
+}
+
+
+/* =========================
+   CAMPOS
+   ========================= */
+
+.form-group {
+  margin-bottom: 23px;
+
+  label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #5f5954;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  ion-input,
+  ion-select,
+  ion-textarea {
+    --background: #ffffff;
+
+    --color: #4f4a46;
+
+    --placeholder-color: #96908a;
+    --placeholder-opacity: 1;
+
+    --border-color: #e4dfd8;
+    --border-radius: 9px;
+
+    --highlight-color-focused: #c94f32;
+
+    color: #4f4a46;
+
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  ion-input.ion-focused,
+  ion-select.ion-focused,
+  ion-textarea.ion-focused {
+    --border-color: #c94f32;
+
+    box-shadow:
+      0 0 0 3px
+      rgba(201, 79, 50, 0.07);
+
+    border-radius: 9px;
+  }
+
+  ion-textarea {
+    line-height: 1.6;
+  }
+  
+}
+
+ion-input::part(native),
+ion-textarea::part(native) {
+  color: #4f4a46;
+  font-weight: 400;
+}
+
+
+ion-select::part(text) {
+  color: #4f4a46;
+  font-weight: 400;
+}
+
+
+/* =========================
+   ACCIONES
+   ========================= */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 30px;
+  padding-top: 20px;
+
+  border-top:
+    1px solid rgba($border, 0.8);
+}
+
+
+/* =========================
+   CANCELAR
+   ========================= */
+
+.secondary-button {
+  min-height: 42px;
+
+  --background: #{$surface};
+
+  --background-hover: #f2efeb;
+  --background-focused: #f2efeb;
+  --background-activated: #ece8e3;
+
+  --border-color: #{$border};
+
+  --color: #{$text-secondary};
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(109, 105, 101, 0.1);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   GUARDAR
+   ========================= */
+
+.primary-button {
+  min-height: 42px;
+
+  --background: #{$primary};
+
+  --background-hover: #b8452c;
+  --background-focused: #b8452c;
+  --background-activated: #a93f29;
+
+  --color: #ffffff;
+
+  --border-radius: 8px;
+
+  --box-shadow: none;
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.24);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .page-header {
+
+    h1 {
+      font-size: 27px;
+    }
+
+  }
+
+  .page-card {
+    padding: 20px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    ion-button {
+      width: 100%;
+    }
+  }
+
+}
