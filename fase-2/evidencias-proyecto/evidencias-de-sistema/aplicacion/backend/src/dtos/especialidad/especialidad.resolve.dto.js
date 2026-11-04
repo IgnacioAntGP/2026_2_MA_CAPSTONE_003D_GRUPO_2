@@ -8,6 +8,22 @@ class CrearEspecialidadResolveDTO {
     }
 }
 
+// DTO para formatear cada elemento al listar las especialidades de un ayudante
+class ObtenerEspecialidadesResolveDTO {
+    constructor(item = {}) {
+        this.id_asignatura = item.id_asignatura != null ? Number(item.id_asignatura) : null;
+        this.nivel_competencia = item.nivel_competencia != null ? String(item.nivel_competencia) : '';
+        this.fecha_habilitacion = item.fecha_habilitacion ? new Date(item.fecha_habilitacion) : null;
+
+        // Mapeamos los datos de la relación con la asignatura si vienen incluidos
+        this.asignatura = item.asignatura ? {
+            nombre: item.asignatura.nombre || '',
+            codigo: item.asignatura.codigo || ''
+        } : null;
+    }
+}
+
 module.exports = {
-    CrearEspecialidadResolveDTO
+    CrearEspecialidadResolveDTO,
+    ObtenerEspecialidadesResolveDTO
 };

@@ -1,7 +1,7 @@
 const supabase = require('../config/supabase');
 const utilsAdapter = require('./utils.adapter');
 const { CrearEspecialidadAskDTO } = require('../dtos/especialidad/especialidad.ask.dto');
-const { CrearEspecialidadResolveDTO } = require('../dtos/especialidad/especialidad.resolve.dto');
+const { CrearEspecialidadResolveDTO, ObtenerEspecialidadesResolveDTO } = require('../dtos/especialidad/especialidad.resolve.dto');
 
 class EspecialidadAdapter {
 
@@ -36,7 +36,6 @@ class EspecialidadAdapter {
         });
     }
 
-    // Método para obtener las especialidades de un ayudante
     async obtenerEspecialidadesPorUsuario(id_usuario) {
         const ayudante = await utilsAdapter.obtenerAyudantePorIdUsuario(id_usuario);
         
@@ -56,7 +55,9 @@ class EspecialidadAdapter {
             .eq('id_ayudante', ayudante.id_ayudante);
 
         if (error) throw error;
-        return data;
+
+        // Mapeamos la respuesta utilizando el nuevo Resolve DTO de listado
+        return (data || []).map(item => new ObtenerEspecialidadesResolveDTO(item));
     }
 }
 
