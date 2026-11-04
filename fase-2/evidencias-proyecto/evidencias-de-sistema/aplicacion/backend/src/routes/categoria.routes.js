@@ -2,15 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  crearNuevaCategoria,
-  obtenerCategorias,
-  obtenerCategoriasActivas,
-  obtenerDetalleCategoria
+  crearCategoriaController,
+  obtenerAllCategorias,
+  obtenerCategoriasActivasController
 } = require('../controllers/categoria.controller');
 
-router.post('/', crearNuevaCategoria);
-router.get('/', obtenerCategorias);
-router.get('/activas', obtenerCategoriasActivas);
-router.get('/:id_categoria', obtenerDetalleCategoria);
+router.post('/', crearCategoriaController);
+router.get('/', obtenerAllCategorias);
+router.get('/activas', obtenerCategoriasActivasController);
 
 module.exports = router;
