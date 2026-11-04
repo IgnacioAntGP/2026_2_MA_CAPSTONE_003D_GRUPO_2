@@ -22,8 +22,7 @@ import {
   IonCard,
   IonCardContent,
   IonChip,
-  IonBadge,
-  IonAvatar
+  IonBadge
 } from '@ionic/angular';
 
 
@@ -46,7 +45,6 @@ import {
     IonCardContent,
     IonChip,
     IonBadge,
-    IonAvatar,
     SideMenuComponent
   ],
 })

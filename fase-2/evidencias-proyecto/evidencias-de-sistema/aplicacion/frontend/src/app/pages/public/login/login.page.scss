@@ -16,6 +16,7 @@ $text-secondary: #6d6965;
 $text-muted: #96908a;
 
 $border: #e4dfd8;
+$input-border: #d8d1c8;
 
 
 /* =========================
@@ -39,7 +40,6 @@ $border: #e4dfd8;
 
 .login-wrapper {
   width: 100%;
-
   max-width: 430px;
 }
 
@@ -50,11 +50,10 @@ $border: #e4dfd8;
 
 .login-header {
   margin-bottom: 26px;
-
   text-align: center;
 
   h1 {
-    margin: 14px 0 8px;
+    margin: 8px 0 8px;
 
     color: $text-primary;
 
@@ -86,44 +85,15 @@ $border: #e4dfd8;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  gap: 9px;
 }
 
 
-.brand-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.brand-logo {
+  display: block;
 
-  width: 36px;
-  height: 36px;
-
-  flex-shrink: 0;
-
-  background: $primary-soft;
-
-  border:
-    1px solid rgba(201, 79, 50, 0.16);
-
-  border-radius: 10px;
-
-  color: $primary;
-
-  font-size: 12px;
-  font-weight: 700;
-
-  letter-spacing: -0.2px;
-}
-
-
-.brand-name {
-  color: $primary;
-
-  font-size: 16px;
-  font-weight: 700;
-
-  letter-spacing: -0.2px;
+  width: 150px;
+  max-width: 100%;
+  height: auto;
 }
 
 
@@ -202,7 +172,9 @@ $border: #e4dfd8;
     --placeholder-color: #{$text-muted};
     --placeholder-opacity: 1;
 
-    --border-color: #{$border};
+    --border-color: #{$input-border};
+    --border-width: 1px;
+    --border-style: solid;
     --border-radius: 8px;
 
     --highlight-color-focused: #{$primary};

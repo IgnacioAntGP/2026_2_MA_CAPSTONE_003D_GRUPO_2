@@ -59,7 +59,6 @@ export class PanelAyudantePage implements OnInit {
     id_usuario: 4,
     nombre: 'Fernanda Morales',
     email: 'f.morales@duocuc.cl',
-    imagen: '../assets/icon/favicon.png',
   };
 
 

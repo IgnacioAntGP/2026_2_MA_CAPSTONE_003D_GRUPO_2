@@ -143,29 +143,15 @@ ion-button.menu-button {
 }
 
 
-.brand-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.brand-icon {
+  display: block;
 
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
 
   flex-shrink: 0;
 
-  background: $primary-soft;
-
-  border:
-    1px solid rgba(201, 79, 50, 0.16);
-
-  border-radius: 10px;
-
-  color: $primary;
-
-  font-size: 13px;
-  font-weight: 700;
-
-  letter-spacing: -0.2px;
+  object-fit: contain;
 }
 
 
