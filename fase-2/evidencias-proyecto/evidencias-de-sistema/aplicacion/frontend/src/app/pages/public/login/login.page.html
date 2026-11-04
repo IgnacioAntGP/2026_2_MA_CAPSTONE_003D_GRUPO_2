@@ -7,9 +7,15 @@
       <!-- PRESENTACIÓN -->
       <header class="login-header">
 
-        <span class="login-label">
-          EntrePares
-        </span>
+        <div class="login-brand">
+
+          <img
+            class="brand-logo"
+            src="assets/icon/entrepares-logo.png"
+            alt="EntrePares - Red de Apoyo Estudiantil"
+          />
+
+        </div>
 
         <h1>
           Bienvenido
@@ -18,6 +24,7 @@
         <p>
           Ingresa a tu comunidad de apoyo académico entre estudiantes.
         </p>
+
       </header>
 
 
@@ -47,15 +54,16 @@
             Correo
           </label>
 
-          <input
+          <ion-input
             id="correo"
             name="correo"
             type="email"
+            fill="outline"
             [(ngModel)]="correo"
             placeholder="Ingresa tu correo"
             autocomplete="email"
             required
-          />
+          ></ion-input>
 
         </div>
 
@@ -69,37 +77,41 @@
               Contraseña
             </label>
 
-            <button
+            <ion-button
               class="forgot-password"
               type="button"
+              fill="clear"
+              size="small"
             >
               ¿Olvidaste tu contraseña?
-            </button>
+            </ion-button>
 
           </div>
 
-          <input
+
+          <ion-input
             id="password"
             name="password"
             type="password"
+            fill="outline"
             [(ngModel)]="password"
             placeholder="Ingresa tu contraseña"
             autocomplete="current-password"
             required
-          />
+          ></ion-input>
 
         </div>
 
 
         <!-- INGRESAR -->
-        <button
-          class="primary-button login-button"
+        <ion-button
+          class="login-button"
           type="submit"
+          expand="block"
           routerLink="/comunidad"
-          
         >
           Ingresar
-        </button>
+        </ion-button>
 
 
         <!-- REGISTRO -->
@@ -109,12 +121,14 @@
             ¿No tienes una cuenta?
           </span>
 
-          <button
+          <ion-button
             class="register-button"
             type="button"
+            fill="clear"
+            size="small"
           >
             Regístrate
-          </button>
+          </ion-button>
 
         </div>
 

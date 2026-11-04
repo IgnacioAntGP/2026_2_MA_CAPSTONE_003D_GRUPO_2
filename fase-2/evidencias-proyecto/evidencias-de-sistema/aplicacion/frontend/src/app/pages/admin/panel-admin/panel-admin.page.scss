@@ -1,50 +1,134 @@
-.admin-welcome {
-  margin-bottom: 24px;
+/* =====================================================
+   PANEL ADMINISTRADOR - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+$warning: #b8662f;
+$warning-soft: #fff4e8;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
 }
+
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
+   ========================= */
+
+.admin-welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  margin-bottom: 24px;
+
+  > div {
+    flex: 1;
+
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+}
+
 
 .welcome-label {
   display: block;
-  margin-bottom: 6px;
 
-  font-size: 13px;
+  margin-bottom: 5px;
+
+  color: $primary;
+
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 
-  color: #3880ff;
+  letter-spacing: 0.6px;
+
+  text-transform: uppercase;
 }
+
 
 .admin-welcome h1 {
-  margin: 0 0 8px;
+  margin: 0 0 6px;
 
-  font-size: 28px;
+  color: $text-primary;
+
+  font-size: 30px;
   font-weight: 700;
 
-  color: #1f2937;
+  letter-spacing: -0.4px;
 }
+
 
 .admin-welcome p {
   margin: 0;
 
-  line-height: 1.6;
+  color: $text-secondary;
 
-  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 
-/* ==============================
+/* =========================
    RESUMEN
-================================ */
+   ========================= */
 
 .admin-summary {
-  margin-bottom: 28px;
+  width: 100%;
+
+  margin: 0 0 28px;
+
+  --background: #{$surface};
+
+  border: 1px solid $border;
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
+
+  ion-card-content {
+    padding: 20px 22px;
+  }
 }
+
 
 .summary-item {
   display: flex;
   align-items: center;
+
   gap: 16px;
 }
+
 
 .summary-item strong {
   display: flex;
@@ -54,96 +138,150 @@
   min-width: 56px;
   height: 56px;
 
+  flex-shrink: 0;
+
+  border:
+    1px solid rgba(184, 102, 47, 0.14);
+
   border-radius: 14px;
+
+  color: $warning;
+
+  background: $warning-soft;
 
   font-size: 24px;
   font-weight: 700;
-
-  color: #3880ff;
-  background: #eef4ff;
 }
 
+
 .summary-item span {
+  color: $text-primary;
+
   font-size: 15px;
   font-weight: 600;
 
-  color: #374151;
+  line-height: 1.4;
 }
 
 
-/* ==============================
+/* =========================
    SECCIÓN
-================================ */
+   ========================= */
 
 .admin-section {
   margin-top: 8px;
 }
 
+
 .section-header {
   margin-bottom: 18px;
 }
 
+
 .section-label {
   display: block;
+
   margin-bottom: 5px;
+
+  color: $secondary;
 
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 
-  color: #3880ff;
+  letter-spacing: 0.6px;
+
+  text-transform: uppercase;
 }
+
 
 .section-header h2 {
   margin: 0 0 6px;
 
+  color: $text-primary;
+
   font-size: 21px;
   font-weight: 700;
 
-  color: #1f2937;
+  letter-spacing: -0.2px;
 }
+
 
 .section-header p {
   margin: 0;
 
-  line-height: 1.5;
+  color: $text-secondary;
 
-  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 
-/* ==============================
+/* =========================
    OPCIONES ADMIN
-================================ */
+   ========================= */
 
 .admin-options {
   display: flex;
   flex-direction: column;
+
   gap: 14px;
 }
 
-.admin-option {
-  display: flex;
-  align-items: center;
-  gap: 16px;
 
+.admin-option {
   width: 100%;
 
-  text-decoration: none;
+  margin: 0;
+
+  --background: #{$surface};
+
+  border: 1px solid $border;
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
+
+  ion-card-content {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 18px 20px;
+  }
+}
+
+
+/* =========================
+   OPCIONES DISPONIBLES
+   ========================= */
+
+.admin-option-active {
+  cursor: pointer;
 
   transition:
     transform 0.15s ease,
+    border-color 0.15s ease,
     box-shadow 0.15s ease;
+
+  &:hover {
+    transform:
+      translateY(-2px);
+
+    border-color:
+      rgba(201, 79, 50, 0.28);
+
+    box-shadow:
+      0 5px 16px
+      rgba(37, 35, 33, 0.07);
+  }
 }
 
-a.admin-option {
-  cursor: pointer;
-}
 
-a.admin-option:hover {
-  transform: translateY(-2px);
-}
+/* =========================
+   ICONOS
+   ========================= */
 
 .option-icon {
   display: flex;
@@ -155,366 +293,198 @@ a.admin-option:hover {
   width: 48px;
   height: 48px;
 
+  border:
+    1px solid rgba(201, 79, 50, 0.12);
+
   border-radius: 12px;
 
-  font-size: 23px;
+  background: $primary-soft;
 
-  background: #eef4ff;
+  color: $primary;
+
+  font-size: 22px;
+
+  ion-icon {
+    color: $primary;
+
+    font-size: 22px;
+  }
 }
+
+
+/* =========================
+   CONTENIDO OPCIÓN
+   ========================= */
 
 .option-content {
   flex: 1;
+
   min-width: 0;
 }
 
+
 .option-content h3 {
-  margin: 0 0 4px;
+  margin: 0 0 5px;
+
+  color: $text-primary;
 
   font-size: 17px;
   font-weight: 700;
 
-  color: #1f2937;
+  letter-spacing: -0.1px;
 }
+
 
 .option-content p {
   margin: 0;
 
+  color: $text-secondary;
+
   font-size: 14px;
   line-height: 1.5;
 
-  color: #6b7280;
+  strong {
+    color: #5f5954;
+
+    font-weight: 600;
+  }
 }
+
+
+/* =========================
+   FLECHA
+   ========================= */
 
 .option-arrow {
   flex-shrink: 0;
 
+  color: $primary;
+
   font-size: 30px;
   font-weight: 300;
 
-  color: #9ca3af;
+  line-height: 1;
 }
 
 
-/* ==============================
+/* =========================
    OPCIONES NO DISPONIBLES
-================================ */
+   ========================= */
 
 .admin-option-disabled {
-  opacity: 0.65;
+  --background: #faf9f7;
+
+  border-color:
+    rgba(228, 223, 216, 0.8);
+
+  box-shadow: none;
+
   cursor: default;
+
+
+  .option-icon {
+    background: #f3f1ee;
+
+    border-color:
+      rgba(228, 223, 216, 0.9);
+
+    filter: grayscale(0.25);
+
+    opacity: 0.72;
+  }
+
+
+  .option-content h3 {
+    color: $text-secondary;
+  }
+
+
+  .option-content p {
+    color: $text-muted;
+  }
 }
 
-.option-status {
-  display: inline-block;
 
-  margin-top: 8px;
-  padding: 4px 8px;
+/* =========================
+   PRÓXIMAMENTE
+   ========================= */
+
+.option-status {
+  margin-top: 9px;
+
+  --background: #f0eeeb;
+  --color: #77716b;
+
+  padding: 4px 9px;
 
   border-radius: 999px;
 
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
 
-  color: #6b7280;
-  background: #f3f4f6;
+  letter-spacing: 0.2px;
 }
 
 
-/* ==============================
+/* =========================
    RESPONSIVE
-================================ */
+   ========================= */
 
 @media (max-width: 600px) {
 
-  .admin-welcome h1 {
-    font-size: 24px;
+  .admin-welcome {
+
+    h1 {
+      font-size: 27px;
+    }
+
   }
 
-  .admin-option {
-    align-items: flex-start;
+
+  .admin-summary {
+
+    ion-card-content {
+      padding: 18px;
+    }
+
   }
+
+
+  .summary-item strong {
+    min-width: 52px;
+    height: 52px;
+
+    font-size: 22px;
+  }
+
+
+  .admin-option {
+
+    ion-card-content {
+      align-items: flex-start;
+
+      padding: 17px 18px;
+    }
+
+  }
+
 
   .option-icon {
     width: 44px;
     height: 44px;
 
-    font-size: 21px;
+    font-size: 20px;
+
+    ion-icon {
+      font-size: 20px;
+    }
   }
 
-}
-/* ==============================
-   BOTÓN SUPERIOR DEL MENÚ
-================================ */
 
-.admin-menu-header {
-  display: flex;
-  justify-content: flex-end;
+  .option-arrow {
+    margin-top: 4px;
 
-  margin-bottom: 12px;
-}
-
-.admin-menu-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 42px;
-  height: 42px;
-
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-
-  font-size: 22px;
-
-  color: #374151;
-  background: #ffffff;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.admin-menu-button:hover {
-  background: #f3f4f6;
-  border-color: #cbd5e1;
-}
-
-
-/* ==============================
-   OVERLAY
-================================ */
-
-.admin-menu-overlay {
-  position: fixed;
-  inset: 0;
-
-  z-index: 998;
-
-  background: rgba(15, 23, 42, 0.35);
-}
-
-
-/* ==============================
-   MENÚ LATERAL
-================================ */
-
-.admin-side-menu {
-  position: fixed;
-
-  top: 0;
-  right: 0;
-
-  z-index: 999;
-
-  display: flex;
-  flex-direction: column;
-
-  width: min(340px, 88vw);
-  height: 100%;
-
-  padding: 24px 20px;
-
-  background: #ffffff;
-
-  box-shadow: -8px 0 30px rgba(15, 23, 42, 0.14);
-
-  transform: translateX(100%);
-
-  transition: transform 0.25s ease;
-}
-
-.admin-side-menu.open {
-  transform: translateX(0);
-}
-
-
-/* ==============================
-   PERFIL DEL ADMIN
-================================ */
-
-.admin-menu-profile {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding-bottom: 20px;
-
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.admin-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  width: 46px;
-  height: 46px;
-
-  border-radius: 50%;
-
-  font-size: 18px;
-  font-weight: 700;
-
-  color: #ffffff;
-  background: #3880ff;
-}
-
-.admin-menu-profile > div:nth-child(2) {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.admin-menu-profile strong {
-  font-size: 15px;
-
-  color: #1f2937;
-}
-
-.admin-menu-profile span {
-  font-size: 13px;
-
-  color: #6b7280;
-}
-
-.admin-menu-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 34px;
-  height: 34px;
-
-  border: 0;
-  border-radius: 8px;
-
-  font-size: 26px;
-  line-height: 1;
-
-  color: #6b7280;
-  background: transparent;
-
-  cursor: pointer;
-}
-
-.admin-menu-close:hover {
-  background: #f3f4f6;
-}
-
-
-/* ==============================
-   NAVEGACIÓN
-================================ */
-
-.admin-menu-nav {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 6px;
-
-  padding-top: 18px;
-}
-
-.admin-menu-nav a,
-.admin-menu-nav button {
-  width: 100%;
-
-  padding: 12px 14px;
-
-  border: 0;
-  border-radius: 10px;
-
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: left;
-  text-decoration: none;
-
-  color: #374151;
-  background: transparent;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease;
-}
-
-.admin-menu-nav a:hover {
-  color: #3880ff;
-  background: #eef4ff;
-}
-
-.admin-menu-nav button:disabled {
-  color: #9ca3af;
-
-  cursor: default;
-}
-
-
-/* ==============================
-   PIE DEL MENÚ
-================================ */
-
-.admin-menu-footer {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-
-  padding-top: 16px;
-
-  border-top: 1px solid #e5e7eb;
-}
-
-.admin-menu-footer button {
-  width: 100%;
-
-  padding: 12px 14px;
-
-  border: 0;
-  border-radius: 10px;
-
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: left;
-
-  color: #374151;
-  background: transparent;
-
-  cursor: pointer;
-}
-
-.admin-menu-footer button:disabled {
-  color: #9ca3af;
-
-  cursor: default;
-}
-
-.admin-menu-footer .logout-button {
-  color: #dc2626;
-}
-
-.admin-menu-footer .logout-button:hover {
-  background: #fef2f2;
-}
-
-
-/* ==============================
-   RESPONSIVE
-================================ */
-
-@media (max-width: 600px) {
-
-  .admin-side-menu {
-    width: 88vw;
-
-    padding: 20px 16px;
+    font-size: 27px;
   }
 
 }

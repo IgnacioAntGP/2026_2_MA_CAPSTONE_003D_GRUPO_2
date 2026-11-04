@@ -1,23 +1,50 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
-import { Router, RouterLink } from '@angular/router';
+
+import {
+  IonContent,
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonInput,
+  IonSelect,
+  IonSelectOption
+} from '@ionic/angular';
+
+import {
+  Router,
+  RouterLink
+} from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { PerfilUsuario } from '../../../models/IPerfil';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
+
 @Component({
   selector: 'app-editar-perfil',
   templateUrl: './editar-perfil.page.html',
   styleUrls: ['./editar-perfil.page.scss'],
-  standalone:true,
+  standalone: true,
   imports: [
-    IonContent,
     CommonModule,
     FormsModule,
     RouterLink,
+
+    IonContent,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonInput,
+    IonSelect,
+    IonSelectOption,
+
     SideMenuComponent
   ]
 })
@@ -29,40 +56,67 @@ export class EditarPerfilPage implements OnInit {
   idUsuarioActual = 1;
 
   carrera = '';
+
   semestre: number | null = null;
+
   institucion = '';
+
 
   constructor(
     private ticketService: TicketService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
+
 
   ngOnInit() {
+
     this.cargarPerfil();
+
   }
+
 
   cargarPerfil() {
 
-    this.ticketService.obtenerPerfil(this.idUsuarioActual).subscribe({
-      next: (data) => {
+    this.ticketService
+      .obtenerPerfil(this.idUsuarioActual)
+      .subscribe({
 
-        this.perfil = data;
+        next: (data) => {
 
-        this.carrera = data.estudiante?.carrera ?? '';
-        this.semestre = data.estudiante?.semestre ?? null;
-        this.institucion = data.estudiante?.institucion ?? '';
+          this.perfil = data;
 
-        this.cdr.markForCheck();
+          this.carrera =
+            data.estudiante?.carrera ?? '';
 
-        console.log('Perfil cargado para edición:', data);
-      },
-      error: (error) => {
-        console.error('Error al cargar perfil:', error);
-      }
-    });
+          this.semestre =
+            data.estudiante?.semestre ?? null;
+
+          this.institucion =
+            data.estudiante?.institucion ?? '';
+
+          this.cdr.markForCheck();
+
+          console.log(
+            'Perfil cargado para edición:',
+            data
+          );
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error al cargar perfil:',
+            error
+          );
+
+        }
+
+      });
 
   }
+
 
   guardarCambios() {
 
@@ -71,26 +125,48 @@ export class EditarPerfilPage implements OnInit {
       !this.semestre ||
       !this.institucion.trim()
     ) {
-      console.warn('Faltan campos obligatorios');
+
+      console.warn(
+        'Faltan campos obligatorios'
+      );
+
       return;
+
     }
 
-    this.ticketService.actualizarPerfil(
-      this.idUsuarioActual,
-      this.carrera.trim(),
-      this.semestre,
-      this.institucion.trim()
-    ).subscribe({
-      next: (respuesta) => {
 
-        console.log('Perfil actualizado:', respuesta);
+    this.ticketService
+      .actualizarPerfil(
+        this.idUsuarioActual,
+        this.carrera.trim(),
+        this.semestre,
+        this.institucion.trim()
+      )
+      .subscribe({
 
-        this.router.navigate(['/mi-perfil']);
-      },
-      error: (error) => {
-        console.error('Error al actualizar perfil:', error);
-      }
-    });
+        next: (respuesta) => {
+
+          console.log(
+            'Perfil actualizado:',
+            respuesta
+          );
+
+          this.router.navigate([
+            '/mi-perfil'
+          ]);
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error al actualizar perfil:',
+            error
+          );
+
+        }
+
+      });
 
   }
 

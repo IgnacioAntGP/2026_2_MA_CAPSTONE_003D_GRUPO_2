@@ -1,6 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+
 import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SolicitudAyudantia } from '../../../models/ISolicitudAyudantia';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
@@ -12,8 +18,13 @@ import {
   IonTitle,
   IonButtons,
   IonModal,
-  IonButton
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonChip,
+  IonBadge
 } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-mis-ayudantias',
@@ -30,68 +41,129 @@ import {
     IonTitle,
     IonButtons,
     IonButton,
+    IonCard,
+    IonCardContent,
+    IonChip,
+    IonBadge,
     SideMenuComponent
   ],
 })
 export class MisAyudantiasPage implements OnInit {
+
   idUsuarioAyudante = 4;
+
   misAyudantias: SolicitudAyudantia[] = [];
 
   isModalSesionOpen: boolean = false;
+
   ayudantiaEnSesion: SolicitudAyudantia | null = null;
 
-  constructor (
-    private ayudantiaService: AyudantiaService, 
+
+  constructor(
+    private ayudantiaService: AyudantiaService,
     private cdr: ChangeDetectorRef
   ) {}
+
 
   ngOnInit() {
     this.cargarMisAyudantias();
   }
 
+
   ionViewWillEnter() {
     this.cargarMisAyudantias();
   }
 
+
   cargarMisAyudantias() {
+
     this.ayudantiaService
       .obtenerMisAyudantias(this.idUsuarioAyudante)
       .subscribe({
+
         next: (data) => {
+
           this.misAyudantias = data;
+
           this.cdr.markForCheck();
+
         },
-        error: (e) => console.error('Error mis ayudantias:', e),
+
+        error: (e) =>
+          console.error(
+            'Error mis ayudantias:',
+            e
+          ),
+
       });
+
   }
 
-  abrirVentanaSesion(ayudantia: SolicitudAyudantia) {
+
+  abrirVentanaSesion(
+    ayudantia: SolicitudAyudantia
+  ) {
+
     this.ayudantiaEnSesion = ayudantia;
+
     this.isModalSesionOpen = true;
+
   }
+
 
   cerrarVentanaSesion() {
+
     this.isModalSesionOpen = false;
+
   }
 
-  cerrarCaso(estadoFinal: 'resuelta' | 'escalada') {
-    if (!this.ayudantiaEnSesion) return;
+
+  cerrarCaso(
+    estadoFinal: 'resuelta' | 'escalada'
+  ) {
+
+    if (!this.ayudantiaEnSesion) {
+      return;
+    }
+
 
     if (estadoFinal === 'resuelta') {
+
       this.ayudantiaService
-        .resolverSolicitud(this.ayudantiaEnSesion.id_solicitud)
+        .resolverSolicitud(
+          this.ayudantiaEnSesion.id_solicitud
+        )
         .subscribe({
+
           next: () => {
+
             if (this.ayudantiaEnSesion) {
-              this.ayudantiaEnSesion.estado = 'RESUELTA';
+
+              this.ayudantiaEnSesion.estado =
+                'RESUELTA';
+
             }
+
             this.cerrarVentanaSesion();
+
             this.cargarMisAyudantias();
+
           },
-          error: (e) => console.error('Error al resolver la ayudantía:', e),
+
+          error: (e) =>
+            console.error(
+              'Error al resolver la ayudantía:',
+              e
+            ),
+
         });
+
     } else {
+
       this.cerrarVentanaSesion();
+
     }
+
   }
+
 }

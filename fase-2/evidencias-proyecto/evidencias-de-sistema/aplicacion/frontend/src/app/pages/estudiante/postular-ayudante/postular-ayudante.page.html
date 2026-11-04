@@ -5,90 +5,102 @@
     <header class="page-header">
 
       <div>
-        <button
+
+        <ion-button
           class="back-button"
           type="button"
+          fill="clear"
           routerLink="/comunidad"
         >
           ← Volver a Comunidad
-        </button>
+        </ion-button>
 
-        <h1>Solicitar ser ayudante</h1>
+        <h1>
+          Solicitar ser ayudante
+        </h1>
 
         <p>
-          Comparte tus conocimientos y apoya a otros estudiantes en sus dudas académicas.
+          Comparte tus conocimientos y apoya a otros estudiantes
+          en sus dudas académicas.
         </p>
+
       </div>
 
       <app-side-menu></app-side-menu>
+
     </header>
+
 
     <main class="page-content">
 
-      <section class="info-card">
 
-        <div class="info-card-header">
+      <!-- INFORMACIÓN -->
+      <ion-card class="info-card">
 
-          <span class="info-icon">
-            i
-          </span>
+        <ion-card-content>
 
-          <div>
+          <div class="info-card-header">
 
-            <h2>
-              ¿Qué significa ser ayudante?
-            </h2>
-
-            <p>
-              Como ayudante podrás apoyar a otros estudiantes en tutorías
-              relacionadas con los temas y asignaturas que domines.
-            </p>
-
-          </div>
-
-        </div>
-
-        <div class="helper-points">
-
-          <div class="helper-point">
-
-            <span>
-              ✓
+            <span class="info-icon">
+              i
             </span>
 
-            <p>
-              Comparte tus conocimientos con otros estudiantes.
-            </p>
+            <div>
+
+              <h2>
+                ¿Qué significa ser ayudante?
+              </h2>
+
+              <p>
+                Como ayudante podrás apoyar a otros estudiantes en tutorías
+                relacionadas con los temas y asignaturas que domines.
+              </p>
+
+            </div>
 
           </div>
 
-          <div class="helper-point">
 
-            <span>
-              ✓
-            </span>
+          <div class="helper-points">
 
-            <p>
-              Participa en tutorías según tus áreas de conocimiento.
-            </p>
+            <div class="helper-point">
+
+              <span>✓</span>
+
+              <p>
+                Comparte tus conocimientos con otros estudiantes.
+              </p>
+
+            </div>
+
+
+            <div class="helper-point">
+
+              <span>✓</span>
+
+              <p>
+                Participa en tutorías según tus áreas de conocimiento.
+              </p>
+
+            </div>
+
+
+            <div class="helper-point">
+
+              <span>✓</span>
+
+              <p>
+                Tu solicitud será revisada antes de asignarte
+                el rol de ayudante.
+              </p>
+
+            </div>
 
           </div>
 
-          <div class="helper-point">
+        </ion-card-content>
 
-            <span>
-              ✓
-            </span>
-
-            <p>
-              Tu solicitud será revisada antes de asignarte el rol de ayudante.
-            </p>
-
-          </div>
-
-        </div>
-
-      </section>
+      </ion-card>
 
 
       <!-- FORMULARIO -->
@@ -101,9 +113,11 @@
           Solicitud
         </h2>
 
+
+        <!-- MOTIVACIÓN -->
         <div class="form-group">
 
-          <label for="motivacion">
+          <label>
             ¿Por qué quieres ser ayudante?
           </label>
 
@@ -111,18 +125,21 @@
             Cuéntanos qué te motiva a apoyar a otros estudiantes.
           </span>
 
-          <textarea
-            id="motivacion"
+          <ion-textarea
+            fill="outline"
             rows="6"
             [(ngModel)]="motivo"
             placeholder="Escribe aquí tu motivación..."
-          ></textarea>
+          >
+          </ion-textarea>
 
         </div>
 
+
+        <!-- EXPERIENCIA -->
         <div class="form-group">
 
-          <label for="experiencia">
+          <label>
             ¿Qué experiencia o conocimientos puedes aportar?
           </label>
 
@@ -131,32 +148,37 @@
             o experiencias ayudando a compañeros.
           </span>
 
-          <textarea
-            id="experiencia"
+          <ion-textarea
+            fill="outline"
             rows="5"
             [(ngModel)]="experiencia"
             placeholder="Cuéntanos brevemente sobre tu experiencia..."
-          ></textarea>
+          >
+          </ion-textarea>
 
         </div>
 
+
+        <!-- ACCIONES -->
         <div class="form-actions">
 
-          <button
+          <ion-button
             class="secondary-button"
             type="button"
+            fill="outline"
             routerLink="/comunidad"
           >
             Cancelar
-          </button>
+          </ion-button>
 
-          <button
+          <ion-button
             class="primary-button"
             type="button"
+            [disabled]="enviandoSolicitud"
             (click)="enviarSolicitud()"
           >
-            Enviar solicitud
-          </button>
+            {{ enviandoSolicitud ? 'Enviando...' : 'Enviar solicitud' }}
+          </ion-button>
 
         </div>
 
@@ -164,32 +186,37 @@
 
 
       <!-- CONFIRMACIÓN -->
-      <section
-        class="page-card success-card"
+      <ion-card
+        class="success-card"
         *ngIf="solicitudEnviada"
       >
 
-        <div class="success-icon">
-          ✓
-        </div>
+        <ion-card-content>
 
-        <h2>
-          Solicitud enviada
-        </h2>
+          <div class="success-icon">
+            ✓
+          </div>
 
-        <p>
-          Tu solicitud fue enviada correctamente y quedó pendiente de revisión.
-        </p>
+          <h2>
+            Solicitud enviada
+          </h2>
 
-        <button
-          class="primary-button"
-          type="button"
-          routerLink="/comunidad"
-        >
-          Volver a Comunidad
-        </button>
+          <p>
+            Tu solicitud fue enviada correctamente
+            y quedó pendiente de revisión.
+          </p>
 
-      </section>
+          <ion-button
+            class="primary-button"
+            type="button"
+            routerLink="/comunidad"
+          >
+            Volver a Comunidad
+          </ion-button>
+
+        </ion-card-content>
+
+      </ion-card>
 
     </main>
 

@@ -70,11 +70,11 @@ class UsuarioController {
     }
   }
   async aprobarPostulacionAyudante(req, res) {
-    const { id_solicitud } = req.params;
+    const { id_postulacion } = req.params;
 
     try {
       const data =
-        await usuarioAdapter.aprobarPostulacionAyudante(id_solicitud);
+        await usuarioAdapter.aprobarPostulacionAyudante(id_postulacion);
 
       return res.status(200).json({
         mensaje: 'Postulación aprobada correctamente.',
@@ -88,11 +88,11 @@ class UsuarioController {
     }
   }
   async rechazarPostulacionAyudante(req, res) {
-    const { id_solicitud } = req.params;
+    const { id_postulacion } = req.params;
 
     try {
       const data =
-        await usuarioAdapter.rechazarPostulacionAyudante(id_solicitud);
+        await usuarioAdapter.rechazarPostulacionAyudante(id_postulacion);
 
       return res.status(200).json({
         mensaje: 'Postulación rechazada correctamente.',

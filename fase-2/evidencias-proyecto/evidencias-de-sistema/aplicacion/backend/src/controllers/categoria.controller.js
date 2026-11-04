@@ -6,7 +6,7 @@ async function crearNuevaCategoria(req, res) {
 
     const categoriaAsk = new CrearCategoriaAskDTO(req.body);
 
-    if(!categoriaAsk.nombre){
+    if (!categoriaAsk.nombre) {
       return res.status(400).json({
         error: 'El nombre de la categoria es obligatorio.'
       })
@@ -18,9 +18,10 @@ async function crearNuevaCategoria(req, res) {
       mensaje: 'Categoría creada correctamente.',
       categoria: categoriaNueva
     });
+
   } catch (error) {
     return res.status(500).json({
-      error: 'Error de interno del sistema al crear nueva categoria.',
+      error: 'No fue posible crear la categoría.',
       codigo: 'INTERNAL_SERVER_ERROR',
       detalle: error.message
     });
@@ -41,6 +42,7 @@ async function obtenerCategorias(req, res) {
     
   } catch (error) {
     console.error('Error al obtener todas las categorías:', error);
+
     return res.status(500).json({ 
       error: 'Error interno del sistema al obtener las categorías.', 
       codigo: 'INTERNAL_SERVER_ERROR',
@@ -60,6 +62,7 @@ async function obtenerCategoriasActivas(req, res) {
     }
 
     return res.status(200).json(categorias);
+
   } catch (error) {
     console.error('Error al obtener categorías activas:', error);
 
@@ -93,6 +96,7 @@ async function obtenerDetalleCategoria(req, res) {
 
   } catch (error) {
     console.error('Error al obtener detalle de categoría por ID:', error);
+
     return res.status(500).json({
       error: 'Error interno del sistema al obtener categoría activa por ID.',
       codigo: 'INTERNAL_SERVER_ERROR',

@@ -3,13 +3,13 @@ const { CategoriaResolveDTO } = require('../dtos/categoria/categoria.resolve.dto
 const supabase = require('../config/supabase');
 
 // Crea una nueva categoría.
-async function crearCategoria( bodyRequest ) {
+async function crearCategoria(bodyRequest) {
 
   const payloadCategoria = new CrearCategoriaAskDTO(bodyRequest);
 
   const { data, error } = await supabase
     .from('categoria_solicitud')
-    .insert([ payloadCategoria ])
+    .insert([payloadCategoria])
     .select()
     .single();
 
@@ -20,18 +20,18 @@ async function crearCategoria( bodyRequest ) {
   return new CategoriaResolveDTO(data);
 }
 
-//Obtiene todas las categorias
-async function obtenerAllCategoriasAsync (){
-  const {data, error} = await supabase
+// Obtiene todas las categorías.
+async function obtenerAllCategoriasAsync() {
+  const { data, error } = await supabase
     .from('categoria_solicitud')
     .select('id_categoria, nombre, descripcion, es_activo')
-    .order('nombre', {ascending : true});
+    .order('nombre', { ascending: true });
 
-    if(error){
-      throw error;
-    }
+  if (error) {
+    throw error;
+  }
 
-    return data.map((fila) => new CategoriaResolveDTO(fila));
+  return data.map((fila) => new CategoriaResolveDTO(fila));
 }
 
 // Obtiene las categorías activas.

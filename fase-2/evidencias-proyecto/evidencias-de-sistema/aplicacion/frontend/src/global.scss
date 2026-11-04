@@ -4,8 +4,9 @@
  * Estilos globales utilizados en toda la aplicación EntrePares.
  */
 
- /* Importaciones Generales */
+/* Importaciones Generales */
 @use "sass:color";
+
 
 /* =========================
    IONIC
@@ -27,8 +28,11 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Dark mode del sistema */
-@import "@ionic/angular/css/palettes/dark.system.css";
+/*
+ * Dark mode automático desactivado temporalmente.
+ * Se evaluará cuando se defina la identidad visual de EntrePares.
+ */
+/* @import "@ionic/angular/css/palettes/dark.system.css"; */
 
 
 /* =====================================================
@@ -108,11 +112,17 @@ $color-white: #ffffff;
   }
 }
 
-/* FOOTER GENERAL */
-.page-footer{
-  text-align: center;
-  color: #9ca3af;
+
+/* =========================
+   FOOTER GENERAL
+   ========================= */
+
+.page-footer {
   padding: 24px 0 32px;
+
+  color: #9ca3af;
+
+  text-align: center;
 }
 
 
@@ -120,7 +130,8 @@ $color-white: #ffffff;
    BOTÓN VOLVER
    ========================= */
 
-.back-button {
+/* Botón HTML todavía existente en algunas vistas */
+button.back-button {
   margin-bottom: 20px;
 
   padding: 0;
@@ -134,6 +145,30 @@ $color-white: #ffffff;
   font-size: 15px;
 
   cursor: pointer;
+}
+
+
+/* Botón Ionic */
+ion-button.back-button {
+  height: auto;
+
+  margin: 0 0 20px;
+
+  --background: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+
+  --color: #{$color-primary};
+
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  text-transform: none;
 }
 
 
@@ -176,6 +211,11 @@ $color-white: #ffffff;
     font-size: 15px;
     font-weight: 600;
   }
+
+
+  /* =========================
+     CONTROLES HTML
+     ========================= */
 
   input,
   select,
@@ -230,7 +270,9 @@ $color-white: #ffffff;
     box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.12);
   }
 
-  input:disabled {
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
     border-color: #e5e7eb;
 
     background-color: #f3f4f6 !important;
@@ -238,6 +280,63 @@ $color-white: #ffffff;
     color: #9ca3af !important;
 
     cursor: not-allowed;
+
+    opacity: 1;
+  }
+
+
+  /* =========================
+     COMPONENTES IONIC
+     ========================= */
+
+  ion-input,
+  ion-select,
+  ion-textarea {
+    width: 100%;
+
+    --background: #{$color-white};
+    --color: #{$color-text-primary};
+
+    --placeholder-color: #9ca3af;
+    --placeholder-opacity: 1;
+
+    --border-color: #{$color-border};
+    --border-radius: 8px;
+    --border-width: 1px;
+
+    --highlight-color-focused: #{$color-primary};
+
+    --padding-start: 15px;
+    --padding-end: 15px;
+
+    font-family: inherit;
+    font-size: 15px;
+  }
+
+  ion-input,
+  ion-select {
+    min-height: 48px;
+  }
+
+  ion-textarea {
+    min-height: 150px;
+
+    --padding-top: 13px;
+    --padding-bottom: 13px;
+  }
+
+  ion-input.ion-focused,
+  ion-select.ion-focused,
+  ion-textarea.ion-focused {
+    --border-color: #{$color-primary};
+  }
+
+  ion-input[disabled],
+  ion-select[disabled],
+  ion-textarea[disabled] {
+    --background: #f3f4f6;
+    --color: #9ca3af;
+    --border-color: #e5e7eb;
 
     opacity: 1;
   }
@@ -277,8 +376,9 @@ $color-white: #ffffff;
    BOTONES GLOBALES
    ========================= */
 
-.primary-button,
-.secondary-button {
+/* Botones HTML todavía existentes */
+button.primary-button,
+button.secondary-button {
   padding: 12px 18px;
 
   border-radius: 8px;
@@ -289,7 +389,7 @@ $color-white: #ffffff;
   cursor: pointer;
 }
 
-.primary-button {
+button.primary-button {
   border: none;
 
   background: $color-primary;
@@ -297,7 +397,11 @@ $color-white: #ffffff;
   color: $color-white;
 }
 
-.secondary-button {
+button.primary-button:hover {
+  background: color.adjust($color-primary, $lightness: -8%);
+}
+
+button.secondary-button {
   border: 1px solid $color-border;
 
   background: $color-white;
@@ -305,26 +409,81 @@ $color-white: #ffffff;
   color: #4b5563;
 }
 
+button.secondary-button:hover {
+  border-color: #9ca3af;
+
+  background: #f3f4f6;
+}
+
+
+/* Botones Ionic */
+ion-button.primary-button,
+ion-button.secondary-button {
+  min-height: 44px;
+
+  margin: 0;
+
+  --border-radius: 8px;
+
+  --padding-start: 18px;
+  --padding-end: 18px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+ion-button.primary-button {
+  --background: #{$color-primary};
+  --background-hover: #{color.adjust($color-primary, $lightness: -8%)};
+
+  --color: #{$color-white};
+}
+
+ion-button.secondary-button {
+  --background: #{$color-white};
+  --background-hover: #f3f4f6;
+
+  --color: #4b5563;
+
+  --border-color: #{$color-border};
+  --border-style: solid;
+  --border-width: 1px;
+}
+
 
 /* =========================
    MENÚ LATERAL
    ========================= */
 
-.menu-button {
+ion-button.menu-button {
   width: 44px;
   height: 44px;
+  min-height: 44px;
 
-  border: 1px solid $color-border;
-  border-radius: 8px;
+  margin: 0;
 
-  background: $color-white;
+  --padding-start: 0;
+  --padding-end: 0;
 
-  color: $color-text-label;
+  --background: #{$color-white};
+  --background-hover: #f3f4f6;
+
+  --color: #{$color-text-label};
+
+  --border-color: #{$color-border};
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 8px;
+
+  --box-shadow: none;
 
   font-size: 22px;
 
-  cursor: pointer;
+  text-transform: none;
 }
+
 
 .menu-overlay {
   position: fixed;
@@ -335,6 +494,7 @@ $color-white: #ffffff;
 
   background: rgba(0, 0, 0, 0.25);
 }
+
 
 .side-menu {
   position: fixed;
@@ -356,6 +516,7 @@ $color-white: #ffffff;
   box-shadow: -4px 0 18px rgba(0, 0, 0, 0.12);
 }
 
+
 .side-menu-header {
   display: flex;
 
@@ -373,24 +534,34 @@ $color-white: #ffffff;
   }
 }
 
-.close-menu-button {
+
+ion-button.close-menu-button {
   width: 36px;
   height: 36px;
+  min-height: 36px;
 
-  border: none;
+  margin: 0;
 
-  background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
 
-  color: $color-text-secondary;
+  --background: transparent;
+  --background-hover: #f3f4f6;
+
+  --color: #{$color-text-secondary};
+
+  --box-shadow: none;
 
   font-size: 28px;
 
-  cursor: pointer;
+  text-transform: none;
 }
+
 
 .menu-section {
   margin-bottom: 28px;
 }
+
 
 .menu-section-title {
   display: block;
@@ -405,29 +576,42 @@ $color-white: #ffffff;
   text-transform: uppercase;
 }
 
-.menu-item {
-  display: block;
 
+ion-button.menu-item {
   width: 100%;
+  min-height: 42px;
 
-  padding: 12px 0;
+  margin: 0;
 
-  border: none;
+  --padding-start: 0;
+  --padding-end: 0;
 
-  background: transparent;
+  --background: transparent;
+  --background-hover: transparent;
 
-  color: $color-text-label;
+  --color: #{$color-text-label};
+
+  --box-shadow: none;
 
   font-size: 15px;
+  font-weight: 400;
 
   text-align: left;
+  text-transform: none;
 
-  cursor: pointer;
+  letter-spacing: normal;
 }
 
-.menu-item:hover {
-  color: $color-primary;
+
+ion-button.menu-item::part(native) {
+  justify-content: flex-start;
 }
+
+
+ion-button.menu-item:hover {
+  --color: #{$color-primary};
+}
+
 
 .menu-section-bottom {
   padding-top: 16px;
@@ -435,11 +619,10 @@ $color-white: #ffffff;
   border-top: 1px solid #f0f0f0;
 }
 
-.menu-item.logout {
-  color: $color-text-secondary;
+
+ion-button.menu-item.logout {
+  --color: #{$color-text-secondary};
 }
-
-
 /* =========================
    RESPONSIVE GLOBAL
    ========================= */
@@ -451,6 +634,7 @@ $color-white: #ffffff;
   }
 
   .page-header {
+
     h1 {
       font-size: 26px;
     }
@@ -464,119 +648,207 @@ $color-white: #ffffff;
     flex-direction: column-reverse;
   }
 
-  .primary-button,
-  .secondary-button {
+  button.primary-button,
+  button.secondary-button,
+  ion-button.primary-button,
+  ion-button.secondary-button {
     width: 100%;
   }
 }
 
-/*
-  TABLAS GLOBALES DE DATOS - ION-GRID
-*/
+
+/* =====================================================
+   TABLAS GLOBALES DE DATOS - ION-GRID
+   ===================================================== */
 
 .tabla-card {
   display: block;
+
   width: 100%;
+
   box-sizing: border-box;
-  background-color: $color-white !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06) !important;
-  overflow: hidden;
+
   margin-top: 16px;
   margin-bottom: 24px;
+
+  overflow: hidden;
+
+  background-color: $color-white !important;
+
+  border: 1px solid #e5e7eb !important;
+  border-radius: 14px !important;
+
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06) !important;
 }
 
 .tabla-responsive-container {
   width: 100%;
+
   overflow-x: auto;
+
   -webkit-overflow-scrolling: touch;
 }
 
-  .tabla-toolbar {
+
+/* =========================
+   TOOLBAR DE TABLAS
+   ========================= */
+
+.tabla-toolbar {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
+
   margin-bottom: 12px;
 
-    .botones-filtros {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
+  .botones-filtros {
+    display: inline-flex;
 
-    .botones-acciones {
-      display: inline-flex;
-      align-items: center;
-    }
+    align-items: center;
 
-    .primary-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      padding: 10px 1rem;
+    gap: 8px;
+  }
 
-      &:hover {
-        background: color.adjust($color-primary, $lightness: -8%);
-      }
+  .botones-acciones {
+    display: inline-flex;
 
-      ion-icon {
-        font-size: 18px;
-      }
-    }
+    align-items: center;
+  }
 
-    .secondary-button{
-      display: inline-flex;
-      align-items: flex-start;
-      gap: 4px;
-      font-size: 14px;
-      padding: 5px 1rem;
 
-        &:hover {
-        background: #f3f4f6;
-        border-color: #9ca3af;
-      }
+  /* Botón principal HTML dentro de toolbar */
+  button.primary-button {
+    display: inline-flex;
 
-      /* Estilo del botón seleccionado */
-      &.active {
-        background: color.adjust($color-white, $lightness: -8% );
-        border-color: $color-primary;
-        color: $color-primary;
-        font-weight: 600;
-      }
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 10px 1rem;
+
+    font-size: 14px;
+
+    &:hover {
+      background: color.adjust($color-primary, $lightness: -8%);
     }
   }
+
+
+  /* Botón principal Ionic dentro de toolbar */
+  ion-button.primary-button {
+    min-height: 40px;
+
+    font-size: 14px;
+
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+
+    ion-icon {
+      font-size: 18px;
+    }
+  }
+
+
+  /* Botón secundario HTML */
+  button.secondary-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    padding: 5px 1rem;
+
+    font-size: 14px;
+
+    &:hover {
+      border-color: #9ca3af;
+
+      background: #f3f4f6;
+    }
+
+    &.active {
+      border-color: $color-primary;
+
+      background: color.adjust($color-white, $lightness: -8%);
+
+      color: $color-primary;
+
+      font-weight: 600;
+    }
+  }
+
+
+  /* Botón secundario Ionic */
+  ion-button.secondary-button {
+    min-height: 36px;
+
+    font-size: 14px;
+
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+
+    &.active {
+      --background: #{color.adjust($color-white, $lightness: -8%)};
+      --border-color: #{$color-primary};
+      --color: #{$color-primary};
+
+      font-weight: 600;
+    }
+  }
+}
+
+
+/* =========================
+   TABLA
+   ========================= */
 
 .tabla-custom,
 ion-grid.tabla-custom {
   width: 100%;
+
   min-width: 600px;
-  background: $color-white !important;
-  padding: 0 !important;
+
   margin: 0;
+  padding: 0 !important;
+
   box-sizing: border-box;
+
+  background: $color-white !important;
+
 
   /* Encabezado */
   .tabla-header,
   ion-row.tabla-header {
-    background-color: #f8fafc;
-    border-bottom: 2px solid #e2e8f0;
     padding: 12px 14px;
+
+    background-color: #f8fafc;
+
+    border-bottom: 2px solid #e2e8f0;
+
+    color: #475569;
+
     font-size: 13px;
     font-weight: 700;
-    color: #475569;
+
     text-transform: uppercase;
+
     letter-spacing: 0.5px;
   }
+
 
   /* Filas de datos */
   .tabla-fila,
   ion-row.tabla-fila {
-    border-bottom: 1px solid #f1f5f9;
     padding: 10px 14px;
-    font-size: 14px;
+
+    border-bottom: 1px solid #f1f5f9;
+
     color: $color-text-primary;
+
+    font-size: 14px;
+
     transition: background-color 0.15s ease;
 
     &:last-child {
@@ -588,37 +860,191 @@ ion-grid.tabla-custom {
     }
   }
 
+
   /* Tipografías */
   .col-destacado {
-    font-weight: 600;
     color: $color-text-primary;
+
+    font-weight: 600;
   }
 
   .col-descripcion {
-    font-size: 13px;
     color: $color-text-secondary;
+
+    font-size: 13px;
     line-height: 1.5;
   }
+
 
   /* Columna de botones de acción */
   .acciones-col {
     display: flex;
+
     justify-content: flex-end;
     align-items: center;
+
     gap: 4px;
 
     ion-button {
-      margin: 0;
       height: 32px;
+
+      margin: 0;
+
       --padding-start: 6px;
       --padding-end: 6px;
     }
   }
 
-  /* Estado vacío de la tabla */
+
+  /* Estado vacío */
   .tabla-vacia {
     padding: 28px 16px;
-    text-align: center;
+
     color: $color-text-secondary;
+
+    text-align: center;
   }
+}
+/* =========================
+   SELECT ENTREPARES
+   ========================= */
+
+ion-popover.entrepares-select-popover {
+  --width: 280px;
+  --background: #ffffff;
+  --box-shadow:
+    0 8px 28px
+    rgba(37, 35, 33, 0.12);
+}
+
+
+ion-popover.entrepares-select-popover::part(content) {
+  border: 1px solid #e4dfd8;
+  border-radius: 12px;
+}
+
+
+ion-popover.entrepares-select-popover ion-list {
+  padding: 6px;
+
+  background: #ffffff;
+}
+
+
+ion-popover.entrepares-select-popover ion-item {
+  --background: #ffffff;
+
+  --background-hover: #fbede8;
+  --background-focused: #fbede8;
+  --background-activated: #fbede8;
+
+  --color: #252321;
+
+  --border-radius: 8px;
+
+  margin: 2px 0;
+
+  font-size: 14px;
+}
+
+
+ion-popover.entrepares-select-popover ion-radio {
+  --color: #d8d2cb;
+  --color-checked: #c94f32;
+}
+/* =====================================================
+   ALERTAS ENTREPARES
+   ===================================================== */
+
+ion-alert.entrepares-alert {
+  --background: #ffffff;
+  --color: #252321;
+
+  --backdrop-opacity: 0.38;
+
+  --width: calc(100% - 40px);
+  --max-width: 360px;
+}
+
+
+/* Contenedor */
+ion-alert.entrepares-alert .alert-wrapper {
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #e4dfd8;
+  border-top: 4px solid #c94f32;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 32px
+    rgba(37, 35, 33, 0.14);
+}
+
+
+/* Encabezado */
+ion-alert.entrepares-alert .alert-head {
+  padding:
+    22px 22px 8px;
+}
+
+
+/* Título */
+ion-alert.entrepares-alert .alert-title {
+  color: #252321;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  text-align: left;
+}
+
+
+/* Mensaje */
+ion-alert.entrepares-alert .alert-message {
+  padding:
+    0 22px 20px;
+
+  color: #6d6965;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  text-align: left;
+}
+
+
+/* Zona del botón */
+ion-alert.entrepares-alert .alert-button-group {
+  padding:
+    10px 12px 12px;
+
+  border-top: 1px solid #e4dfd8;
+}
+
+
+/* Botón aceptar */
+ion-alert.entrepares-alert .alert-button {
+  min-height: 38px;
+
+  margin: 0;
+
+  color: #c94f32 !important;
+
+  background: #fbede8;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-transform: none;
+}
+
+
+/* Hover */
+ion-alert.entrepares-alert .alert-button:hover {
+  background: #f7ddd5;
 }

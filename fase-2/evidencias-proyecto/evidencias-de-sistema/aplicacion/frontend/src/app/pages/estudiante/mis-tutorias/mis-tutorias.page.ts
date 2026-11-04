@@ -1,7 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
+import {
+  IonContent,
+  IonButton,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonChip,
+  IonBadge,
+  IonNote
+} from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
@@ -13,14 +22,21 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   selector: 'app-mis-tutorias',
   templateUrl: './mis-tutorias.page.html',
   styleUrls: ['./mis-tutorias.page.scss'],
-  standalone:true,
+  standalone: true,
   imports: [
     IonContent,
+    IonButton,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonChip,
+    IonBadge,
+    IonNote,
     CommonModule,
-    FormsModule,
     RouterLink,
     SideMenuComponent
-]
+  ]
 })
 export class MisTutoriasPage implements OnInit {
 
@@ -42,6 +58,7 @@ export class MisTutoriasPage implements OnInit {
   cargarMisTutorias() {
 
     this.ticketService.obtenerMisTutorias(this.idUsuarioActual).subscribe({
+
       next: (data) => {
 
         this.tutorias = data;
@@ -50,42 +67,98 @@ export class MisTutoriasPage implements OnInit {
 
         console.log('Mis tutorías:', data);
       },
+
       error: (error) => {
-        console.error('Error al cargar mis tutorías:', error);
+
+        console.error(
+          'Error al cargar mis tutorías:',
+          error
+        );
+
       }
+
     });
+
   }
 
   aceptarAyudante(idSolicitud: number) {
-    this.ayudantiaService.confirmarAyudante(idSolicitud).subscribe({
-      next: () => {
-        // Actualizamos localmente el estado a ACEPTADA para renderizar el botón de contacto
-        const item = this.tutorias.find(t => t.id_solicitud === idSolicitud);
-        if (item) {
-          item.estado_solicitud = 'ACEPTADA';
-          this.cdr.markForCheck();
+
+    this.ayudantiaService
+      .confirmarAyudante(idSolicitud)
+      .subscribe({
+
+        next: () => {
+
+          const item = this.tutorias.find(
+            tutoria => tutoria.id_solicitud === idSolicitud
+          );
+
+          if (item) {
+
+            item.estado_solicitud = 'ACEPTADA';
+
+            this.cdr.markForCheck();
+
+          }
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error al aceptar ayudante:',
+            error
+          );
+
         }
-      },
-      error: (err) => console.error('Error al aceptar ayudante:', err)
-    });
+
+      });
+
   }
 
   rechazarAyudante(idSolicitud: number) {
-    this.ayudantiaService.rechazarAyudante(idSolicitud).subscribe({
-      next: () => {
-        // Regresa a PENDIENTE y retira al ayudante
-        const item = this.tutorias.find(t => t.id_solicitud === idSolicitud);
-        if (item) {
-          item.estado_solicitud = 'PENDIENTE';
-          item.ayudante = null;
-          this.cdr.markForCheck();
+
+    this.ayudantiaService
+      .rechazarAyudante(idSolicitud)
+      .subscribe({
+
+        next: () => {
+
+          const item = this.tutorias.find(
+            tutoria => tutoria.id_solicitud === idSolicitud
+          );
+
+          if (item) {
+
+            item.estado_solicitud = 'PENDIENTE';
+            item.ayudante = null;
+
+            this.cdr.markForCheck();
+
+          }
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error al rechazar ayudante:',
+            error
+          );
+
         }
-      },
-      error: (err) => console.error('Error al rechazar ayudante:', err)
-    });
+
+      });
+
   }
 
   contactoDirecto(tutoria: MisTutoria) {
-    console.log('Contacto directo activado con el ayudante:', tutoria.ayudante);
+
+    console.log(
+      'Contacto directo activado con el ayudante:',
+      tutoria.ayudante
+    );
+
   }
+
 }

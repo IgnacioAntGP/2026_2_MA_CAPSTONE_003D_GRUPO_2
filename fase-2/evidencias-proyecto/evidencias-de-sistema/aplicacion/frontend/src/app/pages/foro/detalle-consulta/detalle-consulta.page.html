@@ -7,22 +7,21 @@
 
       <div>
 
-        <button
+        <ion-button
           class="back-button"
           type="button"
+          fill="clear"
           routerLink="/comunidad"
         >
           ← Volver a Comunidad
-        </button>
-
-        <span class="page-label">
-        </span>
+        </ion-button>
 
       </div>
 
       <app-side-menu></app-side-menu>
 
     </header>
+
 
     <!-- CONTENIDO -->
     <main
@@ -31,70 +30,85 @@
     >
 
       <!-- CONSULTA -->
-      <article class="page-card consulta">
+      <ion-card class="consulta-card">
 
-        <div class="consulta-meta">
+        <ion-card-content>
 
-          <span class="asignatura">
-            {{ consulta.asignatura }}
-          </span>
+          <div class="consulta-meta">
 
-          <span class="fecha-consulta">
-            {{ consulta.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
-          </span>
+            <ion-chip class="asignatura-chip">
+              {{ consulta.asignatura }}
+            </ion-chip>
 
-        </div>
+            <ion-note class="fecha-consulta">
+              {{
+                consulta.fecha_creacion
+                  | date:'dd/MM/yyyy - HH:mm'
+              }}
+            </ion-note>
 
-
-        <h1>
-          {{ consulta.titulo }}
-        </h1>
-
-
-        <div class="autor">
-
-          <span>
-            Publicado por
-          </span>
-
-          <strong>
-            {{ consulta.autor }}
-          </strong>
-
-        </div>
+          </div>
 
 
-        <div class="consulta-descripcion">
-
-          <p>
-            {{ consulta.descripcion }}
-          </p>
-
-        </div>
+          <h1>
+            {{ consulta.titulo }}
+          </h1>
 
 
-        <!-- ACCIONES DEL AUTOR -->
-        <div class="autor-actions">
+          <div class="autor">
 
-          <button
-            type="button"
-            class="edit-button"
-            [routerLink]="['/editar-publicacion', consulta.id_consulta]"
-          >
-            Editar
-          </button>
+            <span>
+              Publicado por
+            </span>
 
-          <button
-            type="button"
-            class="delete-button"
-            (click)="eliminarPublicacion()"
-          >
-            Eliminar
-          </button>
+            <strong>
+              {{ consulta.autor }}
+            </strong>
 
-        </div>
+          </div>
 
-      </article>
+
+          <div class="consulta-descripcion">
+
+            <p>
+              {{ consulta.descripcion }}
+            </p>
+
+          </div>
+
+
+          <!-- ACCIONES DEL AUTOR -->
+          <div class="autor-actions">
+
+            <ion-button
+              class="edit-button"
+              type="button"
+              fill="outline"
+              size="small"
+              [routerLink]="[
+                '/editar-publicacion',
+                consulta.id_consulta
+              ]"
+            >
+              Editar
+            </ion-button>
+
+
+            <ion-button
+              class="delete-button"
+              type="button"
+              fill="outline"
+              size="small"
+              (click)="eliminarPublicacion()"
+            >
+              Eliminar
+            </ion-button>
+
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
 
 
       <!-- RESPUESTAS -->
@@ -102,107 +116,144 @@
 
         <div class="section-header">
 
-          <h2>Respuestas</h2>
+          <h2>
+            Respuestas
+          </h2>
 
-          <span>
+          <ion-note>
             {{ respuestas.length }}
-            {{ respuestas.length === 1 ? 'respuesta' : 'respuestas' }}
-          </span>
+            {{
+              respuestas.length === 1
+                ? 'respuesta'
+                : 'respuestas'
+            }}
+          </ion-note>
 
         </div>
 
 
-        <article
-          class="respuesta"
+        <ion-card
+          class="respuesta-card"
           *ngFor="let respuesta of respuestas"
         >
 
-          <div class="respuesta-header">
+          <ion-card-content>
 
-            <strong>
-              {{ respuesta.usuario?.nombre }}
-              {{ respuesta.usuario?.apellido }}
-            </strong>
+            <div class="respuesta-header">
 
-            <span>
-              {{ respuesta.fecha_respuesta | date:'dd/MM/yyyy - HH:mm' }}
-            </span>
+              <strong>
+                {{ respuesta.usuario?.nombre }}
+                {{ respuesta.usuario?.apellido }}
+              </strong>
 
-          </div>
+              <ion-note>
+                {{
+                  respuesta.fecha_respuesta
+                    | date:'dd/MM/yyyy - HH:mm'
+                }}
+              </ion-note>
 
-          <p>
-            {{ respuesta.contenido }}
-          </p>
-
-        </article>
+            </div>
 
 
-        <p
+            <p>
+              {{ respuesta.contenido }}
+            </p>
+
+          </ion-card-content>
+
+        </ion-card>
+
+
+        <!-- SIN RESPUESTAS -->
+        <div
           *ngIf="respuestas.length === 0"
           class="sin-respuestas"
         >
-          Esta consulta aún no tiene respuestas.
-        </p>
+
+          <p>
+            Esta consulta aún no tiene respuestas.
+          </p>
+
+        </div>
 
       </section>
 
 
       <!-- RESPONDER -->
-      <section class="page-card responder">
+      <ion-card class="responder-card">
 
-        <h2>
-          ¿Quieres aportar a esta consulta?
-        </h2>
+        <ion-card-content>
 
-        <textarea
-          rows="5"
-          [(ngModel)]="nuevaRespuesta"
-          placeholder="Escribe tu respuesta..."
-        ></textarea>
+          <h2>
+            ¿Quieres aportar a esta consulta?
+          </h2>
 
-        <button
-          class="primary-button response-button"
-          type="button"
-          (click)="publicarRespuesta()"
-        >
-          Publicar respuesta
-        </button>
 
-      </section>
+          <ion-textarea
+            fill="outline"
+            rows="5"
+            auto-grow="true"
+            [(ngModel)]="nuevaRespuesta"
+            placeholder="Escribe tu respuesta..."
+          ></ion-textarea>
+
+
+          <div class="response-actions">
+
+            <ion-button
+              class="response-button"
+              type="button"
+              [disabled]="!nuevaRespuesta.trim()"
+              (click)="publicarRespuesta()"
+            >
+              Publicar respuesta
+            </ion-button>
+
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
 
 
       <!-- SOLICITAR AYUDANTE -->
-      <section class="ayudantia-card">
+      <ion-card class="ayudantia-card">
 
-        <div class="ayudantia-info">
+        <ion-card-content>
 
-          <span class="ayudantia-label">
-            Apoyo personalizado
-          </span>
+          <div class="ayudantia-info">
 
-          <h2>
-            ¿Necesitas ayuda más personalizada?
-          </h2>
+            <span class="ayudantia-label">
+              Apoyo personalizado
+            </span>
 
-          <p>
-            Si las respuestas de la comunidad no fueron suficientes,
-            puedes solicitar una ayudantía con otro estudiante.
-          </p>
+            <h2>
+              ¿Necesitas ayuda más personalizada?
+            </h2>
 
-        </div>
+            <p>
+              Si las respuestas de la comunidad no fueron suficientes,
+              puedes solicitar una ayudantía con otro estudiante.
+            </p>
 
-        <button
-          class="primary-button ayudantia-button"
-          type="button"
-          [routerLink]="[
-            '/solicitar-ayudante',
-            consulta.id_consulta
-          ]"
-        >
-          Solicitar ayudante
-        </button>
+          </div>
 
-      </section>
+
+          <ion-button
+            class="ayudantia-button"
+            type="button"
+            [routerLink]="[
+              '/solicitar-ayudante',
+              consulta.id_consulta
+            ]"
+          >
+            Solicitar ayudante
+          </ion-button>
+
+        </ion-card-content>
+
+      </ion-card>
 
     </main>
 
