@@ -155,7 +155,29 @@
             placeholder="Cuéntanos brevemente sobre tu experiencia..."
           >
           </ion-textarea>
+        </div>
 
+        <!-- Asignatura de Especialidad -->
+        <div class="form-group">
+          <label>
+            Especialidades
+          </label>
+
+          <span class="field-help">
+            Selecciona las áreas en las que te gustaría ayudar a otros estudiantes.
+          </span>
+
+          <ion-select
+            [(ngModel)]="idAsignaturaSeleccionada"
+            placeholder="Selecciona tus especialidades"
+          >
+            <ion-select-option
+              *ngFor="let asignatura of asignaturasDisponibles"
+              [value]="asignatura.id_asignatura"
+            >
+              {{ asignatura.nombre }} - {{asignatura.codigo}}
+            </ion-select-option>
+          </ion-select>
         </div>
 
 

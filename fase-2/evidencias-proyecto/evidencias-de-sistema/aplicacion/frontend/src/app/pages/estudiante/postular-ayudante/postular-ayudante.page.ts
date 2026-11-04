@@ -7,12 +7,18 @@ import {
   IonButton,
   IonTextarea,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonSelect,
+  IonSelectOption,
+  IonItem
 } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 
-import { TicketService } from '../../../core/services/ConsultaService';
+import { PostulacionService } from '../../../core/services/PostulacionService';
+import { AsignaturaService } from '../../../core/services/AsignaturaService';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
+import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
+import { IAsignatura } from '../../../models/IAsignatura';
 
 @Component({
   selector: 'app-postular-ayudante',
@@ -25,6 +31,9 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     IonTextarea,
     IonCard,
     IonCardContent,
+    IonSelect,
+    IonSelectOption,
+    IonItem,
     CommonModule,
     FormsModule,
     RouterLink,
@@ -32,7 +41,6 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   ]
 })
 export class PostularAyudantePage {
-
   motivo = '';
   experiencia = '';
 
@@ -42,27 +50,42 @@ export class PostularAyudantePage {
   solicitudEnviada = false;
   enviandoSolicitud = false;
 
-  constructor(
-    private ticketService: TicketService,
-    private cdr: ChangeDetectorRef,
-    private alertController: AlertController
-  ) {}
+  asignaturasDisponibles: IAsignatura[] = [];
+  idAsignaturaSeleccionada: number | null = null;
 
+  // DTO de la Postulacion
+  miPostulacionReciente: PostulacionAyudante | null = null;
+
+  constructor(
+    private postulacionService: PostulacionService,
+    private asignaturaService: AsignaturaService,
+    private alertController: AlertController,
+    private cdr: ChangeDetectorRef,
+  ) { }
 
   ionViewWillEnter() {
-
     this.motivo = '';
     this.experiencia = '';
+    this.idAsignaturaSeleccionada = null;
     this.solicitudEnviada = false;
     this.enviandoSolicitud = false;
+    this.miPostulacionReciente = null;
 
+    this.cargarAsignaturasDisponibles();
     this.cdr.markForCheck();
-
   }
 
+  cargarAsignaturasDisponibles() {
+    this.asignaturaService.obtenerAsignaturas().subscribe({
+      next: (data) => {
+        this.asignaturasDisponibles = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => console.error('Error al cargar catálogo de asignaturas', err)
+    });
+  }
 
   enviarSolicitud() {
-
     if (this.enviandoSolicitud) {
       return;
     }
@@ -70,114 +93,74 @@ export class PostularAyudantePage {
     const motivo = this.motivo.trim();
     const experiencia = this.experiencia.trim();
 
+    // Validamos solo los campos obligatorios principales (motivo y experiencia)
     if (!motivo || !experiencia) {
-
-      console.warn(
-        'Motivo y experiencia son obligatorios.'
-      );
-
+      console.warn('El motivo y la experiencia son obligatorios.');
       return;
     }
 
-
     this.enviandoSolicitud = true;
 
-
-    this.ticketService
+    this.postulacionService
       .postularComoAyudante(
         this.idUsuarioActual,
+        this.idAsignaturaSeleccionada, // Puede ser null o number sin romper la validación
         motivo,
         experiencia
       )
       .subscribe({
-
-        next: (respuesta) => {
-
-          console.log(
-            'Solicitud de ayudante enviada:',
-            respuesta
-          );
+        next: (respuesta: PostulacionAyudante) => {
+          console.log('Solicitud de ayudante enviada:', respuesta);
 
           this.enviandoSolicitud = false;
-
           this.solicitudEnviada = true;
+
+          this.miPostulacionReciente = respuesta;
 
           this.motivo = '';
           this.experiencia = '';
+          this.idAsignaturaSeleccionada = null;
 
-          /*
-          * Actualizamos inmediatamente la vista
-          * para mostrar la confirmación.
-          */
           this.cdr.detectChanges();
-
         },
 
-
         error: async (error) => {
-
-          console.error(
-            'Error al enviar solicitud de ayudante:',
-            error
-          );
+          console.error('Error al enviar solicitud de ayudante:', error);
 
           this.enviandoSolicitud = false;
-
           this.cdr.detectChanges();
 
-
           if (error.status === 409) {
-
-            const alert =
-              await this.alertController.create({
-
-                cssClass: 'entrepares-alert',
-
-                header: 'Postulación pendiente',
-
-                message:
-                  'Ya tienes una postulación pendiente. Debes esperar a que sea revisada antes de enviar una nueva.',
-
-                buttons: [
-                  {
-                    text: 'Aceptar',
-                    cssClass: 'entrepares-alert-button'
-                  }
-                ]
-
-              });
-
-            await alert.present();
-
-            return;
-          }
-
-
-          const alert =
-            await this.alertController.create({
-
+            const alert = await this.alertController.create({
               cssClass: 'entrepares-alert',
-
-              header: 'Error',
-
-              message:
-                'No fue posible enviar la postulación. Intenta nuevamente.',
-
+              header: 'Postulación pendiente',
+              message: 'Ya tienes una postulación pendiente. Debes esperar a que sea revisada.',
               buttons: [
                 {
                   text: 'Aceptar',
                   cssClass: 'entrepares-alert-button'
                 }
               ]
-
             });
 
+            await alert.present();
+            return;
+          }
+
+          const alert = await this.alertController.create({
+            cssClass: 'entrepares-alert',
+            header: 'Error',
+            message: 'No fue posible enviar la postulación. Intenta nuevamente.',
+            buttons: [
+              {
+                text: 'Aceptar',
+                cssClass: 'entrepares-alert-button'
+              }
+            ]
+          });
+
           await alert.present();
-
         }
-
       });
-
   }
-
 }
