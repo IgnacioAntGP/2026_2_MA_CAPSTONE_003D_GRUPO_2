@@ -64,7 +64,7 @@ class ConsultaAdapter {
           nombre
         ),
         solicitud_ayudantia (
-          id_postulacion,
+          id_solicitud,
           estado
         ),
         respuesta (
