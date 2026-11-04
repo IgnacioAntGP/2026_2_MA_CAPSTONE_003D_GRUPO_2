@@ -7,7 +7,7 @@ async function crearCategoria(bodyRequest) {
 
   const { data, error } = await supabase
     .from('categoria_solicitud')
-    .insert([ payloadCategoria ])
+    .insert([payloadCategoria])
     .select()
     .single();
 
