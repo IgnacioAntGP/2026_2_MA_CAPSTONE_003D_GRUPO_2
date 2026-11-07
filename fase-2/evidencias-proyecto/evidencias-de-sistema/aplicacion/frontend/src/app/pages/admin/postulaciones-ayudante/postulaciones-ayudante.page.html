@@ -230,6 +230,30 @@
 
             </div>
 
+            <!-- ESPECIALIDAD -->
+            <div class="postulacion-block">
+              <span class="block-label">
+                Especialidad / Asignatura
+              </span>
+              <div class="block-content">
+                @if (postulacion.asignatura) {
+                  <div class="especialidades-list">
+                    <div class="especialidad-item">
+                      <span class="asignatura-nombre">
+                        <strong>{{ postulacion.asignatura.nombre }}</strong> 
+                        <small>({{ postulacion.asignatura.codigo }})</small>
+                      </span>
+                      <ion-badge color="primary" class="nivel-badge">
+                        POSTULACIÓN
+                      </ion-badge>
+                    </div>
+                  </div>
+                } @else {
+                  <p class="text-muted">Sin asignatura seleccionada (Postulación general).</p>
+                }
+              </div>
+            </div>
+
 
             <!-- ACCIONES -->
             <div class="postulacion-actions">

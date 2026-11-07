@@ -23,8 +23,10 @@ import {
   Subscription
 } from 'rxjs';
 
-import {PostulacionService  } from '../../../core/services/PostulacionService';
+import { PostulacionService  } from '../../../core/services/PostulacionService';
+import { EspecialidadService } from '../../../core/services/EspecialidadService';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
+import { IObtenerEspecialidadesResolve } from '../../../models/IEspecialidadAyudante';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 
@@ -50,6 +52,8 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
   postulacionesPendientes: PostulacionAyudante[] = [];
 
+  especialidadesPorUsuario: { [idUsuario: number]: IObtenerEspecialidadesResolve[] } = {};
+
   cargando: boolean = false;
 
   private refrescoSubscription?: Subscription;
@@ -57,6 +61,7 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
 
   constructor(
     private postulacionService: PostulacionService,
+    private especialidadService: EspecialidadService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -77,127 +82,79 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
   }
 
 
-  cargarPostulacionesPendientes(
-    mostrarCarga: boolean = true
-  ) {
-
+  cargarPostulacionesPendientes(mostrarCarga: boolean = true) {
     if (mostrarCarga) {
       this.cargando = true;
     }
 
-    this.postulacionService
-      .obtenerPostulacionesPendientes()
-      .subscribe({
-
-        next: (data) => {
-
-          this.postulacionesPendientes = [...data];
-
-          this.cargando = false;
-
-          this.cdr.detectChanges();
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error al cargar postulaciones pendientes:',
-            error
-          );
-
-          this.cargando = false;
-
-          this.cdr.detectChanges();
-
-        }
-
-      });
-
+    this.postulacionService.obtenerPostulacionesPendientes().subscribe({
+      next: (data) => {
+        // Al venir la asignatura integrada en la data, no requerimos llamadas extra
+        this.postulacionesPendientes = [...data];
+        this.cargando = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar postulaciones pendientes:', error);
+        this.cargando = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
+  cargarEspecialidadesDeUsuario(idUsuario: number) {
+  this.especialidadService.obtenerEspecialidadesUsuario(idUsuario).subscribe({
+    next: (especialidades) => {
+      this.especialidadesPorUsuario[idUsuario] = especialidades;
+      this.cdr.detectChanges();
+    },
+    error: (error) => {
+      console.error(`Error al cargar especialidades del usuario ${idUsuario}:`, error);
+    }
+  });
+  };
 
-  aprobarPostulacion(
-    postulacion: PostulacionAyudante
-  ) {
 
-    this.postulacionService
-      .aprobarPostulacionAyudante(
-        postulacion.id_postulacion
-      )
-      .subscribe({
+  aprobarPostulacion(postulacion: PostulacionAyudante) {
+    // Enviamos el id_postulacion y el id_asignatura opcional que eligió el alumno
+    this.postulacionService.aprobarPostulacionAyudante(
+      postulacion.id_postulacion,
+      postulacion.id_asignatura
+    ).subscribe({
+      next: () => {
+        console.log('Postulación aprobada con éxito:', postulacion.id_postulacion);
 
-        next: () => {
+        this.postulacionesPendientes = this.postulacionesPendientes.filter(
+          p => p.id_postulacion !== postulacion.id_postulacion
+        );
 
-          console.log(
-            'Postulación aprobada:',
-            postulacion.id_postulacion
-          );
-
-          this.postulacionesPendientes =
-            this.postulacionesPendientes.filter(
-              p => p.id_postulacion !== postulacion.id_postulacion
-            );
-
-          this.cdr.detectChanges();
-
-          this.cargarPostulacionesPendientes(false);
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error al aprobar postulación:',
-            error
-          );
-
-        }
-
-      });
-
+        this.cdr.detectChanges();
+        this.cargarPostulacionesPendientes(false);
+      },
+      error: (error) => {
+        console.error('Error al aprobar postulación:', error);
+      }
+    });
   }
 
+  rechazarPostulacion(postulacion: PostulacionAyudante) {
+    this.postulacionService.rechazarPostulacionAyudante(
+      postulacion.id_postulacion
+    ).subscribe({
+      next: () => {
+        console.log('Postulación rechazada:', postulacion.id_postulacion);
 
-  rechazarPostulacion(
-    postulacion: PostulacionAyudante
-  ) {
+        this.postulacionesPendientes = this.postulacionesPendientes.filter(
+          p => p.id_postulacion !== postulacion.id_postulacion
+        );
 
-    this.postulacionService
-      .rechazarPostulacionAyudante(
-        postulacion.id_postulacion
-      )
-      .subscribe({
-
-        next: () => {
-
-          console.log(
-            'Postulación rechazada:',
-            postulacion.id_postulacion
-          );
-
-          this.postulacionesPendientes =
-            this.postulacionesPendientes.filter(
-              p => p.id_postulacion !== postulacion.id_postulacion
-            );
-
-          this.cdr.detectChanges();
-
-          this.cargarPostulacionesPendientes(false);
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error al rechazar postulación:',
-            error
-          );
-
-        }
-
-      });
-
+        this.cdr.detectChanges();
+        this.cargarPostulacionesPendientes(false);
+      },
+      error: (error) => {
+        console.error('Error al rechazar postulación:', error);
+      }
+    });
   }
 
 

@@ -2,6 +2,9 @@
 class CrearPostulacionAskDTO{
     constructor(body = {}){
         this.id_usuario = body.id_usuario || null;
+        this.id_asignatura = (body.id_asignatura && body.id_asignatura !== 'null') 
+            ? Number(body.id_asignatura) 
+            : null;
         this.motivo = body.motivo ? String(body.motivo).trim() : null;
         this.experiencia = body.experiencia ? String(body.experiencia).trim() : null;
     }
