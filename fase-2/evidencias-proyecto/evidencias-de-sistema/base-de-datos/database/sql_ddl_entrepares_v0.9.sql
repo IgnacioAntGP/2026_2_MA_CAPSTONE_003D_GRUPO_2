@@ -188,12 +188,58 @@ CREATE TABLE IF NOT EXISTS especialidad_ayudante (
         REFERENCES asignatura (id_asignatura) ON DELETE CASCADE
 );
 
+-- 13. categoria_actividad
+CREATE TABLE IF NOT EXISTS categoria_actividad (
+    id_categoria BIGINT GENERATED ALWAYS AS IDENTITY,
+    nombre TEXT NOT NULL,
+    descripcion TEXT,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_categoria_actividad PRIMARY KEY (id_categoria)
+);
+
+-- 14. estado_actividad
+CREATE TABLE IF NOT EXISTS estado_actividad (
+    id_estado_actividad BIGINT GENERATED ALWAYS AS IDENTITY,
+    nombre TEXT NOT NULL,
+    descripcion TEXT,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_estado_actividad PRIMARY KEY (id_estado_actividad)
+);
+
+-- 15. actividad_ayudantia
+CREATE TABLE IF NOT EXISTS actividad_ayudantia (
+    id_actividad BIGINT GENERATED ALWAYS AS IDENTITY,
+    nombre_actividad TEXT NOT NULL,
+    descripcion TEXT NOT NULL,
+    es_activo BOOLEAN NOT NULL DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_modificacion TIMESTAMP,
+    fecha_completado TIMESTAMP,
+    id_categoria BIGINT NOT NULL,
+    id_ayudantia BIGINT NOT NULL,
+    id_estado_actividad BIGINT NOT NULL,
+
+    CONSTRAINT pk_actividad_ayudantia PRIMARY KEY (id_actividad),
+    
+    CONSTRAINT fk_actividad_ayudantia FOREIGN KEY (id_ayudantia)
+        REFERENCES ayudantia(id_ayudantia) ON DELETE RESTRICT,
+        
+    CONSTRAINT fk_actividad_estado FOREIGN KEY (id_estado_actividad)
+        REFERENCES estado_actividad(id_estado_actividad) ON DELETE RESTRICT,
+        
+    CONSTRAINT fk_actividad_categoria FOREIGN KEY (id_categoria)
+        REFERENCES categoria_actividad(id_categoria) ON DELETE RESTRICT
+);
+
 -- Índices para rendimiento de consultas
 CREATE INDEX IF NOT EXISTS idx_solicitud_ayudante ON solicitud_ayudantia (id_ayudante);
 CREATE INDEX IF NOT EXISTS idx_solicitud_categoria ON solicitud_ayudantia (id_categoria);
 CREATE INDEX IF NOT EXISTS idx_solicitud_estado_fecha ON solicitud_ayudantia (estado, fecha_solicitud DESC);
 CREATE INDEX IF NOT EXISTS idx_consulta_asignatura_estado ON consulta (id_asignatura, estado);
 CREATE INDEX IF NOT EXISTS idx_respuesta_consulta_estado ON respuesta (id_consulta, estado);
+
+CREATE INDEX IF NOT EXISTS idx_actividad_fecha_modif ON actividad_ayudantia (fecha_modificacion);
+CREATE INDEX IF NOT EXISTS idx_actividad_estado ON actividad_ayudantia (id_estado_actividad);
 
 -- Activar Row Level Security (RLS) en todas las tablas
 ALTER TABLE version_sistema ENABLE ROW LEVEL SECURITY;
@@ -210,5 +256,9 @@ ALTER TABLE ayudantia ENABLE ROW LEVEL SECURITY;
 ALTER TABLE evaluacion ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categoria_solicitud ENABLE ROW LEVEL SECURITY;
 ALTER TABLE especialidad_ayudante ENABLE ROW LEVEL SECURITY;
+--Actividades
+ALTER TABLE categoria_actividad ENABLE ROW LEVEL SECURITY;
+ALTER TABLE estado_actividad ENABLE ROW LEVEL SECURITY;
+ALTER TABLE actividad_ayudantia ENABLE ROW LEVEL SECURITY;
 
 COMMIT;
