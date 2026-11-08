@@ -1,8 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -17,7 +13,7 @@ import {
   IonChip,
   IonNote,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
 } from '@ionic/angular';
 
 import { addIcons } from 'ionicons';
@@ -26,7 +22,6 @@ import { addOutline } from 'ionicons/icons';
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
-
 
 @Component({
   selector: 'app-comunidad',
@@ -48,11 +43,10 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     IonSelect,
     IonSelectOption,
 
-    SideMenuComponent
-  ]
+    SideMenuComponent,
+  ],
 })
 export class ComunidadPage implements OnInit {
-
   menuAbierto = false;
 
   consultas: Consulta[] = [];
@@ -63,150 +57,75 @@ export class ComunidadPage implements OnInit {
 
   soloSinRespuesta = false;
 
-
   constructor(
     private ticketService: TicketService,
     private cdr: ChangeDetectorRef
   ) {
-
     addIcons({
-      addOutline
+      addOutline,
     });
-
   }
-
 
   ngOnInit() {
+    this.ticketService.obtenerConsultasComunidad(true).subscribe({
+      next: (data) => {
+        this.consultas = data;
 
-    this.ticketService
-      .obtenerConsultasComunidad(true)
-      .subscribe({
+        this.cdr.markForCheck();
 
-        next: (data) => {
+        console.log('Consultas recibidas:', data);
+      },
 
-          this.consultas = data;
-
-          this.cdr.markForCheck();
-
-          console.log(
-            'Consultas recibidas:',
-            data
-          );
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error al cargar consultas:',
-            error
-          );
-
-        }
-
-      });
-
+      error: (error) => {
+        console.error('Error al cargar consultas:', error);
+      },
+    });
   }
 
-
   get asignaturas(): string[] {
-
     return [
       ...new Set(
         this.consultas
-          .map(
-            (consulta) =>
-              consulta.asignatura?.trim()
-          )
-          .filter(
-            (asignatura):
-              asignatura is string =>
-              !!asignatura
-          )
-      )
-    ].sort(
-      (a, b) =>
-        a.localeCompare(b)
-    );
-
+          .map((consulta) => consulta.asignatura?.trim())
+          .filter((asignatura): asignatura is string => !!asignatura)
+      ),
+    ].sort((a, b) => a.localeCompare(b));
   }
-
 
   get consultasFiltradas(): Consulta[] {
+    const busqueda = this.textoBusqueda.trim().toLowerCase();
 
-    const busqueda =
-      this.textoBusqueda
-        .trim()
-        .toLowerCase();
+    return this.consultas.filter((consulta) => {
+      const coincideAsignatura =
+        this.asignaturaSeleccionada === 'TODAS' ||
+        consulta.asignatura === this.asignaturaSeleccionada;
 
+      const necesitaRespuesta = !this.soloSinRespuesta || (consulta.total_respuestas ?? 0) === 0;
 
-    return this.consultas.filter(
-      (consulta) => {
+      const coincideBusqueda =
+        !busqueda ||
+        consulta.titulo.toLowerCase().includes(busqueda) ||
+        consulta.descripcion.toLowerCase().includes(busqueda) ||
+        (consulta.asignatura ?? '').toLowerCase().includes(busqueda) ||
+        (consulta.autor ?? '').toLowerCase().includes(busqueda);
 
-        const coincideAsignatura =
-          this.asignaturaSeleccionada === 'TODAS' ||
-          consulta.asignatura ===
-            this.asignaturaSeleccionada;
-
-
-        const necesitaRespuesta =
-          !this.soloSinRespuesta ||
-          (consulta.total_respuestas ?? 0) === 0;
-
-
-        const coincideBusqueda =
-          !busqueda ||
-          consulta.titulo
-            .toLowerCase()
-            .includes(busqueda) ||
-          consulta.descripcion
-            .toLowerCase()
-            .includes(busqueda) ||
-          (consulta.asignatura ?? '')
-            .toLowerCase()
-            .includes(busqueda) ||
-          (consulta.autor ?? '')
-            .toLowerCase()
-            .includes(busqueda);
-
-
-        return (
-          coincideAsignatura &&
-          necesitaRespuesta &&
-          coincideBusqueda
-        );
-
-      }
-    );
-
+      return coincideAsignatura && necesitaRespuesta && coincideBusqueda;
+    });
   }
 
-
-  actualizarBusqueda(
-    event: CustomEvent
-  ): void {
-
-    this.textoBusqueda =
-      event.detail.value ?? '';
-
+  actualizarBusqueda(event: CustomEvent): void {
+    this.textoBusqueda = event.detail.value ?? '';
   }
 
-
-  cambiarAsignatura(
-    event: CustomEvent
-  ): void {
-
-    this.asignaturaSeleccionada =
-      event.detail.value ?? 'TODAS';
-
+  cambiarAsignatura(event: CustomEvent): void {
+    this.asignaturaSeleccionada = event.detail.value ?? 'TODAS';
   }
-
 
   alternarSinRespuesta(): void {
-
-    this.soloSinRespuesta =
-      !this.soloSinRespuesta;
-
+    this.soloSinRespuesta = !this.soloSinRespuesta;
   }
 
+  mensaje(mensaje: string, id: any){
+    console.log(mensaje, id);
+  }
 }

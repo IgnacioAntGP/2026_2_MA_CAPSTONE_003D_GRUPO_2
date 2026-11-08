@@ -21,13 +21,13 @@ class RespuestaConsultaResolveDTO {
 
 class ConsultaComunidadResolveDTO {
     constructor(item = {}) {
-        this.idConsulta = item.id_consulta || null;
+        this.id_consulta = item.id_consulta || null;
         this.titulo = item.titulo || '';
         this.descripcion = item.descripcion || '';
-        this.fechaCreacion = item.fecha_creacion || null;
+        this.fecha_reacion = item.fecha_creacion || null;
         this.asignatura = item.asignatura?.nombre || '';
         this.autor = item.usuario?.nombre || '';
-        this.totalRespuestas = item.respuesta?.length || 0;
+        this.total_respuestas = item.respuesta?.length || 0;
     }
 }
 
