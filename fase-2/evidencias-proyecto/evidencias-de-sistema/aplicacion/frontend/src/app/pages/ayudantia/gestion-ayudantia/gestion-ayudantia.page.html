@@ -1,0 +1,102 @@
+<ion-content class="ion-padding">
+  
+  <!-- Cabecera de la Ayudantía -->
+  <div class="ayudantia-header">
+    <h2>Seguimiento de Actividades</h2>
+    <p class="subtitle">Trazabilidad y avances de la sesión 1:1</p>
+  </div>
+
+  <!-- Botón de Creación (Visible solo para el Rol Ayudante / Admin) -->
+  <div class="action-bar ion-margin-bottom">
+    <ion-button color="primary" size="small">
+      <ion-icon name="add-outline" slot="start"></ion-icon>
+      Nueva Actividad
+    </ion-button>
+  </div>
+
+  <!-- Tabla / Listado de Actividades -->
+  <div class="table-responsive">
+    <table class="activities-table">
+      <thead>
+        <tr>
+          <th>Categoría</th>
+          <th>Título / Descripción</th>
+          <th>Fecha Límite</th>
+          <th>Estado</th>
+          <th class="ion-text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Fila 1: Cuestionario Pendiente -->
+        <tr>
+          <td>
+            <ion-badge color="secondary">Cuestionario</ion-badge>
+          </td>
+          <td>
+            <strong>Quiz de Derivadas Básicas</strong>
+            <p class="text-muted">Resolver los ejercicios del 1 al 5 en plataforma.</p>
+          </td>
+          <td>12/11/2026</td>
+          <td>
+            <ion-text color="warning"><strong>Pendiente</strong></ion-text>
+          </td>
+          <td class="ion-text-center">
+            <!-- Estudiante y Ayudante pueden marcar el estado -->
+            <ion-button fill="clear" size="small" color="success" title="Marcar como completada">
+              <ion-icon name="checkmark-done-outline"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+
+        <!-- Fila 2: Laboratorio Completado -->
+        <tr>
+          <td>
+            <ion-badge color="tertiary">Laboratorio</ion-badge>
+          </td>
+          <td>
+            <strong>Simulación en Python</strong>
+            <p class="text-muted">Implementar script base para análisis de datos.</p>
+          </td>
+          <td>08/11/2026</td>
+          <td>
+            <ion-text color="success"><strong>Completado</strong></ion-text>
+          </td>
+          <td class="ion-text-center">
+            <ion-button fill="clear" size="small" color="medium" title="Ver detalles">
+              <ion-icon name="eye-outline"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+
+        <!-- Fila 3: Clase Teórica -->
+        <tr>
+          <td>
+            <ion-badge color="primary">Clase Teórica</ion-badge>
+          </td>
+          <td>
+            <strong>Revisión de Pauta Solemne</strong>
+            <p class="text-muted">Análisis de errores comunes en la prueba.</p>
+          </td>
+          <td>05/11/2026</td>
+          <td>
+            <ion-text color="success"><strong>Revisada</strong></ion-text>
+          </td>
+          <td class="ion-text-center">
+            <ion-button fill="clear" size="small" color="medium" title="Ver detalles">
+              <ion-icon name="eye-outline"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BOTONES DE ACCIONES ASOCIADOS -->
+  <div>
+    <ion-button (click)="onClick()">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Click me
+    </ion-button>
+  </div>
+
+</ion-content>

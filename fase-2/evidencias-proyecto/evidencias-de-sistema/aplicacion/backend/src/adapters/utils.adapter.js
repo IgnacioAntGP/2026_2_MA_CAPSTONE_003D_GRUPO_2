@@ -15,7 +15,6 @@ class UtilsAdapter {
         if (errorValidacion) {
             throw errorValidacion;
         }
-
         return postulacionesPendientes && postulacionesPendientes.length > 0;
     }
 
@@ -74,17 +73,35 @@ class UtilsAdapter {
         const { data: ayudante, error: errorValidacion } =
             await supabase
                 .from('ayudante')
-                .select('*')
+                .select('id_ayudante, id_usuario, descripcion')
                 .eq('id_usuario', id_usuario)
                 .single();
 
         if (errorValidacion) {
             throw errorValidacion;
         }
-
         return ayudante;
     }
 
+    // Verificar que exista la consulta y que esté activa
+    // CORREGIDO
+    async existeConsultaActiva(id_consulta) {
+        if (!id_consulta || isNaN(Number(id_consulta))) {
+            return false;
+        }
+
+        const { data, error } = await supabase
+            .from('consulta')
+            .select('id_consulta')
+            .eq('id_consulta', id_consulta)
+            .limit(1);
+
+        if (error) {
+            throw error;
+        }
+
+        return data && data.length > 0;
+    }
 }
 
 module.exports = new UtilsAdapter();
