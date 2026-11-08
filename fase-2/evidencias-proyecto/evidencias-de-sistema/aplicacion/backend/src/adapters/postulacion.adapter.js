@@ -78,8 +78,6 @@ class PostulacionAdapter {
 
   // Aprobar postulación de ayudante
   async aprobarPostulacionAyudante(id_postulacion, id_asignatura = null) {
-    console.log('--- [DEBUG ADAPTER] Inicio aprobarPostulacionAyudante ---');
-    console.log('Parámetros entrantes -> id_postulacion:', id_postulacion, '| id_asignatura:', id_asignatura);
 
     // 1. Obtener la postulación pendiente
     const { data: postulacion, error: errorPostulacion } = await supabase
@@ -101,9 +99,7 @@ class PostulacionAdapter {
       throw err;
     }
 
-    console.log('Postulación encontrada en DB:', postulacion);
-
-    // 2. Obtener el rol Ayudante
+    // 2. Obtener el tag del rol de Ayudante
     const { data: rolAyudante, error: errorRol } = await supabase
       .from('rol')
       .select('id_rol')
@@ -160,20 +156,15 @@ class PostulacionAdapter {
 
     // 8. Insertar la especialidad del ayudante si se proporciona una asignatura
     const asignaturaAInscribir = id_asignatura || postulacion.id_asignatura;
-    console.log('Valor evaluado para inscribir especialidad:', asignaturaAInscribir);
 
     if (asignaturaAInscribir && asignaturaAInscribir !== 'null') {
       const ayudante = await _utilsAdapter.obtenerAyudantePorIdUsuario(postulacion.id_usuario);
-      console.log('Perfil de ayudante obtenido para especialidad:', ayudante);
       
       if (ayudante && ayudante.id_ayudante) {
-        console.log(`Insertando en especialidad_ayudante -> id_ayudante: ${ayudante.id_ayudante}, id_asignatura: ${asignaturaAInscribir}`);
-        
-        // CORRECCIÓN: Le pasamos un objeto (rawBody) como espera EspecialidadAdapter
         await _especialidadAdapter.crearEspecialidad({
           id_usuario: postulacion.id_usuario,
           id_asignatura: Number(asignaturaAInscribir),
-          nivel_competencia: 'Básico' // O el nivel por defecto que maneje tu sistema
+          nivel_competencia: 'Habil'
         });
       }
     }
