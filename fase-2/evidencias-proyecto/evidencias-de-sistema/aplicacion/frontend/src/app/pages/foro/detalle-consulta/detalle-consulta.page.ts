@@ -65,10 +65,16 @@ export class DetalleConsultaPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.idConsulta = Number(this.route.snapshot.paramMap.get('id'));
-
-    this.cargarConsulta();
-    this.cargarRespuestas();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id && !isNaN(Number(id))) {
+          this.idConsulta = Number(id);
+          // Solo cargamos si el ID es válido
+          this.cargarConsulta();
+          this.cargarRespuestas();
+        } else {
+          console.error('El ID de la consulta no llegó a la vista o no es válido');
+          this.router.navigate(['/comunidad']);
+        }
   }
 
   cargarConsulta() {

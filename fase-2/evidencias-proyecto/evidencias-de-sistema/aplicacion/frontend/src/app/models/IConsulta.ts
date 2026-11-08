@@ -1,6 +1,6 @@
 // Contrato de lectura (GET /api/consultas y GET /api/consultas/usuario/:id)
 export interface Consulta {
-  id_consulta?: number | string;
+  id_consulta: number | string;
   id_usuario: number;
   id_asignatura: number;
   asignatura?: string;
