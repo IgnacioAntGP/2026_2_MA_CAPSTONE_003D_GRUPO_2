@@ -120,12 +120,8 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/admin/categoria-solicitudes/categoria-solicitudes.page').then( m => m.CategoriaSolicitudesPage)
   },
   {
-    path: 'mi-ayudantia',
-    loadComponent: () => import('./pages/estudiante/mi-ayudantia/mi-ayudantia.page').then( m => m.MiAyudantiaPage)
-  },
-  {
-    path: 'gestion-ayudantia',
-    loadComponent: () => import('./pages/ayudante/gestion-ayudantia/gestion-ayudantia.page').then( m => m.GestionAyudantiaPage)
+    path: 'gestion-ayudantia/:id',
+    loadComponent: () => import('./pages/ayudantia/gestion-ayudantia/gestion-ayudantia.page').then( m => m.GestionAyudantiaPage)
   },
   {
     path: '**',

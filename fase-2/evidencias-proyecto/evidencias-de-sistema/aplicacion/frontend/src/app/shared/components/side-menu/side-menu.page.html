@@ -6,47 +6,27 @@
   aria-label="Abrir menú"
   (click)="alternarMenu()"
 >
-  <ion-icon
-    name="menu-outline"
-  ></ion-icon>
+  <ion-icon name="menu-outline"></ion-icon>
 </ion-button>
 
-
 <!-- OVERLAY DEL MENÚ -->
-<div
-  class="menu-overlay"
-  *ngIf="menuAbierto"
-  (click)="cerrarMenu()"
-></div>
-
+@if (menuAbierto) {
+<div class="menu-overlay" (click)="cerrarMenu()"></div>
+}
 
 <!-- MENÚ LATERAL -->
-<aside
-  class="side-menu"
-  *ngIf="menuAbierto"
->
-
+@if (menuAbierto){
+<aside class="side-menu">
   <!-- CABECERA -->
   <div class="side-menu-header">
-
     <div class="side-menu-brand">
-
-      <img
-        class="brand-icon"
-        src="assets/icon/entrepares-icon.png"
-        alt="EntrePares"
-      />
+      <img class="brand-icon" src="assets/icon/entrepares-icon.png" alt="EntrePares" />
 
       <div class="brand-text">
-
         <h2>EntrePares</h2>
 
-        <span>
-          Tu espacio académico
-        </span>
-
+        <span> Tu espacio académico </span>
       </div>
-
     </div>
 
     <ion-button
@@ -56,24 +36,15 @@
       aria-label="Cerrar menú"
       (click)="cerrarMenu()"
     >
-      <ion-icon
-        name="close-outline"
-      ></ion-icon>
+      <ion-icon name="close-outline"></ion-icon>
     </ion-button>
-
   </div>
-
 
   <!-- CONTENIDO -->
   <div class="side-menu-content">
-
-
     <!-- MI ACTIVIDAD -->
     <div class="menu-section">
-
-      <span class="menu-section-title">
-        Mi actividad
-      </span>
+      <span class="menu-section-title"> Mi actividad </span>
 
       <ion-button
         type="button"
@@ -83,10 +54,7 @@
         routerLink="/mis-publicaciones"
         (click)="cerrarMenu()"
       >
-        <ion-icon
-          slot="start"
-          name="document-text-outline"
-        ></ion-icon>
+        <ion-icon slot="start" name="document-text-outline"></ion-icon>
 
         Mis publicaciones
       </ion-button>
@@ -99,12 +67,9 @@
         routerLink="/mis-tutorias"
         (click)="cerrarMenu()"
       >
-        <ion-icon
-          slot="start"
-          name="school-outline"
-        ></ion-icon>
+        <ion-icon slot="start" name="school-outline"></ion-icon>
 
-        Mis tutorías
+        Mis Ayudantías
       </ion-button>
 
       <ion-button
@@ -115,23 +80,15 @@
         routerLink="/evaluaciones"
         (click)="cerrarMenu()"
       >
-        <ion-icon
-          slot="start"
-          name="star-outline"
-        ></ion-icon>
+        <ion-icon slot="start" name="star-outline"></ion-icon>
 
         Evaluaciones
       </ion-button>
-
     </div>
-
 
     <!-- MI CUENTA -->
     <div class="menu-section">
-
-      <span class="menu-section-title">
-        Mi cuenta
-      </span>
+      <span class="menu-section-title"> Mi cuenta </span>
 
       <ion-button
         type="button"
@@ -141,10 +98,7 @@
         routerLink="/mi-perfil"
         (click)="cerrarMenu()"
       >
-        <ion-icon
-          slot="start"
-          name="person-outline"
-        ></ion-icon>
+        <ion-icon slot="start" name="person-outline"></ion-icon>
 
         Mi perfil
       </ion-button>
@@ -157,23 +111,15 @@
         routerLink="/postular-ayudante"
         (click)="cerrarMenu()"
       >
-        <ion-icon
-          slot="start"
-          name="ribbon-outline"
-        ></ion-icon>
+        <ion-icon slot="start" name="ribbon-outline"></ion-icon>
 
         Postula como ayudante
       </ion-button>
-
     </div>
-
 
     <!-- AYUDANTÍAS -->
     <div class="menu-section">
-
-      <span class="menu-section-title">
-        Ayudantías
-      </span>
+      <span class="menu-section-title"> Ayudantías </span>
 
       <ion-button
         type="button"
@@ -183,23 +129,15 @@
         routerLink="/ayudante"
         (click)="cerrarMenu()"
       >
-        <ion-icon
-          slot="start"
-          name="people-outline"
-        ></ion-icon>
+        <ion-icon slot="start" name="people-outline"></ion-icon>
 
         Panel del Ayudante
       </ion-button>
-
     </div>
-
 
     <!-- ADMINISTRACIÓN -->
     <div class="menu-section">
-
-      <span class="menu-section-title">
-        Administración
-      </span>
+      <span class="menu-section-title"> Administración </span>
 
       <ion-button
         type="button"
@@ -209,22 +147,15 @@
         routerLink="/panel-admin"
         (click)="cerrarMenu()"
       >
-        <ion-icon
-          slot="start"
-          name="settings-outline"
-        ></ion-icon>
+        <ion-icon slot="start" name="settings-outline"></ion-icon>
 
         Panel del Administrador
       </ion-button>
-
     </div>
-
   </div>
-
 
   <!-- CERRAR SESIÓN -->
   <div class="menu-section-bottom">
-
     <ion-button
       type="button"
       class="menu-item logout"
@@ -233,14 +164,10 @@
       routerLink="/login"
       (click)="cerrarMenu()"
     >
-      <ion-icon
-        slot="start"
-        name="log-out-outline"
-      ></ion-icon>
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
 
       Cerrar sesión
     </ion-button>
-
   </div>
-
 </aside>
+}

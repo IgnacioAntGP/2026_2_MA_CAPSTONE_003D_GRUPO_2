@@ -9,9 +9,10 @@ import {
   IonCardContent,
   IonChip,
   IonBadge,
-  IonNote
+  IonNote,
 } from '@ionic/angular';
-import { RouterLink } from '@angular/router';
+
+import { RouterLink, Router } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { MisTutoria } from '../../../models/IMisTutorias';
@@ -35,11 +36,10 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     IonNote,
     CommonModule,
     RouterLink,
-    SideMenuComponent
-  ]
+    SideMenuComponent,
+  ],
 })
 export class MisTutoriasPage implements OnInit {
-
   tutorias: MisTutoria[] = [];
 
   // Temporal hasta implementar login real
@@ -47,20 +47,18 @@ export class MisTutoriasPage implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private cdr: ChangeDetectorRef,
-    private ayudantiaService: AyudantiaService
-  ) { }
+    private ayudantiaService: AyudantiaService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.cargarMisTutorias();
   }
 
   cargarMisTutorias() {
-
     this.ticketService.obtenerMisTutorias(this.idUsuarioActual).subscribe({
-
       next: (data) => {
-
         this.tutorias = data;
 
         this.cdr.markForCheck();
@@ -69,96 +67,56 @@ export class MisTutoriasPage implements OnInit {
       },
 
       error: (error) => {
-
-        console.error(
-          'Error al cargar mis tutorías:',
-          error
-        );
-
-      }
-
+        console.error('Error al cargar mis tutorías:', error);
+      },
     });
-
   }
 
   aceptarAyudante(idSolicitud: number) {
+    this.ayudantiaService.confirmarAyudante(idSolicitud).subscribe({
+      next: () => {
+        const item = this.tutorias.find((tutoria) => tutoria.id_solicitud === idSolicitud);
 
-    this.ayudantiaService
-      .confirmarAyudante(idSolicitud)
-      .subscribe({
+        if (item) {
+          item.estado_solicitud = 'ACEPTADA';
 
-        next: () => {
-
-          const item = this.tutorias.find(
-            tutoria => tutoria.id_solicitud === idSolicitud
-          );
-
-          if (item) {
-
-            item.estado_solicitud = 'ACEPTADA';
-
-            this.cdr.markForCheck();
-
-          }
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error al aceptar ayudante:',
-            error
-          );
-
+          this.cdr.markForCheck();
         }
+      },
 
-      });
-
+      error: (error) => {
+        console.error('Error al aceptar ayudante:', error);
+      },
+    });
   }
 
   rechazarAyudante(idSolicitud: number) {
+    this.ayudantiaService.rechazarAyudante(idSolicitud).subscribe({
+      next: () => {
+        const item = this.tutorias.find((tutoria) => tutoria.id_solicitud === idSolicitud);
 
-    this.ayudantiaService
-      .rechazarAyudante(idSolicitud)
-      .subscribe({
+        if (item) {
+          item.estado_solicitud = 'PENDIENTE';
+          item.ayudante = null;
 
-        next: () => {
-
-          const item = this.tutorias.find(
-            tutoria => tutoria.id_solicitud === idSolicitud
-          );
-
-          if (item) {
-
-            item.estado_solicitud = 'PENDIENTE';
-            item.ayudante = null;
-
-            this.cdr.markForCheck();
-
-          }
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error al rechazar ayudante:',
-            error
-          );
-
+          this.cdr.markForCheck();
         }
+      },
 
-      });
-
+      error: (error) => {
+        console.error('Error al rechazar ayudante:', error);
+      },
+    });
   }
 
-  contactoDirecto(tutoria: MisTutoria) {
+  verMiAyudantia(tutoria: MisTutoria) {
+    const idAyudantia = tutoria.ayudantia?.id_ayudantia;
 
-    console.log(
-      'Contacto directo activado con el ayudante:',
-      tutoria.ayudante
-    );
-
+    if (idAyudantia) {
+      // Navega a la ruta definida en la solución enviando el ID por URL
+      this.router.navigate([`/gestion-ayudantia`, idAyudantia]);
+    } else {
+      console.warn('La tutoría aún no tiene una ayudantía asociada o el ID no está disponible.');
+    }
   }
-
 }

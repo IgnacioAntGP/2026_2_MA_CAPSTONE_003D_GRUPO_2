@@ -1,49 +1,24 @@
 <ion-content [fullscreen]="true">
-
   <div class="page-container">
-
     <header class="page-header page-wide">
-
       <div>
-
-        <ion-button
-          class="back-button"
-          type="button"
-          fill="clear"
-          routerLink="/comunidad"
-        >
+        <ion-button class="back-button" type="button" fill="clear" routerLink="/comunidad">
           ← Volver a Comunidad
         </ion-button>
 
-        <h1>
-          Mis tutorías
-        </h1>
+        <h1>Mis Ayudantias</h1>
 
-        <p>
-          Revisa el estado de tus solicitudes de tutoría.
-        </p>
-
+        <p>Revisa el estado de tus solicitudes de tutoría.</p>
       </div>
 
       <app-side-menu></app-side-menu>
-
     </header>
 
-
     <main class="page-content page-wide mis-tutorias-list">
-
-      <ion-card
-        class="tutoria-card"
-        *ngFor="let tutoria of tutorias"
-      >
-
+      <ion-card class="tutoria-card" *ngFor="let tutoria of tutorias">
         <ion-card-header>
-
           <div class="tutoria-card-header">
-
-            <ion-chip class="asignatura-chip">
-              {{ tutoria.asignatura }}
-            </ion-chip>
+            <ion-chip class="asignatura-chip"> {{ tutoria.asignatura }} </ion-chip>
 
             <ion-badge
               class="estado-badge"
@@ -54,75 +29,39 @@
             >
               {{ tutoria.estado_solicitud }}
             </ion-badge>
-
           </div>
 
-
-          <ion-card-title>
-            {{ tutoria.titulo }}
-          </ion-card-title>
-
+          <ion-card-title> {{ tutoria.titulo }} </ion-card-title>
         </ion-card-header>
 
-
         <ion-card-content>
-
-          <p class="descripcion">
-            {{ tutoria.motivo }}
-          </p>
-
+          <p class="descripcion">{{ tutoria.motivo }}</p>
 
           <!-- INFORMACIÓN -->
           <div class="tutoria-info">
-
             <div>
+              <span class="info-label"> Modalidad </span>
 
-              <span class="info-label">
-                Modalidad
-              </span>
-
-              <ion-note class="info-value">
-                {{ tutoria.modalidad }}
-              </ion-note>
-
+              <ion-note class="info-value"> {{ tutoria.modalidad }} </ion-note>
             </div>
 
-
             <div>
-
-              <span class="info-label">
-                Solicitud
-              </span>
+              <span class="info-label"> Solicitud </span>
 
               <ion-note class="info-value">
                 {{ tutoria.fecha_solicitud | date:'dd/MM/yyyy - HH:mm' }}
               </ion-note>
-
             </div>
-
           </div>
-
 
           <!-- AYUDANTE -->
-          <div
-            class="tutoria-info ayudante-info"
-            *ngIf="tutoria.ayudante"
-          >
-
+          <div class="tutoria-info ayudante-info" *ngIf="tutoria.ayudante">
             <div>
+              <span class="info-label"> Ayudante </span>
 
-              <span class="info-label">
-                Ayudante
-              </span>
-
-              <ion-note class="info-value">
-                {{ tutoria.ayudante }}
-              </ion-note>
-
+              <ion-note class="info-value"> {{ tutoria.ayudante }} </ion-note>
             </div>
-
           </div>
-
 
           <!-- AYUDANTE TOMÓ LA SOLICITUD -->
           <div
@@ -132,10 +71,7 @@
               && tutoria.ayudante
             "
           >
-
-            <ion-button
-              (click)="aceptarAyudante(tutoria.id_solicitud)"
-            >
+            <ion-button (click)="aceptarAyudante(tutoria.id_solicitud)">
               Aceptar ayudante
             </ion-button>
 
@@ -147,46 +83,28 @@
             >
               Rechazar ayudante
             </ion-button>
-
           </div>
-
 
           <!-- AYUDANTÍA ACEPTADA -->
-          <div
-            class="contact-action"
-            *ngIf="tutoria.estado_solicitud === 'ACEPTADA'"
-          >
-
-            <ion-button
-              class="primary-button"
-              type="button"
-              expand="block"
-              (click)="contactoDirecto(tutoria)"
-            >
-              Contacto directo
-            </ion-button>
-
-          </div>
-
+          @if (tutoria.estado_solicitud === 'ACEPTADA') {
+            <div class="contact-action">
+              <ion-button
+                class="primary-button"
+                type="button"
+                expand="block"
+                (click)="verMiAyudantia(tutoria)"
+              >
+                Contacto directo
+              </ion-button>
+            </div>
+          }
         </ion-card-content>
-
       </ion-card>
 
-
       <!-- SIN SOLICITUDES -->
-      <div
-        class="empty-state"
-        *ngIf="tutorias.length === 0"
-      >
-
-        <p>
-          Aún no tienes solicitudes de tutoría.
-        </p>
-
+      <div class="empty-state" *ngIf="tutorias.length === 0">
+        <p>Aún no tienes solicitudes de tutoría.</p>
       </div>
-
     </main>
-
   </div>
-
 </ion-content>
