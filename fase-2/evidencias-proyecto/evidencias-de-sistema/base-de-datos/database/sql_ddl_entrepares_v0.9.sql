@@ -108,14 +108,14 @@ CREATE TABLE IF NOT EXISTS categoria_solicitud (
 -- 7. Consulta
 CREATE TABLE IF NOT EXISTS consulta (
     id_consulta BIGINT GENERATED ALWAYS AS IDENTITY,
-    id_usuario BIGINT NOT NULL,
+    id_estudiante BIGINT NOT NULL, -- [CORREGIDO] Apunta a estudiante en lugar de usuario
     id_asignatura BIGINT NOT NULL,
     titulo VARCHAR(200) NOT NULL,
     descripcion TEXT NOT NULL,
     fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     estado BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT pk_consulta PRIMARY KEY (id_consulta),
-    CONSTRAINT fk_consulta_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    CONSTRAINT fk_consulta_estudiante FOREIGN KEY (id_estudiante) REFERENCES estudiante(id_estudiante) ON DELETE CASCADE,
     CONSTRAINT fk_consulta_asignatura FOREIGN KEY (id_asignatura) REFERENCES asignatura(id_asignatura) ON DELETE RESTRICT
 );
 
