@@ -2,7 +2,7 @@
 
 class UsuarioResumenResolveDTO {
     constructor(usuario = {}) {
-        this.idUsuario = usuario.id_usuario || null;
+        this.id_usuario = usuario.id_usuario || null;
         this.nombre = usuario.nombre || '';
         this.apellido = usuario.apellido || '';
     }
@@ -11,9 +11,9 @@ class UsuarioResumenResolveDTO {
 class RespuestaConsultaResolveDTO {
     constructor(respuestas = []) {
         this.respuestas = (respuestas || []).map(r => ({
-            idRespuesta: r.id_respuesta || null,
+            id_respuesta: r.id_respuesta || null,
             contenido: r.contenido || '',
-            fechaRespuesta: r.fecha_respuesta || r.fecha_creacion || null,
+            fecha_respuesta: r.fecha_respuesta || r.fecha_creacion || null,
             autor: new UsuarioResumenResolveDTO(r.usuario)
         }));
     }
@@ -24,7 +24,7 @@ class ConsultaComunidadResolveDTO {
         this.id_consulta = item.id_consulta || null;
         this.titulo = item.titulo || '';
         this.descripcion = item.descripcion || '';
-        this.fecha_reacion = item.fecha_creacion || null;
+        this.fecha_creacion = item.fecha_creacion || null;
         this.asignatura = item.asignatura?.nombre || '';
         this.autor = item.usuario?.nombre || '';
         this.total_respuestas = item.respuesta?.length || 0;
@@ -33,23 +33,23 @@ class ConsultaComunidadResolveDTO {
 
 class ConsultaUsuarioResolveDTO {
     constructor(item = {}) {
-        this.idConsulta = item.id_consulta || null;
+        this.id_consulta = item.id_consulta || null;
         this.titulo = item.titulo || '';
         this.descripcion = item.descripcion || '';
-        this.fechaCreacion = item.fecha_creacion || null;
+        this.fecha_creacion = item.fecha_creacion || null;
         this.asignatura = item.asignatura?.nombre || '';
-        this.totalRespuestas = item.respuesta?.length || 0;
+        this.total_respuestas = item.respuesta?.length || 0;
         this.tutoriaSolicitada = (item.solicitud_ayudantia || []).length > 0;
     }
 }
 
 class ConsultaDetalleResolveDTO {
     constructor(data = {}) {
-        this.idConsulta = data.id_consulta || null;
-        this.idUsuario = data.id_usuario || null;
+        this.id_consulta = data.id_consulta || null;
+        this.id_usuario = data.id_usuario || null;
         this.titulo = data.titulo || '';
         this.descripcion = data.descripcion || '';
-        this.fechaCreacion = data.fecha_creacion || null;
+        this.fecha_creacion = data.fecha_creacion || null;
         this.asignatura = data.asignatura?.nombre || '';
         const autorObj = new UsuarioResumenResolveDTO(data.usuario);
         this.autor = `${autorObj.nombre} ${autorObj.apellido}`.trim();
