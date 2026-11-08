@@ -24,7 +24,7 @@ class ConsultaComunidadResolveDTO {
         this.id_consulta = item.id_consulta || null;
         this.titulo = item.titulo || '';
         this.descripcion = item.descripcion || '';
-        this.fecha_reacion = item.fecha_creacion || null;
+        this.fecha_creacion = item.fecha_creacion || null;
         this.asignatura = item.asignatura?.nombre || '';
         this.autor = item.usuario?.nombre || '';
         this.total_respuestas = item.respuesta?.length || 0;
