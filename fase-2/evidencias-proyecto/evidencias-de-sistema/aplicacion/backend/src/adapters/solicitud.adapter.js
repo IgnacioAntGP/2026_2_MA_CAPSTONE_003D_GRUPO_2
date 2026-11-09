@@ -1,16 +1,19 @@
 const supabase = require('../config/supabase');
-const { 
-  CrearSolicitudAyudantiaAskDTO, 
-  TomarSolicitudAyudantiaAskDTO,
+const {
+  CrearSolicitudAyudantiaAskDTO,
+  TomarSolicitudAyudantiaAskDTO
 } = require('../dtos/solicitud/solicitud.ask.dto');
-const { 
+const {
   ObtenerSolicitudDisponibleResolveDTO,
   ObtenerSolicitudEstudianteResolveDTO
 } = require('../dtos/solicitud/solicitud.resolve.dto');
+const ayudantiaAdapter = require('./ayudantia.adapter.js');
+
 
 class SolicitudAdapter {
+
   // 7. Solicitar ayudantía
-  async crearSolicitud( body ) {
+  async crearSolicitud(body) {
     const inputDTO = new CrearSolicitudAyudantiaAskDTO(body);
 
     const { data, error } = await supabase
@@ -29,9 +32,9 @@ class SolicitudAdapter {
 
     if (error) {
       console.error('Error devuelto por Supabase:', error);
-      throw error
-    };
-    
+      throw error;
+    }
+
     return data;
   }
 
@@ -170,51 +173,49 @@ class SolicitudAdapter {
   // 13. Aceptar Ayudante y Crear Ayudantía
   async aceptarAyudante(id_solicitud) {
     const { data: solicitud, error: errorSolicitud } = await supabase
-      .from('solicitud_ayudantia')
-      .select('*')
-      .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'EN_PROCESO')
-      .not('id_ayudante', 'is', null)
-      .maybeSingle();
+        .from('solicitud_ayudantia')
+        .select('*')
+        .eq('id_solicitud', id_solicitud)
+        .eq('estado', 'EN_PROCESO')
+        .not('id_ayudante', 'is', null)
+        .maybeSingle();
 
     if (errorSolicitud) throw errorSolicitud;
     if (!solicitud) return { noDisponible: true };
 
     const { data: solicitudActualizada, error: errorActualizar } = await supabase
-      .from('solicitud_ayudantia')
-      .update({ estado: 'ACEPTADA' })
-      .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'EN_PROCESO')
-      .select()
-      .single();
+        .from('solicitud_ayudantia')
+        .update({ estado: 'ACEPTADA' })
+        .eq('id_solicitud', id_solicitud)
+        .eq('estado', 'EN_PROCESO')
+        .select()
+        .single();
 
     if (errorActualizar) throw errorActualizar;
 
-    const { data: ayudantia, error: errorAyudantia } = await supabase
-      .from('ayudantia')
-      .insert({
-        id_solicitud: Number(id_solicitud),
-        fecha_inicio: new Date().toISOString(),
-        estado: 'ACEPTADA',
-        observaciones: null
-      })
-      .select()
-      .single();
+    try {
+        const resultadoAyudantia = await ayudantiaAdapter.guardarAyudantia({
+            id_solicitud: id_solicitud,
+            fecha_inicio: new Date().toISOString(),
+            estado: 'ACEPTADA',
+            observaciones: null
+        });
 
-    if (errorAyudantia) {
-      await supabase
-        .from('solicitud_ayudantia')
-        .update({ estado: 'EN_PROCESO' })
-        .eq('id_solicitud', id_solicitud);
+        return {
+            solicitud: solicitudActualizada,
+            ayudantia: resultadoAyudantia.ayudantia,
+            mensaje: "Ayudantía creada con éxito"
+        };
 
-      throw errorAyudantia;
+    } catch (errorAyudantia) {
+        await supabase
+            .from('solicitud_ayudantia')
+            .update({ estado: 'EN_PROCESO' })
+            .eq('id_solicitud', id_solicitud);
+
+        throw errorAyudantia;
     }
-
-    return {
-      solicitud: solicitudActualizada,
-      ayudantia
-    };
-  }
+  };
 
   // 14. Rechazar Ayudante
   async rechazarAyudante(id_solicitud) {
