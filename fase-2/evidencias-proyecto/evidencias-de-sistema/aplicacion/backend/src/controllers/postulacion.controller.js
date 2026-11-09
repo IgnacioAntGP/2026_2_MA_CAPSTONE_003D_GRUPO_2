@@ -54,17 +54,11 @@ class PostulacionController {
     const { id_postulacion } = req.params;
     const { id_asignatura } = req.body;
 
-    console.log('--- [DEBUG CONTROLLER] Aprobar Postulación ---');
-    console.log('1. id_postulacion recibido (params):', id_postulacion, typeof id_postulacion);
-    console.log('2. id_asignatura recibido (body):', id_asignatura, typeof id_asignatura);
-
     try {
       const data = await _postulacionAdapter.aprobarPostulacionAyudante(
         id_postulacion, 
         id_asignatura || null
       );
-
-      console.log('3. Postulación aprobada con éxito en adapter:', data);
 
       const mensajeExito = id_asignatura
         ? 'Postulación aprobada y especialidad asignada correctamente.'
@@ -76,7 +70,6 @@ class PostulacionController {
       });
 
     } catch (err) {
-      console.error('X. ERROR en aprobarPostulacionAyudante (Controller):', err.message);
       return res.status(500).json({
         error: err.message
       });

@@ -122,8 +122,6 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
       postulacion.id_asignatura
     ).subscribe({
       next: () => {
-        console.log('Postulación aprobada con éxito:', postulacion.id_postulacion);
-
         this.postulacionesPendientes = this.postulacionesPendientes.filter(
           p => p.id_postulacion !== postulacion.id_postulacion
         );
@@ -142,8 +140,6 @@ export class PostulacionesAyudantePage implements OnInit, OnDestroy {
       postulacion.id_postulacion
     ).subscribe({
       next: () => {
-        console.log('Postulación rechazada:', postulacion.id_postulacion);
-
         this.postulacionesPendientes = this.postulacionesPendientes.filter(
           p => p.id_postulacion !== postulacion.id_postulacion
         );
