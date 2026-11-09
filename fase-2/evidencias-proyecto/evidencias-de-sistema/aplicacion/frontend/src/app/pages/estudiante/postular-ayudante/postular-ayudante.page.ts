@@ -10,7 +10,6 @@ import {
   IonCardContent,
   IonSelect,
   IonSelectOption,
-  IonItem
 } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 
@@ -33,7 +32,6 @@ import { IAsignatura } from '../../../models/IAsignatura';
     IonCardContent,
     IonSelect,
     IonSelectOption,
-    IonItem,
     CommonModule,
     FormsModule,
     RouterLink,

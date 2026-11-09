@@ -3,6 +3,8 @@
    Primera propuesta de identidad visual
    ===================================================== */
 
+   
+@use 'sass:color';
 $primary: #c94f32;
 $primary-soft: #fbede8;
 
@@ -141,13 +143,13 @@ ion-content {
 
   --background: #{$primary};
 
-  --background-hover: #{darken($primary, 5%)};
+  --background-hover: #{color.adjust($primary, $lightness: -5%)};
 
   --background-activated:
-    #{darken($primary, 8%)};
+    #{color.adjust($primary, $lightness: -8%)};
 
   --background-focused:
-    #{darken($primary, 5%)};
+    #{color.adjust($primary, $lightness: -5%)};
 
   --ripple-color:
     rgba(255, 255, 255, 0.25);

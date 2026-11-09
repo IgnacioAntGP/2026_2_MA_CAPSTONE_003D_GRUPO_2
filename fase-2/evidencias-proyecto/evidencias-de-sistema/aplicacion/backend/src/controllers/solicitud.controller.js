@@ -1,4 +1,5 @@
 const solicitudAdapter = require('../adapters/solicitud.adapter');
+const notificacionAdapter = require('../adapters/notificacion.adapter');
 const { obtenerCategoriaActivaPorId } = require('../adapters/categoria.adapter');
 
 class SolicitudController {
@@ -82,11 +83,14 @@ class SolicitudController {
       let ayudanteId = id_ayudante;
 
       if (!ayudanteId && id_usuario) {
-        const perfil = await solicitudAdapter.obtenerAyudantePorUsuario(id_usuario);
+        const perfil = await solicitudAdapter.obtenerAyudantePorUsuario(
+          id_usuario
+        );
 
         if (!perfil) {
           return res.status(404).json({
-            error: 'No se encontró un perfil de ayudante asociado al usuario proporcionado.'
+            error:
+              'No se encontró un perfil de ayudante asociado al usuario proporcionado.'
           });
         }
 
@@ -95,7 +99,8 @@ class SolicitudController {
 
       if (!ayudanteId) {
         return res.status(400).json({
-          error: 'El ID del Ayudante o el ID del Usuario es obligatorio.'
+          error:
+            'El ID del Ayudante o el ID del Usuario es obligatorio.'
         });
       }
 
@@ -106,16 +111,74 @@ class SolicitudController {
 
       if (!data) {
         return res.status(409).json({
-          error: 'La solicitud ya fue tomada o ya no se encuentra disponible.'
+          error:
+            'La solicitud ya fue tomada o ya no se encuentra disponible.'
         });
+      }
+
+      // Generar notificación para el estudiante
+      try {
+        const idUsuarioDestino =
+          data.consulta?.id_usuario;
+
+        const idUsuarioOrigen =
+          data.ayudante?.id_usuario;
+
+        const nombreAyudante = [
+          data.ayudante?.usuario?.nombre,
+          data.ayudante?.usuario?.apellido
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .trim();
+
+        if (
+          !idUsuarioDestino ||
+          !idUsuarioOrigen
+        ) {
+          throw new Error(
+            'No fue posible identificar los usuarios asociados a la notificación.'
+          );
+        }
+
+        await notificacionAdapter.crearNotificacion({
+          id_usuario_destino:
+            idUsuarioDestino,
+
+          id_usuario_origen:
+            idUsuarioOrigen,
+
+          id_solicitud:
+            data.id_solicitud,
+
+          tipo:
+            'AYUDANTE_TOMO_SOLICITUD',
+
+          titulo:
+            'Un ayudante tomó tu solicitud',
+
+          mensaje:
+            nombreAyudante
+              ? `${nombreAyudante} tomó tu solicitud de ayudantía. Revisa su perfil para aceptar o rechazar.`
+              : 'Un ayudante tomó tu solicitud de ayudantía. Revisa su perfil para aceptar o rechazar.'
+        });
+
+      } catch (errorNotificacion) {
+        console.error(
+          'La solicitud fue tomada, pero no fue posible generar la notificación:',
+          errorNotificacion
+        );
       }
 
       return res.status(200).json({
         mensaje: 'Solicitud tomada correctamente.',
         solicitud: data
       });
+
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({
+        error: err.message
+      });
     }
   }
 

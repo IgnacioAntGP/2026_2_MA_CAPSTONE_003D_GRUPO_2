@@ -160,10 +160,33 @@ class SolicitudAdapter {
       .eq('id_solicitud', id_solicitud)
       .eq('estado', 'PENDIENTE')
       .is('id_ayudante', null)
-      .select()
+      .select(`
+        id_solicitud,
+        id_consulta,
+        id_ayudante,
+        modalidad,
+        fecha_solicitud,
+        estado,
+        motivo,
+        id_categoria,
+
+        consulta (
+          id_usuario,
+          titulo
+        ),
+
+        ayudante (
+          id_usuario,
+          usuario (
+            nombre,
+            apellido
+          )
+        )
+      `)
       .maybeSingle();
 
     if (error) throw error;
+
     return data;
   }
 
@@ -195,7 +218,7 @@ class SolicitudAdapter {
       .insert({
         id_solicitud: Number(id_solicitud),
         fecha_inicio: new Date().toISOString(),
-        estado: 'ACEPTADA',
+        estado: 'ACTIVA',
         observaciones: null
       })
       .select()
