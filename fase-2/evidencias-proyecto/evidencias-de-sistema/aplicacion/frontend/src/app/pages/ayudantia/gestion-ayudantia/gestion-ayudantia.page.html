@@ -1,102 +1,158 @@
 <ion-content class="ion-padding">
-  
+
+  <div class="back-container ion-margin-bottom">
+    <ion-button fill="clear" color="medium" (click)="volverAtras()">
+      <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+      Volver atrás
+    </ion-button>
+  </div>
+
   <!-- Cabecera de la Ayudantía -->
   <div class="ayudantia-header">
     <h2>Seguimiento de Actividades</h2>
     <p class="subtitle">Trazabilidad y avances de la sesión 1:1</p>
   </div>
 
-  <!-- Botón de Creación (Visible solo para el Rol Ayudante / Admin) -->
+  <!-- Botón de Creación -->
   <div class="action-bar ion-margin-bottom">
-    <ion-button color="primary" size="small">
+    <ion-button color="primary" size="small" (click)="abrirModalNuevaActividad()">
       <ion-icon name="add-outline" slot="start"></ion-icon>
       Nueva Actividad
     </ion-button>
   </div>
 
+  <!-- Spinner de carga -->
+  @if (cargando) {
+  <div class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando actividades...</p>
+  </div>
+  }
+
   <!-- Tabla / Listado de Actividades -->
+  @if (!cargando) {
   <div class="table-responsive">
     <table class="activities-table">
       <thead>
         <tr>
           <th>Categoría</th>
           <th>Título / Descripción</th>
-          <th>Fecha Límite</th>
+          <th>Fecha Creación</th>
           <th>Estado</th>
           <th class="ion-text-center">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Fila 1: Cuestionario Pendiente -->
-        <tr>
-          <td>
-            <ion-badge color="secondary">Cuestionario</ion-badge>
-          </td>
-          <td>
-            <strong>Quiz de Derivadas Básicas</strong>
-            <p class="text-muted">Resolver los ejercicios del 1 al 5 en plataforma.</p>
-          </td>
-          <td>12/11/2026</td>
-          <td>
-            <ion-text color="warning"><strong>Pendiente</strong></ion-text>
-          </td>
-          <td class="ion-text-center">
-            <!-- Estudiante y Ayudante pueden marcar el estado -->
-            <ion-button fill="clear" size="small" color="success" title="Marcar como completada">
-              <ion-icon name="checkmark-done-outline"></ion-icon>
-            </ion-button>
-          </td>
-        </tr>
+        @for (act of actividades; track act.idActividad) {
+          <tr>
+            <td>
+              <ion-badge color="secondary">{{ act.categoria || 'General' }}</ion-badge>
+            </td>
+            <td>
+              <strong>{{ act.nombreActividad }}</strong>
+              <p class="text-muted">{{ act.descripcion }}</p>
+            </td>
+            <td>{{ act.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <ion-text [color]="act.idEstadoActividad === 3 ? 'success' : 'warning'">
+                <strong>{{ act.idEstadoActividad === 3 ? 'Completado' : 'Pendiente' }}</strong>
+              </ion-text>
+            </td>
+            <td class="ion-text-center">
+              @if (act.idEstadoActividad !== 3) {
+              <ion-button fill="clear" size="small" color="success"
+                title="Marcar como completada" (click)="marcarComoCompletada(act)">
+                <ion-icon name="checkmark-done-outline"></ion-icon>
+              </ion-button>
+              }
+              @if (act.idEstadoActividad == 3){
+              <ion-button fill="clear" size="small" color="danger"
+                title="Marcar como en revisión" (click)="marcarComoEnRevision(act)">
+                <ion-icon name="eye-outline"></ion-icon>
+              </ion-button>
+              }
+            </td>
+          </tr>
+        }
 
-        <!-- Fila 2: Laboratorio Completado -->
+        <!-- Mensaje si no hay registros -->
+        @if (actividades.length === 0) {
         <tr>
-          <td>
-            <ion-badge color="tertiary">Laboratorio</ion-badge>
-          </td>
-          <td>
-            <strong>Simulación en Python</strong>
-            <p class="text-muted">Implementar script base para análisis de datos.</p>
-          </td>
-          <td>08/11/2026</td>
-          <td>
-            <ion-text color="success"><strong>Completado</strong></ion-text>
-          </td>
-          <td class="ion-text-center">
-            <ion-button fill="clear" size="small" color="medium" title="Ver detalles">
-              <ion-icon name="eye-outline"></ion-icon>
-            </ion-button>
+          <td colspan="5" class="ion-text-center text-muted">
+            No existen actividades registradas para esta ayudantía.
           </td>
         </tr>
-
-        <!-- Fila 3: Clase Teórica -->
-        <tr>
-          <td>
-            <ion-badge color="primary">Clase Teórica</ion-badge>
-          </td>
-          <td>
-            <strong>Revisión de Pauta Solemne</strong>
-            <p class="text-muted">Análisis de errores comunes en la prueba.</p>
-          </td>
-          <td>05/11/2026</td>
-          <td>
-            <ion-text color="success"><strong>Revisada</strong></ion-text>
-          </td>
-          <td class="ion-text-center">
-            <ion-button fill="clear" size="small" color="medium" title="Ver detalles">
-              <ion-icon name="eye-outline"></ion-icon>
-            </ion-button>
-          </td>
-        </tr>
+        }
       </tbody>
     </table>
   </div>
+  }
 
-  <!-- BOTONES DE ACCIONES ASOCIADOS -->
-  <div>
-    <ion-button (click)="onClick()">
-      <ion-icon slot="start" name="add"></ion-icon>
-      Click me
-    </ion-button>
-  </div>
+  <!-- MODAL CREAR NUEVA ACTIVIDAD -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Nueva Actividad</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        
+        <!-- Categoría -->
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="stacked">Categoría *</ion-label>
+          <ion-select 
+            [value]="nuevaActividad.idCategoria" 
+            (ionChange)="nuevaActividad.idCategoria = $event.detail.value"
+            name="idCategoria" 
+            placeholder="Selecciona una categoría">
+            @for (categoria of categoriasDisponibles; track categoria.idCategoria) {
+              <ion-select-option [value]="categoria.idCategoria">
+                {{ categoria.nombre }}
+              </ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+
+        <!-- Nombre / Título -->
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="stacked">Título de la actividad *</ion-label>
+          <ion-input 
+            [value]="nuevaActividad.nombreActividad" 
+            (ionInput)="nuevaActividad.nombreActividad = $event.detail.value ?? ''"
+            placeholder="Ej: Resolver guía de ejercicios N°1">
+          </ion-input>
+        </ion-item>
+
+        <!-- Descripción -->
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="stacked">Descripción</ion-label>
+          <ion-textarea 
+            [value]="nuevaActividad.descripcion" 
+            (ionInput)="nuevaActividad.descripcion = $event.detail.value ?? ''"
+            rows="4" 
+            placeholder="Detalles sobre lo que debe realizar el estudiante...">
+          </ion-textarea>
+        </ion-item>
+
+        <!-- Botones de Acción -->
+        <div class="ion-margin-top ion-text-right">
+          <ion-button fill="outline" color="medium" (click)="cerrarModal()" [disabled]="guardando">
+            Cancelar
+          </ion-button>
+          <ion-button color="primary" (click)="guardarActividad()" [disabled]="guardando">
+            {{ guardando ? 'Guardando...' : 'Crear Actividad' }}
+          </ion-button>
+        </div>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>
