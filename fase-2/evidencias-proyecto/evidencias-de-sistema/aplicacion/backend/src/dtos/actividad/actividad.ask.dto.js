@@ -9,13 +9,12 @@ class CrearActividadAskDTO {
 }
 
 class ModificarActividadAskDTO {
-    //TODO, RESOLVER POR ID_ESTADO_ACTIVIDAD, NO POR ESTADO
   constructor(body = {}) {
     this.idCategoria = body.idCategoria !== undefined ? Number(body.idCategoria) : undefined;
     this.nombreActividad =
       body.nombreActividad !== undefined ? String(body.nombreActividad).trim() : undefined;
     this.descripcion = body.descripcion !== undefined ? String(body.descripcion).trim() : undefined;
-    this.estado = body.estado !== undefined ? String(body.estado).trim() : undefined;
+    this.idEstadoActividad = body.idEstadoActividad !== undefined ? Number(body.idEstadoActividad) : undefined;
     this.esActivo = body.esActivo !== undefined ? Boolean(body.esActivo) : undefined;
   }
 }

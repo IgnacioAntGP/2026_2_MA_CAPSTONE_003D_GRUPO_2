@@ -58,29 +58,6 @@ class AyudantiaAdapter {
       actividades: errorActividades ? [] : actividades
     };
   }
-
-  async guardarActividadAyudantia(idAyudantia, inputDTO) {
-    const payloadInsert = {
-      id_ayudantia: Number(idAyudantia),
-      nombre_actividad: inputDTO.nombreActividad,
-      descripcion: inputDTO.descripcion,
-      es_activo: true,
-      id_categoria: inputDTO.idCategoria,
-      id_estado_actividad: inputDTO.idEstadoActividad || 1 
-    };
-
-    const { data: actividad, error: errorActividad } = await supabase
-      .from('actividad_ayudantia')
-      .insert(payloadInsert)
-      .select()
-      .single();
-
-    if (errorActividad) {
-      throw errorActividad;
-    }
-
-    return actividad;
-  }
 }
 
 module.exports = new AyudantiaAdapter();

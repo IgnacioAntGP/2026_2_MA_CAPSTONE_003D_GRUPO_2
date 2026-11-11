@@ -9,25 +9,27 @@ const {
 
 // Clase encargada de mapear los estados estándar
 class EstadoActividad {
-  static PENDIENTE = 'Pendiente';
-  static EN_PROCESO = 'En Proceso';
-  static COMPLETADA = 'Completada';
-  static CANCELADA = 'Cancelada';
+  static PENDIENTE = 1;
+  static EN_PROCESO = 2;
+  static COMPLETADA = 3;
+  static CANCELADA = 4;
 }
 
 class ActividadAdapter {
-  async crearActividad(idAyudantia, inputDTO) {
-    //TODO ver si está llegando correctamente los elementos para crear la actividad
+  async crearActividad(inputDTO) {
+
+    let payloadInsert = {
+      id_ayudantia: inputDTO.idAyudantia,
+      id_categoria: inputDTO.idCategoria,
+      nombre_actividad: inputDTO.nombreActividad,
+      descripcion: inputDTO.descripcion,
+      id_estado_actividad: EstadoActividad.PENDIENTE,
+      es_activo: true
+    }
+
     const { data, error } = await supabase
       .from('actividad_ayudantia')
-      .insert({
-        id_ayudantia: Number(idAyudantia),
-        id_categoria: inputDTO.idCategoria,
-        nombre_actividad: inputDTO.nombreActividad,
-        descripcion: inputDTO.descripcion,
-        estado: EstadoActividad.PENDIENTE,
-        es_activo: true
-      })
+      .insert([payloadInsert])
       .select()
       .single();
 
@@ -75,7 +77,6 @@ class ActividadAdapter {
   }
 
   async modificarActividad(idAyudantia, idActividad, inputDTO) {
-    //TODO, RESOLVER POR ID_ESTADO_ACTIVIDAD, NO POR ESTADO
     const updatePayload = {};
 
     if (inputDTO.idCategoria !== undefined) updatePayload.id_categoria = inputDTO.idCategoria;
@@ -83,10 +84,10 @@ class ActividadAdapter {
       updatePayload.nombre_actividad = inputDTO.nombreActividad;
     if (inputDTO.descripcion !== undefined) updatePayload.descripcion = inputDTO.descripcion;
 
-    if (inputDTO.estado !== undefined) {
-      updatePayload.estado = inputDTO.estado;
+    if (inputDTO.idEstadoActividad !== undefined) {
+      updatePayload.id_estado_actividad = inputDTO.idEstadoActividad;
 
-      if (inputDTO.estado === EstadoActividad.COMPLETADA) {
+      if (inputDTO.idEstadoActividad === 3) {
         updatePayload.fecha_completado = new Date().toISOString();
       } else {
         updatePayload.fecha_completado = null;

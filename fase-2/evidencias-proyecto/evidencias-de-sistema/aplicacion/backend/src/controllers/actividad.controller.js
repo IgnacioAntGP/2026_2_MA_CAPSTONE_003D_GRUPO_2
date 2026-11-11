@@ -1,4 +1,5 @@
 const actividadAdapter = require('../adapters/actividad.adapter');
+const ayudantiaAdapter = require('../adapters/ayudantia.adapter');
 const { CrearActividadAskDTO, ModificarActividadAskDTO } = require('../dtos/actividad/actividad.ask.dto');
 
 class ActividadController {
@@ -25,28 +26,38 @@ class ActividadController {
     }
   }
 
-  async crear(req, res) {
-    const { id } = req.params;
-    
-    //TODO Ver si está enviando correctamente el cuerpo y el idAyudantia al Adapter
-    const inputDTO = new CrearActividadAskDTO({ ...req.body, idAyudantia: id });
-
-    if (!inputDTO.idCategoria || !inputDTO.nombreActividad) {
-      return res
-        .status(400)
-        .json({ error: 'La categoría y el nombre de la actividad son obligatorios o tienen un formato incorrecto.' });
-    }
-
+  async crearActividadAyudantia(req, res) {
     try {
-      const resultado = await actividadAdapter.crearActividad(id, inputDTO);
+      const { id } = req.params;
+
+      const inputDTO = new CrearActividadAskDTO({ ...req.body, idAyudantia: id });
+
+      if (!inputDTO.idAyudantia) {
+        return res.status(400).json({ error: 'Faltan campos obligatorios: idAyudantia.' });
+      }
+      if (!inputDTO.idCategoria) {
+        return res.status(400).json({ error: 'Faltan campos obligatorios: idCategoria.' });
+      }
+      if (!inputDTO.nombreActividad) {
+        return res.status(400).json({ error: 'Faltan campos obligatorios: nombreActividad.' });
+      }
+
+      const ayudantia = await ayudantiaAdapter.obtenerAyudantiaPorId(inputDTO.idAyudantia);
+      if (!ayudantia) {
+        return res.status(404).json({ error: 'La ayudantía especificada no existe.' });
+      }
+      const resultado = await actividadAdapter.crearActividad(inputDTO);
+
       return res.status(201).json(resultado);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
+    } catch (error) {
+      return res.status(500).json({
+        error: 'Error interno del sistema',
+        message: error.message
+      });
     }
   }
 
   async modificar(req, res) {
-    //TODO, RESOLVER POR ID_ESTADO_ACTIVIDAD, NO POR ESTADO
     const { id, id_actividad } = req.params;
 
     const inputDTO = new ModificarActividadAskDTO(req.body);
