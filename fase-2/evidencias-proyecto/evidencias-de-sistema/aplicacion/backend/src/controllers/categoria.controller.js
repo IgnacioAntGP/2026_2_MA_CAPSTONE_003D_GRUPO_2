@@ -1,5 +1,5 @@
 const categoriaAdapter = require('../adapters/categoria.adapter')
-const { CrearCategoriaAskDTO } = require('../dtos/categoria/categoria.ask.dto')
+//const { CrearCategoriaAskDTO } = require('../dtos/categoria-solicitud/categoria.ask.dto')
 
 async function crearNuevaCategoria(req, res) {
   try {
