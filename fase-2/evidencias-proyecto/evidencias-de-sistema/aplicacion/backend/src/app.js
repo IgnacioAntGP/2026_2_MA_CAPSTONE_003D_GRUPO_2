@@ -11,6 +11,8 @@ const asignaturaRoutes = require('./routes/asignatura.routes');
 const ayudantiaRoutes = require('./routes/ayudantia.routes');
 const actividadRoutes = require('./routes/actividad.routes')
 const categoriaActividadRoutes = require('./routes/categoriaActividad.routes')
+const notificacionRoutes = require('./routes/notificacion.routes');
+const ayudanteRoutes = require('./routes/ayudante.routes');
 
 const app = express();
 
@@ -27,6 +29,8 @@ app.use('/api/asignaturas', asignaturaRoutes);
 app.use('/api/ayudantias', ayudantiaRoutes);
 app.use('/api/ayudantias', actividadRoutes);
 app.use('/api/categorias-actividades', categoriaActividadRoutes)
+app.use('/api/notificaciones', notificacionRoutes);
+app.use('/api/ayudantes', ayudanteRoutes);
 
 app.get('/', (_req, res) => {
   res.send('Bienvenido a la API de EntrePares');

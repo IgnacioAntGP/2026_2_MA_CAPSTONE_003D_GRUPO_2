@@ -11,7 +11,6 @@ import { RouterLink } from '@angular/router';
 import {
   IonContent,
   IonIcon,
-  IonButton,
   IonCard,
   IonCardContent,
   IonBadge
@@ -38,7 +37,6 @@ import { addIcons } from 'ionicons';
   imports: [
     IonContent,
     IonIcon,
-    IonButton,
     IonCard,
     IonCardContent,
     IonBadge,
