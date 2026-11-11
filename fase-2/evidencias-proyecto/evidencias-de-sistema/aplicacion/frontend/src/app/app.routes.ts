@@ -120,6 +120,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/admin/categoria-solicitudes/categoria-solicitudes.page').then( m => m.CategoriaSolicitudesPage)
   },
   {
+    path: 'gestion-ayudantia/:id',
+    loadComponent: () => import('./pages/ayudantia/gestion-ayudantia/gestion-ayudantia.page').then( m => m.GestionAyudantiaPage)
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },
@@ -128,4 +132,5 @@ export const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full',
   },
+
 ];

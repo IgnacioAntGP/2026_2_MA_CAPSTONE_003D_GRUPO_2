@@ -1,14 +1,28 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import {
+  IonContent,
+  IonCard,
+  IonCardContent,
+  IonSelect,
+  IonSelectOption,
+  IonChip,
+  IonBadge,
+  IonButton
+} from '@ionic/angular';
+
 import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SolicitudAyudantia } from '../../../models/ISolicitudAyudantia';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
-import {
-  IonContent
-} from '@ionic/angular';
 
 @Component({
   selector: 'app-solicitudes-pendientes',
@@ -17,25 +31,37 @@ import {
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     IonContent,
-    SideMenuComponent,
-    FormsModule
+    IonCard,
+    IonCardContent,
+    IonSelect,
+    IonSelectOption,
+    IonChip,
+    IonBadge,
+    IonButton,
+    SideMenuComponent
   ],
 })
-
 export class SolicitudesPendientesPage implements OnInit {
+
   usuarioAyudante = {
     id_usuario: 4
   };
 
+
   // Arreglo maestro sin alterar
   todasLasSolicitudes: SolicitudAyudantia[] = [];
 
+
   // Categorías para el selector
   categorias: any[] = [];
+
   categoriaSeleccionada: string = 'todas';
 
+
   solicitudesDisponibles: SolicitudAyudantia[] = [];
+
 
   constructor(
     private ayudantiaService: AyudantiaService,
@@ -43,56 +69,141 @@ export class SolicitudesPendientesPage implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
+
   ngOnInit() {
+
     this.cargarSolicitudes();
     this.cargarCategorias();
+
   }
- 
+
+
   cargarCategorias() {
-    this.ayudantiaService.obtenerCategorias().subscribe({
-      next: (data) => {
-        this.categorias = (data || []).filter(c => c.es_activo === true || c.esActivo === true);
-        this.cdr.markForCheck();
-      },
-      error: (e) => console.error('Error al cargar categorías:', e)
-    });
+
+    this.ayudantiaService
+      .obtenerCategorias()
+      .subscribe({
+
+        next: (data) => {
+
+          this.categorias = (data || []).filter(
+            c =>
+              c.es_activo === true ||
+              c.esActivo === true
+          );
+
+          this.cdr.markForCheck();
+
+        },
+
+        error: (e) =>
+          console.error(
+            'Error al cargar categorías:',
+            e
+          )
+
+      });
+
   }
+
 
   cargarSolicitudes() {
-    this.ayudantiaService.obtenerSolicitudesDisponibles().subscribe({
-      next: (data) => {
-        console.log("Arreglo que llega de las solicitudes", data)
-        this.todasLasSolicitudes = Array.isArray(data) ? [...data] : (data ? [data] : []);
-        this.filtrarPorCategoria(); // Aplica el filtro inicial
-        this.cdr.markForCheck();
-      },
-      error: (e) => console.error('Error cargando solicitudes:', e)
-    });
+
+    this.ayudantiaService
+      .obtenerSolicitudesDisponibles()
+      .subscribe({
+
+        next: (data) => {
+
+          console.log(
+            'Arreglo que llega de las solicitudes',
+            data
+          );
+
+          this.todasLasSolicitudes =
+            Array.isArray(data)
+              ? [...data]
+              : (data ? [data] : []);
+
+          this.filtrarPorCategoria();
+
+          this.cdr.markForCheck();
+
+        },
+
+        error: (e) =>
+          console.error(
+            'Error cargando solicitudes:',
+            e
+          )
+
+      });
+
   }
+
 
   filtrarPorCategoria() {
+
     if (this.categoriaSeleccionada === 'todas') {
-      this.solicitudesDisponibles = [...this.todasLasSolicitudes];
+
+      this.solicitudesDisponibles = [
+        ...this.todasLasSolicitudes
+      ];
+
     } else {
-      this.solicitudesDisponibles = this.todasLasSolicitudes.filter(
-        s => String((s as any).id_categoria) === String(this.categoriaSeleccionada)
-      );
+
+      this.solicitudesDisponibles =
+        this.todasLasSolicitudes.filter(
+
+          s =>
+            String((s as any).id_categoria) ===
+            String(this.categoriaSeleccionada)
+
+        );
+
     }
+
     this.cdr.markForCheck();
+
   }
 
-  aceptarSolicitud(solicitud: SolicitudAyudantia) {
+
+  aceptarSolicitud(
+    solicitud: SolicitudAyudantia
+  ) {
+
     this.ayudantiaService
-      .tomarSolicitud(solicitud.id_solicitud, this.usuarioAyudante.id_usuario)
+      .tomarSolicitud(
+        solicitud.id_solicitud,
+        this.usuarioAyudante.id_usuario
+      )
       .subscribe({
+
         next: () => {
-          this.solicitudesDisponibles = this.solicitudesDisponibles.filter(
-            (s) => s.id_solicitud !== solicitud.id_solicitud,
-          );
+
+          this.solicitudesDisponibles =
+            this.solicitudesDisponibles.filter(
+              s =>
+                s.id_solicitud !==
+                solicitud.id_solicitud
+            );
+
           this.filtrarPorCategoria();
-          this.router.navigate(['/ayudante/tabs/mis-ayudantias']);
+
+          this.router.navigate([
+            '/ayudante/tabs/mis-ayudantias'
+          ]);
+
         },
-        error: (e) => console.error('Error al aceptar solicitud:', e),
+
+        error: (e) =>
+          console.error(
+            'Error al aceptar solicitud:',
+            e
+          ),
+
       });
+
   }
+
 }

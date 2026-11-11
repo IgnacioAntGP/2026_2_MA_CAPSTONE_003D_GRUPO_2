@@ -37,11 +37,17 @@ class ConsultaController {
 
   async obtenerPorId(req, res) {
     const { id_consulta } = req.params;
+
+    // Validación defensiva para evitar que viaje un NaN o string vacío
+    if (!id_consulta || isNaN(Number(id_consulta))) {
+      return res.status(400).json({ error: 'El ID de la consulta proporcionado no es válido.' });
+    }
+
     try {
       const data = await consultaAdapter.obtenerPorId(id_consulta);
       return res.status(200).json(data);
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(err.statusCode || 500).json({ error: err.message });
     }
   }
 

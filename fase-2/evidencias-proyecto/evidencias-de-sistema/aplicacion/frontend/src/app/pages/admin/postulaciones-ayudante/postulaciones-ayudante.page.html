@@ -3,24 +3,21 @@
   <div class="page-container">
 
     <main class="page-content page-wide">
-      
-      <!-- VOLVER -->
-      <div class="page-header">
-
-        <button
-          class="back-button"
-          type="button"
-          routerLink="/panel-admin"
-        >
-          ← Volver
-        </button>
-
-      </div>
 
       <!-- ENCABEZADO -->
       <header class="admin-welcome">
 
         <div>
+
+          <ion-button
+            class="back-button"
+            type="button"
+            fill="clear"
+            routerLink="/panel-admin"
+          >
+            ← Volver
+          </ion-button>
+
           <span class="welcome-label">
             Gestión de ayudantes
           </span>
@@ -33,58 +30,74 @@
             Revisa las postulaciones de estudiantes que desean convertirse
             en ayudantes dentro de EntrePares.
           </p>
+
         </div>
 
         <app-side-menu></app-side-menu>
+
       </header>
 
 
       <!-- RESUMEN -->
-      <section class="page-card admin-summary">
+      <ion-card class="admin-summary">
 
-        <div class="summary-item">
+        <ion-card-content>
 
-          <strong>
-            {{ postulacionesPendientes.length }}
-          </strong>
+          <div class="summary-item">
 
-          <span>
-            Postulaciones pendientes
-          </span>
+            <strong>
+              {{ postulacionesPendientes.length }}
+            </strong>
 
-        </div>
+            <span>
+              Postulaciones pendientes
+            </span>
 
-      </section>
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
 
 
       <!-- CARGANDO -->
-      <section
+      <ion-card
         *ngIf="cargando"
-        class="page-card admin-message"
+        class="admin-message"
       >
 
-        <p>
-          Cargando postulaciones...
-        </p>
+        <ion-card-content>
 
-      </section>
+          <ion-spinner name="crescent"></ion-spinner>
+
+          <p>
+            Cargando postulaciones...
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
 
 
       <!-- SIN POSTULACIONES -->
-      <section
+      <ion-card
         *ngIf="!cargando && postulacionesPendientes.length === 0"
-        class="page-card admin-message"
+        class="admin-message"
       >
 
-        <h2>
-          No hay postulaciones pendientes
-        </h2>
+        <ion-card-content>
 
-        <p>
-          Actualmente no existen estudiantes esperando revisión.
-        </p>
+          <h2>
+            No hay postulaciones pendientes
+          </h2>
 
-      </section>
+          <p>
+            Actualmente no existen estudiantes esperando revisión.
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
 
 
       <!-- LISTADO -->
@@ -93,116 +106,181 @@
         class="postulaciones-section"
       >
 
-        <article
+        <ion-card
           *ngFor="let postulacion of postulacionesPendientes"
-          class="page-card postulacion-card"
+          class="postulacion-card"
         >
 
-          <!-- CABECERA -->
-          <div class="postulacion-header">
+          <ion-card-content>
 
-            <div>
 
-              <span class="postulacion-nombre">
-                {{ postulacion.usuario.nombre }}
-                {{ postulacion.usuario.apellido }}
-              </span>
+            <!-- IDENTIDAD DEL POSTULANTE -->
+            <div class="postulacion-header">
 
-              <span class="postulacion-correo">
-                {{ postulacion.usuario.correo }}
-              </span>
+              <div class="postulante-identidad">
+
+                <div class="postulante-avatar">
+
+                  {{
+                    (postulacion.usuario.nombre || 'E').charAt(0)
+                  }}
+
+                </div>
+
+
+                <div class="postulante-datos">
+
+                  <span class="postulacion-nombre">
+
+                    {{ postulacion.usuario.nombre }}
+                    {{ postulacion.usuario.apellido }}
+
+                  </span>
+
+                  <ion-note class="postulacion-correo">
+
+                    {{ postulacion.usuario.correo }}
+
+                  </ion-note>
+
+                  <span class="postulante-rol">
+                    Postulante a ayudante
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <ion-badge class="estado-badge">
+
+                {{ postulacion.estado }}
+
+              </ion-badge>
+
+            </div>
+
+
+            <!-- INFORMACIÓN GENERAL -->
+            <div class="postulacion-info">
+
+              <div class="info-item">
+
+                <span class="info-label">
+                  RUT
+                </span>
+
+                <span class="info-value">
+                  {{ postulacion.usuario.rut }}
+                </span>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <span class="info-label">
+                  Fecha de solicitud
+                </span>
+
+                <span class="info-value">
+                  {{
+                    postulacion.fecha_solicitud
+                      | date:'dd/MM/yyyy - HH:mm'
+                  }}
+                </span>
+
+              </div>
 
             </div>
 
 
-            <span class="estado-badge">
-              {{ postulacion.estado }}
-            </span>
+            <!-- MOTIVO -->
+            <div class="postulacion-block">
 
-          </div>
-
-
-          <!-- INFORMACIÓN -->
-          <div class="postulacion-info">
-
-            <div class="info-row">
-
-              <span class="info-label">
-                RUT
+              <span class="block-label">
+                Motivo de la postulación
               </span>
 
-              <span class="info-value">
-                {{ postulacion.usuario.rut }}
-              </span>
+              <div class="block-content">
+
+                <p>
+                  {{ postulacion.motivo }}
+                </p>
+
+              </div>
 
             </div>
 
 
-            <div class="info-row">
+            <!-- EXPERIENCIA -->
+            <div class="postulacion-block">
 
-              <span class="info-label">
-                Fecha de solicitud
+              <span class="block-label">
+                Experiencia
               </span>
 
-              <span class="info-value">
-                {{ postulacion.fecha_solicitud | date:'dd/MM/yyyy - HH:mm' }}
-              </span>
+              <div class="block-content">
+
+                <p>
+                  {{ postulacion.experiencia }}
+                </p>
+
+              </div>
 
             </div>
 
-          </div>
+            <!-- ESPECIALIDAD -->
+            <div class="postulacion-block">
+              <span class="block-label">
+                Especialidad / Asignatura
+              </span>
+              <div class="block-content">
+                @if (postulacion.asignatura) {
+                  <div class="especialidades-list">
+                    <div class="especialidad-item">
+                      <span class="asignatura-nombre">
+                        <strong>{{ postulacion.asignatura.nombre }}</strong> 
+                        <small>({{ postulacion.asignatura.codigo }})</small>
+                      </span>
+                      <ion-badge color="primary" class="nivel-badge">
+                        POSTULACIÓN
+                      </ion-badge>
+                    </div>
+                  </div>
+                } @else {
+                  <p class="text-muted">Sin asignatura seleccionada (Postulación general).</p>
+                }
+              </div>
+            </div>
 
 
-          <!-- MOTIVO -->
-          <div class="postulacion-block">
+            <!-- ACCIONES -->
+            <div class="postulacion-actions">
 
-            <span class="block-label">
-              Motivo de la postulación
-            </span>
-
-            <p>
-              {{ postulacion.motivo }}
-            </p>
-
-          </div>
-
-
-          <!-- EXPERIENCIA -->
-          <div class="postulacion-block">
-
-            <span class="block-label">
-              Experiencia
-            </span>
-
-            <p>
-              {{ postulacion.experiencia }}
-            </p>
-
-          </div>
+              <ion-button
+                class="reject-button"
+                type="button"
+                fill="outline"
+                (click)="rechazarPostulacion(postulacion)"
+              >
+                Rechazar
+              </ion-button>
 
 
-          <!-- ACCIONES -->
-          <div class="postulacion-actions">
+              <ion-button
+                class="approve-button"
+                type="button"
+                (click)="aprobarPostulacion(postulacion)"
+              >
+                Aprobar
+              </ion-button>
 
-            <button
-              class="reject-button"
-              type="button"
-              (click)="rechazarPostulacion(postulacion)"
-            >
-              Rechazar
-            </button>
+            </div>
 
-            <button
-              class="approve-button"
-              type="button"
-              (click)="aprobarPostulacion(postulacion)"
-            >
-              Aprobar
-            </button>
+          </ion-card-content>
 
-          </div>
-
-        </article>
+        </ion-card>
 
       </section>
 

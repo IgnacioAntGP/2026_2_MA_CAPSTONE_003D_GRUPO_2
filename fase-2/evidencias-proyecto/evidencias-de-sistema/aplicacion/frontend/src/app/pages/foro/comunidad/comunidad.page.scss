@@ -1,30 +1,79 @@
+/* =====================================================
+   COMUNIDAD - ENTREPARES
+   Primera propuesta de identidad visual
+   ===================================================== */
+
+   
+@use 'sass:color';
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+
+/* =========================
+   FONDO
+   ========================= */
+
+ion-content {
+  --background: #{$background};
+}
+
+
+.page-container {
+  background: $background;
+}
+
+
 /* =========================
    ENCABEZADO
    ========================= */
 
 .comunidad-header {
-  width: 100%;
-  margin: 0 auto 28px;
-
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  width: 100%;
+
+  margin: 0 auto 30px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
 
   h1 {
-    margin: 0 0 6px;
+    margin: 0 0 7px;
 
-    font-size: 32px;
+    color: $text-primary;
+
+    font-size: 34px;
     font-weight: 700;
 
-    color: #1f2937;
-
-    letter-spacing: -0.4px;
+    letter-spacing: -0.6px;
   }
 
   p {
     margin: 0;
 
-    color: #6b7280;
+    color: $text-secondary;
 
     font-size: 15px;
     line-height: 1.5;
@@ -33,71 +82,90 @@
 
 
 /* =========================
-   BÚSQUEDA Y NUEVA PUBLICACIÓN
+   BÚSQUEDA Y PUBLICACIÓN
    ========================= */
 
 .comunidad-actions {
-  margin: 0 auto 18px;
-
   display: flex;
+  align-items: center;
+
   gap: 12px;
 
-  input {
-    flex: 1;
-    min-width: 0;
-
-    padding: 14px 16px;
-
-    border: 1px solid #dbe1ea;
-    border-radius: 10px;
-
-    background: #ffffff;
-
-    color: #1f2937;
-
-    font-size: 15px;
-
-    outline: none;
-
-    box-sizing: border-box;
-
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  input::placeholder {
-    color: #9ca3af;
-  }
-
-  input:focus {
-    border-color: #3880ff;
-
-    box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.1);
-  }
+  margin: 0 auto 18px;
 }
 
-.new-post-button {
-  width: auto;
 
-  flex-shrink: 0;
+.searchbar {
+  flex: 1;
 
-  padding-left: 20px;
-  padding-right: 20px;
+  min-width: 0;
 
-  white-space: nowrap;
+  padding: 0;
 
-  box-shadow: 0 3px 8px rgba(56, 128, 255, 0.18);
+  --background: #{$surface};
+
+  --border-radius: 10px;
+
+  --box-shadow: none;
+
+  --color: #{$text-primary};
+
+  --placeholder-color: #{$text-muted};
+
+  --icon-color: #{$secondary};
+
+  --cancel-button-color: #{$primary};
+
+  border: 1px solid $border;
+  border-radius: 10px;
 
   transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
 }
 
-.new-post-button:hover {
-  transform: translateY(-1px);
 
-  box-shadow: 0 5px 12px rgba(56, 128, 255, 0.22);
+.searchbar:focus-within {
+  border-color: rgba($primary, 0.65);
+
+  box-shadow:
+    0 0 0 3px
+    rgba($primary, 0.08);
+}
+
+
+.new-post-button {
+  flex-shrink: 0;
+
+  min-height: 46px;
+
+  margin: 0;
+
+  --background: #{$primary};
+
+  --background-hover: #{color.adjust($primary, $lightness: -5%)};
+
+  --background-activated:
+    #{color.adjust($primary, $lightness: -8%)};
+
+  --background-focused:
+    #{color.adjust($primary, $lightness: -5%)};
+
+  --ripple-color:
+    rgba(255, 255, 255, 0.25);
+
+  --color: #ffffff;
+
+  --border-radius: 9px;
+
+  --box-shadow: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+
+  white-space: nowrap;
 }
 
 
@@ -105,80 +173,120 @@
    FILTROS
    ========================= */
 
-.filters {
-  margin: 0 auto 22px;
-
+.community-filters {
   display: flex;
-  gap: 8px;
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 0 auto 24px;
 }
 
-.filter {
-  padding: 8px 14px;
 
-  border: 1px solid #dbe1ea;
-  border-radius: 20px;
+.subject-select {
+  width: auto;
+  min-width: 190px;
+  min-height: 38px;
 
-  background: #ffffff;
+  --background: #{$surface};
 
-  color: #4b5563;
+  --border-color: #{$border};
+  --border-radius: 9px;
+  --border-width: 1px;
+
+  --highlight-color-focused: #{$primary};
+
+  color: $text-secondary;
+
+  font-size: 13px;
+
+  padding-left: 12px;
+  padding-right: 10px;
+
+  border: 1px solid $border;
+  border-radius: 9px;
+}
+
+
+.unanswered-filter {
+  min-height: 38px;
+
+  margin: 0;
+
+  --background: #{$surface};
+
+  --background-hover: #{$primary-soft};
+
+  --background-activated: #{$primary-soft};
+
+  --background-focused: #{$primary-soft};
+
+  --border-color: #{$border};
+
+  --border-radius: 9px;
+
+  --color: #{$text-secondary};
+
+  --ripple-color:
+    rgba($primary, 0.12);
+
+  --box-shadow: none;
 
   font-size: 13px;
   font-weight: 500;
 
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease;
+  text-transform: none;
 }
 
-.filter:hover {
-  border-color: #b8c7df;
 
-  background: #f8fafc;
-}
+.unanswered-filter.active {
+  --background: #{$primary-soft};
 
-.filter.active {
-  border-color: #3880ff;
+  --background-hover: #{$primary-soft};
 
-  background: #3880ff;
+  --background-activated: #{$primary-soft};
 
-  color: #ffffff;
+  --background-focused: #{$primary-soft};
 
-  box-shadow: 0 2px 7px rgba(56, 128, 255, 0.18);
+  --border-color: #{$primary};
+
+  --color: #{$primary};
+
+  font-weight: 600;
 }
 
 
 /* =========================
-   LISTADO DE CONSULTAS
+   LISTADO
    ========================= */
 
 .consultas {
-  margin: 0 auto;
-
   display: flex;
   flex-direction: column;
 
-  gap: 14px;
+  gap: 12px;
+
+  margin: 0 auto;
 }
 
 
 /* =========================
-   TARJETA DE CONSULTA
+   TARJETA
    ========================= */
 
 .consulta-card {
-  position: relative;
+  width: 100%;
 
-  padding: 22px;
+  margin: 0;
 
-  border: 1px solid #edf0f5;
-  border-radius: 14px;
+  --background: #{$surface};
 
-  background: #ffffff;
+  border: 1px solid $border;
+  border-radius: 12px;
 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.045);
+  box-shadow:
+    0 1px 3px
+    rgba(37, 35, 33, 0.035);
 
   cursor: pointer;
 
@@ -187,37 +295,47 @@
     box-shadow 0.16s ease,
     border-color 0.16s ease;
 
-  h2 {
-    margin: 13px 0 8px;
-
-    color: #1f2937;
-
-    font-size: 19px;
-    font-weight: 600;
-    line-height: 1.4;
+  ion-card-content {
+    padding: 21px 22px;
   }
 
-  p {
-    margin: 0 0 18px;
+  h2 {
+    margin: 14px 0 8px;
 
-    color: #6b7280;
+    color: $text-primary;
 
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 19px;
+    font-weight: 650;
+    line-height: 1.4;
+
+    letter-spacing: -0.15px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+
+    border-color:
+      rgba($primary, 0.38);
+
+    box-shadow:
+      0 5px 14px
+      rgba(37, 35, 33, 0.06);
   }
 }
 
-.consulta-card:hover {
-  transform: translateY(-2px);
 
-  border-color: #dbe5f4;
+.consulta-descripcion {
+  margin: 0 0 18px;
 
-  box-shadow: 0 6px 18px rgba(31, 41, 55, 0.08);
+  color: $text-secondary;
+
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 
 /* =========================
-   CABECERA DE TARJETA
+   CABECERA CONSULTA
    ========================= */
 
 .consulta-header,
@@ -229,38 +347,76 @@
   gap: 12px;
 }
 
-.asignatura {
-  padding: 5px 10px;
 
-  border-radius: 20px;
+.asignatura-chip {
+  height: 28px;
 
-  background: #eef4ff;
+  margin: 0;
 
-  color: #3880ff;
+  --background: #{$secondary-soft};
+  --color: #{$secondary};
 
   font-size: 12px;
   font-weight: 700;
 }
 
+
 .fecha {
-  color: #9ca3af;
+  color: $text-muted;
 
   font-size: 12px;
 }
 
 
 /* =========================
-   PIE DE TARJETA
+   PIE CONSULTA
    ========================= */
 
 .consulta-footer {
   padding-top: 14px;
 
-  border-top: 1px solid #f0f2f5;
+  border-top:
+    1px solid rgba($border, 0.75);
 
-  color: #8b95a5;
+  ion-note {
+    color: $text-muted;
 
-  font-size: 12px;
+    font-size: 12px;
+  }
+}
+
+
+/* =========================
+   SIN RESULTADOS
+   ========================= */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 36px 20px;
+
+  color: $text-secondary;
+
+  text-align: center;
+
+  strong {
+    color: $text-primary;
+
+    font-size: 15px;
+  }
+
+  span {
+    max-width: 360px;
+
+    color: $text-muted;
+
+    font-size: 13px;
+    line-height: 1.5;
+  }
 }
 
 
@@ -271,34 +427,45 @@
 @media (max-width: 600px) {
 
   .comunidad-header {
-    align-items: flex-start;
 
     h1 {
-      font-size: 28px;
+      font-size: 29px;
     }
+
   }
 
+
   .comunidad-actions {
+    align-items: stretch;
     flex-direction: column;
   }
+
 
   .new-post-button {
     width: 100%;
   }
 
-  .filters {
-    overflow-x: auto;
 
-    padding-bottom: 2px;
+  .community-filters {
+    align-items: stretch;
+    flex-direction: column;
   }
 
-  .filter {
-    flex-shrink: 0;
+
+  .subject-select,
+  .unanswered-filter {
+    width: 100%;
   }
+
 
   .consulta-card {
-    padding: 18px;
+
+    ion-card-content {
+      padding: 18px;
+    }
+
   }
+
 
   .consulta-header,
   .consulta-footer {

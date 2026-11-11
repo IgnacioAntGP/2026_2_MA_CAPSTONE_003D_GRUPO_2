@@ -1,32 +1,47 @@
-# ===
-# 1. Dependencias locales y gestores
-# === 
-# Generado por npm install
+# ==========================================
+# 1. Dependencias locales y gestores (Node)
+# ==========================================
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+typings
 
 # ==========================================
-# 2. Compilados y artefactos de build
+# 2. Compilados, Builds y Cachés
 # ==========================================
-/dist/
-/www/
-/.angular/cache/
+dist/
+www/
+tmp/
 .tmp/
+*.tmp
+*.tmp.*
 out-tsc/
 bazel-out/
+.angular/
+.angular/cache/
+.sass-cache/
+.nx/
+.nx/cache
+app/vite/
+app/.tsbuildinfo
+.sourcemaps
+.versions
+coverage/
+.nyc_output/
+karma-debug.log
+testem.log
+libpeerconnection.log
+connect.lock
 
 # ==========================================
-# 3. Ionic y Capacitor
+# 3. Ionic, Capacitor y Móvil
 # ==========================================
 .ionic/
 .capacitor/
-
-# ==========================================
-# 3. Carpetas para desarrollo mobile
-# ==========================================
+platforms/
+plugins/
 capacitor.config.json.bak
 android/app/build/
 android/.gradle/
@@ -37,33 +52,58 @@ ios/App/Pods/
 ios/App/Podfile.lock
 
 # ==========================================
-# 4. Pruebas y Cobertura de Código
+# 4. Entorno y Credenciales
 # ==========================================
-/coverage/
-.nyc_output/
-karma-debug.log
-
-# ==========================================
-# 5. Entorno y Credenciales
-# ==========================================
-# Variables de entorno con llaves API o secretos
 .env
 .env.local
 .env.production
 
 # ==========================================
-# 6. Configuraciones de IDE y Sistema Operativo
+# 5. Configuraciones de IDEs y Editores
 # ==========================================
-.vscode/
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# VS Code (permitiendo configuraciones recomendadas)
+.vscode
+#!.vscode/settings.json
+#!.vscode/tasks.json
+#!.vscode/launch.json
+#!.vscode/extensions.json
+#.history/*
+
+
+# IntelliJ, Eclipse y otros
 .idea/
-*.swp
+.project
+.classpath
+.c9/
+*.launch
+.settings/
 *.sublime-project
 *.sublime-workspace
 .workspace_EntrePares.code-workspace
+
+# Formateadores
+.prettierrc
+.prettierignore
+
+# ==========================================
+# 6. Misceláneos, Editores y Sistema Operativo
+# ==========================================
+*~
+*.swp
+*.swn
+*.swo
+*.swn
+*.swm
+*.swc
+*.swo
+*.swp
+*.sublime-project
+*.sublime-workspace
+UserInterfaceState.xcuserstate
+$RECYCLE.BIN/
+
+*.log
+log.txt
 
 # Basura de sistemas operativos
 Thumbs.db

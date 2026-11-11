@@ -1,7 +1,14 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
+import {
+  IonContent,
+  IonButton,
+  IonInput,
+  IonSelect,
+  IonSelectOption,
+  IonTextarea
+} from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
@@ -12,14 +19,19 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   selector: 'app-nueva-publicacion',
   templateUrl: './nueva-publicacion.page.html',
   styleUrls: ['./nueva-publicacion.page.scss'],
-  standalone:true,
+  standalone: true,
   imports: [
     IonContent,
+    IonButton,
+    IonInput,
+    IonSelect,
+    IonSelectOption,
+    IonTextarea,
     CommonModule,
     FormsModule,
     RouterLink,
     SideMenuComponent
-]
+  ]
 })
 export class NuevaPublicacionPage implements OnInit {
 

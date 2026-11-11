@@ -1,8 +1,18 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
-import { RouterLink } from '@angular/router';
+import {
+  IonContent,
+  IonButton,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonChip,
+  IonBadge,
+  IonNote,
+} from '@ionic/angular';
+
+import { RouterLink, Router } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { MisTutoria } from '../../../models/IMisTutorias';
@@ -13,17 +23,23 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
   selector: 'app-mis-tutorias',
   templateUrl: './mis-tutorias.page.html',
   styleUrls: ['./mis-tutorias.page.scss'],
-  standalone:true,
+  standalone: true,
   imports: [
     IonContent,
+    IonButton,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonChip,
+    IonBadge,
+    IonNote,
     CommonModule,
-    FormsModule,
     RouterLink,
-    SideMenuComponent
-]
+    SideMenuComponent,
+  ],
 })
 export class MisTutoriasPage implements OnInit {
-
   tutorias: MisTutoria[] = [];
 
   // Temporal hasta implementar login real
@@ -31,61 +47,76 @@ export class MisTutoriasPage implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private cdr: ChangeDetectorRef,
-    private ayudantiaService: AyudantiaService
-  ) { }
+    private ayudantiaService: AyudantiaService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.cargarMisTutorias();
   }
 
   cargarMisTutorias() {
-
     this.ticketService.obtenerMisTutorias(this.idUsuarioActual).subscribe({
       next: (data) => {
-
         this.tutorias = data;
 
         this.cdr.markForCheck();
 
         console.log('Mis tutorías:', data);
       },
+
       error: (error) => {
         console.error('Error al cargar mis tutorías:', error);
-      }
+      },
     });
   }
 
   aceptarAyudante(idSolicitud: number) {
     this.ayudantiaService.confirmarAyudante(idSolicitud).subscribe({
       next: () => {
-        // Actualizamos localmente el estado a ACEPTADA para renderizar el botón de contacto
-        const item = this.tutorias.find(t => t.id_solicitud === idSolicitud);
+        const item = this.tutorias.find((tutoria) => tutoria.id_solicitud === idSolicitud);
+
         if (item) {
           item.estado_solicitud = 'ACEPTADA';
+
           this.cdr.markForCheck();
         }
       },
-      error: (err) => console.error('Error al aceptar ayudante:', err)
+
+      error: (error) => {
+        console.error('Error al aceptar ayudante:', error);
+      },
     });
   }
 
   rechazarAyudante(idSolicitud: number) {
     this.ayudantiaService.rechazarAyudante(idSolicitud).subscribe({
       next: () => {
-        // Regresa a PENDIENTE y retira al ayudante
-        const item = this.tutorias.find(t => t.id_solicitud === idSolicitud);
+        const item = this.tutorias.find((tutoria) => tutoria.id_solicitud === idSolicitud);
+
         if (item) {
           item.estado_solicitud = 'PENDIENTE';
           item.ayudante = null;
+
           this.cdr.markForCheck();
         }
       },
-      error: (err) => console.error('Error al rechazar ayudante:', err)
+
+      error: (error) => {
+        console.error('Error al rechazar ayudante:', error);
+      },
     });
   }
 
-  contactoDirecto(tutoria: MisTutoria) {
-    console.log('Contacto directo activado con el ayudante:', tutoria.ayudante);
+  verMiAyudantia(tutoria: MisTutoria) {
+    const idAyudantia = tutoria.ayudantia?.id_ayudantia;
+
+    if (idAyudantia) {
+      // Navega a la ruta definida en la solución enviando el ID por URL
+      this.router.navigate([`/gestion-ayudantia`, idAyudantia]);
+    } else {
+      console.warn('La tutoría aún no tiene una ayudantía asociada o el ID no está disponible.');
+    }
   }
 }

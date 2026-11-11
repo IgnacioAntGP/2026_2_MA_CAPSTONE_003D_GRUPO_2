@@ -1,6 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
+
 import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SolicitudAyudantia } from '../../../models/ISolicitudAyudantia';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
@@ -12,7 +14,11 @@ import {
   IonTitle,
   IonButtons,
   IonModal,
-  IonButton
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonChip,
+  IonBadge,
 } from '@ionic/angular';
 
 @Component({
@@ -30,18 +36,25 @@ import {
     IonTitle,
     IonButtons,
     IonButton,
-    SideMenuComponent
+    IonCard,
+    IonCardContent,
+    IonChip,
+    IonBadge,
+    SideMenuComponent,
   ],
 })
 export class MisAyudantiasPage implements OnInit {
   idUsuarioAyudante = 4;
+
   misAyudantias: SolicitudAyudantia[] = [];
 
   isModalSesionOpen: boolean = false;
+
   ayudantiaEnSesion: SolicitudAyudantia | null = null;
 
-  constructor (
-    private ayudantiaService: AyudantiaService, 
+  constructor(
+    private ayudantiaService: AyudantiaService,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -54,19 +67,20 @@ export class MisAyudantiasPage implements OnInit {
   }
 
   cargarMisAyudantias() {
-    this.ayudantiaService
-      .obtenerMisAyudantias(this.idUsuarioAyudante)
-      .subscribe({
-        next: (data) => {
-          this.misAyudantias = data;
-          this.cdr.markForCheck();
-        },
-        error: (e) => console.error('Error mis ayudantias:', e),
-      });
+    this.ayudantiaService.obtenerMisAyudantias(this.idUsuarioAyudante).subscribe({
+      next: (data) => {
+        this.misAyudantias = data;
+
+        this.cdr.markForCheck();
+      },
+
+      error: (e) => console.error('Error mis ayudantias:', e),
+    });
   }
 
   abrirVentanaSesion(ayudantia: SolicitudAyudantia) {
     this.ayudantiaEnSesion = ayudantia;
+
     this.isModalSesionOpen = true;
   }
 
@@ -74,22 +88,34 @@ export class MisAyudantiasPage implements OnInit {
     this.isModalSesionOpen = false;
   }
 
+  @ViewChild('modalAyudantia') modalAyudantia!: IonModal;
+  async irAGestionActividades(idSolicitud: number | undefined) {
+    if (!idSolicitud) return;
+
+    await this.modalAyudantia.dismiss();
+
+    this.router.navigate(['/gestion-ayudantia', idSolicitud]);
+  }
+
   cerrarCaso(estadoFinal: 'resuelta' | 'escalada') {
-    if (!this.ayudantiaEnSesion) return;
+    if (!this.ayudantiaEnSesion) {
+      return;
+    }
 
     if (estadoFinal === 'resuelta') {
-      this.ayudantiaService
-        .resolverSolicitud(this.ayudantiaEnSesion.id_solicitud)
-        .subscribe({
-          next: () => {
-            if (this.ayudantiaEnSesion) {
-              this.ayudantiaEnSesion.estado = 'RESUELTA';
-            }
-            this.cerrarVentanaSesion();
-            this.cargarMisAyudantias();
-          },
-          error: (e) => console.error('Error al resolver la ayudantía:', e),
-        });
+      this.ayudantiaService.resolverSolicitud(this.ayudantiaEnSesion.id_solicitud).subscribe({
+        next: () => {
+          if (this.ayudantiaEnSesion) {
+            this.ayudantiaEnSesion.estado = 'RESUELTA';
+          }
+
+          this.cerrarVentanaSesion();
+
+          this.cargarMisAyudantias();
+        },
+
+        error: (e) => console.error('Error al resolver la ayudantía:', e),
+      });
     } else {
       this.cerrarVentanaSesion();
     }

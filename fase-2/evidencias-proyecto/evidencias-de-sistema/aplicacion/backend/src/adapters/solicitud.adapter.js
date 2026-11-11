@@ -1,21 +1,40 @@
 const supabase = require('../config/supabase');
+const {
+  CrearSolicitudAyudantiaAskDTO,
+  TomarSolicitudAyudantiaAskDTO
+} = require('../dtos/solicitud/solicitud.ask.dto');
+const {
+  ObtenerSolicitudDisponibleResolveDTO,
+  ObtenerSolicitudEstudianteResolveDTO
+} = require('../dtos/solicitud/solicitud.resolve.dto');
+const ayudantiaAdapter = require('./ayudantia.adapter.js');
+
 
 class SolicitudAdapter {
+
   // 7. Solicitar ayudantía
-  async crearSolicitud({ id_consulta, id_categoria, modalidad, motivo }) {
+  async crearSolicitud(body) {
+    const inputDTO = new CrearSolicitudAyudantiaAskDTO(body);
+
     const { data, error } = await supabase
       .from('solicitud_ayudantia')
-      .insert([{
-        id_consulta,
-        id_categoria,
-        modalidad,
-        motivo,
-        estado: 'PENDIENTE'
-      }])
+      .insert([
+        {
+          id_consulta: inputDTO.id_consulta,
+          id_categoria: inputDTO.id_categoria,
+          modalidad: inputDTO.modalidad,
+          motivo: inputDTO.motivo,
+          estado: 'PENDIENTE'
+        }
+      ])
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error('Error devuelto por Supabase:', error);
+      throw error;
+    }
+
     return data;
   }
 
@@ -23,7 +42,8 @@ class SolicitudAdapter {
   async obtenerPorEstudiante(id_usuario) {
     const { data, error } = await supabase
       .from('solicitud_ayudantia')
-      .select(`
+      .select(
+        `
         id_solicitud,
         modalidad,
         fecha_solicitud,
@@ -46,7 +66,8 @@ class SolicitudAdapter {
           estado,
           observaciones
         )
-      `)
+      `
+      )
       .eq('consulta.id_usuario', id_usuario)
       .order('fecha_solicitud', { ascending: false });
 
@@ -65,16 +86,17 @@ class SolicitudAdapter {
         ? `${item.ayudante.usuario?.nombre ?? ''} ${item.ayudante.usuario?.apellido ?? ''}`.trim()
         : null,
       ayudantia: Array.isArray(item.ayudantia)
-        ? item.ayudantia[0] ?? null
-        : item.ayudantia ?? null
+        ? (item.ayudantia[0] ?? null)
+        : (item.ayudantia ?? null)
     }));
   }
 
-  // 11. Vista Ayudante - Solicitudes Disponibles: Obtener solicitudes sin ayudante asignado
+  // 11. Vista Ayudante - Solicitudes Disponibles
   async obtenerDisponibles(id_categoria = null) {
     let selectSolicitudes = supabase
       .from('solicitud_ayudantia')
-      .select(`
+      .select(
+        `
         id_solicitud,
         id_consulta,
         id_categoria,
@@ -92,20 +114,22 @@ class SolicitudAdapter {
           usuario ( nombre, apellido ),
           asignatura ( nombre )
         )
-      `)
+      `
+      )
       .eq('estado', 'PENDIENTE')
       .is('id_ayudante', null);
 
-    const Cat = Number(id_categoria);
-      if (
-        id_categoria &&
-        id_categoria !== 'todas' &&
-        id_categoria !== 'null' &&
-        id_categoria !== 'undefined' &&
-        !isNaN(Cat)
-      ) {
-        selectSolicitudes = selectSolicitudes.eq('id_categoria', Cat);
-      }
+    const categoriaId = Number(id_categoria);
+
+    if (
+      id_categoria &&
+      id_categoria !== 'todas' &&
+      id_categoria !== 'null' &&
+      id_categoria !== 'undefined' &&
+      !isNaN(categoriaId)
+    ) {
+      selectSolicitudes = selectSolicitudes.eq('id_categoria', categoriaId);
+    }
 
     const { data, error } = await selectSolicitudes.order('fecha_solicitud', { ascending: true });
 
@@ -121,8 +145,8 @@ class SolicitudAdapter {
       titulo_duda: item.consulta?.titulo || null,
       descripcion_duda: item.motivo || item.consulta?.descripcion || null,
       estado: item.estado || 'PENDIENTE',
-      estudiante: item.consulta?.usuario 
-        ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim() 
+      estudiante: item.consulta?.usuario
+        ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
         : 'Estudiante',
       fecha_solicitud: item.fecha_solicitud
     }));
@@ -139,57 +163,82 @@ class SolicitudAdapter {
       .eq('id_solicitud', id_solicitud)
       .eq('estado', 'PENDIENTE')
       .is('id_ayudante', null)
-      .select()
+      .select(`
+        id_solicitud,
+        id_consulta,
+        id_ayudante,
+        modalidad,
+        fecha_solicitud,
+        estado,
+        motivo,
+        id_categoria,
+
+        consulta (
+          id_usuario,
+          titulo
+        ),
+
+        ayudante (
+          id_usuario,
+          usuario (
+            nombre,
+            apellido
+          )
+        )
+      `)
       .maybeSingle();
 
     if (error) throw error;
+
     return data;
   }
 
   // 13. Aceptar Ayudante y Crear Ayudantía
   async aceptarAyudante(id_solicitud) {
     const { data: solicitud, error: errorSolicitud } = await supabase
-      .from('solicitud_ayudantia')
-      .select('*')
-      .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'EN_PROCESO')
-      .not('id_ayudante', 'is', null)
-      .maybeSingle();
+        .from('solicitud_ayudantia')
+        .select('*')
+        .eq('id_solicitud', id_solicitud)
+        .eq('estado', 'EN_PROCESO')
+        .not('id_ayudante', 'is', null)
+        .maybeSingle();
 
     if (errorSolicitud) throw errorSolicitud;
     if (!solicitud) return { noDisponible: true };
 
     const { data: solicitudActualizada, error: errorActualizar } = await supabase
-      .from('solicitud_ayudantia')
-      .update({ estado: 'ACEPTADA' })
-      .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'EN_PROCESO')
-      .select()
-      .single();
+        .from('solicitud_ayudantia')
+        .update({ estado: 'ACEPTADA' })
+        .eq('id_solicitud', id_solicitud)
+        .eq('estado', 'EN_PROCESO')
+        .select()
+        .single();
 
     if (errorActualizar) throw errorActualizar;
 
-    const { data: ayudantia, error: errorAyudantia } = await supabase
-      .from('ayudantia')
-      .insert({
-        id_solicitud: Number(id_solicitud),
-        fecha_inicio: new Date().toISOString(),
-        estado: 'ACEPTADA',
-        observaciones: null
-      })
-      .select()
-      .single();
+    try {
+        const resultadoAyudantia = await ayudantiaAdapter.guardarAyudantia({
+            id_solicitud: id_solicitud,
+            fecha_inicio: new Date().toISOString(),
+            estado: 'ACEPTADA',
+            observaciones: null
+        });
 
-    if (errorAyudantia) {
-      await supabase
-        .from('solicitud_ayudantia')
-        .update({ estado: 'EN_PROCESO' })
-        .eq('id_solicitud', id_solicitud);
-      throw errorAyudantia;
+        return {
+            solicitud: solicitudActualizada,
+            ayudantia: resultadoAyudantia.ayudantia,
+            mensaje: "Ayudantía creada con éxito"
+        };
+
+    } catch (errorAyudantia) {
+        await supabase
+            .from('solicitud_ayudantia')
+            .update({ estado: 'EN_PROCESO' })
+            .eq('id_solicitud', id_solicitud);
+
+        throw errorAyudantia;
     }
-
-    return { solicitud: solicitudActualizada, ayudantia };
-  }
+  };
 
   // 14. Rechazar Ayudante
   async rechazarAyudante(id_solicitud) {
@@ -260,13 +309,17 @@ class SolicitudAdapter {
           fecha_fin: null
         })
         .eq('id_ayudantia', ayudantiaActual.id_ayudantia);
+
       throw errorResolver;
     }
 
-    return { solicitud: solicitudResuelta, ayudantia: ayudantiaFinalizada };
+    return {
+      solicitud: solicitudResuelta,
+      ayudantia: ayudantiaFinalizada
+    };
   }
 
-    // Helper para resolver perfil de ayudante por usuario
+  // Helper para resolver perfil de ayudante por usuario
   async obtenerAyudantePorUsuario(id_usuario) {
     const { data, error } = await supabase
       .from('ayudante')
@@ -281,11 +334,13 @@ class SolicitudAdapter {
   // 16. Mis Ayudantías (por ayudante)
   async obtenerPorAyudante(id_usuario) {
     const perfil = await this.obtenerAyudantePorUsuario(id_usuario);
+
     if (!perfil) return [];
 
     const { data, error } = await supabase
       .from('solicitud_ayudantia')
-      .select(`
+      .select(
+        `
         id_solicitud,
         modalidad,
         fecha_solicitud,
@@ -297,7 +352,8 @@ class SolicitudAdapter {
           asignatura ( nombre ),
           usuario ( nombre, apellido )
         )
-      `)
+      `
+      )
       .eq('id_ayudante', perfil.id_ayudante)
       .in('estado', ['EN_PROCESO', 'ACEPTADA'])
       .order('fecha_solicitud', { ascending: false });

@@ -1,154 +1,966 @@
-<!-- Botón del menu -->
-    <button
-      class="menu-button"
+<!-- ACCIONES DEL ENCABEZADO -->
+<div class="header-actions">
+
+  <!-- NOTIFICACIONES -->
+  <div class="notification-wrapper">
+
+    <ion-button
+      class="notification-button"
       type="button"
-      (click)="menuAbierto = !menuAbierto"
+      fill="outline"
+      aria-label="Notificaciones"
+      [attr.aria-expanded]="notificacionesAbiertas"
+      (click)="alternarNotificaciones()"
     >
-      ☰
-    </button>
+      <ion-icon
+        name="notifications-outline"
+      ></ion-icon>
+    </ion-button>
 
-    <!-- OVERLAY DEL MENÚ -->
+    <span
+      class="notification-badge"
+      *ngIf="noLeidas > 0"
+    >
+      {{ noLeidas > 99 ? '99+' : noLeidas }}
+    </span>
+
+  </div>
+
+
+  <!-- BOTÓN DEL MENÚ -->
+  <ion-button
+    class="menu-button"
+    type="button"
+    fill="outline"
+    aria-label="Abrir menú"
+    (click)="alternarMenu()"
+  >
+    <ion-icon
+      name="menu-outline"
+    ></ion-icon>
+  </ion-button>
+
+</div>
+
+
+<!-- =====================================================
+     OVERLAY NOTIFICACIONES
+     ===================================================== -->
+
+<div
+  class="notification-overlay"
+  *ngIf="notificacionesAbiertas"
+  (click)="cerrarNotificaciones()"
+></div>
+
+
+<!-- =====================================================
+     PANEL DE NOTIFICACIONES
+     ===================================================== -->
+
+<section
+  class="notification-panel"
+  *ngIf="notificacionesAbiertas"
+>
+
+  <div class="notification-panel-header">
+
+    <div>
+
+      <span class="notification-eyebrow">
+        EntrePares
+      </span>
+
+      <h2>
+        Notificaciones
+      </h2>
+
+    </div>
+
+
+    <ion-button
+      type="button"
+      class="close-notification-button"
+      fill="clear"
+      aria-label="Cerrar notificaciones"
+      (click)="cerrarNotificaciones()"
+    >
+      <ion-icon
+        name="close-outline"
+      ></ion-icon>
+    </ion-button>
+
+  </div>
+
+
+  <div class="notification-panel-content">
+
+
+    <!-- CARGANDO -->
     <div
-      class="menu-overlay"
-      *ngIf="menuAbierto"
-      (click)="menuAbierto = false"
-    ></div>
+      class="notification-state"
+      *ngIf="cargandoNotificaciones"
+    >
+      <p>
+        Cargando notificaciones...
+      </p>
+    </div>
 
 
-    <!-- MENÚ LATERAL -->
-    <aside
-      class="side-menu"
-      *ngIf="menuAbierto"
+    <!-- ERROR -->
+    <div
+      class="notification-state notification-error"
+      *ngIf="
+        !cargandoNotificaciones &&
+        errorNotificaciones
+      "
     >
 
-      <div class="side-menu-header">
-
-        <h2>Menú</h2>
-
-        <button
-          type="button"
-          class="close-menu-button"
-          (click)="menuAbierto = false"
-        >
-          ×
-        </button>
-
+      <div class="notification-empty-icon">
+        <ion-icon
+          name="notifications-outline"
+        ></ion-icon>
       </div>
 
+      <strong>
+        No pudimos cargar tus notificaciones
+      </strong>
 
-      <!-- MI ACTIVIDAD -->
-      <div class="menu-section">
+      <p>
+        Revisa la conexión con el servidor e inténtalo nuevamente.
+      </p>
 
-        <span class="menu-section-title">
-          Mi actividad
+    </div>
+
+
+    <!-- SIN NOTIFICACIONES -->
+    <div
+      class="notification-state"
+      *ngIf="
+        !cargandoNotificaciones &&
+        !errorNotificaciones &&
+        notificaciones.length === 0
+      "
+    >
+
+      <div class="notification-empty-icon">
+        <ion-icon
+          name="notifications-outline"
+        ></ion-icon>
+      </div>
+
+      <strong>
+        Sin notificaciones
+      </strong>
+
+      <p>
+        Cuando tengas novedades aparecerán aquí.
+      </p>
+
+    </div>
+
+
+    <!-- LISTADO -->
+    <div
+      class="notification-list"
+      *ngIf="
+        !cargandoNotificaciones &&
+        !errorNotificaciones &&
+        notificaciones.length > 0
+      "
+    >
+
+      <article
+        class="notification-item"
+        *ngFor="let notificacion of notificaciones"
+        [class.notification-unread]="!notificacion.leida"
+        role="button"
+        tabindex="0"
+        (click)="seleccionarNotificacion(notificacion)"
+        (keydown.enter)="seleccionarNotificacion(notificacion)"
+      >
+
+        <div class="notification-item-top">
+
+
+          <!-- ICONO -->
+          <div class="notification-icon">
+
+            <ion-icon
+              name="notifications-outline"
+            ></ion-icon>
+
+          </div>
+
+
+          <!-- CONTENIDO -->
+          <div class="notification-item-content">
+
+
+            <div class="notification-title-row">
+
+              <strong>
+                {{ notificacion.titulo }}
+              </strong>
+
+              <span
+                class="unread-dot"
+                *ngIf="!notificacion.leida"
+              ></span>
+
+            </div>
+
+
+            <p>
+              {{ notificacion.mensaje }}
+            </p>
+
+
+            <!-- CONTEXTO -->
+            <div class="notification-context">
+
+              <span
+                *ngIf="
+                  obtenerAsignatura(notificacion)
+                    as asignatura
+                "
+              >
+                {{ asignatura }}
+              </span>
+
+
+              <span
+                *ngIf="
+                  obtenerTituloConsulta(notificacion)
+                    as tituloConsulta
+                "
+              >
+                {{ tituloConsulta }}
+              </span>
+
+            </div>
+
+
+            <!-- FECHA -->
+            <span class="notification-date">
+              {{
+                notificacion.fecha_creacion
+                  | date:'dd/MM/yyyy · HH:mm'
+              }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     OVERLAY PERFIL AYUDANTE
+     ===================================================== -->
+
+<div
+  class="helper-profile-overlay"
+  *ngIf="perfilAyudanteAbierto"
+  (click)="cerrarPerfilAyudante()"
+></div>
+
+
+<!-- =====================================================
+     FICHA DEL AYUDANTE
+     ===================================================== -->
+
+<section
+  class="helper-profile-panel"
+  *ngIf="
+    perfilAyudanteAbierto &&
+    perfilAyudanteSeleccionado as perfil
+  "
+>
+
+  <!-- CABECERA -->
+  <div class="helper-profile-header">
+
+    <div>
+
+      <span class="helper-profile-eyebrow">
+        Ayudante disponible
+      </span>
+
+      <h2>
+        Perfil del ayudante
+      </h2>
+
+    </div>
+
+
+    <ion-button
+      type="button"
+      class="close-helper-profile-button"
+      fill="clear"
+      aria-label="Cerrar perfil"
+      (click)="cerrarPerfilAyudante()"
+    >
+      <ion-icon
+        name="close-outline"
+      ></ion-icon>
+    </ion-button>
+
+  </div>
+
+
+  <!-- CONTENIDO -->
+  <div class="helper-profile-content">
+
+
+    <!-- IDENTIDAD -->
+    <div class="helper-identity">
+
+      <div class="helper-avatar">
+
+        <span>
+          {{ perfil.nombre.charAt(0) }}
         </span>
 
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/mis-publicaciones"
-          (click)="menuAbierto = false"
-        >
-          Mis publicaciones
-        </button>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/mis-tutorias"
-          (click)="menuAbierto = false"
-        >
-          Mis tutorías
-        </button>
-
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/evaluaciones"
-          (click)="menuAbierto = false"
-        >
-          Evaluaciones
-        </button>
-
       </div>
 
 
-      <!-- MI CUENTA -->
-      <div class="menu-section">
+      <div class="helper-identity-text">
 
-        <span class="menu-section-title">
-          Mi cuenta
+        <h3>
+          {{ perfil.nombre }}
+          {{ perfil.apellido }}
+        </h3>
+
+        <span class="helper-role">
+          AYUDANTE
         </span>
 
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/mi-perfil"
-          (click)="menuAbierto = false"
-        >
-          Mi perfil
-        </button>
+      </div>
 
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/postular-ayudante"
-          (click)="menuAbierto = false"
+    </div>
+
+
+    <!-- INFORMACIÓN ACADÉMICA -->
+    <div class="helper-section">
+
+      <h4>
+        Información académica
+      </h4>
+
+
+      <div class="helper-data-grid">
+
+
+        <!-- CARRERA -->
+        <div class="helper-data-item">
+
+          <span class="helper-data-label">
+            Carrera
+          </span>
+
+          <strong>
+            {{
+              perfil.carrera ||
+              'No informada'
+            }}
+          </strong>
+
+        </div>
+
+
+        <!-- SEMESTRE -->
+        <div class="helper-data-item">
+
+          <span class="helper-data-label">
+            Semestre
+          </span>
+
+          <strong>
+            {{
+              perfil.semestre
+                ? perfil.semestre + '° semestre'
+                : 'No informado'
+            }}
+          </strong>
+
+        </div>
+
+
+        <!-- INSTITUCIÓN -->
+        <div class="helper-data-item">
+
+          <span class="helper-data-label">
+            Institución
+          </span>
+
+          <strong>
+            {{
+              perfil.institucion ||
+              'No informada'
+            }}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- SOBRE EL AYUDANTE -->
+    <div
+      class="helper-section"
+      *ngIf="perfil.descripcion"
+    >
+
+      <h4>
+        Sobre el ayudante
+      </h4>
+
+      <p class="helper-description">
+        {{ perfil.descripcion }}
+      </p>
+
+    </div>
+
+
+    <!-- ESPECIALIDADES -->
+    <div class="helper-section">
+
+      <h4>
+        Especialidades
+      </h4>
+
+
+      <div
+        class="helper-specialties"
+        *ngIf="
+          perfil.especialidades.length > 0;
+          else sinEspecialidades
+        "
+      >
+
+        <div
+          class="helper-specialty"
+          *ngFor="
+            let especialidad
+            of perfil.especialidades
+          "
         >
-          Postula como ayudante
-        </button>
+
+          <strong>
+            {{ especialidad.asignatura }}
+          </strong>
+
+          <span
+            *ngIf="
+              especialidad.nivel_competencia
+            "
+          >
+            {{ especialidad.nivel_competencia }}
+          </span>
+
+        </div>
 
       </div>
 
 
-      <!-- AYUDANTÍAS -->
-      <div class="menu-section">
+      <ng-template #sinEspecialidades>
 
-        <span class="menu-section-title">
-          Ayudantías
+        <p class="helper-empty-text">
+          Este ayudante aún no registra
+          especialidades específicas.
+        </p>
+
+      </ng-template>
+
+    </div>
+
+
+    <!-- ACTIVIDAD -->
+    <div class="helper-section">
+
+      <h4>
+        Actividad
+      </h4>
+
+
+      <div class="helper-stats">
+
+
+        <!-- AYUDANTÍAS -->
+        <div class="helper-stat">
+
+          <strong>
+            {{
+              perfil.estadisticas
+                .ayudantias_finalizadas
+            }}
+          </strong>
+
+          <span>
+            Ayudantías finalizadas
+          </span>
+
+        </div>
+
+
+        <!-- VALORACIÓN -->
+        <div class="helper-stat">
+
+          <strong>
+            {{
+              perfil.estadisticas
+                .promedio_valoracion !== null
+                ? perfil.estadisticas
+                    .promedio_valoracion + ' ★'
+                : '—'
+            }}
+          </strong>
+
+          <span>
+            Valoración
+          </span>
+
+        </div>
+
+
+        <!-- EVALUACIONES -->
+        <div class="helper-stat">
+
+          <strong>
+            {{
+              perfil.estadisticas
+                .total_evaluaciones
+            }}
+          </strong>
+
+          <span>
+            Evaluaciones
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         SOLICITUD ASOCIADA
+         ================================================= -->
+
+    <div
+      class="helper-request"
+      *ngIf="
+        notificacionSeleccionada
+          ?.solicitud
+      "
+    >
+
+      <span class="helper-request-label">
+        Solicitud asociada
+      </span>
+
+
+      <strong>
+        {{
+          obtenerTituloConsulta(
+            notificacionSeleccionada!
+          )
+        }}
+      </strong>
+
+
+      <div class="helper-request-meta">
+
+        <!-- ASIGNATURA -->
+        <span
+          *ngIf="
+            obtenerAsignatura(
+              notificacionSeleccionada!
+            ) as asignatura
+          "
+        >
+          {{ asignatura }}
         </span>
 
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/ayudante"
-          (click)="menuAbierto = false"
-        >
-          Panel del Ayudante
-        </button>
 
-      </div>
-
-      <!-- Administracion -->
-      <div class="menu-section">
-
-        <span class="menu-section-title">
-          Administracion
+        <!-- MODALIDAD -->
+        <span>
+          {{
+            notificacionSeleccionada!
+              .solicitud!
+              .modalidad
+          }}
         </span>
 
-        <button
-          type="button"
-          class="menu-item"
-          routerLink="/panel-admin"
-          (click)="menuAbierto = false"
-        >
-          Panel del Administrador
-        </button>
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         RESULTADO HISTÓRICO: ACEPTADO
+         ================================================= -->
+
+    <div
+      class="helper-decision-status accepted"
+      *ngIf="
+        notificacionSeleccionada &&
+        obtenerResultadoNotificacion(
+          notificacionSeleccionada
+        ) === 'ACEPTADA'
+      "
+    >
+
+      <strong>
+        Aceptaste a este ayudante
+      </strong>
+
+      <p>
+        Esta solicitud ya fue confirmada con
+        {{ perfil.nombre }}.
+      </p>
+
+    </div>
+
+
+    <!-- =================================================
+         RESULTADO HISTÓRICO: RECHAZADO
+         ================================================= -->
+
+    <div
+      class="helper-decision-status rejected"
+      *ngIf="
+        notificacionSeleccionada &&
+        obtenerResultadoNotificacion(
+          notificacionSeleccionada
+        ) === 'RECHAZADA'
+      "
+    >
+
+      <strong>
+        Rechazaste a este ayudante
+      </strong>
+
+      <p>
+        La solicitud volvió a quedar disponible
+        para otros ayudantes.
+      </p>
+
+    </div>
+
+
+    <!-- =================================================
+         ACCIONES PENDIENTES
+         ================================================= -->
+
+    <div
+      class="helper-actions"
+      *ngIf="
+        notificacionSeleccionada &&
+        obtenerResultadoNotificacion(
+          notificacionSeleccionada
+        ) === 'PENDIENTE'
+      "
+    >
+
+      <ion-button
+        type="button"
+        class="helper-reject-button"
+        fill="outline"
+        [disabled]="procesandoDecision"
+        (click)="rechazarAyudanteSeleccionado()"
+      >
+        Rechazar ayudante
+      </ion-button>
+
+
+      <ion-button
+        type="button"
+        class="helper-accept-button"
+        [disabled]="procesandoDecision"
+        (click)="aceptarAyudanteSeleccionado()"
+      >
+        {{
+          procesandoDecision
+            ? 'Procesando...'
+            : 'Aceptar ayudante'
+        }}
+      </ion-button>
+
+    </div>
+
+
+    <!-- ERROR DE ACCIÓN -->
+    <p
+      class="helper-action-error"
+      *ngIf="errorDecision"
+    >
+      No fue posible completar la acción.
+      Inténtalo nuevamente.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     OVERLAY DEL MENÚ
+     Se conserva la sintaxis nueva que viene de main
+     ===================================================== -->
+
+@if (menuAbierto) {
+  <div
+    class="menu-overlay"
+    (click)="cerrarMenu()"
+  ></div>
+}
+
+
+<!-- =====================================================
+     MENÚ LATERAL
+     ===================================================== -->
+
+@if (menuAbierto) {
+
+<aside class="side-menu">
+
+  <!-- CABECERA -->
+  <div class="side-menu-header">
+
+    <div class="side-menu-brand">
+
+      <img
+        class="brand-icon"
+        src="assets/icon/entrepares-icon.png"
+        alt="EntrePares"
+      />
+
+      <div class="brand-text">
+
+        <h2>EntrePares</h2>
+
+        <span>
+          Tu espacio académico
+        </span>
 
       </div>
 
-      <!-- CERRAR SESIÓN -->
-      <div class="menu-section menu-section-bottom">
+    </div>
 
-        <button
-          type="button"
-          class="menu-item logout"
-          routerLink="/login"
-          (click)="menuAbierto = false"
-        >
-          Cerrar sesión
-        </button>
 
-      </div>
+    <ion-button
+      type="button"
+      class="close-menu-button"
+      fill="clear"
+      aria-label="Cerrar menú"
+      (click)="cerrarMenu()"
+    >
+      <ion-icon
+        name="close-outline"
+      ></ion-icon>
+    </ion-button>
 
-    </aside>
+  </div>
+
+
+  <!-- CONTENIDO -->
+  <div class="side-menu-content">
+
+
+    <!-- MI ACTIVIDAD -->
+    <div class="menu-section">
+
+      <span class="menu-section-title">
+        Mi actividad
+      </span>
+
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/mis-publicaciones"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="document-text-outline"
+        ></ion-icon>
+
+        Mis publicaciones
+      </ion-button>
+
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/mis-tutorias"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="school-outline"
+        ></ion-icon>
+
+        Mis Ayudantías
+      </ion-button>
+
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/evaluaciones"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="star-outline"
+        ></ion-icon>
+
+        Evaluaciones
+      </ion-button>
+
+    </div>
+
+
+    <!-- MI CUENTA -->
+    <div class="menu-section">
+
+      <span class="menu-section-title">
+        Mi cuenta
+      </span>
+
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/mi-perfil"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="person-outline"
+        ></ion-icon>
+
+        Mi perfil
+      </ion-button>
+
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/postular-ayudante"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="ribbon-outline"
+        ></ion-icon>
+
+        Postula como ayudante
+      </ion-button>
+
+    </div>
+
+
+    <!-- AYUDANTÍAS -->
+    <div class="menu-section">
+
+      <span class="menu-section-title">
+        Ayudantías
+      </span>
+
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/ayudante"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="people-outline"
+        ></ion-icon>
+
+        Panel del Ayudante
+      </ion-button>
+
+    </div>
+
+
+    <!-- ADMINISTRACIÓN -->
+    <div class="menu-section">
+
+      <span class="menu-section-title">
+        Administración
+      </span>
+
+
+      <ion-button
+        type="button"
+        class="menu-item"
+        fill="clear"
+        expand="block"
+        routerLink="/panel-admin"
+        (click)="cerrarMenu()"
+      >
+        <ion-icon
+          slot="start"
+          name="settings-outline"
+        ></ion-icon>
+
+        Panel del Administrador
+      </ion-button>
+
+    </div>
+
+  </div>
+
+
+  <!-- CERRAR SESIÓN -->
+  <div class="menu-section-bottom">
+
+    <ion-button
+      type="button"
+      class="menu-item logout"
+      fill="clear"
+      expand="block"
+      routerLink="/login"
+      (click)="cerrarMenu()"
+    >
+      <ion-icon
+        slot="start"
+        name="log-out-outline"
+      ></ion-icon>
+
+      Cerrar sesión
+    </ion-button>
+
+  </div>
+
+</aside>
+
+}
