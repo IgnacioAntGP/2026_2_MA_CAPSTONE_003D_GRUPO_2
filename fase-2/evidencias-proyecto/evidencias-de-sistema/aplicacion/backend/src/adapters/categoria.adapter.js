@@ -1,5 +1,6 @@
-const { CrearCategoriaAskDTO } = require('../dtos/categoria/categoria.ask.dto');
-const { CategoriaResolveDTO } = require('../dtos/categoria/categoria.resolve.dto');
+//const { CrearCategoriaAskDTO } = require('../dtos/categoria-solicitud/categoria.ask.dto');
+//const { CategoriaResolveDTO } = require('../dtos/categoria-solicitud/categoria.resolve.dto');
+
 const supabase = require('../config/supabase');
 
 // Crea una nueva categoría.
