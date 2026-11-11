@@ -6,40 +6,30 @@ class EspecialidadController {
         const { id_usuario, id_asignatura } = req.body;
 
         if (!id_usuario || !id_asignatura) {
-            return res.status(400).json({ error: 'El id_usuario y el id_asignatura son obligatorios.' });
+            return res.status(400).json({ 
+                error: 'El id_usuario y el id_asignatura son obligatorios.' 
+            });
         }
 
         try {
             const data = await _especialidadAdapter.crearEspecialidad({ id_usuario, id_asignatura });
 
-            if (asignaturaAInscribir && asignaturaAInscribir !== 'null') {
-      const ayudante = await _utilsAdapter.obtenerAyudantePorIdUsuario(postulacion.id_usuario);
-      
-      if (ayudante && ayudante.id_ayudante) {
-        
-        // --- AGREGA ESTE TRY/CATCH TEMPORAL ---
-        try {
-          const resultadoEsp = await _especialidadAdapter.crearEspecialidad(ayudante.id_ayudante, Number(asignaturaAInscribir));
-        } catch (errEsp) {
-          throw errEsp;
-        }
-      }
-    }
-
             return res.status(201).json({
                 mensaje: 'Especialidad agregada correctamente.',
                 especialidad: data
             });
+
         } catch (err) {
-            if (err.name === 'DuplicateError') {
+            // Mapeo limpio de errores personalizados lanzados desde el adaptador o BD
+            if (err.message && err.message.includes('ya cuenta con esta especialidad')) {
                 return res.status(409).json({ error: err.message });
             }
-            if (err.name === 'NotFoundError') {
+            if (err.name === 'NotFoundError' || (err.message && err.message.includes('no encontrado'))) {
                 return res.status(404).json({ error: err.message });
             }
 
             return res.status(500).json({
-                error: err.message
+                error: err.message || 'Error interno al agregar la especialidad.'
             });
         }
     }

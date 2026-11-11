@@ -8,6 +8,9 @@ const categoriaRoutes = require('./routes/categoria.routes');
 const postulacionRoutes = require('./routes/postulacion.routes');
 const especialidadRoutes = require('./routes/especialidad.routes');
 const asignaturaRoutes = require('./routes/asignatura.routes');
+const ayudantiaRoutes = require('./routes/ayudantia.routes');
+const actividadRoutes = require('./routes/actividad.routes')
+const categoriaActividadRoutes = require('./routes/categoriaActividad.routes')
 const notificacionRoutes = require('./routes/notificacion.routes');
 const ayudanteRoutes = require('./routes/ayudante.routes');
 
@@ -23,6 +26,9 @@ app.use('/api/categorias-solicitud', categoriaRoutes);
 app.use('/api/postulaciones-ayudante', postulacionRoutes);
 app.use('/api/especialidades', especialidadRoutes);
 app.use('/api/asignaturas', asignaturaRoutes);
+app.use('/api/ayudantias', ayudantiaRoutes);
+app.use('/api/ayudantias', actividadRoutes);
+app.use('/api/categorias-actividades', categoriaActividadRoutes)
 app.use('/api/notificaciones', notificacionRoutes);
 app.use('/api/ayudantes', ayudanteRoutes);
 
