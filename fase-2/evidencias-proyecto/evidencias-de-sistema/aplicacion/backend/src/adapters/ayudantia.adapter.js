@@ -1,5 +1,9 @@
 const supabase = require('../config/supabase');
 
+const {
+  ObtenerAyudantiaResolveDTO
+} = require('../dtos/ayudantia/ayudantia.resolve.dto');
+
 class AyudantiaAdapter {
   async guardarAyudantia(inputDTO) {
     const payloadInsert = {
@@ -24,6 +28,49 @@ class AyudantiaAdapter {
 
   async obtenerAllAyudantias(){
 
+  }
+  
+  async obtenerFinalizadasPorSolicitudes(
+    idsSolicitudes = []
+  ) {
+
+    if (
+      !Array.isArray(idsSolicitudes) ||
+      idsSolicitudes.length === 0
+    ) {
+      return [];
+    }
+
+    const { data, error } =
+      await supabase
+        .from('ayudantia')
+        .select(`
+          id_ayudantia,
+          id_solicitud,
+          fecha_inicio,
+          fecha_fin,
+          estado,
+          observaciones
+        `)
+        .in(
+          'id_solicitud',
+          idsSolicitudes
+        )
+        .eq(
+          'estado',
+          'FINALIZADA'
+        );
+
+    if (error) {
+      throw error;
+    }
+
+    return (data || []).map(
+      (item) =>
+        new ObtenerAyudantiaResolveDTO(
+          item
+        )
+    );
   }
 
   async obtenerAyudantiaPorId(idAyudantia) {

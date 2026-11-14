@@ -66,4 +66,13 @@ class ObtenerSolicitudPorEstudianteResolveDTO {
   }
 }
 
-module.exports = { ObtenerSolicitudDisponibleResolveDTO, ObtenerSolicitudPorEstudianteResolveDTO };
+class ObtenerSolicitudAyudanteResolveDTO {
+  constructor(item = {}) {
+    this.id_solicitud =
+      item.id_solicitud != null
+        ? Number(item.id_solicitud)
+        : null;
+  }
+}
+
+module.exports = { ObtenerSolicitudDisponibleResolveDTO, ObtenerSolicitudPorEstudianteResolveDTO, ObtenerSolicitudAyudanteResolveDTO };
