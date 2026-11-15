@@ -110,7 +110,6 @@ Thumbs.db
 desktop.ini
 .DS_Store
 
-# ==========================================
-# 7. Varios específicos del proyecto
-# ==========================================
+# 7. PlantUML
 out
+*.puml
