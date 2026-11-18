@@ -20,9 +20,9 @@ import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
-  selector: 'app-mis-tutorias',
-  templateUrl: './mis-tutorias.page.html',
-  styleUrls: ['./mis-tutorias.page.scss'],
+  selector: 'app-mis-ayudantias',
+  templateUrl: './mis-ayudantias.page.html',
+  styleUrls: ['./mis-ayudantias.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -39,7 +39,7 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     SideMenuComponent,
   ],
 })
-export class MisTutoriasPage implements OnInit {
+export class MisAyudantiasPage implements OnInit {
   tutorias: MisTutoria[] = [];
 
   // Temporal hasta implementar login real
