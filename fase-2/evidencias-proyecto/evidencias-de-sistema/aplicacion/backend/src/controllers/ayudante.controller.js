@@ -1,37 +1,65 @@
-const ayudanteAdapter =
-  require('../adapters/ayudante.adapter');
+const ayudanteService =
+  require('../services/ayudante.service');
+
+const {
+  ObtenerPerfilPublicoAyudanteAskDTO
+} = require('../dtos/ayudante/ayudante.ask.dto');
+
 
 class AyudanteController {
 
   async obtenerPerfilPublico(req, res) {
-    const { id_usuario } = req.params;
 
-    if (!id_usuario) {
+    let inputDTO;
+
+
+    // 1. Validar y normalizar parámetros de entrada
+    try {
+
+      inputDTO =
+        new ObtenerPerfilPublicoAyudanteAskDTO(
+          req.params
+        );
+
+    } catch (err) {
+
       return res.status(400).json({
-        error: 'El ID del usuario es obligatorio.'
+        error: err.message
       });
     }
 
+
+    // 2. Obtener perfil público mediante
+    // la capa de servicio
     try {
+
       const perfil =
-        await ayudanteAdapter.obtenerPerfilPublico(
-          id_usuario
-        );
+        await ayudanteService
+          .obtenerPerfilPublico(
+            inputDTO.idUsuario
+          );
+
 
       if (!perfil) {
+
         return res.status(404).json({
           error:
             'No se encontró un perfil de ayudante asociado al usuario.'
         });
       }
 
-      return res.status(200).json(perfil);
+
+      return res
+        .status(200)
+        .json(perfil);
 
     } catch (err) {
+
       console.error(
         'Error al obtener perfil público del ayudante:',
         err
       );
+
 
       return res.status(500).json({
         error: err.message
@@ -40,6 +68,7 @@ class AyudanteController {
   }
 
 }
+
 
 module.exports =
   new AyudanteController();

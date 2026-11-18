@@ -5,7 +5,8 @@ const {
 } = require('../dtos/solicitud/solicitud.ask.dto');
 const {
   ObtenerSolicitudDisponibleResolveDTO,
-  ObtenerSolicitudEstudianteResolveDTO
+  ObtenerSolicitudEstudianteResolveDTO,
+  ObtenerSolicitudAyudanteResolveDTO
 } = require('../dtos/solicitud/solicitud.resolve.dto');
 const ayudantiaAdapter = require('./ayudantia.adapter.js');
 
@@ -370,6 +371,31 @@ class SolicitudAdapter {
         ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
         : 'Estudiante'
     }));
+  }
+  // Obtener identificadores de solicitudes asociadas a un ayudante
+  async obtenerPorIdAyudante(id_ayudante) {
+
+    const { data, error } =
+      await supabase
+        .from('solicitud_ayudantia')
+        .select(`
+          id_solicitud
+        `)
+        .eq(
+          'id_ayudante',
+          id_ayudante
+        );
+
+    if (error) {
+      throw error;
+    }
+
+    return (data || []).map(
+      (item) =>
+        new ObtenerSolicitudAyudanteResolveDTO(
+          item
+        )
+    );
   }
 }
 
