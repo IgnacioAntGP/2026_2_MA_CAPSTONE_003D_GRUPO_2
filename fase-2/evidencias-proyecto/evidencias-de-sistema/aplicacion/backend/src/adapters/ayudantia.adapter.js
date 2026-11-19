@@ -7,8 +7,8 @@ const {
 class AyudantiaAdapter {
   async guardarAyudantia(inputDTO) {
     const payloadInsert = {
-      id_solicitud: inputDTO.idSolicitud,
-      fecha_inicio: inputDTO.fechaInicio,
+      id_solicitud: inputDTO.id_solicitud,
+      fecha_inicio: inputDTO.fecha_inicio || inputDTO.fechaInicio,
       estado: inputDTO.estado,
       observaciones: inputDTO.observaciones
     };

@@ -1,8 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import {
   IonContent,
   IonButton,
@@ -11,11 +9,10 @@ import {
   IonChip,
   IonNote,
   IonTextarea,
+  IonSpinner,
   AlertController,
 } from '@ionic/angular';
-
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
-
 import { TicketService } from '../../../core/services/ConsultaService';
 import { Consulta } from '../../../models/IConsulta';
 import { RespuestaConsulta } from '../../../models/IRespuesta';
@@ -30,7 +27,6 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     CommonModule,
     FormsModule,
     RouterLink,
-
     IonContent,
     IonButton,
     IonCard,
@@ -38,7 +34,7 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     IonChip,
     IonNote,
     IonTextarea,
-
+    IonSpinner,
     SideMenuComponent,
   ],
 })
@@ -46,14 +42,16 @@ export class DetalleConsultaPage implements OnInit {
   menuAbierto = false;
 
   consulta?: Consulta;
-
+  mensajeErrorConsulta: string | null = null;
+  codigoError: number | null = null;
   idConsulta!: number;
 
   respuestas: RespuestaConsulta[] = [];
-
+  // Banderas de estado
+  cargandoRespuestas: boolean = false;
+  errorCargandoRespuestas: boolean = false;
   nuevaRespuesta = '';
 
-  // Temporal hasta implementar login/sesión real
   idUsuarioActual = 1;
 
   constructor(
@@ -67,44 +65,55 @@ export class DetalleConsultaPage implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id && !isNaN(Number(id))) {
-          this.idConsulta = Number(id);
-          // Solo cargamos si el ID es válido
-          this.cargarConsulta();
-          this.cargarRespuestas();
-        } else {
-          console.error('El ID de la consulta no llegó a la vista o no es válido');
-          this.router.navigate(['/comunidad']);
-        }
+      this.idConsulta = Number(id);
+      this.cargarConsulta();
+      this.cargarRespuestas();
+    } else {
+      this.router.navigate(['/comunidad']);
+    }
   }
 
   cargarConsulta() {
+    this.mensajeErrorConsulta = null;
+    this.codigoError = null;
+
     this.ticketService.obtenerConsultaPorId(this.idConsulta).subscribe({
       next: (data) => {
         this.consulta = data;
-
         this.cdr.markForCheck();
-
-        console.log('Consulta seleccionada:', data);
       },
-
       error: (error) => {
         console.error('Error al cargar la consulta:', error);
+        this.codigoError = error.status || 500;
+
+        if (this.codigoError === 404) {
+          this.mensajeErrorConsulta = 'La consulta que buscas no existe o ha sido eliminada.';
+        } else {
+          this.mensajeErrorConsulta =
+            'Ocurrió un error al cargar la consulta. Inténtalo más tarde.';
+        }
+
+        this.cdr.markForCheck();
       },
     });
   }
 
   cargarRespuestas() {
+    this.cargandoRespuestas = true;
+    this.errorCargandoRespuestas = false;
+
     this.ticketService.obtenerRespuestas(this.idConsulta).subscribe({
       next: (data) => {
         this.respuestas = data;
-
+        this.cargandoRespuestas = false;
         this.cdr.markForCheck();
-
-        console.log('Respuestas de la consulta:', data);
       },
-
       error: (error) => {
         console.error('Error al cargar respuestas:', error);
+
+        this.cargandoRespuestas = false;
+        this.errorCargandoRespuestas = true;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -123,8 +132,6 @@ export class DetalleConsultaPage implements OnInit {
           console.log('Respuesta publicada correctamente');
 
           this.nuevaRespuesta = '';
-
-          // Recargar respuestas desde la base de datos
           this.cargarRespuestas();
 
           this.cdr.markForCheck();

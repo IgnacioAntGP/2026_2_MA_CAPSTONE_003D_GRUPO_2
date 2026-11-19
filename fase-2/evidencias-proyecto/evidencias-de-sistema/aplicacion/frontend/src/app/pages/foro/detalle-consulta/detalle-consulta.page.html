@@ -1,98 +1,69 @@
 <ion-content [fullscreen]="true">
-
   <div class="page-container">
-
     <!-- ENCABEZADO -->
     <header class="detalle-header page-wide">
-
       <div>
-
-        <ion-button
-          class="back-button"
-          type="button"
-          fill="clear"
-          routerLink="/comunidad"
-        >
+        <ion-button class="back-button" type="button" fill="clear" routerLink="/comunidad">
           ← Volver a Comunidad
         </ion-button>
-
       </div>
 
       <app-side-menu></app-side-menu>
-
     </header>
 
+    <!-- MENSAJE ERRORES -->
+    @if (mensajeErrorConsulta) {
+    <ion-card class="error-card ion-text-center ion-padding">
+      <ion-card-content>
+        <h2>¡Ups!</h2>
+        <p class="error-text">{{ mensajeErrorConsulta }}</p>
 
+        <ion-button color="primary" routerLink="/comunidad" class="ion-margin-top">
+          Volver al inicio
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+    }
     <!-- CONTENIDO -->
-    <main
-      class="page-content page-wide"
-      *ngIf="consulta"
-    >
-
+    @else if (consulta){
+    <main class="page-content page-wide">
       <!-- CONSULTA -->
       <ion-card class="consulta-card">
-
         <ion-card-content>
-
           <div class="consulta-meta">
-
-            <ion-chip class="asignatura-chip">
-              {{ consulta.asignatura }}
-            </ion-chip>
+            <ion-chip class="asignatura-chip"> {{ consulta.asignatura }} </ion-chip>
 
             <ion-note class="fecha-consulta">
-              {{
-                consulta.fecha_creacion
-                  | date:'dd/MM/yyyy - HH:mm'
-              }}
+              {{ consulta.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
             </ion-note>
-
           </div>
 
-
-          <h1>
-            {{ consulta.titulo }}
-          </h1>
-
+          <h1>{{ consulta.titulo }}</h1>
 
           <div class="autor">
+            <span> Publicado por </span>
 
-            <span>
-              Publicado por
-            </span>
-
-            <strong>
-              {{ consulta.autor }}
-            </strong>
-
+            <strong> {{ consulta.autor }} </strong>
           </div>
-
 
           <div class="consulta-descripcion">
-
-            <p>
-              {{ consulta.descripcion }}
-            </p>
-
+            <p>{{ consulta.descripcion }}</p>
           </div>
-
 
           <!-- ACCIONES DEL AUTOR -->
           <div class="autor-actions">
-
             <ion-button
               class="edit-button"
               type="button"
               fill="outline"
               size="small"
               [routerLink]="[
-                '/editar-publicacion',
-                consulta.id_consulta
-              ]"
+                  '/editar-publicacion',
+                  consulta.id_consulta
+                ]"
             >
               Editar
             </ion-button>
-
 
             <ion-button
               class="delete-button"
@@ -103,92 +74,60 @@
             >
               Eliminar
             </ion-button>
-
           </div>
-
         </ion-card-content>
-
       </ion-card>
-
 
       <!-- RESPUESTAS -->
       <section class="respuestas">
-
         <div class="section-header">
+          <h2>Respuestas</h2>
 
-          <h2>
-            Respuestas
-          </h2>
-
+          @if (!errorCargandoRespuestas) {
           <ion-note>
-            {{ respuestas.length }}
-            {{
-              respuestas.length === 1
-                ? 'respuesta'
-                : 'respuestas'
-            }}
+            {{ respuestas.length }} {{ respuestas.length === 1 ? 'respuesta' : 'respuestas' }}
           </ion-note>
-
+          }
         </div>
 
-
-        <ion-card
-          class="respuesta-card"
-          *ngFor="let respuesta of respuestas"
-        >
-
+        @if (cargandoRespuestas) {
+        <div class="ion-text-center ion-padding">
+          <ion-spinner name="crescent"></ion-spinner>
+          <p class="text-muted">Cargando respuestas...</p>
+        </div>
+        } @else if (errorCargandoRespuestas) {
+        <div class="error-respuestas-container ion-text-center ion-padding">
+          <p class="text-danger">No se pudieron cargar las respuestas en este momento.</p>
+          <ion-button size="small" fill="outline" color="medium" (click)="cargarRespuestas()">
+            Reintentar
+          </ion-button>
+        </div>
+        } @else { @for (respuesta of respuestas; track respuesta.id_respuesta) {
+        <ion-card class="respuesta-card">
           <ion-card-content>
-
             <div class="respuesta-header">
-
-              <strong>
-                {{ respuesta.usuario?.nombre }}
-                {{ respuesta.usuario?.apellido }}
-              </strong>
-
-              <ion-note>
-                {{
-                  respuesta.fecha_respuesta
-                    | date:'dd/MM/yyyy - HH:mm'
-                }}
-              </ion-note>
-
+              <strong> {{ respuesta.autor?.nombre }} {{ respuesta.autor?.apellido }} </strong>
+              <ion-note> {{ respuesta.fecha_respuesta | date:'dd/MM/yyyy - HH:mm' }} </ion-note>
             </div>
-
-
-            <p>
-              {{ respuesta.contenido }}
-            </p>
-
+            <p>{{ respuesta.contenido }}</p>
           </ion-card-content>
-
         </ion-card>
+        }
 
-
-        <!-- SIN RESPUESTAS -->
-        <div
-          *ngIf="respuestas.length === 0"
-          class="sin-respuestas"
-        >
-
-          <p>
-            Esta consulta aún no tiene respuestas.
+        <!-- Estado vacío normal (No es un error, simplemente no hay respuestas) -->
+        @if (respuestas.length === 0) {
+        <div class="sin-respuestas ion-padding ion-text-center">
+          <p class="text-muted">
+            Esta consulta aún no tiene respuestas. ¡Anímate a dejar la primera!
           </p>
-
         </div>
-
+        } }
       </section>
-
 
       <!-- RESPONDER -->
       <ion-card class="responder-card">
-
         <ion-card-content>
-
-          <h2>
-            ¿Quieres aportar a esta consulta?
-          </h2>
-
+          <h2>¿Quieres aportar a esta consulta?</h2>
 
           <ion-textarea
             fill="outline"
@@ -198,9 +137,7 @@
             placeholder="Escribe tu respuesta..."
           ></ion-textarea>
 
-
           <div class="response-actions">
-
             <ion-button
               class="response-button"
               type="button"
@@ -209,54 +146,37 @@
             >
               Publicar respuesta
             </ion-button>
-
           </div>
-
         </ion-card-content>
-
       </ion-card>
-
 
       <!-- SOLICITAR AYUDANTE -->
       <ion-card class="ayudantia-card">
-
         <ion-card-content>
-
           <div class="ayudantia-info">
+            <span class="ayudantia-label"> Apoyo personalizado </span>
 
-            <span class="ayudantia-label">
-              Apoyo personalizado
-            </span>
-
-            <h2>
-              ¿Necesitas ayuda más personalizada?
-            </h2>
+            <h2>¿Necesitas ayuda más personalizada?</h2>
 
             <p>
-              Si las respuestas de la comunidad no fueron suficientes,
-              puedes solicitar una ayudantía con otro estudiante.
+              Si las respuestas de la comunidad no fueron suficientes, puedes solicitar una
+              ayudantía con otro estudiante.
             </p>
-
           </div>
-
 
           <ion-button
             class="ayudantia-button"
             type="button"
             [routerLink]="[
-              '/solicitar-ayudante',
-              consulta.id_consulta
-            ]"
+                '/solicitar-ayudante',
+                consulta.id_consulta
+              ]"
           >
             Solicitar ayudante
           </ion-button>
-
         </ion-card-content>
-
       </ion-card>
-
     </main>
-
+    }
   </div>
-
 </ion-content>

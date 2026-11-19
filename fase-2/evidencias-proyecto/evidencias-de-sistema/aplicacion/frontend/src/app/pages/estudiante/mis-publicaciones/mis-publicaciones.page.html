@@ -1,106 +1,74 @@
 <ion-content [fullscreen]="true">
-
   <div class="page-container">
-
     <header class="page-header page-wide">
-
       <div>
-        <ion-button
-          class="back-button"
-          type="button"
-          fill="clear"
-          routerLink="/comunidad"
-        >
+        <ion-button class="back-button" type="button" fill="clear" routerLink="/comunidad">
           ← Volver a Comunidad
         </ion-button>
 
         <h1>Mis publicaciones</h1>
 
-        <p>
-          Revisa las consultas que has publicado en la comunidad.
-        </p>
+        <p>Revisa las consultas que has publicado en la comunidad.</p>
       </div>
 
       <app-side-menu></app-side-menu>
-
     </header>
 
-
     <main class="page-content page-wide mis-publicaciones-list">
-
+      @for (publicacion of publicaciones; track publicacion.id_consulta) {
       <ion-card
         class="publicacion-card"
-        *ngFor="let publicacion of publicaciones"
         [button]="true"
         [routerLink]="[
-          '/detalle-consulta',
-          publicacion.id_consulta
-        ]"
+            '/detalle-consulta',
+            publicacion.id_consulta
+          ]"
       >
-
         <ion-card-header>
-
           <div class="publicacion-card-header">
-
-            <ion-chip class="asignatura-chip">
-              {{ publicacion.asignatura }}
-            </ion-chip>
+            <ion-chip class="asignatura-chip"> {{ publicacion.asignatura }} </ion-chip>
 
             <ion-note class="fecha">
               {{ publicacion.fecha_creacion | date:'dd/MM/yyyy - HH:mm' }}
             </ion-note>
-
           </div>
 
-          <ion-card-title>
-            {{ publicacion.titulo }}
-          </ion-card-title>
-
+          <ion-card-title> {{ publicacion.titulo }} </ion-card-title>
         </ion-card-header>
 
-
         <ion-card-content>
-
-          <p class="descripcion">
-            {{ publicacion.descripcion }}
-          </p>
+          <p class="descripcion">{{ publicacion.descripcion }}</p>
 
           <div class="publicacion-footer">
-
-            <ion-note *ngIf="(publicacion.total_respuestas ?? 0) === 0">
-              Sin respuestas
-            </ion-note>
-
-            <ion-note *ngIf="(publicacion.total_respuestas ?? 0) === 1">
-              1 respuesta
-            </ion-note>
-
-            <ion-note *ngIf="(publicacion.total_respuestas ?? 0) > 1">
+            @if((publicacion.total_respuestas ?? 0) === 0){
+            <ion-note> Sin respuestas </ion-note>
+            }
+            @else if((publicacion.total_respuestas ?? 0) >= 1){
+            <ion-note>
               {{ publicacion.total_respuestas }} respuestas
             </ion-note>
-
+            }
+            @else {
             <ion-note>
-              Tutoría no solicitada
+              ??
             </ion-note>
+            }
 
+            @if (publicacion.tutoria_solicitada) {
+              <ion-note color="success"><strong>Tutoría solicitada</strong></ion-note>
+            } @else {
+              <ion-note color="medium">Tutoría no solicitada</ion-note>
+            }
           </div>
-
         </ion-card-content>
-
       </ion-card>
-
-
-      <div
-        class="empty-state"
-        *ngIf="publicaciones.length === 0"
-      >
-        <p>
-          Aún no has realizado publicaciones.
-        </p>
-      </div>
-
+      } 
+      
+      @if(publicaciones.length === 0){
+        <div class="empty-state">
+          <p>Aún no has realizado publicaciones.</p>
+        </div>
+      }
     </main>
-
   </div>
-
 </ion-content>

@@ -8,7 +8,7 @@ import {
   IonCardTitle,
   IonCardContent,
   IonChip,
-  IonNote
+  IonNote,
 } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 
@@ -32,11 +32,10 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     IonNote,
     CommonModule,
     RouterLink,
-    SideMenuComponent
-  ]
+    SideMenuComponent,
+  ],
 })
 export class MisPublicacionesPage implements OnInit {
-
   publicaciones: Consulta[] = [];
 
   // Temporal hasta implementar login real
@@ -45,7 +44,7 @@ export class MisPublicacionesPage implements OnInit {
   constructor(
     private ticketService: TicketService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.cargarMisPublicaciones();
@@ -66,8 +65,7 @@ export class MisPublicacionesPage implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar mis publicaciones:', error);
-      }
+      },
     });
   }
-
 }

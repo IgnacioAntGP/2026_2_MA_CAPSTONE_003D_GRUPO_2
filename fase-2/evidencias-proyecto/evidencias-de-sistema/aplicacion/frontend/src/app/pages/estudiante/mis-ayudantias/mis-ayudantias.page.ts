@@ -20,9 +20,9 @@ import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 @Component({
-  selector: 'app-mis-tutorias',
-  templateUrl: './mis-tutorias.page.html',
-  styleUrls: ['./mis-tutorias.page.scss'],
+  selector: 'app-mis-ayudantias',
+  templateUrl: './mis-ayudantias.page.html',
+  styleUrls: ['./mis-ayudantias.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -39,7 +39,7 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     SideMenuComponent,
   ],
 })
-export class MisTutoriasPage implements OnInit {
+export class MisAyudantiasPage implements OnInit {
   tutorias: MisTutoria[] = [];
 
   // Temporal hasta implementar login real
@@ -113,10 +113,10 @@ export class MisTutoriasPage implements OnInit {
     const idAyudantia = tutoria.ayudantia?.id_ayudantia;
 
     if (idAyudantia) {
-      // Navega a la ruta definida en la solución enviando el ID por URL
       this.router.navigate([`/gestion-ayudantia`, idAyudantia]);
     } else {
-      console.warn('La tutoría aún no tiene una ayudantía asociada o el ID no está disponible.');
+      console.warn('La tutoría aún no tiene una ayudantía activa asignada.');
+      // Opcional: Mostrar un alert o toast indicando que el espacio se habilitará cuando la tutoría esté aceptada.
     }
   }
 }

@@ -27,7 +27,8 @@ import { addIcons } from 'ionicons';
 import { ActividadService } from '../../../core/services/ActividadService';
 import { CategoriaActividadService } from '../../../core/services/CategoriaActividadService';
 import { IActividad } from '../../../models/IActividad';
-import { ICategoriaActividad, ESTADO_ACTIVIDAD } from '../../../models/ICategoriaActividad'
+import { ICategoriaActividad, ESTADO_ACTIVIDAD } from '../../../models/ICategoriaActividad';
+import { TicketService } from './../../../core/services/ConsultaService';
 
 @Component({
   selector: 'app-gestion-ayudantia',
@@ -56,6 +57,7 @@ import { ICategoriaActividad, ESTADO_ACTIVIDAD } from '../../../models/ICategori
 })
 export class GestionAyudantiaPage implements OnInit {
   idAyudantia!: number;
+  tituloConsulta: string = '';
   actividades: IActividad[] = [];
   cargando: boolean = false;
 
@@ -73,6 +75,7 @@ export class GestionAyudantiaPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private actividadService: ActividadService,
+    private consultaService: TicketService,
     private categoriaActividadService: CategoriaActividadService,
     private cdr: ChangeDetectorRef
   ) {
@@ -82,13 +85,29 @@ export class GestionAyudantiaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.idAyudantia = Number(this.route.snapshot.paramMap.get('id'));
+    const paramId = this.route.snapshot.paramMap.get('id');
+    console.log('--- DEBUG: GestionAyudantiaPage inicializada ---');
+    console.log('ID capturado desde los parámetros de la URL:', paramId);
 
-    if (this.idAyudantia) {
+    if (paramId) {
+      this.idAyudantia = Number(paramId);
       this.cargarActividadesAyudantia(this.idAyudantia);
+    } else {
+      console.error('¡ERROR CRÍTICO!: No llegó ningún ID en la ruta /gestion-ayudantia/:id');
     }
     
     this.cargarCategorias();
+  }
+
+  cargarDetalleAyudantia(id: number) {
+    this.consultaService.obtenerConsultaPorId(id).subscribe({
+      next: (data) => {
+        this.tituloConsulta = data.titulo;
+      },
+      error: (err) => {
+        console.log('Error al cargar Titulo de la consulta:', err);
+      }
+    });
   }
 
   cargarCategorias() {

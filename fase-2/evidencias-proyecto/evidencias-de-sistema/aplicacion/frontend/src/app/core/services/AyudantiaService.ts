@@ -65,25 +65,34 @@ export class AyudantiaService {
   // 3. Obtener "Mis Ayudantías" del usuario conectado
   obtenerMisAyudantias(idUsuario: number): Observable<SolicitudAyudantia[]> {
     return this.http.get<any[]>(`${this.apiUrl}/solicitudes-ayudantia/ayudante/${idUsuario}`).pipe(
-      map(items => items.map(s => ({
-        id_solicitud: s.id_solicitud,
-        asignatura: s.asignatura,
-        modalidad: s.modalidad,
-        titulo_duda: s.titulo_duda,
-        duda: s.titulo_duda,
-        descripcion_duda: s.descripcion_duda,
-        descripcion: s.descripcion_duda,
-        estado: s.estado,
-        nombre_estudiante: s.estudiante,
-        estudiante: s.estudiante,
-        categoria_nombre: 
-          s.categoria_nombre || 
-          s.categoria_solicitud?.nombre || 
-          s.categoria?.nombre || 
-          (Array.isArray(s.categoria_solicitud) ? s.categoria_solicitud[0]?.nombre : null)
-      })))
+      map(items => items.map(s => {
+        const ayudantiaRel = Array.isArray(s.ayudantia)
+          ? (s.ayudantia[0] ?? null)
+          : (s.ayudantia ?? null);
+
+        return {
+          id_solicitud: s.id_solicitud,
+          asignatura: s.asignatura,
+          modalidad: s.modalidad,
+          titulo_duda: s.titulo_duda,
+          duda: s.titulo_duda,
+          descripcion_duda: s.descripcion_duda,
+          descripcion: s.descripcion_duda,
+          estado: s.estado,
+          nombre_estudiante: s.estudiante,
+          estudiante: s.estudiante,
+          categoria_nombre:
+            s.categoria_nombre ||
+            s.categoria_solicitud?.nombre ||
+            s.categoria?.nombre ||
+            (Array.isArray(s.categoria_solicitud) ? s.categoria_solicitud[0]?.nombre : null),
+          ayudantia: ayudantiaRel
+            ? { id_ayudantia: Number(ayudantiaRel.id_ayudantia) }
+            : (s.id_ayudantia ? { id_ayudantia: Number(s.id_ayudantia) } : null)
+        };
+      }))
     );
-  };
+  }
 
   /**
    * Obtiene solicitudes filtradas por estado
