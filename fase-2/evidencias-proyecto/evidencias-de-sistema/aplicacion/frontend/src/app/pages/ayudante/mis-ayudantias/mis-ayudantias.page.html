@@ -106,14 +106,14 @@
           <ion-card class="consulta-card perfil-card">
             <ion-card-content>
               <div class="perfil-avatar">
-                {{ ( ayudantiaEnSesion?.nombre_estudiante || ayudantiaEnSesion?.estudiante || 'E'
+                {{ ( solicitudAyudantia?.nombre_estudiante || solicitudAyudantia?.estudiante || 'E'
                 ).charAt(0) }}
               </div>
 
               <div class="perfil-identidad">
                 <span class="session-label"> Estudiante </span>
 
-                <h2>{{ ayudantiaEnSesion?.nombre_estudiante || ayudantiaEnSesion?.estudiante }}</h2>
+                <h2>{{ solicitudAyudantia?.nombre_estudiante || solicitudAyudantia?.estudiante }}</h2>
 
                 <ion-badge class="rol-badge-active"> Enlace Directo Activo </ion-badge>
               </div>
@@ -131,20 +131,20 @@
                 <div class="session-row">
                   <span class="row-label"> Asignatura: </span>
 
-                  <strong class="row-val"> {{ ayudantiaEnSesion?.asignatura }} </strong>
+                  <strong class="row-val"> {{ solicitudAyudantia?.asignatura }} </strong>
                 </div>
 
                 <div class="session-row">
                   <span class="row-label"> Duda: </span>
 
-                  <strong class="row-val"> {{ ayudantiaEnSesion?.titulo_duda }} </strong>
+                  <strong class="row-val"> {{ solicitudAyudantia?.titulo_duda }} </strong>
                 </div>
               </div>
 
               <div class="session-description">
                 <span class="row-label"> Descripción: </span>
 
-                <p>{{ ayudantiaEnSesion?.descripcion_duda || ayudantiaEnSesion?.descripcion }}</p>
+                <p>{{ solicitudAyudantia?.descripcion_duda || solicitudAyudantia?.descripcion }}</p>
               </div>
             </ion-card-content>
           </ion-card>
@@ -170,7 +170,7 @@
                 <ion-button 
                   class="activities-button" 
                   type="button" fill="outline" 
-                  (click)="irAGestionActividades(ayudantiaEnSesion?.id_solicitud)"
+                  (click)="irAGestionActividades(ayudantiaEnSesion?.id_ayudantia)"
                 >
                   Gestionar Actividades
                 </ion-button>

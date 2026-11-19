@@ -113,10 +113,10 @@ export class MisAyudantiasPage implements OnInit {
     const idAyudantia = tutoria.ayudantia?.id_ayudantia;
 
     if (idAyudantia) {
-      // Navega a la ruta definida en la solución enviando el ID por URL
       this.router.navigate([`/gestion-ayudantia`, idAyudantia]);
     } else {
-      console.warn('La tutoría aún no tiene una ayudantía asociada o el ID no está disponible.');
+      console.warn('La tutoría aún no tiene una ayudantía activa asignada.');
+      // Opcional: Mostrar un alert o toast indicando que el espacio se habilitará cuando la tutoría esté aceptada.
     }
   }
 }
