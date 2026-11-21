@@ -1,3 +1,4 @@
+import { Ayudantia } from './../../../models/IAyudantia';
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -50,7 +51,8 @@ export class MisAyudantiasPage implements OnInit {
 
   isModalSesionOpen: boolean = false;
 
-  ayudantiaEnSesion: SolicitudAyudantia | null = null;
+  solicitudAyudantia: SolicitudAyudantia | null = null;
+  ayudantiaEnSesion: Ayudantia | null = null;
 
   constructor(
     private ayudantiaService: AyudantiaService,
@@ -78,23 +80,49 @@ export class MisAyudantiasPage implements OnInit {
     });
   }
 
-  abrirVentanaSesion(ayudantia: SolicitudAyudantia) {
-    this.ayudantiaEnSesion = ayudantia;
+  abrirVentanaSesion(solicitud: SolicitudAyudantia) {
+    console.log('Solicitud al abrir modal:', JSON.stringify(solicitud, null, 2));
+    this.solicitudAyudantia = solicitud;
 
+    const raw = solicitud as any;
+    const ayudantiaData = Array.isArray(raw?.ayudantia)
+      ? raw.ayudantia[0]
+      : raw?.ayudantia;
+
+    this.ayudantiaEnSesion = ayudantiaData ?? (raw?.id_ayudantia ? { id_ayudantia: raw.id_ayudantia } : null);
     this.isModalSesionOpen = true;
   }
 
   cerrarVentanaSesion() {
     this.isModalSesionOpen = false;
+    this.solicitudAyudantia = null;
+    this.ayudantiaEnSesion = null;
   }
 
   @ViewChild('modalAyudantia') modalAyudantia!: IonModal;
-  async irAGestionActividades(idSolicitud: number | undefined) {
-    if (!idSolicitud) return;
 
-    await this.modalAyudantia.dismiss();
+  async irAGestionActividades(idAyudantia: number | undefined) {
+    console.log('Intentando navegar a gestión con idAyudantia:', idAyudantia);
+    if (!idAyudantia) {
+      console.warn('No llegó idAyudantia (ayudantiaEnSesion es null o sin id_ayudantia)');
+      return;
+    }
 
-    this.router.navigate(['/gestion-ayudantia', idSolicitud]);
+    const targetId = idAyudantia;
+
+    if (this.modalAyudantia) {
+      await this.modalAyudantia.dismiss();
+    }
+
+    this.isModalSesionOpen = false;
+    this.solicitudAyudantia = null;
+    this.ayudantiaEnSesion = null;
+
+    setTimeout(() => {
+      this.router.navigate(['/gestion-ayudantia', targetId]).then((navigated) => {
+        console.log('Resultado router.navigate:', navigated);
+      });
+    }, 50);
   }
 
   cerrarCaso(estadoFinal: 'resuelta' | 'escalada') {

@@ -32,10 +32,10 @@ export const routes: Routes = [
         .then((m) => m.SolicitarAyudantePage)
   },
   {
-    path: 'mis-tutorias',
+    path: 'mis-ayudantias',
     loadComponent: () =>
-      import('./pages/estudiante/mis-tutorias/mis-tutorias.page')
-        .then((m) => m.MisTutoriasPage)
+      import('./pages/estudiante/mis-ayudantias/mis-ayudantias.page')
+        .then((m) => m.MisAyudantiasPage)
   },
   {
     path: 'mis-publicaciones',

@@ -86,9 +86,9 @@ class SolicitudAdapter {
       ayudante: item.ayudante
         ? `${item.ayudante.usuario?.nombre ?? ''} ${item.ayudante.usuario?.apellido ?? ''}`.trim()
         : null,
-      ayudantia: Array.isArray(item.ayudantia)
-        ? (item.ayudantia[0] ?? null)
-        : (item.ayudantia ?? null)
+      ayudantia: Array.isArray(item.ayudantia) 
+        ? (item.ayudantia[0] ? { id_ayudantia: item.ayudantia[0].id_ayudantia } : null)
+        : (item.ayudantia ? { id_ayudantia: item.ayudantia.id_ayudantia } : null)
     }));
   }
 
@@ -352,6 +352,13 @@ class SolicitudAdapter {
           descripcion,
           asignatura ( nombre ),
           usuario ( nombre, apellido )
+        ),
+        ayudantia (
+          id_ayudantia,
+          fecha_inicio,
+          fecha_fin,
+          estado,
+          observaciones
         )
       `
       )
@@ -361,17 +368,27 @@ class SolicitudAdapter {
 
     if (error) throw error;
 
-    return data.map((item) => ({
-      id_solicitud: item.id_solicitud,
-      asignatura: item.consulta?.asignatura?.nombre || 'General',
-      titulo_duda: item.consulta?.titulo || '',
-      descripcion_duda: item.motivo || item.consulta?.descripcion || '',
-      estado: item.estado,
-      estudiante: item.consulta?.usuario
-        ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
-        : 'Estudiante'
-    }));
+    return data.map((item) => {
+      const ayudantiaRel = Array.isArray(item.ayudantia)
+        ? (item.ayudantia[0] ?? null)
+        : (item.ayudantia ?? null);
+
+      return {
+        id_solicitud: item.id_solicitud,
+        asignatura: item.consulta?.asignatura?.nombre || 'General',
+        titulo_duda: item.consulta?.titulo || '',
+        descripcion_duda: item.motivo || item.consulta?.descripcion || '',
+        estado: item.estado,
+        estudiante: item.consulta?.usuario
+          ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
+          : 'Estudiante',
+        ayudantia: ayudantiaRel
+          ? { id_ayudantia: Number(ayudantiaRel.id_ayudantia) }
+          : null
+      };
+    });
   }
+
   // Obtener identificadores de solicitudes asociadas a un ayudante
   async obtenerPorIdAyudante(id_ayudante) {
 

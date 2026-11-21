@@ -39,7 +39,7 @@ class ConsultaUsuarioResolveDTO {
         this.fecha_creacion = item.fecha_creacion || null;
         this.asignatura = item.asignatura?.nombre || '';
         this.total_respuestas = item.respuesta?.length || 0;
-        this.tutoriaSolicitada = (item.solicitud_ayudantia || []).length > 0;
+        this.tutoria_solicitada = (item.solicitud_ayudantia || []).length > 0;
     }
 }
 
