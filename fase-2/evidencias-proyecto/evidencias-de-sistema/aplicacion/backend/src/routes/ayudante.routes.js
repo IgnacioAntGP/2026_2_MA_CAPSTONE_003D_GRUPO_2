@@ -6,6 +6,16 @@ const ayudanteController =
 
 
 router.get(
+  '/',
+  (req, res) =>
+    ayudanteController.obtenerTodos(
+      req,
+      res
+    )
+);
+
+
+router.get(
   '/usuario/:id_usuario/perfil',
   (req, res) =>
     ayudanteController.obtenerPerfilPublico(

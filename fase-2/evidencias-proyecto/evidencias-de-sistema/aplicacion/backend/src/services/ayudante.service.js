@@ -110,6 +110,41 @@ class AyudanteService {
     });
   }
 
+
+  async obtenerTodos() {
+
+    // 1. Obtener todos los perfiles base
+    // registrados como ayudantes
+    const ayudantes =
+      await ayudanteAdapter
+        .obtenerTodos();
+
+
+    if (!ayudantes.length) {
+      return [];
+    }
+
+
+    // 2. Reutilizar la construcción del
+    // perfil público para cada ayudante
+    const perfiles =
+      await Promise.all(
+        ayudantes.map(
+          (ayudante) =>
+            this.obtenerPerfilPublico(
+              ayudante.id_usuario
+            )
+        )
+      );
+
+
+    // 3. Excluir perfiles que ya no
+    // correspondan a usuarios activos
+    return perfiles.filter(
+      (perfil) => perfil !== null
+    );
+  }
+
 }
 
 
