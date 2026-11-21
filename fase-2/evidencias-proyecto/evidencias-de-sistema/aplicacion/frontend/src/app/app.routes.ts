@@ -149,6 +149,12 @@ export const routes: Routes = [
       import('./pages/admin/categoria-solicitudes/categoria-solicitudes.page')
         .then((m) => m.CategoriaSolicitudesPage)
   },
+  {
+  path: 'estadisticas-admin',
+  loadComponent: () =>
+    import('./pages/admin/estadisticas-admin/estadisticas-admin.page')
+      .then(m => m.EstadisticasAdminPage)
+  },
 
   /* =========================
      AYUDANTÍA
