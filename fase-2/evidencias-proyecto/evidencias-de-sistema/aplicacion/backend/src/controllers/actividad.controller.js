@@ -62,7 +62,7 @@ class ActividadController {
 
     const inputDTO = new ModificarActividadAskDTO(req.body);
 
-    if (inputDTO.esActivo !== undefined && req.userRole !== 'Administrador') {
+    if (inputDTO.esActivo !== undefined && req.user?.roles !== 'Administrador') {
       return res
         .status(403)
         .json({
@@ -70,7 +70,7 @@ class ActividadController {
         });
     }
 
-    if (req.userRole === 'Estudiante') {
+    if (req.user?.roles === 'Estudiante') {
       return res
         .status(403)
         .json({ error: 'Acceso denegado. Los estudiantes carecen de permisos para modificar actividades.' });
@@ -91,7 +91,7 @@ class ActividadController {
     const { id, id_actividad } = req.params;
 
     // Validación de permisos de rol: Eliminación completa SOLO ADMIN (403 Forbidden)
-    if (req.userRole !== 'Administrador') {
+    if (req.user?.roles !== 'Administrador') {
       return res
         .status(403)
         .json({
