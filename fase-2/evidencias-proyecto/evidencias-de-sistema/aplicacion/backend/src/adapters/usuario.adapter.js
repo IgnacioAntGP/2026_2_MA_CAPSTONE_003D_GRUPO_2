@@ -264,6 +264,32 @@ class UsuarioAdapter {
 
     return data;
   }
+
+  /**
+   * Obtiene los roles activos de un usuario consultando "usuario_rol" y "rol".
+   */
+  async obtenerRolesPorIdUsuarioAsync(idUsuario) {
+    const { data, error } = await supabase
+      .from('usuario_rol')
+      .select(`
+        id_rol,
+        rol (
+          id_rol,
+          nombre,
+          descripcion
+        )
+      `)
+      .eq('id_usuario', idUsuario);
+
+    if (error) {
+      throw error;
+    }
+
+    return (data || [])
+      .map((item) => item.rol)
+      .filter(Boolean);
+  }
+
 }
 
 module.exports =
