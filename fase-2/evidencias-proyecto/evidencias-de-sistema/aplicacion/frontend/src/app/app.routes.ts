@@ -42,13 +42,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/estudiante/mis-publicaciones/mis-publicaciones.page')
         .then((m) => m.MisPublicacionesPage)
-  },  
+  },
   {
     path: 'evaluaciones',
     loadComponent: () =>
       import('./pages/estudiante/evaluaciones/evaluaciones.page')
         .then((m) => m.EvaluacionesPage)
-  },  
+  },
   {
     path: 'evaluar-tutoria',
     loadComponent: () =>
@@ -79,26 +79,39 @@ export const routes: Routes = [
       import('./pages/cuenta/editar-perfil/editar-perfil.page')
         .then((m) => m.EditarPerfilPage)
   },
+
+  /* =========================
+     AYUDANTE
+     ========================= */
+
   {
     path: 'ayudante',
     redirectTo: 'ayudante/tabs/panel',
-    pathMatch: 'full'   
+    pathMatch: 'full'
   },
   {
     path: 'ayudante/tabs',
-    loadComponent: () => import('./pages/ayudante/tabs/tabs.page').then(m => m.TabsPage),
+    loadComponent: () =>
+      import('./pages/ayudante/tabs/tabs.page')
+        .then((m) => m.TabsPage),
     children: [
       {
         path: 'panel',
-        loadComponent: () => import('./pages/ayudante/panel-ayudante/panel-ayudante.page').then(m => m.PanelAyudantePage)
+        loadComponent: () =>
+          import('./pages/ayudante/panel-ayudante/panel-ayudante.page')
+            .then((m) => m.PanelAyudantePage)
       },
       {
         path: 'solicitudes',
-        loadComponent: () => import('./pages/ayudante/solicitudes-pendientes/solicitudes-pendientes.page').then(m => m.SolicitudesPendientesPage)
+        loadComponent: () =>
+          import('./pages/ayudante/solicitudes-pendientes/solicitudes-pendientes.page')
+            .then((m) => m.SolicitudesPendientesPage)
       },
       {
         path: 'mis-ayudantias',
-        loadComponent: () => import('./pages/ayudante/mis-ayudantias/mis-ayudantias.page').then(m => m.MisAyudantiasPage)
+        loadComponent: () =>
+          import('./pages/ayudante/mis-ayudantias/mis-ayudantias.page')
+            .then((m) => m.MisAyudantiasPage)
       },
       {
         path: '',
@@ -107,30 +120,65 @@ export const routes: Routes = [
       }
     ]
   },
+
+  /* =========================
+     ADMINISTRADOR
+     ========================= */
+
   {
     path: 'panel-admin',
-    loadComponent: () => import('./pages/admin/panel-admin/panel-admin.page').then( m => m.PanelAdminPage)
+    loadComponent: () =>
+      import('./pages/admin/panel-admin/panel-admin.page')
+        .then((m) => m.PanelAdminPage)
   },
   {
     path: 'postulaciones-ayudante',
-    loadComponent: () => import('./pages/admin/postulaciones-ayudante/postulaciones-ayudante.page').then( m => m.PostulacionesAyudantePage)
+    loadComponent: () =>
+      import('./pages/admin/postulaciones-ayudante/postulaciones-ayudante.page')
+        .then((m) => m.PostulacionesAyudantePage)
+  },
+  {
+    path: 'gestion-ayudantes',
+    loadComponent: () =>
+      import('./pages/admin/gestion-ayudantes/gestion-ayudantes.page')
+        .then((m) => m.GestionAyudantesPage)
   },
   {
     path: 'categoria-solicitudes',
-    loadComponent: () => import('./pages/admin/categoria-solicitudes/categoria-solicitudes.page').then( m => m.CategoriaSolicitudesPage)
+    loadComponent: () =>
+      import('./pages/admin/categoria-solicitudes/categoria-solicitudes.page')
+        .then((m) => m.CategoriaSolicitudesPage)
   },
+  {
+  path: 'estadisticas-admin',
+  loadComponent: () =>
+    import('./pages/admin/estadisticas-admin/estadisticas-admin.page')
+      .then(m => m.EstadisticasAdminPage)
+  },
+
+  /* =========================
+     AYUDANTÍA
+     ========================= */
+
   {
     path: 'gestion-ayudantia/:id',
-    loadComponent: () => import('./pages/ayudantia/gestion-ayudantia/gestion-ayudantia.page').then( m => m.GestionAyudantiaPage)
+    loadComponent: () =>
+      import('./pages/ayudantia/gestion-ayudantia/gestion-ayudantia.page')
+        .then((m) => m.GestionAyudantiaPage)
   },
+
+  /* =========================
+     REDIRECCIONES
+     ========================= */
+
   {
     path: '**',
-    redirectTo: 'login',
+    redirectTo: 'login'
   },
-    {
+  {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full',
-  },
+    pathMatch: 'full'
+  }
 
 ];

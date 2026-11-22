@@ -1,0 +1,326 @@
+<ion-content [fullscreen]="true">
+
+  <div class="page-container">
+
+    <main class="page-content page-wide">
+
+      <!-- ENCABEZADO -->
+      <header class="admin-welcome">
+
+        <div>
+
+          <ion-button
+            class="back-button"
+            type="button"
+            fill="clear"
+            routerLink="/panel-admin"
+          >
+            ← Volver
+          </ion-button>
+
+          <span class="welcome-label">
+            Gestión de ayudantes
+          </span>
+
+          <h1>
+            Ayudantes registrados
+          </h1>
+
+          <p>
+            Consulta los estudiantes que actualmente cumplen el rol
+            de ayudante, sus especialidades y su participación
+            dentro de EntrePares.
+          </p>
+
+        </div>
+
+        <app-side-menu></app-side-menu>
+
+      </header>
+
+
+      <!-- RESUMEN -->
+      <ion-card class="admin-summary">
+
+        <ion-card-content>
+
+          <div class="summary-item">
+
+            <strong>
+              {{ ayudantes.length }}
+            </strong>
+
+            <span>
+              Ayudantes registrados
+            </span>
+
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <!-- BUSCADOR -->
+      <section
+        *ngIf="!cargando && !errorCarga && ayudantes.length > 0"
+        class="search-section"
+      >
+
+        <ion-searchbar
+          [(ngModel)]="busqueda"
+          placeholder="Buscar por nombre, carrera o especialidad"
+          [debounce]="200"
+          class="admin-searchbar"
+        >
+        </ion-searchbar>
+
+      </section>
+
+
+      <!-- CARGANDO -->
+      <ion-card
+        *ngIf="cargando"
+        class="admin-message"
+      >
+
+        <ion-card-content>
+
+          <ion-spinner name="crescent"></ion-spinner>
+
+          <p>
+            Cargando ayudantes...
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <!-- ERROR -->
+      <ion-card
+        *ngIf="!cargando && errorCarga"
+        class="admin-message"
+      >
+
+        <ion-card-content>
+
+          <h2>
+            No fue posible cargar los ayudantes
+          </h2>
+
+          <p>
+            Ocurrió un problema al consultar la información.
+          </p>
+
+          <ion-button
+            type="button"
+            fill="outline"
+            class="retry-button"
+            (click)="cargarAyudantes()"
+          >
+            Intentar nuevamente
+          </ion-button>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <!-- SIN AYUDANTES -->
+      <ion-card
+        *ngIf="
+          !cargando &&
+          !errorCarga &&
+          ayudantes.length === 0
+        "
+        class="admin-message"
+      >
+
+        <ion-card-content>
+
+          <h2>
+            No hay ayudantes registrados
+          </h2>
+
+          <p>
+            Actualmente no existen estudiantes con el rol de ayudante.
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <!-- SIN RESULTADOS -->
+      <ion-card
+        *ngIf="
+          !cargando &&
+          !errorCarga &&
+          ayudantes.length > 0 &&
+          ayudantesFiltrados.length === 0
+        "
+        class="admin-message"
+      >
+
+        <ion-card-content>
+
+          <h2>
+            No encontramos resultados
+          </h2>
+
+          <p>
+            No existen ayudantes que coincidan con la búsqueda ingresada.
+          </p>
+
+        </ion-card-content>
+
+      </ion-card>
+
+
+      <!-- LISTADO -->
+      <section
+        *ngIf="
+          !cargando &&
+          !errorCarga &&
+          ayudantesFiltrados.length > 0
+        "
+        class="ayudantes-section"
+      >
+
+        <ion-card
+          *ngFor="let ayudante of ayudantesFiltrados"
+          class="ayudante-list-item"
+        >
+
+          <ion-card-content>
+
+            <!-- INFORMACIÓN PRINCIPAL -->
+            <div class="ayudante-main">
+
+              <div class="ayudante-identidad">
+
+                <div class="ayudante-avatar">
+
+                  {{
+                    (ayudante.nombre || 'A').charAt(0)
+                  }}
+
+                </div>
+
+
+                <div class="ayudante-datos">
+
+                  <div class="nombre-row">
+
+                    <span class="ayudante-nombre">
+
+                      {{ ayudante.nombre }}
+                      {{ ayudante.apellido }}
+
+                    </span>
+
+                    <ion-badge class="ayudante-badge">
+                      Activo
+                    </ion-badge>
+
+                  </div>
+
+
+                  <span class="ayudante-carrera">
+
+                    {{
+                      ayudante.carrera ||
+                      'Carrera no registrada'
+                    }}
+
+                    <ng-container *ngIf="ayudante.semestre">
+                      · {{ ayudante.semestre }}° semestre
+                    </ng-container>
+
+                  </span>
+
+
+                  <span class="ayudante-institucion">
+
+                    {{
+                      ayudante.institucion ||
+                      'Institución no registrada'
+                    }}
+
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <!-- MÉTRICA -->
+              <div class="ayudante-metrica">
+
+                <strong>
+
+                  {{
+                    ayudante.estadisticas
+                      .ayudantias_finalizadas
+                  }}
+
+                </strong>
+
+                <span>
+                  Ayudantías finalizadas
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- ESPECIALIDADES -->
+            <div class="especialidades-row">
+
+              <span class="especialidades-label">
+                Especialidades
+              </span>
+
+
+              <div
+                *ngIf="ayudante.especialidades.length > 0"
+                class="especialidades-tags"
+              >
+
+                <span
+                  *ngFor="
+                    let especialidad
+                    of ayudante.especialidades
+                  "
+                  class="especialidad-tag"
+                >
+
+                  {{ especialidad.asignatura }}
+
+                </span>
+
+              </div>
+
+
+              <span
+                *ngIf="ayudante.especialidades.length === 0"
+                class="sin-especialidades"
+              >
+                Sin especialidades registradas.
+              </span>
+
+            </div>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</ion-content>

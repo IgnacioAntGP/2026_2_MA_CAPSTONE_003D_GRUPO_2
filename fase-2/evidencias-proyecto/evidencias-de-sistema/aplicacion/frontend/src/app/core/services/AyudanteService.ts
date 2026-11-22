@@ -51,6 +51,14 @@ export class AyudanteService {
   ) {}
 
 
+  obtenerTodos(): Observable<PerfilPublicoAyudante[]> {
+
+    return this.http.get<PerfilPublicoAyudante[]>(
+      `${this.apiUrl}/ayudantes`
+    );
+  }
+
+
   obtenerPerfilPublico(
     idUsuario: number
   ): Observable<PerfilPublicoAyudante> {

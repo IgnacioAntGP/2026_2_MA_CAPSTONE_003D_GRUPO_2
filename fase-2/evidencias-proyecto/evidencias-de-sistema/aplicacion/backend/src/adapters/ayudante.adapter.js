@@ -36,6 +36,34 @@ class AyudanteAdapter {
     );
   }
 
+
+  async obtenerTodos() {
+
+    const { data, error } =
+      await supabase
+        .from('ayudante')
+        .select(`
+          id_ayudante,
+          id_usuario,
+          descripcion
+        `)
+        .order(
+          'id_ayudante',
+          { ascending: true }
+        );
+
+    if (error) {
+      throw error;
+    }
+
+    return (data ?? []).map(
+      (ayudante) =>
+        new ObtenerAyudanteResolveDTO(
+          ayudante
+        )
+    );
+  }
+
 }
 
 

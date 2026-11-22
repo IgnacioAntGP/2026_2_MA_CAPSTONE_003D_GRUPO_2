@@ -1,0 +1,308 @@
+<ion-content [fullscreen]="true">
+
+  <div class="page-container estadisticas-admin-container">
+
+    <main class="page-content page-wide">
+
+
+        <!-- ENCABEZADO -->
+        <header class="admin-welcome">
+
+        <div>
+
+            <ion-button
+            class="back-button"
+            type="button"
+            fill="clear"
+            routerLink="/panel-admin"
+            >
+            ← Volver
+            </ion-button>
+
+            <span class="welcome-label">
+            Administración
+            </span>
+
+            <h1>
+            Estadísticas de EntrePares
+            </h1>
+
+            <p>
+            Revisa indicadores generales sobre la actividad y
+            el apoyo académico dentro de la plataforma.
+            </p>
+
+        </div>
+
+        <app-side-menu></app-side-menu>
+
+        </header>
+
+
+      <!-- CARGANDO -->
+      <section
+        class="estado-carga"
+        *ngIf="cargando"
+      >
+
+        <ion-spinner name="crescent"></ion-spinner>
+
+        <p>
+          Cargando estadísticas...
+        </p>
+
+      </section>
+
+
+      <!-- ERROR -->
+      <section
+        class="estado-error"
+        *ngIf="!cargando && errorCarga"
+      >
+
+        <strong>
+          No fue posible cargar las estadísticas
+        </strong>
+
+        <p>
+          Revisa la conexión con el servidor e inténtalo nuevamente.
+        </p>
+
+      </section>
+
+
+      <!-- CONTENIDO -->
+      <ng-container
+        *ngIf="!cargando && !errorCarga"
+      >
+
+
+        <!-- RESUMEN -->
+        <section class="resumen-section">
+
+          <div class="section-header">
+
+            <span class="section-label">
+              Resumen
+            </span>
+
+            <h2>
+              Actividad general
+            </h2>
+
+            <p>
+              Información actual obtenida desde EntrePares.
+            </p>
+
+          </div>
+
+
+          <div class="metricas-grid">
+
+
+            <!-- AYUDANTES -->
+            <article class="metrica-card">
+
+              <span class="metrica-label">
+                Ayudantes registrados
+              </span>
+
+              <strong class="metrica-valor">
+                {{ estadisticas.ayudantes_registrados }}
+              </strong>
+
+              <p>
+                Perfiles de ayudante registrados en la plataforma.
+              </p>
+
+            </article>
+
+
+            <!-- CONSULTAS -->
+            <article class="metrica-card">
+
+              <span class="metrica-label">
+                Consultas activas
+              </span>
+
+              <strong class="metrica-valor">
+                {{ estadisticas.consultas_activas }}
+              </strong>
+
+              <p>
+                Publicaciones que actualmente permanecen activas.
+              </p>
+
+            </article>
+
+
+            <!-- AYUDANTÍAS FINALIZADAS -->
+            <article class="metrica-card">
+
+              <span class="metrica-label">
+                Ayudantías finalizadas
+              </span>
+
+              <strong class="metrica-valor">
+                {{ estadisticas.ayudantias_finalizadas }}
+              </strong>
+
+              <p>
+                Procesos de ayudantía que ya fueron completados.
+              </p>
+
+            </article>
+
+
+            <!-- ESPECIALIDADES -->
+            <article class="metrica-card">
+
+              <span class="metrica-label">
+                Especialidades cubiertas
+              </span>
+
+              <strong class="metrica-valor">
+                {{ estadisticas.especialidades_cubiertas }}
+              </strong>
+
+              <p>
+                Asignaturas que cuentan con al menos un ayudante.
+              </p>
+
+            </article>
+
+
+          </div>
+
+        </section>
+
+
+        <!-- DISTRIBUCIÓN -->
+        <section class="especialidades-section">
+
+          <div class="section-header especialidades-header">
+
+            <div>
+
+              <span class="section-label">
+                Cobertura académica
+              </span>
+
+              <h2>
+                Ayudantes por especialidad
+              </h2>
+
+              <p>
+                Distribución de ayudantes según las asignaturas
+                en las que pueden brindar apoyo.
+              </p>
+
+            </div>
+
+            <ion-note>
+              Actualización automática cada 5 segundos
+            </ion-note>
+
+          </div>
+
+
+          <!-- LISTADO -->
+          <div
+            class="especialidades-lista"
+            *ngIf="
+              estadisticas.ayudantes_por_especialidad.length > 0
+            "
+          >
+
+            <article
+              class="especialidad-item"
+              *ngFor="
+                let item of estadisticas.ayudantes_por_especialidad
+              "
+            >
+
+              <div class="especialidad-info">
+
+                <div class="especialidad-titulo">
+
+                  <strong>
+                    {{ item.especialidad }}
+                  </strong>
+
+                  <span *ngIf="item.codigo">
+                    {{ item.codigo }}
+                  </span>
+
+                </div>
+
+
+                <div class="especialidad-total">
+
+                  <strong>
+                    {{ item.total_ayudantes }}
+                  </strong>
+
+                  <span>
+                    {{
+                      item.total_ayudantes === 1
+                        ? 'ayudante'
+                        : 'ayudantes'
+                    }}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="barra-track">
+
+                <div
+                  class="barra-fill"
+                  [style.width.%]="
+                    estadisticas.ayudantes_registrados > 0
+                      ? (
+                          item.total_ayudantes /
+                          estadisticas.ayudantes_registrados
+                        ) * 100
+                      : 0
+                  "
+                ></div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- SIN ESPECIALIDADES -->
+          <div
+            class="especialidades-vacio"
+            *ngIf="
+              estadisticas.ayudantes_por_especialidad.length === 0
+            "
+          >
+
+            <strong>
+              Aún no hay especialidades registradas
+            </strong>
+
+            <p>
+              Cuando existan ayudantes asociados a asignaturas,
+              su distribución aparecerá aquí.
+            </p>
+
+          </div>
+
+        </section>
+
+
+      </ng-container>
+
+
+    </main>
+
+  </div>
+
+</ion-content>

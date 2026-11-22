@@ -1,0 +1,611 @@
+/* =====================================================
+   GESTIÓN DE AYUDANTES - ENTREPARES
+   ===================================================== */
+
+$primary: #c94f32;
+$primary-soft: #fbede8;
+
+$secondary: #246b6a;
+$secondary-soft: #e9f3f2;
+
+$background: #f7f6f2;
+$surface: #ffffff;
+
+$text-primary: #252321;
+$text-secondary: #6d6965;
+$text-muted: #96908a;
+
+$border: #e4dfd8;
+
+$success: #37805f;
+$success-soft: #edf7f1;
+
+
+/* =========================
+   GENERAL
+   ========================= */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+ion-content {
+  --background: #{$background};
+}
+
+.page-container {
+  background: $background;
+}
+
+
+/* =========================
+   ENCABEZADO
+   ========================= */
+
+.admin-welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  margin-bottom: 22px;
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  app-side-menu {
+    flex-shrink: 0;
+  }
+
+  h1 {
+    margin: 5px 0 7px;
+
+    color: $text-primary;
+
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.25;
+
+    letter-spacing: -0.4px;
+  }
+
+  p {
+    max-width: 650px;
+
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+.welcome-label {
+  display: block;
+
+  margin-top: 6px;
+
+  color: $primary;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+
+/* =========================
+   BOTÓN VOLVER
+   ========================= */
+
+.back-button {
+  height: auto;
+
+  margin: 0 0 8px;
+
+  --background: transparent;
+  --background-hover: #{$primary-soft};
+  --background-focused: #{$primary-soft};
+  --background-activated: #{$primary-soft};
+
+  --color: #{$primary};
+
+  --padding-start: 0;
+  --padding-end: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   RESUMEN
+   ========================= */
+
+.admin-summary {
+  width: 100%;
+
+  margin: 0 0 18px;
+
+  --background: #{$surface};
+
+  border: 1px solid $border;
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
+
+  ion-card-content {
+    padding: 18px 20px;
+  }
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  strong {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 50px;
+    height: 50px;
+
+    border:
+      1px solid rgba(36, 107, 106, 0.14);
+
+    border-radius: 13px;
+
+    background: $secondary-soft;
+
+    color: $secondary;
+
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  span {
+    color: $text-primary;
+
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+
+/* =========================
+   BUSCADOR
+   ========================= */
+
+.search-section {
+  margin-bottom: 20px;
+}
+
+.admin-searchbar {
+  padding: 0;
+
+  --background: #{$surface};
+  --color: #{$text-primary};
+
+  --placeholder-color: #{$text-muted};
+  --placeholder-opacity: 1;
+
+  --icon-color: #{$secondary};
+  --clear-button-color: #{$text-secondary};
+
+  --border-radius: 12px;
+
+  border: 1px solid $border;
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px
+    rgba(37, 35, 33, 0.035);
+}
+
+
+/* =========================
+   MENSAJES
+   ========================= */
+
+.admin-message {
+  width: 100%;
+
+  margin: 0;
+
+  --background: #{$surface};
+
+  border: 1px solid $border;
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(37, 35, 33, 0.045);
+
+  text-align: center;
+
+  ion-card-content {
+    padding: 26px;
+  }
+
+  ion-spinner {
+    margin-bottom: 10px;
+
+    color: $primary;
+  }
+
+  h2 {
+    margin: 0 0 8px;
+
+    color: $text-primary;
+
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-secondary;
+
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+.retry-button {
+  margin-top: 16px;
+
+  --color: #{$primary};
+  --border-color: #{$primary};
+
+  --border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-transform: none;
+}
+
+
+/* =========================
+   LISTADO
+   ========================= */
+
+.ayudantes-section {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  margin-top: 18px;
+}
+
+
+/* =========================
+   FILA / TARJETA
+   ========================= */
+
+.ayudante-list-item {
+  width: 100%;
+
+  margin: 0;
+
+  --background: #{$surface};
+
+  border: 1px solid $border;
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px
+    rgba(37, 35, 33, 0.05);
+
+  ion-card-content {
+    padding: 16px 18px;
+  }
+}
+
+
+/* =========================
+   PARTE SUPERIOR
+   ========================= */
+
+.ayudante-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 24px;
+}
+
+.ayudante-identidad {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-width: 0;
+  flex: 1;
+}
+
+.ayudante-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid rgba(201, 79, 50, 0.18);
+
+  border-radius: 50%;
+
+  background: $primary-soft;
+
+  color: $primary;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+.ayudante-datos {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.nombre-row {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  flex-wrap: wrap;
+}
+
+.ayudante-nombre {
+  color: $text-primary;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+.ayudante-badge {
+  --background: #{$success-soft};
+  --color: #{$success};
+
+  padding: 4px 8px;
+
+  border-radius: 14px;
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.ayudante-carrera {
+  color: $text-secondary;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ayudante-institucion {
+  color: $text-muted;
+
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+
+/* =========================
+   MÉTRICA
+   ========================= */
+
+.ayudante-metrica {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 120px;
+
+  padding: 10px 14px;
+
+  background: $secondary-soft;
+
+  border:
+    1px solid rgba(36, 107, 106, 0.12);
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  strong {
+    color: $secondary;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    line-height: 1;
+  }
+
+  span {
+    margin-top: 4px;
+
+    color: $text-secondary;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    line-height: 1.3;
+  }
+}
+
+
+/* =========================
+   ESPECIALIDADES
+   ========================= */
+
+.especialidades-row {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 13px;
+  padding-top: 12px;
+
+  border-top: 1px solid $border;
+}
+
+.especialidades-label {
+  flex-shrink: 0;
+
+  color: $secondary;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.especialidades-tags {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+.especialidad-tag {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 8px;
+
+  border-radius: 14px;
+
+  background: $secondary-soft;
+
+  color: $secondary;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  line-height: 1.2;
+}
+
+.sin-especialidades {
+  color: $text-muted;
+
+  font-size: 11px;
+  font-style: italic;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 700px) {
+
+  .ayudante-main {
+    align-items: flex-start;
+  }
+
+  .ayudante-metrica {
+    min-width: 105px;
+
+    padding: 9px 10px;
+  }
+
+}
+
+
+@media (max-width: 560px) {
+
+  .admin-welcome {
+
+    h1 {
+      font-size: 27px;
+    }
+  }
+
+  .ayudante-list-item {
+
+    ion-card-content {
+      padding: 15px;
+    }
+  }
+
+  .ayudante-main {
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .ayudante-identidad {
+    width: 100%;
+  }
+
+  .ayudante-metrica {
+    width: 100%;
+
+    flex-direction: row;
+
+    justify-content: flex-start;
+
+    gap: 7px;
+
+    text-align: left;
+
+    strong {
+      font-size: 18px;
+    }
+
+    span {
+      margin-top: 0;
+
+      font-size: 11px;
+    }
+  }
+
+  .especialidades-row {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 7px;
+  }
+
+}
+
+
+@media (max-width: 380px) {
+
+  .nombre-row {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+}

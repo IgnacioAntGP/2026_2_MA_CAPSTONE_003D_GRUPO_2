@@ -8,6 +8,34 @@ const {
 
 class AyudanteController {
 
+  async obtenerTodos(req, res) {
+
+    try {
+
+      const ayudantes =
+        await ayudanteService
+          .obtenerTodos();
+
+
+      return res
+        .status(200)
+        .json(ayudantes);
+
+    } catch (err) {
+
+      console.error(
+        'Error al obtener listado de ayudantes:',
+        err
+      );
+
+
+      return res.status(500).json({
+        error: err.message
+      });
+    }
+  }
+
+
   async obtenerPerfilPublico(req, res) {
 
     let inputDTO;

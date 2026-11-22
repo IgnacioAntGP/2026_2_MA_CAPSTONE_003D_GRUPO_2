@@ -4,6 +4,21 @@ import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CategoriaSolicitud, NuevaCategoriaSolicitud } from '../../models/IFiltros';
 
+export interface AyudantesPorEspecialidad {
+  id_asignatura: number;
+  especialidad: string;
+  codigo: string | null;
+  total_ayudantes: number;
+}
+
+export interface EstadisticasAdministracion {
+  ayudantes_registrados: number;
+  consultas_activas: number;
+  ayudantias_finalizadas: number;
+  especialidades_cubiertas: number;
+  ayudantes_por_especialidad: AyudantesPorEspecialidad[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,39 +29,47 @@ export class AdministracionService {
 
   obtenerCategorias(): Observable<CategoriaSolicitud[]> {
     return this.http.get<any[]>(`${this.apiUrl}/categorias-solicitud`).pipe(
-        map(items => items.map(cat => ({
+      map(items => items.map(cat => ({
         id_categoria: BigInt(cat.id_categoria),
         nombre: cat.nombre,
         descripcion: cat.descripcion,
         esActivo: cat.es_activo ?? cat.esActivo ?? true
-        })))
+      })))
     );
   }
 
   crearCategoria(payload: NuevaCategoriaSolicitud): Observable<CategoriaSolicitud> {
-        const body = {
-            nombre: payload.nombre,
-            descripcion: payload.descripcion,
-            es_activo: payload.esActivo ?? true
+    const body = {
+      nombre: payload.nombre,
+      descripcion: payload.descripcion,
+      es_activo: payload.esActivo ?? true
+    };
+
+    return this.http.post<any>(`${this.apiUrl}/categorias-solicitud`, body).pipe(
+      map(res => {
+        const data = Array.isArray(res)
+          ? res[0]
+          : (res?.categoria || res?.data || res);
+
+        const rawId = data?.id_categoria ?? data?.id;
+
+        const idFinal = (rawId !== undefined && rawId !== null)
+          ? BigInt(rawId)
+          : BigInt(Date.now());
+
+        return {
+          id_categoria: idFinal,
+          nombre: data?.nombre || payload.nombre,
+          descripcion: data?.descripcion || payload.descripcion,
+          esActivo: data?.es_activo ?? data?.esActivo ?? true
         };
+      })
+    );
+  }
 
-        return this.http.post<any>(`${this.apiUrl}/categorias-solicitud`, body).pipe(
-            map(res => {
-                const data = Array.isArray(res) ? res[0] : (res?.categoria || res?.data || res);
-
-                const rawId = data?.id_categoria ?? data?.id;
-
-                const idFinal = (rawId !== undefined && rawId !== null)
-                    ? BigInt(rawId)
-                    : BigInt(Date.now());
-
-                return {
-                    id_categoria: idFinal,
-                    nombre: data?.nombre || payload.nombre,
-                    descripcion: data?.descripcion || payload.descripcion,
-                    esActivo: data?.es_activo ?? data?.esActivo ?? true
-                };
-            })
-        );
-    }
+  obtenerEstadisticas(): Observable<EstadisticasAdministracion> {
+    return this.http.get<EstadisticasAdministracion>(
+      `${this.apiUrl}/administracion/estadisticas`
+    );
+  }
 }
