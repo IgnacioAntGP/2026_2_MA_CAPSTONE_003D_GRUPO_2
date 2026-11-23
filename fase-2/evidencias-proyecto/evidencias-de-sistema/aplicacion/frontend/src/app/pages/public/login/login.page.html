@@ -103,14 +103,24 @@
         </div>
 
 
+        <!-- ERROR LOGIN -->
+        <p
+          *ngIf="errorLogin"
+          class="login-error"
+          role="alert"
+        >
+          {{ errorLogin }}
+        </p>
+
+
         <!-- INGRESAR -->
         <ion-button
           class="login-button"
           type="submit"
           expand="block"
-          routerLink="/comunidad"
+          [disabled]="cargando"
         >
-          Ingresar
+          {{ cargando ? 'Ingresando...' : 'Ingresar' }}
         </ion-button>
 
 

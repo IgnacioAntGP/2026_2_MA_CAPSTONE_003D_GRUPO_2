@@ -7,13 +7,22 @@ import { AppComponent } from './app/app.component';
 
 // Si no funciona el WebAPI es porque falta el provideHTTPClient en el main.ts,
 // pero no es necesario si se usa HttpClientModule en app.module.ts
-import { provideHttpClient } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors
+} from '@angular/common/http';
+
+import { authInterceptor } from './app/core/interceptors/auth.interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular({scrollAssist: false,scrollPadding: false}),
     provideRouter(routes, withPreloading(PreloadAllModules), withComponentInputBinding()),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([
+        authInterceptor
+      ])
+    ),
   ],
 });
