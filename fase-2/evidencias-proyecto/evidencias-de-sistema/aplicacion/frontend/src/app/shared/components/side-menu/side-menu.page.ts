@@ -1,7 +1,10 @@
 import {ChangeDetectorRef,Component,OnInit} from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import {
+  Router,
+  RouterLink
+} from '@angular/router';
 
 import {IonButton,IonIcon} from '@ionic/angular';
 
@@ -36,6 +39,8 @@ import {
 import {
   AyudantiaService
 } from '../../../core/services/AyudantiaService';
+
+import { LoginService } from '../../../core/services/LoginService';
 
 
 @Component({
@@ -85,7 +90,7 @@ export class SideMenuComponent
 
 
   // Temporal hasta conectar sesión real
-  idUsuarioActual = 1;
+  idUsuarioActual: number | null = null;
 
 
   constructor(
@@ -97,6 +102,12 @@ export class SideMenuComponent
 
     private ayudantiaService:
       AyudantiaService,
+
+    private loginService:
+      LoginService,
+
+    private router:
+      Router,
 
     private cdr:
       ChangeDetectorRef
@@ -120,11 +131,23 @@ export class SideMenuComponent
 
 
   ngOnInit(): void {
+
+    this.idUsuarioActual =
+      this.loginService.obtenerIdUsuario();
+
+    if (!this.idUsuarioActual) {
+      return;
+    }
+
     this.cargarNoLeidas();
   }
 
 
   cargarNoLeidas(): void {
+
+    if (!this.idUsuarioActual) {
+      return;
+    }
 
     this.notificacionService
       .contarNoLeidas(
@@ -163,6 +186,10 @@ export class SideMenuComponent
 
 
   cargarNotificaciones(): void {
+
+    if (!this.idUsuarioActual) {
+      return;
+    }
 
     this.cargandoNotificaciones = true;
 
@@ -227,6 +254,9 @@ export class SideMenuComponent
   seleccionarNotificacion(
     notificacion: Notificacion
   ): void {
+    if (!this.idUsuarioActual) {
+      return;
+    }
 
     this.notificacionSeleccionada =
       notificacion;
@@ -610,6 +640,17 @@ export class SideMenuComponent
 
       });
 
+  }
+
+  cerrarSesion(): void {
+
+    this.loginService.cerrarSesion();
+
+    this.cerrarMenu();
+
+    this.router.navigate([
+      '/login'
+    ]);
   }
 
   obtenerResultadoNotificacion(

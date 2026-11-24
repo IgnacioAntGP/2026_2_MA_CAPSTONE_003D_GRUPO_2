@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import {
   IonContent,
@@ -9,6 +14,7 @@ import {
   IonButton
 } from '@ionic/angular';
 
+import { LoginService } from '../../../core/services/LoginService';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +24,6 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
 
     IonContent,
     IonInput,
@@ -28,11 +33,16 @@ import {
 export class LoginPage implements OnInit {
 
   correo: string = '';
-
   password: string = '';
 
+  cargando: boolean = false;
+  errorLogin: string = '';
 
-  constructor() {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
 
   ngOnInit() {
@@ -42,15 +52,63 @@ export class LoginPage implements OnInit {
 
   ingresar() {
 
-    console.log(
-      'Correo:',
-      this.correo
-    );
+    if (this.cargando) {
+      return;
+    }
 
-    console.log(
-      'Contraseña:',
-      this.password
-    );
+    this.errorLogin = '';
+
+    if (
+      !this.correo.trim() ||
+      !this.password
+    ) {
+
+      this.errorLogin =
+        'Debes ingresar correo y contraseña.';
+
+      return;
+    }
+
+    this.cargando = true;
+
+    this.loginService
+      .login(
+        this.correo,
+        this.password
+      )
+      .subscribe({
+
+        next: () => {
+
+          this.cargando = false;
+
+          this.correo = '';
+          this.password = '';
+          this.errorLogin = '';
+
+          this.cdr.detectChanges();
+
+          this.router.navigate([
+            '/comunidad'
+          ]);
+        },
+
+        error: (
+          error: HttpErrorResponse
+        ) => {
+
+          this.cargando = false;
+
+          this.errorLogin =
+            error.error?.error ||
+            'No fue posible iniciar sesión. Intenta nuevamente.';
+
+          this.password = '';
+
+          this.cdr.detectChanges();
+        }
+
+      });
 
   }
 
