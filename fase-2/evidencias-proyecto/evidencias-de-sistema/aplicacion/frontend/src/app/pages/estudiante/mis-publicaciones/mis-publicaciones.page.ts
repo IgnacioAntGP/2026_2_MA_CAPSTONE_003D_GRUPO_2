@@ -1,3 +1,4 @@
+import { LoginService } from './../../../core/services/LoginService';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -38,12 +39,12 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
 export class MisPublicacionesPage implements OnInit {
   publicaciones: Consulta[] = [];
 
-  // Temporal hasta implementar login real
-  idUsuarioActual = 1;
+  idUsuarioActual: number | null = null;
 
   constructor(
     private ticketService: TicketService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loginService: LoginService
   ) {}
 
   ngOnInit() {
@@ -54,8 +55,24 @@ export class MisPublicacionesPage implements OnInit {
     this.cargarMisPublicaciones();
   }
 
+  private obtenerIdUsuarioSession() {
+    const idUsuario = this.loginService.obtenerIdUsuario();
+
+    if (!idUsuario) {
+      return null;
+    }
+
+    return idUsuario;
+  }
+
   cargarMisPublicaciones() {
-    this.ticketService.obtenerMisConsultas(this.idUsuarioActual).subscribe({
+    const idUsuario = this.obtenerIdUsuarioSession();
+
+    if (!idUsuario) {
+      return console.warn('No se pudo obtener el ID del usuario de la sesion.');
+    }
+
+    this.ticketService.obtenerMisConsultas(idUsuario).subscribe({
       next: (data) => {
         this.publicaciones = data;
 

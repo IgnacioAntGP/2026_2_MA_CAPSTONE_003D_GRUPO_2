@@ -18,6 +18,7 @@ import { AsignaturaService } from '../../../core/services/AsignaturaService';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 import { PostulacionAyudante } from '../../../models/IPostulacionAyudante';
 import { IAsignatura } from '../../../models/IAsignatura';
+import { LoginService } from '../../../core/services/LoginService';
 
 @Component({
   selector: 'app-postular-ayudante',
@@ -43,7 +44,7 @@ export class PostularAyudantePage {
   experiencia = '';
 
   // Temporal hasta implementar autenticación real
-  idUsuarioActual = 1;
+  idUsuarioActual: number | null = null;
 
   solicitudEnviada = false;
   enviandoSolicitud = false;
@@ -59,6 +60,7 @@ export class PostularAyudantePage {
     private asignaturaService: AsignaturaService,
     private alertController: AlertController,
     private cdr: ChangeDetectorRef,
+    private loginService: LoginService,
   ) { }
 
   ionViewWillEnter() {
@@ -71,6 +73,16 @@ export class PostularAyudantePage {
 
     this.cargarAsignaturasDisponibles();
     this.cdr.markForCheck();
+  }
+
+  private obtenerIdUsuarioSession(){
+    const idUsuario = this.loginService.obtenerIdUsuario();
+
+    if(!idUsuario){
+      return null;
+    }
+
+    return idUsuario;
   }
 
   cargarAsignaturasDisponibles() {
@@ -90,6 +102,11 @@ export class PostularAyudantePage {
 
     const motivo = this.motivo.trim();
     const experiencia = this.experiencia.trim();
+    const idUsuario = this.obtenerIdUsuarioSession();
+
+    if(!idUsuario){
+      return console.warn("No se pudo obtener el ID del usuario de la sesión.")
+    }
 
     // Validamos solo los campos obligatorios principales (motivo y experiencia)
     if (!motivo || !experiencia) {
@@ -101,7 +118,7 @@ export class PostularAyudantePage {
 
     this.postulacionService
       .postularComoAyudante(
-        this.idUsuarioActual,
+        idUsuario,
         this.idAsignaturaSeleccionada, // Puede ser null o number sin romper la validación
         motivo,
         experiencia

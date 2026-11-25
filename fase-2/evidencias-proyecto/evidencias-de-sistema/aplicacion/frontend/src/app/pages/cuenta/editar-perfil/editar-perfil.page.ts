@@ -1,8 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,18 +10,15 @@ import {
   IonCardContent,
   IonInput,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
 } from '@ionic/angular';
 
-import {
-  Router,
-  RouterLink
-} from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { PerfilUsuario } from '../../../models/IPerfil';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
-
+import { LoginService } from '../../../core/services/LoginService';
 
 @Component({
   selector: 'app-editar-perfil',
@@ -45,15 +38,12 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     IonSelect,
     IonSelectOption,
 
-    SideMenuComponent
-  ]
+    SideMenuComponent,
+  ],
 })
 export class EditarPerfilPage implements OnInit {
-
   perfil?: PerfilUsuario;
-
-  // Temporal hasta implementar login real
-  idUsuarioActual = 1;
+  idUsuarioActual: number | null = null;
 
   carrera = '';
 
@@ -61,113 +51,89 @@ export class EditarPerfilPage implements OnInit {
 
   institucion = '';
 
-
   constructor(
     private ticketService: TicketService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loginService: LoginService
   ) {}
 
-
   ngOnInit() {
-
     this.cargarPerfil();
-
   }
 
+  private obtenerIdUsuarioSession(): number | null {
+    const idUsuario = this.loginService.obtenerIdUsuario();
+
+    if (!idUsuario) {
+      console.warn('Error al obtener el ID del usuario.');
+      return null;
+    }
+
+    return idUsuario;
+  }
 
   cargarPerfil() {
+    const idUsuario = this.obtenerIdUsuarioSession();
+
+    if(!idUsuario){
+      return;
+    }
+
+    this.idUsuarioActual = idUsuario;
 
     this.ticketService
-      .obtenerPerfil(this.idUsuarioActual)
+      .obtenerPerfil(idUsuario)
       .subscribe({
-
         next: (data) => {
-
           this.perfil = data;
 
-          this.carrera =
-            data.estudiante?.carrera ?? '';
+          this.carrera = data.estudiante?.carrera ?? '';
 
-          this.semestre =
-            data.estudiante?.semestre ?? null;
+          this.semestre = data.estudiante?.semestre ?? null;
 
-          this.institucion =
-            data.estudiante?.institucion ?? '';
+          this.institucion = data.estudiante?.institucion ?? '';
 
           this.cdr.markForCheck();
 
-          console.log(
-            'Perfil cargado para edición:',
-            data
-          );
-
+          console.log('Perfil cargado para edición:', data);
         },
 
         error: (error) => {
-
-          console.error(
-            'Error al cargar perfil:',
-            error
-          );
-
-        }
-
+          console.error('Error al cargar perfil:', error);
+        },
       });
-
   }
 
-
   guardarCambios() {
+    const idUsuario = this.obtenerIdUsuarioSession();
 
-    if (
-      !this.carrera.trim() ||
-      !this.semestre ||
-      !this.institucion.trim()
-    ) {
-
-      console.warn(
-        'Faltan campos obligatorios'
-      );
-
+    if(!idUsuario){
       return;
-
     }
 
+    if (!this.carrera.trim() || !this.semestre || !this.institucion.trim()) {
+      console.warn('Faltan campos obligatorios');
+      return;
+    }
 
     this.ticketService
       .actualizarPerfil(
-        this.idUsuarioActual,
+        idUsuario,
         this.carrera.trim(),
         this.semestre,
         this.institucion.trim()
       )
       .subscribe({
-
         next: (respuesta) => {
+          console.log('Perfil actualizado:', respuesta);
 
-          console.log(
-            'Perfil actualizado:',
-            respuesta
-          );
-
-          this.router.navigate([
-            '/mi-perfil'
-          ]);
-
+          this.router.navigate(['/mi-perfil']);
         },
 
         error: (error) => {
-
-          console.error(
-            'Error al actualizar perfil:',
-            error
-          );
-
-        }
-
+          console.error('Error al actualizar perfil:', error);
+        },
       });
-
   }
-
 }

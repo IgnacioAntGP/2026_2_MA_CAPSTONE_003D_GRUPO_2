@@ -18,6 +18,8 @@ import { TicketService } from '../../../core/services/ConsultaService';
 import { MisTutoria } from '../../../models/IMisTutorias';
 import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
+import { LoginPage } from '../../public/login/login.page';
+import { LoginService } from '../../../core/services/LoginService';
 
 @Component({
   selector: 'app-mis-ayudantias',
@@ -42,22 +44,38 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
 export class MisAyudantiasPage implements OnInit {
   tutorias: MisTutoria[] = [];
 
-  // Temporal hasta implementar login real
-  idUsuarioActual = 1;
+  idUsuarioActual: number | null = null;
 
   constructor(
     private ticketService: TicketService,
     private ayudantiaService: AyudantiaService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit() {
     this.cargarMisTutorias();
   }
 
+  private obtenerIdUsuarioSession(){
+    const idUsuario = this.loginService.obtenerIdUsuario();
+
+    if(!idUsuario){
+      return null;
+    }
+
+    return idUsuario;
+  }
+
   cargarMisTutorias() {
-    this.ticketService.obtenerMisTutorias(this.idUsuarioActual).subscribe({
+    const idUsuario = this.obtenerIdUsuarioSession();
+
+    if(!idUsuario){
+      return console.warn("No se pudo obtener el ID del usuario en la sesion.")
+    }
+
+    this.ticketService.obtenerMisTutorias(idUsuario).subscribe({
       next: (data) => {
         this.tutorias = data;
 
