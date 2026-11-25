@@ -71,6 +71,8 @@ export class PanelAyudantePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.usuarioAyudante = null;
+    this.publicacionesComunidad = [];
     this.cargarMetaData();
   }
 
@@ -93,6 +95,7 @@ export class PanelAyudantePage implements OnInit {
       next: (data) => {
         this.publicacionesComunidad = data.slice(0, 3);
         this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error comunidad:', error);
@@ -103,6 +106,7 @@ export class PanelAyudantePage implements OnInit {
       next: (data) => {
         this.metricas.pendientes = data.length;
         this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error disponibles:', error);
@@ -112,6 +116,7 @@ export class PanelAyudantePage implements OnInit {
     if (!idUsuario) {
       this.metricas.activas = 0;
       this.cdr.markForCheck();
+      this.cdr.detectChanges();
       return;
     }
 
@@ -119,6 +124,7 @@ export class PanelAyudantePage implements OnInit {
       next: (data) => {
         this.metricas.activas = data.length;
         this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error mis ayudantías:', error);
@@ -138,6 +144,7 @@ export class PanelAyudantePage implements OnInit {
         }
 
         this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al cargar estadísticas del perfil:', error);
