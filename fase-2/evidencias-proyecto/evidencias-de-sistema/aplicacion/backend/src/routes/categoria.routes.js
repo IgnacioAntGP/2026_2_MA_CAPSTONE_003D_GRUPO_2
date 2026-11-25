@@ -7,10 +7,14 @@ const {
   obtenerCategoriasActivas,
   obtenerDetalleCategoria
 } = require('../controllers/categoria.controller');
+const { verificarToken, autorizarRoles } = require('../auth/auth.middleware');
 
-router.post('/', crearNuevaCategoria);
-router.get('/', obtenerCategorias);
-router.get('/activas', obtenerCategoriasActivas);
-router.get('/:id_categoria', obtenerDetalleCategoria);
+router.post('/', verificarToken, autorizarRoles('Administrador'), crearNuevaCategoria);
+
+router.get('/', verificarToken, obtenerCategorias);
+
+router.get('/activas', verificarToken, obtenerCategoriasActivas);
+
+router.get('/:id_categoria', verificarToken, obtenerDetalleCategoria);
 
 module.exports = router;

@@ -1,18 +1,11 @@
 const { Router } = require('express');
 const router = Router();
 
-const administracionController =
-  require('../controllers/administracion.controller');
+const administracionController = require('../controllers/administracion.controller');
+const { verificarToken, autorizarRoles } = require('../auth/auth.middleware');
 
-
-router.get(
-  '/estadisticas',
-  (req, res) =>
-    administracionController.obtenerEstadisticas(
-      req,
-      res
-    )
+router.get('/estadisticas', verificarToken, autorizarRoles('Administrador'), (req, res) =>
+  administracionController.obtenerEstadisticas(req, res)
 );
-
 
 module.exports = router;

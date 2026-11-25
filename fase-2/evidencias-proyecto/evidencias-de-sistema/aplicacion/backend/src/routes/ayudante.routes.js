@@ -1,28 +1,15 @@
 const { Router } = require('express');
 const router = Router();
 
-const ayudanteController =
-  require('../controllers/ayudante.controller');
+const ayudanteController = require('../controllers/ayudante.controller');
+const { verificarToken, autorizarRoles } = require('../auth/auth.middleware');
 
-
-router.get(
-  '/',
-  (req, res) =>
-    ayudanteController.obtenerTodos(
-      req,
-      res
-    )
+router.get('/', verificarToken, autorizarRoles('Administrador'), (req, res) =>
+  ayudanteController.obtenerTodos(req, res)
 );
 
-
-router.get(
-  '/usuario/:id_usuario/perfil',
-  (req, res) =>
-    ayudanteController.obtenerPerfilPublico(
-      req,
-      res
-    )
+router.get('/usuario/:id_usuario/perfil', verificarToken, (req, res) =>
+  ayudanteController.obtenerPerfilPublico(req, res)
 );
-
 
 module.exports = router;
