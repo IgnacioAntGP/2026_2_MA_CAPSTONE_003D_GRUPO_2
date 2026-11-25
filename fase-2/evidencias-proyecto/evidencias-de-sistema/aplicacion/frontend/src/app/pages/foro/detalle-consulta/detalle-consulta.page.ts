@@ -1,3 +1,4 @@
+import { LoginService } from './../../../core/services/LoginService';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -52,25 +53,40 @@ export class DetalleConsultaPage implements OnInit {
   errorCargandoRespuestas: boolean = false;
   nuevaRespuesta = '';
 
-  idUsuarioActual = 1;
+  idUsuarioActual: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private ticketService: TicketService,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id && !isNaN(Number(id))) {
-      this.idConsulta = Number(id);
+    const idConsulta = this.route.snapshot.paramMap.get('id');
+
+    this.cargarPerfil();
+
+    if (idConsulta && !isNaN(Number(idConsulta))) {
+      this.idConsulta = Number(idConsulta);
       this.cargarConsulta();
       this.cargarRespuestas();
     } else {
       this.router.navigate(['/comunidad']);
     }
+  }
+
+  cargarPerfil() {
+    const idUsuario = this.loginService.obtenerIdUsuario();
+
+    if (!idUsuario) {
+      console.warn('No hay un usuario autenticado en la sesión.');
+      return;
+    }
+
+    return this.idUsuarioActual = idUsuario;
   }
 
   cargarConsulta() {
@@ -120,20 +136,26 @@ export class DetalleConsultaPage implements OnInit {
 
   publicarRespuesta() {
     const contenido = this.nuevaRespuesta.trim();
+    const idUsuario = this.loginService.obtenerIdUsuario();
 
     if (!contenido) {
       return;
     }
 
+    if(!idUsuario){
+      console.warn("No se pudo obtener el ID del usuario.")
+      return;
+    }
+
+    this.idUsuarioActual = idUsuario;
+
     this.ticketService
-      .agregarRespuesta(this.idConsulta, this.idUsuarioActual, contenido)
+      .agregarRespuesta(this.idConsulta, idUsuario, contenido)
       .subscribe({
         next: () => {
           console.log('Respuesta publicada correctamente');
-
           this.nuevaRespuesta = '';
           this.cargarRespuestas();
-
           this.cdr.markForCheck();
         },
 

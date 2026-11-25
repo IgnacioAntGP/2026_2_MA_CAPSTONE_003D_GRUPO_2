@@ -7,13 +7,14 @@ import {
   IonInput,
   IonSelect,
   IonSelectOption,
-  IonTextarea
+  IonTextarea,
 } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { NuevaConsulta } from '../../../models/IConsulta';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
+import { LoginService } from '../../../core/services/LoginService';
 
 @Component({
   selector: 'app-nueva-publicacion',
@@ -30,31 +31,44 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     CommonModule,
     FormsModule,
     RouterLink,
-    SideMenuComponent
-  ]
+    SideMenuComponent,
+  ],
 })
 export class NuevaPublicacionPage implements OnInit {
-
   titulo = '';
   descripcion = '';
   idAsignatura: number | null = null;
 
   // Temporal hasta implementar login real
-  idUsuarioActual = 1;
+  idUsuarioActual: number | null = null;
 
   constructor(
     private ticketService: TicketService,
     private router: Router,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private cdr: ChangeDetectorRef,
+    private loginService: LoginService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  private obtenerIdUsuarioSession() {
+    const idUsuario = this.loginService.obtenerIdUsuario();
+
+    if (!idUsuario) {
+      return null;
+    }
+
+    return idUsuario;
   }
 
   publicarConsulta() {
-
     const titulo = this.titulo.trim();
     const descripcion = this.descripcion.trim();
+    const idUsuario = this.obtenerIdUsuarioSession();
+
+    if (!idUsuario) {
+      return console.warn('No se pudo obtener el ID del usuario de la sesion.');
+    }
 
     if (!titulo || !descripcion || !this.idAsignatura) {
       console.warn('Faltan campos obligatorios');
@@ -62,15 +76,14 @@ export class NuevaPublicacionPage implements OnInit {
     }
 
     const payload: Omit<NuevaConsulta, 'fecha_creacion'> = {
-      id_usuario: this.idUsuarioActual,
+      id_usuario: idUsuario,
       id_asignatura: this.idAsignatura,
       titulo,
-      descripcion
+      descripcion,
     };
 
     this.ticketService.crearConsulta(payload).subscribe({
       next: (respuesta) => {
-
         console.log('Consulta creada correctamente:', respuesta);
 
         this.titulo = '';
@@ -83,9 +96,7 @@ export class NuevaPublicacionPage implements OnInit {
       },
       error: (error) => {
         console.error('Error al crear consulta:', error);
-      }
+      },
     });
-
   }
-
 }
