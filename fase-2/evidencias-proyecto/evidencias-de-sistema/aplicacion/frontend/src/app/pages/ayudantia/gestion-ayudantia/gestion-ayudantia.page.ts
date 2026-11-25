@@ -92,10 +92,8 @@ export class GestionAyudantiaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.resolverRolesUsuario;
+    this.resolverRolesUsuario();
     const paramId = this.route.snapshot.paramMap.get('id');
-    console.log('--- DEBUG: GestionAyudantiaPage inicializada ---');
-    console.log('ID capturado desde los parámetros de la URL:', paramId);
 
     if (paramId) {
       this.idAyudantia = Number(paramId);
@@ -122,7 +120,6 @@ export class GestionAyudantiaPage implements OnInit {
     this.categoriaActividadService.obtenerCategoriasActividad().subscribe({
       next: (data) => {
         this.categoriasDisponibles = data;
-        console.log("Categorías cargadas para el select:", this.categoriasDisponibles);
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -176,8 +173,6 @@ export class GestionAyudantiaPage implements OnInit {
   }
 
   guardarActividad() {
-    console.log('Valores actuales del formulario:', this.nuevaActividad);
-
     if (!this.nuevaActividad.idCategoria || 
         !this.nuevaActividad.nombreActividad || 
         this.nuevaActividad.nombreActividad.trim() === '') {
@@ -212,7 +207,7 @@ export class GestionAyudantiaPage implements OnInit {
     );
 
     this.esAyudante = nombresRoles.some((rol) =>
-      ['Ayudante', 'Administrador'].includes(rol)
+      ['AYUDANTE', 'ADMINISTRADOR'].includes(rol)
     );
     this.esEstudiante = nombresRoles.includes('Estudiante') && !this.esAyudante;
   }
