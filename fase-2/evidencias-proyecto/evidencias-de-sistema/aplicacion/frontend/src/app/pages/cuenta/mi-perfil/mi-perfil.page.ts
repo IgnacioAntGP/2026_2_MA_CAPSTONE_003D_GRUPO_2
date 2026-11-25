@@ -1,24 +1,15 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import {
-  IonContent,
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonBadge
-} from '@ionic/angular';
+import { IonContent, IonButton, IonCard, IonCardContent, IonBadge } from '@ionic/angular';
 
 import { TicketService } from '../../../core/services/ConsultaService';
 import { PerfilUsuario } from '../../../models/IPerfil';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
+import { LoginService } from '../../../core/services/LoginService';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -35,60 +26,40 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     IonCardContent,
     IonBadge,
 
-    SideMenuComponent
-  ]
+    SideMenuComponent,
+  ],
 })
 export class MiPerfilPage implements OnInit {
-
   perfil?: PerfilUsuario;
 
-  // Temporal hasta implementar login real
-  idUsuarioActual = 1;
-
+  idUsuarioActual: number | null = null;
 
   constructor(
     private ticketService: TicketService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loginService: LoginService
   ) {}
 
-
   ngOnInit() {
-
     this.cargarPerfil();
-
   }
-
 
   cargarPerfil() {
+    const idUsuario = this.loginService.obtenerIdUsuario();
 
-    this.ticketService
-      .obtenerPerfil(this.idUsuarioActual)
-      .subscribe({
+    if (!idUsuario) {
+      console.warn('No hay un usuario autenticado en la sesión.');
+      return;
+    }
 
-        next: (data) => {
-
-          this.perfil = data;
-
-          this.cdr.markForCheck();
-
-          console.log(
-            'Perfil:',
-            data
-          );
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error al cargar perfil:',
-            error
-          );
-
-        }
-
-      });
-
+    this.ticketService.obtenerPerfil(idUsuario).subscribe({
+      next: (data) => {
+        this.perfil = data;
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.error('Error al cargar perfil:', error);
+      },
+    });
   }
-
 }
