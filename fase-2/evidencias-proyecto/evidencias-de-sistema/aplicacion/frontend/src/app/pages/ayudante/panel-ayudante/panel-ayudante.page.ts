@@ -67,12 +67,6 @@ export class PanelAyudantePage implements OnInit {
   ngOnInit() {
     this.usuarioAyudante = null;
     this.publicacionesComunidad = [];
-    this.metricas = {
-      pendientes: 0,
-      activas: 0,
-      finalizadas: 0,
-      evaluacion: '0.0',
-    };
     this.cdr.detectChanges();
   }
 
