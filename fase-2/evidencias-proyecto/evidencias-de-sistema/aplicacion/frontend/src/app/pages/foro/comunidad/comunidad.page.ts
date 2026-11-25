@@ -67,11 +67,21 @@ export class ComunidadPage implements OnInit {
   }
 
   ngOnInit() {
+    this.actualizarConsultas();
+    this.cdr.detectChanges();
+  }
+
+  ionViewWillEnter() {
+    this.actualizarConsultas();
+  }
+
+  actualizarConsultas(){
     this.ticketService.obtenerConsultasComunidad(true).subscribe({
       next: (data) => {
         this.consultas = data;
 
         this.cdr.markForCheck();
+        this.cdr.detectChanges();
 
         console.log('Consultas recibidas:', data);
       },
@@ -125,7 +135,7 @@ export class ComunidadPage implements OnInit {
     this.soloSinRespuesta = !this.soloSinRespuesta;
   }
 
-  mensaje(mensaje: string, id: any){
+  mensaje(mensaje: string, id: any) {
     console.log(mensaje, id);
   }
 }

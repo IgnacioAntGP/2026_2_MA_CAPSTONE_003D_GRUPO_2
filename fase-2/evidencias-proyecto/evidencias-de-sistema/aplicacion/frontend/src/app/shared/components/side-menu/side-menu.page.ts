@@ -271,8 +271,8 @@ export class SideMenuComponent implements OnInit {
   }
 
   alternarNotificaciones(): void {
+    this.idUsuarioActual = this.loginService.obtenerIdUsuario();
     this.menuAbierto = false;
-
     this.notificacionesAbiertas = !this.notificacionesAbiertas;
 
     if (this.notificacionesAbiertas) {
@@ -285,9 +285,13 @@ export class SideMenuComponent implements OnInit {
   }
 
   alternarMenu(): void {
+    this.idUsuarioActual = this.loginService.obtenerIdUsuario();
     this.notificacionesAbiertas = false;
-
     this.menuAbierto = !this.menuAbierto;
+
+    if (this.menuAbierto && this.idUsuarioActual) {
+      this.cargarNoLeidas();
+    }
   }
 
   cerrarMenu(): void {
@@ -394,10 +398,13 @@ export class SideMenuComponent implements OnInit {
 
   cerrarSesion(): void {
     this.loginService.cerrarSesion();
-
+    this.idUsuarioActual = null;
+    this.notificaciones = [];
+    this.noLeidas = 0;
+    this.perfilAyudanteSeleccionado = null;
+    this.notificacionSeleccionada = null;
     this.cerrarMenu();
-
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], { replaceUrl: true });
   }
 
   obtenerResultadoNotificacion(

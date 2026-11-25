@@ -21,6 +21,7 @@ import {
   IonChip,
   IonBadge,
 } from '@ionic/angular';
+import { LoginService } from '../../../core/services/LoginService';
 
 @Component({
   selector: 'app-mis-ayudantias',
@@ -45,7 +46,7 @@ import {
   ],
 })
 export class MisAyudantiasPage implements OnInit {
-  idUsuarioAyudante = 4;
+  idUsuarioAyudante: number | null = null;
 
   misAyudantias: SolicitudAyudantia[] = [];
 
@@ -57,7 +58,8 @@ export class MisAyudantiasPage implements OnInit {
   constructor(
     private ayudantiaService: AyudantiaService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit() {
@@ -68,11 +70,28 @@ export class MisAyudantiasPage implements OnInit {
     this.cargarMisAyudantias();
   }
 
+  private obtenerIdSession(): number | null {
+    const idUsuario = this.loginService.obtenerIdUsuario();
+
+    if(!idUsuario){
+      return null;
+    }
+
+    return idUsuario;
+  }
+
   cargarMisAyudantias() {
-    this.ayudantiaService.obtenerMisAyudantias(this.idUsuarioAyudante).subscribe({
+    const idUsuario = this.obtenerIdSession();
+
+    if(!idUsuario){
+      this.misAyudantias =[];
+      this.cdr.markForCheck();
+      return console.warn("No se pudo obtener el ID del usuario de la sesion.")
+    }
+
+    this.ayudantiaService.obtenerMisAyudantias(idUsuario).subscribe({
       next: (data) => {
         this.misAyudantias = data;
-
         this.cdr.markForCheck();
       },
 
