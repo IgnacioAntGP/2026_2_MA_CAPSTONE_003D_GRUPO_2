@@ -15,12 +15,14 @@
   </div>
 
   <!-- Botón de Creación -->
+  @if (esAyudante) {
   <div class="action-bar ion-margin-bottom">
     <ion-button color="primary" size="small" (click)="abrirModalNuevaActividad()">
       <ion-icon name="add-outline" slot="start"></ion-icon>
       Nueva Actividad
     </ion-button>
   </div>
+  }
 
   <!-- Spinner de carga -->
   @if (cargando) {
@@ -60,17 +62,21 @@
               </ion-text>
             </td>
             <td class="ion-text-center">
-              @if (act.idEstadoActividad !== 3) {
-              <ion-button fill="clear" size="small" color="success"
-                title="Marcar como completada" (click)="marcarComoCompletada(act)">
-                <ion-icon name="checkmark-done-outline"></ion-icon>
-              </ion-button>
-              }
-              @if (act.idEstadoActividad == 3){
-              <ion-button fill="clear" size="small" color="danger"
-                title="Marcar como en revisión" (click)="marcarComoEnRevision(act)">
-                <ion-icon name="eye-outline"></ion-icon>
-              </ion-button>
+              @if (esAyudante) {
+                @if (act.idEstadoActividad !== 3) {
+                <ion-button fill="clear" size="small" color="success"
+                  title="Marcar como completada" (click)="marcarComoCompletada(act)">
+                  <ion-icon name="checkmark-done-outline"></ion-icon>
+                </ion-button>
+                }
+                @if (act.idEstadoActividad == 3){
+                <ion-button fill="clear" size="small" color="danger"
+                  title="Marcar como en revisión" (click)="marcarComoEnRevision(act)">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </ion-button>
+                }
+              } @else {
+                <span class="text-muted">Solo lectura</span>
               }
             </td>
           </tr>

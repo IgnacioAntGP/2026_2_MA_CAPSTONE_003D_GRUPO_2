@@ -30,6 +30,9 @@ import { IActividad } from '../../../models/IActividad';
 import { ICategoriaActividad, ESTADO_ACTIVIDAD } from '../../../models/ICategoriaActividad';
 import { TicketService } from './../../../core/services/ConsultaService';
 
+import { LoginService } from '../../../core/services/LoginService';
+import { RolAuth } from '../../../models/IAuth';
+
 @Component({
   selector: 'app-gestion-ayudantia',
   templateUrl: './gestion-ayudantia.page.html',
@@ -72,11 +75,15 @@ export class GestionAyudantiaPage implements OnInit {
 
   categoriasDisponibles: ICategoriaActividad[] = [];
 
+  esAyudante: boolean = false;
+  esEstudiante: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private actividadService: ActividadService,
     private consultaService: TicketService,
     private categoriaActividadService: CategoriaActividadService,
+    private loginService: LoginService,
     private cdr: ChangeDetectorRef
   ) {
     addIcons({
@@ -85,6 +92,7 @@ export class GestionAyudantiaPage implements OnInit {
   }
 
   ngOnInit() {
+    this.resolverRolesUsuario;
     const paramId = this.route.snapshot.paramMap.get('id');
     console.log('--- DEBUG: GestionAyudantiaPage inicializada ---');
     console.log('ID capturado desde los parámetros de la URL:', paramId);
@@ -195,6 +203,18 @@ export class GestionAyudantiaPage implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  private resolverRolesUsuario(): void {
+    const roles: RolAuth[] = this.loginService.obtenerRoles() ?? [];
+    const nombresRoles = roles.map((r) =>
+      (typeof r === 'string' ? r : (r.nombre ?? '')).toString().toUpperCase()
+    );
+
+    this.esAyudante = nombresRoles.some((rol) =>
+      ['Ayudante', 'Administrador'].includes(rol)
+    );
+    this.esEstudiante = nombresRoles.includes('Estudiante') && !this.esAyudante;
   }
 
   volverAtras() {
