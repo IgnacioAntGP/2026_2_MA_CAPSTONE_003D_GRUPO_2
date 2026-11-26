@@ -1,319 +1,164 @@
 <ion-content [fullscreen]="true">
-
   <div class="page-container">
-
     <main class="page-content page-wide">
-
-
       <!-- BIENVENIDA -->
       <header class="admin-welcome">
-
         <div>
+          <span class="welcome-label"> Espacio de administración </span>
 
-          <span class="welcome-label">
-            Espacio de administración
-          </span>
+          <h1>Bienvenido, Administrador</h1>
 
-          <h1>
-            Bienvenido, Administrador
-          </h1>
-
-          <p>
-            Gestiona los principales elementos de la comunidad
-            EntrePares desde este panel.
-          </p>
-
+          <p>Gestiona los principales elementos de la comunidad EntrePares desde este panel.</p>
         </div>
 
         <app-side-menu></app-side-menu>
-
       </header>
-
 
       <!-- RESUMEN -->
       <ion-card class="admin-summary">
-
         <ion-card-content>
-
           <div class="summary-item">
+            <strong> {{ postulacionesPendientes.length }} </strong>
 
-            <strong>
-              {{ postulacionesPendientes.length }}
-            </strong>
-
-            <span>
-              Postulaciones pendientes
-            </span>
-
+            <span> Postulaciones pendientes </span>
           </div>
-
         </ion-card-content>
-
       </ion-card>
-
 
       <!-- GESTIÓN -->
       <section class="admin-section">
-
         <div class="section-header">
+          <span class="section-label"> Gestión </span>
 
-          <span class="section-label">
-            Gestión
-          </span>
+          <h2>Herramientas de administración</h2>
 
-          <h2>
-            Herramientas de administración
-          </h2>
-
-          <p>
-            Selecciona una sección para gestionar la información
-            correspondiente.
-          </p>
-
+          <p>Selecciona una sección para gestionar la información correspondiente.</p>
         </div>
 
-
         <div class="admin-options">
-
           <!-- ESTADÍSTICAS -->
-          <ion-card
-            class="admin-option admin-option-active"
-            routerLink="/estadisticas-admin"
-          >
-
+          <ion-card class="admin-option admin-option-active" routerLink="/estadisticas-admin">
             <ion-card-content>
-
-              <div class="option-icon">
-                📊
-              </div>
+              <div class="option-icon">📊</div>
 
               <div class="option-content">
-
-                <h3>
-                  Estadísticas
-                </h3>
+                <h3>Estadísticas</h3>
 
                 <p>
-                  Revisa indicadores generales sobre la actividad y
-                  la cobertura académica de EntrePares.
+                  Revisa indicadores generales sobre la actividad y la cobertura académica de
+                  EntrePares.
                 </p>
-
               </div>
 
-              <span class="option-arrow">
-                ›
-              </span>
-
+              <span class="option-arrow"> > </span>
             </ion-card-content>
-
           </ion-card>
 
           <!-- POSTULACIONES -->
-          <ion-card
-            class="admin-option admin-option-active"
-            routerLink="/postulaciones-ayudante"
-          >
-
+          <ion-card class="admin-option admin-option-active" routerLink="/postulaciones-ayudante">
             <ion-card-content>
-
-              <div class="option-icon">
-                📄
-              </div>
+              <div class="option-icon">📄</div>
 
               <div class="option-content">
+                <h3>Postulaciones</h3>
 
-                <h3>
-                  Postulaciones
-                </h3>
-
-                <p>
-                  Revisa las solicitudes de estudiantes que desean
-                  convertirse en ayudantes.
-                </p>
-
+                <p>Revisa las solicitudes de estudiantes que desean convertirse en ayudantes.</p>
               </div>
 
-              <span class="option-arrow">
-                ›
-              </span>
-
+              <span class="option-arrow"> > </span>
             </ion-card-content>
-
           </ion-card>
-
 
           <!-- AYUDANTES -->
-          <ion-card
-            class="admin-option admin-option-active"
-            routerLink="/gestion-ayudantes"
-          >
-
+          <ion-card class="admin-option admin-option-active" routerLink="/gestion-ayudantes">
             <ion-card-content>
-
-              <div class="option-icon">
-                🤝
-              </div>
+              <div class="option-icon">🤝</div>
 
               <div class="option-content">
-
-                <h3>
-                  Ayudantes
-                </h3>
+                <h3>Ayudantes</h3>
 
                 <p>
-                  Consulta los ayudantes registrados, sus especialidades
-                  y su participación dentro de EntrePares.
+                  Consulta los ayudantes registrados, sus especialidades y su participación dentro
+                  de EntrePares.
                 </p>
-
               </div>
 
-              <span class="option-arrow">
-                ›
-              </span>
-
+              <span class="option-arrow"> > </span>
             </ion-card-content>
-
           </ion-card>
-
 
           <!-- USUARIOS -->
-          <ion-card
-            class="admin-option admin-option-disabled"
-          >
-
+          <ion-card class="admin-option admin-option-disabled">
             <ion-card-content>
-
-              <div class="option-icon">
-                👥
-              </div>
+              <div class="option-icon">👥</div>
 
               <div class="option-content">
+                <h3>Usuarios</h3>
 
-                <h3>
-                  Usuarios
-                </h3>
+                <p>Consulta y gestiona estudiantes y ayudantes registrados dentro de EntrePares.</p>
 
-                <p>
-                  Consulta y gestiona estudiantes y ayudantes registrados
-                  dentro de EntrePares.
-                </p>
-
-                <ion-badge class="option-status">
-                  Próximamente
-                </ion-badge>
-
+                <ion-badge class="option-status"> Próximamente </ion-badge>
               </div>
-
             </ion-card-content>
-
           </ion-card>
-
 
           <!-- COMUNIDAD -->
-          <ion-card
-            class="admin-option admin-option-disabled"
-          >
-
+          <ion-card class="admin-option admin-option-disabled">
             <ion-card-content>
-
-              <div class="option-icon">
-                💬
-              </div>
+              <div class="option-icon">💬</div>
 
               <div class="option-content">
-
-                <h3>
-                  Comunidad
-                </h3>
+                <h3>Comunidad</h3>
 
                 <p>
-                  Supervisa consultas y publicaciones, y gestiona contenido
-                  que pueda incumplir las normas de la comunidad.
+                  Supervisa consultas y publicaciones, y gestiona contenido que pueda incumplir las
+                  normas de la comunidad.
                 </p>
 
-                <ion-badge class="option-status">
-                  Próximamente
-                </ion-badge>
-
+                <ion-badge class="option-status"> Próximamente </ion-badge>
               </div>
-
             </ion-card-content>
-
           </ion-card>
-
 
           <!-- GESTIÓN ACADÉMICA -->
-          <ion-card
-            class="admin-option admin-option-disabled"
-          >
-
+          <ion-card class="admin-option admin-option-disabled">
             <ion-card-content>
-
-              <div class="option-icon">
-                🎓
-              </div>
+              <div class="option-icon">🎓</div>
 
               <div class="option-content">
-
-                <h3>
-                  Gestión académica
-                </h3>
+                <h3>Gestión académica</h3>
 
                 <p>
-                  Administra carreras, asignaturas y la información académica
-                  utilizada por EntrePares.
+                  Administra carreras, asignaturas y la información académica utilizada por
+                  EntrePares.
                 </p>
 
-                <ion-badge class="option-status">
-                  Próximamente
-                </ion-badge>
-
+                <ion-badge class="option-status"> Próximamente </ion-badge>
               </div>
-
             </ion-card-content>
-
           </ion-card>
 
-
           <!-- FILTROS -->
-          <ion-card
-            class="admin-option admin-option-active"
-            routerLink="/categoria-solicitudes"
-          >
-
+          <ion-card class="admin-option admin-option-active" routerLink="/categoria-solicitudes">
             <ion-card-content>
-
               <div class="option-icon">
                 <ion-icon name="hammer-outline"></ion-icon>
               </div>
 
               <div class="option-content">
-
-                <h3>
-                  Filtros activos
-                </h3>
+                <h3>Filtros activos</h3>
 
                 <p>
                   Administra los filtros a implementar para las ayudantías:
                   <strong>Categoría de las Solicitudes</strong>
                 </p>
-
               </div>
 
-              <span class="option-arrow">
-                ›
-              </span>
-
+              <span class="option-arrow"> > </span>
             </ion-card-content>
-
           </ion-card>
-
         </div>
-
       </section>
-
     </main>
-
   </div>
-
 </ion-content>
