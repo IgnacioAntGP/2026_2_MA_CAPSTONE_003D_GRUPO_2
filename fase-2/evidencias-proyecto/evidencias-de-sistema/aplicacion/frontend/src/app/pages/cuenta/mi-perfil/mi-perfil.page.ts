@@ -52,7 +52,7 @@ export class MiPerfilPage implements OnInit {
       return;
     }
 
-    this.ticketService.obtenerPerfil(idUsuario).subscribe({
+    this.ticketService.obtenerPerfil().subscribe({
       next: (data) => {
         this.perfil = data;
         this.cdr.markForCheck();
