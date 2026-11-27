@@ -15,13 +15,30 @@
   </div>
 
   <!-- Botón de Creación -->
-  @if (esAyudante) {
+  @if (esAyudante && !ayudantiaFinalizada) {
   <div class="action-bar ion-margin-bottom">
     <ion-button color="primary" size="small" (click)="abrirModalNuevaActividad()">
       <ion-icon name="add-outline" slot="start"></ion-icon>
       Nueva Actividad
     </ion-button>
+    <ion-button
+      color="success"
+      size="small"
+      (click)="finalizarAyudantia()"
+      [disabled]="!puedeFinalizarAyudantia || finalizando || !idSolicitud">
+      {{ finalizando ? 'Finalizando...' : 'Finalizar ayudantía' }}
+    </ion-button>
   </div>
+  }
+
+  @if (ayudantiaFinalizada) {
+    <ion-badge color="success" class="ion-margin-bottom">Ayudantía finalizada</ion-badge>
+  }
+
+  @if (errorGestion) {
+    <ion-text color="danger">
+      <p>{{ errorGestion }}</p>
+    </ion-text>
   }
 
   <!-- Spinner de carga -->
@@ -57,26 +74,35 @@
             </td>
             <td>{{ act.fechaCreacion | date:'dd/MM/yyyy' }}</td>
             <td>
-              <ion-text [color]="act.idEstadoActividad === 3 ? 'success' : 'warning'">
-                <strong>{{ act.idEstadoActividad === 3 ? 'Completado' : 'Pendiente' }}</strong>
+              <ion-text [color]="colorEstado(act.idEstadoActividad)">
+                <strong>{{ etiquetaEstado(act.idEstadoActividad) }}</strong>
               </ion-text>
             </td>
             <td class="ion-text-center">
-              @if (esAyudante) {
-                @if (act.idEstadoActividad !== 3) {
+              @if (esAyudante && !ayudantiaFinalizada) {
+                <ion-select
+                  [value]="act.idEstadoActividad"
+                  (ionChange)="cambiarEstadoActividad(act, $event.detail.value)"
+                  [disabled]="actividadActualizandoId === act.idActividad"
+                  aria-label="Estado de la actividad">
+                  @for (estado of estadosActividad; track estado.id) {
+                    <ion-select-option [value]="estado.id">{{ estado.etiqueta }}</ion-select-option>
+                  }
+                </ion-select>
+                @if (act.idEstadoActividad !== ESTADO_ACTIVIDAD.COMPLETADA) {
                 <ion-button fill="clear" size="small" color="success"
                   title="Marcar como completada" (click)="marcarComoCompletada(act)">
                   <ion-icon name="checkmark-done-outline"></ion-icon>
                 </ion-button>
                 }
-                @if (act.idEstadoActividad == 3){
+                @if (act.idEstadoActividad === ESTADO_ACTIVIDAD.COMPLETADA) {
                 <ion-button fill="clear" size="small" color="danger"
                   title="Marcar como en revisión" (click)="marcarComoEnRevision(act)">
                   <ion-icon name="eye-outline"></ion-icon>
                 </ion-button>
                 }
               } @else {
-                <span class="text-muted">Solo lectura</span>
+                <span class="text-muted">{{ ayudantiaFinalizada ? 'Ayudantía finalizada' : 'Solo lectura' }}</span>
               }
             </td>
           </tr>
