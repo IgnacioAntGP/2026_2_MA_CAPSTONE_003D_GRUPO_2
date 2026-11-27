@@ -47,10 +47,42 @@ class CrearUsuarioService {
       throw crearErrorDominio('Ya existe un usuario registrado con ese RUT', 409);
     }
 
-    const rolPorDefecto = ROLES?.ESTUDIANTE ?? 'ESTUDIANTE';
-    const rolBD = await usuarioAdapter.obtenerRolPorNombreAsync(rolPorDefecto);
-    if (!rolBD) {
-      throw crearErrorDominio(`No se encontró el rol por defecto ${rolPorDefecto}`, 500);
+    const rolesSolicitados = askDTO.roles ?? [ROLES.ESTUDIANTE];
+    if (!Array.isArray(rolesSolicitados) || rolesSolicitados.length === 0) {
+      throw crearErrorDominio('Debe asignarse al menos un rol al usuario', 400);
+    }
+
+    const nombresRoles = [
+      ...new Set(
+        rolesSolicitados.map((rol) =>
+          typeof rol === 'string'
+            ? rol.trim().toUpperCase()
+            : typeof rol?.nombre === 'string'
+              ? rol.nombre.trim().toUpperCase()
+              : ''
+        )
+      )
+    ];
+    const rolesPermitidos = new Set([ROLES.ESTUDIANTE, ROLES.AYUDANTE]);
+
+    if (
+      nombresRoles.some(
+        (nombreRol) => !nombreRol || !rolesPermitidos.has(nombreRol)
+      )
+    ) {
+      throw crearErrorDominio(
+        'Sólo se pueden asignar los roles Estudiante y Ayudante desde la aplicación',
+        400
+      );
+    }
+
+    const rolesBD = [];
+    for (const nombreRol of nombresRoles) {
+      const rolBD = await usuarioAdapter.obtenerRolPorNombreAsync(nombreRol);
+      if (!rolBD) {
+        throw crearErrorDominio(`No se encontró el rol ${nombreRol}`, 500);
+      }
+      rolesBD.push(rolBD);
     }
 
     let userUid = null;
@@ -83,7 +115,12 @@ class CrearUsuarioService {
         es_activo: true
       });
 
-      await usuarioAdapter.asignarRolUsuarioAsync(usuarioCreado.id_usuario, rolBD.id_rol);
+      for (const rolBD of rolesBD) {
+        await usuarioAdapter.asignarRolUsuarioAsync(
+          usuarioCreado.id_usuario,
+          rolBD.id_rol
+        );
+      }
 
       let perfilGuardado = null;
       if (perfilNormalizado) {
@@ -98,7 +135,7 @@ class CrearUsuarioService {
       }
 
       const payloadResolve = armarPayloadUsuarioResolve(usuarioCreado, {
-        rolesOverride: [rolBD],
+        rolesOverride: rolesBD,
         perfilOverride: perfilGuardado
       });
 

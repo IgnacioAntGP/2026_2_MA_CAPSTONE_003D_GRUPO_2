@@ -4,6 +4,7 @@ const { ModificarUsuarioAskDTO } = require('../../dtos/usuario/usuario.ask.dto')
 const {
   ModificarUsuarioResolveDTO
 } = require('../../dtos/usuario/usuario.resolve.dto');
+const { ROLES } = require('../../helpers/enums/rol.enum');
 const {
   validarIdUsuario,
   validarDatosUsuarioActualizacion
@@ -73,6 +74,13 @@ class ActualizarUsuarioService {
 
         if (!nombreRol) {
           throw crearErrorDominio('Cada rol en roles debe tener un nombre válido', 400);
+        }
+
+        if (![ROLES.ESTUDIANTE, ROLES.AYUDANTE].includes(nombreRol)) {
+          throw crearErrorDominio(
+            'Sólo se pueden asignar los roles Estudiante y Ayudante desde la aplicación',
+            400
+          );
         }
 
         const rolBD = await usuarioAdapter.obtenerRolPorNombreAsync(nombreRol);
