@@ -209,7 +209,7 @@ export class GestionAyudantiaPage implements OnInit {
     this.esAyudante = nombresRoles.some((rol) =>
       ['AYUDANTE', 'ADMINISTRADOR'].includes(rol)
     );
-    this.esEstudiante = nombresRoles.includes('Estudiante') && !this.esAyudante;
+    this.esEstudiante = nombresRoles.includes('ESTUDIANTE') && !this.esAyudante;
   }
 
   volverAtras() {

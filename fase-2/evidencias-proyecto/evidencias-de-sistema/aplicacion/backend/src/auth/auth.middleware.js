@@ -68,11 +68,11 @@ async function verificarToken(req, res, next) {
 }
 
 function autorizarRoles(...rolesPermitidos) {
-  const permitidosNormalizados = rolesPermitidos.map((r) => String(r).toLowerCase());
+  const permitidosNormalizados = rolesPermitidos.map((r) => String(r).toUpperCase());
 
   return (req, res, next) => {
     const rolesUsuario = (Array.isArray(req.user?.roles) ? req.user.roles : [])
-      .map((r) => String(r).toLowerCase());
+      .map((r) => String(r).toUpperCase());
 
     const tienePermiso = permitidosNormalizados.some((rol) => rolesUsuario.includes(rol));
 

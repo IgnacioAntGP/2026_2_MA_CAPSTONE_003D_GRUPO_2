@@ -9,7 +9,7 @@ class ConsultaResolveDTO {
   }
 }
 
-// DTO para la entidad Ayudante y su Usuario asociado
+// DTO para la entidad AYUDANTE y su Usuario asociado
 class AyudanteResolveDTO {
   constructor(item = {}) {
     this.id_ayudante = item.id_ayudante != null ? Number(item.id_ayudante) : null;
@@ -45,7 +45,7 @@ class ObtenerSolicitudDisponibleResolveDTO {
     // Extracción segura del estudiante solicitante
     this.estudiante = item.consulta?.usuario
       ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
-      : 'Estudiante';
+      : 'ESTUDIANTE';
 
     this.fecha_solicitud = item.fecha_solicitud ? new Date(item.fecha_solicitud) : null;
   }

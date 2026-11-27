@@ -4,7 +4,7 @@ const router = Router();
 const ayudanteController = require('../controllers/ayudante.controller');
 const { verificarToken, autorizarRoles } = require('../auth/auth.middleware');
 
-router.get('/', verificarToken, autorizarRoles('Administrador'), (req, res) =>
+router.get('/', verificarToken, autorizarRoles('ADMINISTRADOR'), (req, res) =>
   ayudanteController.obtenerTodos(req, res)
 );
 

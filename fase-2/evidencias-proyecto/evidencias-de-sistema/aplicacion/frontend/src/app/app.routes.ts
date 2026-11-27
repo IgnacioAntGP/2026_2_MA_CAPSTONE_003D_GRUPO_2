@@ -106,7 +106,7 @@ export const routes: Routes = [
   {
     path: 'ayudante/tabs',
         canActivate: [authGuard, roleGuard],
-    data: { roles: ['Administrador', 'Ayudante'] },
+    data: { roles: ['ADMINISTRADOR', 'AYUDANTE'] },
     loadComponent: () =>
       import('./pages/ayudante/tabs/tabs.page')
         .then((m) => m.TabsPage),
@@ -144,7 +144,7 @@ export const routes: Routes = [
   {
     path: 'panel-admin',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['Administrador'] },
+    data: { roles: ['ADMINISTRADOR'] },
     loadComponent: () =>
       import('./pages/admin/panel-admin/panel-admin.page')
         .then((m) => m.PanelAdminPage)
@@ -152,7 +152,7 @@ export const routes: Routes = [
   {
     path: 'postulaciones-ayudante',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['Administrador'] },
+    data: { roles: ['ADMINISTRADOR'] },
     loadComponent: () =>
       import('./pages/admin/postulaciones-ayudante/postulaciones-ayudante.page')
         .then((m) => m.PostulacionesAyudantePage)
@@ -160,7 +160,7 @@ export const routes: Routes = [
   {
     path: 'gestion-ayudantes',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['Administrador'] },
+    data: { roles: ['ADMINISTRADOR'] },
     loadComponent: () =>
       import('./pages/admin/gestion-ayudantes/gestion-ayudantes.page')
         .then((m) => m.GestionAyudantesPage)
@@ -168,7 +168,7 @@ export const routes: Routes = [
   {
     path: 'categoria-solicitudes',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['Administrador'] },
+    data: { roles: ['ADMINISTRADOR'] },
     loadComponent: () =>
       import('./pages/admin/categoria-solicitudes/categoria-solicitudes.page')
         .then((m) => m.CategoriaSolicitudesPage)
@@ -176,7 +176,7 @@ export const routes: Routes = [
   {
     path: 'estadisticas-admin',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['Administrador'] },
+    data: { roles: ['ADMINISTRADOR'] },
     loadComponent: () =>
       import('./pages/admin/estadisticas-admin/estadisticas-admin.page')
         .then(m => m.EstadisticasAdminPage)

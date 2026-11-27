@@ -4,7 +4,7 @@ const especialidadController = require('../controllers/especialidad.controller')
 const { verificarToken, autorizarRoles } = require('../auth/auth.middleware');
 
 // Registrar una nueva especialidad para un ayudante
-router.post('/', verificarToken, autorizarRoles('Administrador'), (req, res) =>
+router.post('/', verificarToken, autorizarRoles('ADMINISTRADOR'), (req, res) =>
   especialidadController.agregarEspecialidad(req, res)
 );
 

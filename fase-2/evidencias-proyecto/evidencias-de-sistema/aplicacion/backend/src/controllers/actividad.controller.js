@@ -2,6 +2,11 @@ const actividadAdapter = require('../adapters/actividad.adapter');
 const ayudantiaAdapter = require('../adapters/ayudantia.adapter');
 const { CrearActividadAskDTO, ModificarActividadAskDTO } = require('../dtos/actividad/actividad.ask.dto');
 
+function tieneRol(req, rol) {
+  return (Array.isArray(req.user?.roles) ? req.user.roles : [])
+    .some((nombre) => String(nombre).trim().toUpperCase() === rol);
+}
+
 class ActividadController {
   async listar(req, res) {
     const { id } = req.params; 
@@ -62,18 +67,18 @@ class ActividadController {
 
     const inputDTO = new ModificarActividadAskDTO(req.body);
 
-    if (inputDTO.esActivo !== undefined && req.user?.roles !== 'Administrador') {
+    if (inputDTO.esActivo !== undefined && !tieneRol(req, 'ADMINISTRADOR')) {
       return res
         .status(403)
         .json({
-          error: 'Acceso denegado. Solo el Administrador puede activar o desactivar una actividad.'
+          error: 'Acceso denegado. Solo ADMINISTRADOR puede activar o desactivar una actividad.'
         });
     }
 
-    if (req.user?.roles === 'Estudiante') {
+    if (tieneRol(req, 'ESTUDIANTE')) {
       return res
         .status(403)
-        .json({ error: 'Acceso denegado. Los estudiantes carecen de permisos para modificar actividades.' });
+        .json({ error: 'Acceso denegado. ESTUDIANTE no puede modificar actividades.' });
     }
 
     try {
@@ -91,11 +96,11 @@ class ActividadController {
     const { id, id_actividad } = req.params;
 
     // Validación de permisos de rol: Eliminación completa SOLO ADMIN (403 Forbidden)
-    if (req.user?.roles !== 'Administrador') {
+    if (!tieneRol(req, 'ADMINISTRADOR')) {
       return res
         .status(403)
         .json({
-          error: 'Acceso denegado. Solo el Administrador puede eliminar permanentemente una actividad.'
+          error: 'Acceso denegado. Solo ADMINISTRADOR puede eliminar permanentemente una actividad.'
         });
     }
 

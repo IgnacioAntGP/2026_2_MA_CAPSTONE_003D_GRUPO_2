@@ -6,7 +6,7 @@ const { CrearPostulacionResolveDTO, ObtenerPostulacionResolveDTO, ResolverPostul
 
 class PostulacionAdapter {
 
-  // 10. Solicitar ser Ayudante
+  // 10. Solicitar ser AYUDANTE
   async crearPostulacionAyudante(rawBody) {
     const inputDTO = new CrearPostulacionAskDTO(rawBody);
 
@@ -99,11 +99,11 @@ class PostulacionAdapter {
       throw err;
     }
 
-    // 2. Obtener el tag del rol de Ayudante
+    // 2. Obtener el tag del rol AYUDANTE
     const { data: rolAyudante, error: errorRol } = await supabase
       .from('rol')
       .select('id_rol')
-      .eq('nombre', 'Ayudante')
+      .ilike('nombre', 'AYUDANTE')
       .single();
 
     if (errorRol) throw errorRol;

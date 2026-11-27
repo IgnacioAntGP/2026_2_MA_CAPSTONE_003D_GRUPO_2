@@ -100,7 +100,7 @@ class SolicitudController {
       if (!ayudanteId) {
         return res.status(400).json({
           error:
-            'El ID del Ayudante o el ID del Usuario es obligatorio.'
+            'El ID del AYUDANTE o el ID del Usuario es obligatorio.'
         });
       }
 
@@ -195,7 +195,7 @@ class SolicitudController {
       }
 
       return res.status(200).json({
-        mensaje: 'Ayudante aceptado y ayudantía iniciada correctamente.',
+        mensaje: 'AYUDANTE aceptado y ayudantía iniciada correctamente.',
         solicitud: resultado.solicitud,
         ayudantia: resultado.ayudantia
       });
@@ -217,7 +217,7 @@ class SolicitudController {
       }
 
       return res.status(200).json({
-        mensaje: 'Ayudante rechazado. La solicitud volvió a estar disponible.',
+        mensaje: 'AYUDANTE rechazado. La solicitud volvió a estar disponible.',
         solicitud: data
       });
     } catch (err) {

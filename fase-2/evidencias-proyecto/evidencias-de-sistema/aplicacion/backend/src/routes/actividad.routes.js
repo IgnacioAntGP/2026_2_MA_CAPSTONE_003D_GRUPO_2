@@ -18,15 +18,15 @@ router.post(
 router.patch(
   '/:id/actividades/:id_actividad',
   verificarToken,
-  autorizarRoles('Ayudante', 'Administrador'),
+  autorizarRoles('AYUDANTE', 'ADMINISTRADOR'),
   actividadController.modificar
 );
 
-// Autenticado + solo Administrador
+// Autenticado + solo ADMINISTRADOR
 router.delete(
   '/:id/actividades/:id_actividad',
   verificarToken,
-  autorizarRoles('Administrador'),
+  autorizarRoles('ADMINISTRADOR'),
   actividadController.eliminar
 );
 

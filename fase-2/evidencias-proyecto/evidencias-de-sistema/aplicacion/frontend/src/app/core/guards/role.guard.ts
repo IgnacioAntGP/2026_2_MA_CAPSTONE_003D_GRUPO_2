@@ -15,7 +15,7 @@ function extraerNombreRoles(roles: unknown): string[] {
       }
       return rol?.nombre ?? '';
     })
-    .map((nombre) => nombre.trim().toLowerCase())
+    .map((nombre) => nombre.trim().toUpperCase())
     .filter(Boolean);
 }
 

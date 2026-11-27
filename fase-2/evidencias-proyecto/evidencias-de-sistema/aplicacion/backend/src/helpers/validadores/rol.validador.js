@@ -1,3 +1,9 @@
+const {
+  ROLES,
+  ROL_POR_NOMBRE,
+  ROL_POR_ID
+} = require('../enums/rol.enum');
+
 function normalizarRol(valor) {
   if (valor == null) return null;
 
@@ -17,5 +23,7 @@ function normalizarRol(valor) {
     return mayus;
   }
 
-  return ROL_POR_NOMBRE[texto.toLowerCase()] ?? null;
+  return ROL_POR_NOMBRE[texto.toUpperCase()] ?? null;
 }
+
+module.exports = { normalizarRol };

@@ -92,7 +92,7 @@ class SolicitudAdapter {
     }));
   }
 
-  // 11. Vista Ayudante - Solicitudes Disponibles
+  // 11. Vista AYUDANTE - Solicitudes Disponibles
   async obtenerDisponibles(id_categoria = null) {
     let selectSolicitudes = supabase
       .from('solicitud_ayudantia')
@@ -148,7 +148,7 @@ class SolicitudAdapter {
       estado: item.estado || 'PENDIENTE',
       estudiante: item.consulta?.usuario
         ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
-        : 'Estudiante',
+        : 'ESTUDIANTE',
       fecha_solicitud: item.fecha_solicitud
     }));
   }
@@ -194,7 +194,7 @@ class SolicitudAdapter {
     return data;
   }
 
-  // 13. Aceptar Ayudante y Crear Ayudantía
+  // 13. Aceptar AYUDANTE y Crear Ayudantía
   async aceptarAyudante(id_solicitud) {
     const { data: solicitud, error: errorSolicitud } = await supabase
         .from('solicitud_ayudantia')
@@ -241,7 +241,7 @@ class SolicitudAdapter {
     }
   };
 
-  // 14. Rechazar Ayudante
+  // 14. Rechazar AYUDANTE
   async rechazarAyudante(id_solicitud) {
     const { data, error } = await supabase
       .from('solicitud_ayudantia')
@@ -381,7 +381,7 @@ class SolicitudAdapter {
         estado: item.estado,
         estudiante: item.consulta?.usuario
           ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
-          : 'Estudiante',
+          : 'ESTUDIANTE',
         ayudantia: ayudantiaRel
           ? { id_ayudantia: Number(ayudantiaRel.id_ayudantia) }
           : null
