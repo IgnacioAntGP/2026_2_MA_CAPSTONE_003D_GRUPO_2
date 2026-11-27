@@ -1,16 +1,22 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { PublicacionComunidad, SolicitudAyudantia } from '../../models/ISolicitudAyudantia';
+import { Ayudantia } from '../../models/IAyudantia';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AyudantiaService {
   private apiUrl = environment.apiUrl;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  obtenerDetalleAyudantia(idAyudantia: number): Observable<{ ayudantia: Ayudantia; mensaje: string }> {
+    return this.http.get<{ ayudantia: Ayudantia; mensaje: string }>(
+      `${this.apiUrl}/ayudantias/${idAyudantia}`
+    );
+  }
 
   // 1. Obtener publicaciones de la comunidad - GET /api/consultas
   obtenerPublicacionesComunidad(): Observable<PublicacionComunidad[]> {
