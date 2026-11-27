@@ -1,0 +1,158 @@
+<ion-content [fullscreen]="true">
+  <div class="page-container">
+    <main class="page-content page-large">
+      <header class="admin-welcome">
+        <div>
+          <ion-button
+            type="button"
+            fill="clear"
+            class="back-button"
+            routerLink="/gestion-usuarios"
+          >
+            ← Volver a usuarios
+          </ion-button>
+          <h1>{{ esEdicion ? 'Modificar usuario' : 'Crear usuario' }}</h1>
+          <p>
+            {{
+              esEdicion
+                ? 'Actualiza los datos y roles del usuario.'
+                : 'Completa los datos para registrar un usuario.'
+            }}
+          </p>
+        </div>
+        <app-side-menu></app-side-menu>
+      </header>
+
+      @if (cargandoUsuario) {
+        <p class="field-help" role="status">Cargando usuario…</p>
+      }
+
+      @if (errorCarga) {
+        <div class="field-help" role="alert">
+          <p>{{ errorCarga }}</p>
+          @if (idUsuario !== null) {
+            <ion-button
+              type="button"
+              class="secondary-button"
+              (click)="cargarUsuario(idUsuario)"
+            >
+              Reintentar
+            </ion-button>
+          }
+        </div>
+      }
+
+      @if (!cargandoUsuario && !errorCarga) {
+        <section class="page-card">
+          <form (ngSubmit)="guardarUsuario()">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input
+                id="nombre"
+                type="text"
+                name="nombre"
+                [(ngModel)]="datosUsuario.nombre"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="apellido">Apellido</label>
+              <input
+                id="apellido"
+                type="text"
+                name="apellido"
+                [(ngModel)]="datosUsuario.apellido"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="rut">RUT</label>
+              <input
+                id="rut"
+                type="text"
+                name="rut"
+                [(ngModel)]="datosUsuario.rut"
+                placeholder="12.345.678-9"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                [(ngModel)]="datosUsuario.email"
+                required
+              />
+            </div>
+
+            @if (!esEdicion) {
+              <div class="form-group">
+                <label for="password">Contraseña inicial</label>
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  [(ngModel)]="datosUsuario.password"
+                  minlength="8"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
+            }
+
+            @if (!rolesProtegidos) {
+              <div class="form-group">
+                <label for="roles">Roles</label>
+                <ion-select
+                  id="roles"
+                  name="roles"
+                  [(ngModel)]="datosUsuario.roles"
+                  multiple="true"
+                  interface="popover"
+                  aria-label="Roles del usuario"
+                  required
+                >
+                  @for (rol of rolesDisponibles; track rol) {
+                    <ion-select-option [value]="rol">
+                      {{ nombreRol(rol) }}
+                    </ion-select-option>
+                  }
+                </ion-select>
+              </div>
+            } @else {
+              <p class="field-help">
+                El rol Administrador se mantiene gestionado fuera de esta pantalla.
+              </p>
+            }
+
+            @if (errorFormulario) {
+              <p class="field-help" role="alert">{{ errorFormulario }}</p>
+            }
+
+            <div class="form-actions">
+              <ion-button
+                type="button"
+                class="secondary-button"
+                routerLink="/gestion-usuarios"
+              >
+                Cancelar
+              </ion-button>
+              <ion-button
+                type="submit"
+                class="primary-button"
+                [disabled]="guardandoUsuario"
+              >
+                {{ guardandoUsuario ? 'Guardando…' : 'Guardar usuario' }}
+              </ion-button>
+            </div>
+          </form>
+        </section>
+      }
+    </main>
+  </div>
+</ion-content>

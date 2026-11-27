@@ -1,0 +1,125 @@
+<ion-content [fullscreen]="true">
+  <div class="page-content page-large">
+    <main class="page-container">
+      <header class="admin-welcome">
+        <div>
+        <ion-button
+          type="button"
+          fill="clear"
+          class="back-button"
+          routerLink="/panel-admin"
+        >
+          ← Volver atrás
+        </ion-button>
+        <h1>Usuarios registrados</h1>
+        <p>Administra los datos y el estado de las cuentas de usuario.</p>
+        </div>
+        <app-side-menu></app-side-menu>
+      </header>
+
+      <div class="tabla-toolbar">
+        <div class="botones-acciones">
+          <ion-button
+            type="button"
+            class="primary-button"
+            routerLink="/detalle-usuario"
+          >
+            + Nuevo usuario
+          </ion-button>
+        </div>
+      </div>
+
+      @if (cargandoUsuarios) {
+        <p class="field-help" role="status">Cargando usuarios…</p>
+      }
+
+      @if (errorCarga) {
+        <div class="field-help" role="alert">
+          <p>{{ errorCarga }}</p>
+          <ion-button type="button" class="secondary-button" (click)="cargarUsuarios()">
+            Reintentar
+          </ion-button>
+        </div>
+      }
+
+      @if (errorAccion) {
+        <p class="field-help" role="alert">{{ errorAccion }}</p>
+      }
+
+      <section class="tabla-card" aria-label="Tabla de usuarios">
+        <div class="tabla-responsive-container">
+          <table class="tabla-custom">
+            <thead>
+              <tr class="tabla-header">
+                <th scope="col">Usuario</th>
+                <th scope="col">Correo electrónico</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (usuario of usuarios; track usuario.id) {
+              <tr class="tabla-fila">
+                <td class="col-destacado">
+                  {{ usuario.nombre }} {{ usuario.apellido }}
+                </td>
+                <td>{{ usuario.correo }}</td>
+                <td>
+                  <div class="role-list">
+                    @for (rol of usuario.roles; track rol) {
+                    <span class="role-badge">{{ nombreRol(rol) }}</span>
+                    } @empty {
+                    <span>Sin roles asignados</span>
+                    }
+                  </div>
+                </td>
+                <td>
+                  <span class="status-badge" [class.inactive]="!usuario.activo">
+                    {{ usuario.activo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="acciones-col">
+                    <ion-button
+                      type="button"
+                      fill="clear"
+                      class="secondary-button"
+                      [routerLink]="['/detalle-usuario', usuario.id]"
+                    >
+                      Modificar
+                    </ion-button>
+                    <ion-button
+                      type="button"
+                      fill="outline"
+                      class="secondary-button activate-button"
+                      [disabled]="usuario.activo"
+                      (click)="cambiarEstado(usuario, true)"
+                    >
+                      Activar
+                    </ion-button>
+                    <ion-button
+                      type="button"
+                      fill="outline"
+                      class="secondary-button deactivate-button"
+                      [disabled]="!usuario.activo"
+                      (click)="cambiarEstado(usuario, false)"
+                    >
+                      Desactivar
+                    </ion-button>
+                  </div>
+                </td>
+              </tr>
+              } @if (!cargandoUsuarios && !errorCarga && usuarios.length === 0) {
+              <tr>
+                <td colspan="5" class="tabla-vacia">No hay usuarios registrados.</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="mock-notice">Los cambios se guardan en el sistema.</p>
+      </section>
+    </main>
+  </div>
+</ion-content>
