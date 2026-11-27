@@ -104,22 +104,29 @@ function validarDatosUsuarioCreacion(datos = {}) {
     errores.push('El RUT ingresado no es válido.');
   }
 
+  if (datos.password === undefined || datos.password === null || datos.password === '') {
+    errores.push('La contraseña es obligatoria.');
+  }
+
   const passResult = validarPasswordOpcional(datos.password);
-  
+
   if (!passResult.valido) {
     errores.push(passResult.error);
   }
 
-  return {
-    valido: errores.length === 0,
-    errores,
-    datosNormalizados: {
+  const datosNormalizados = {
       nombre,
       apellido,
       correo,
       rut,
       password: passResult.valor
-    }
+    };
+
+  return {
+    valido: errores.length === 0,
+    errores,
+    datosNormalizados,
+    normalizado: datosNormalizados
   };
 }
 
