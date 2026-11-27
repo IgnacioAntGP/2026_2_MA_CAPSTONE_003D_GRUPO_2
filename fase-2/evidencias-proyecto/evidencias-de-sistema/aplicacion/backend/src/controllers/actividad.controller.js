@@ -1,6 +1,8 @@
 const actividadAdapter = require('../adapters/actividad.adapter');
 const ayudantiaAdapter = require('../adapters/ayudantia.adapter');
 const { CrearActividadAskDTO, ModificarActividadAskDTO } = require('../dtos/actividad/actividad.ask.dto');
+const { ID_ESTADO_ACTIVIDAD } = require('../helpers/enums/estado-actividad.enum');
+const { ESTADO_AYUDANTIA } = require('../helpers/enums/estado-ayudantia.enum');
 
 function tieneRol(req, rol) {
   return (Array.isArray(req.user?.roles) ? req.user.roles : [])
@@ -51,6 +53,9 @@ class ActividadController {
       if (!ayudantia) {
         return res.status(404).json({ error: 'La ayudantía especificada no existe.' });
       }
+      if (ayudantia.estado === ESTADO_AYUDANTIA.FINALIZADA) {
+        return res.status(409).json({ error: 'No se pueden agregar actividades a una ayudantía finalizada.' });
+      }
       const resultado = await actividadAdapter.crearActividad(inputDTO);
 
       return res.status(201).json(resultado);
@@ -75,13 +80,34 @@ class ActividadController {
         });
     }
 
-    if (tieneRol(req, 'ESTUDIANTE')) {
+    if (
+      tieneRol(req, 'ESTUDIANTE') &&
+      !tieneRol(req, 'AYUDANTE') &&
+      !tieneRol(req, 'ADMINISTRADOR')
+    ) {
       return res
         .status(403)
         .json({ error: 'Acceso denegado. ESTUDIANTE no puede modificar actividades.' });
     }
 
     try {
+      if (
+        inputDTO.idEstadoActividad !== undefined &&
+        !Object.values(ID_ESTADO_ACTIVIDAD).includes(inputDTO.idEstadoActividad)
+      ) {
+        return res.status(400).json({
+          error: `Estado de actividad inválido. Valores permitidos: ${Object.values(ID_ESTADO_ACTIVIDAD).join(', ')}.`
+        });
+      }
+
+      const ayudantia = await ayudantiaAdapter.obtenerAyudantiaPorId(id);
+      if (!ayudantia) {
+        return res.status(404).json({ error: 'Ayudantía no encontrada.' });
+      }
+      if (ayudantia.estado === ESTADO_AYUDANTIA.FINALIZADA) {
+        return res.status(409).json({ error: 'No se pueden modificar actividades de una ayudantía finalizada.' });
+      }
+
       const resultado = await actividadAdapter.modificarActividad(id, id_actividad, inputDTO);
       if (!resultado) {
         return res.status(404).json({ error: 'Actividad no encontrada.' });
@@ -105,6 +131,14 @@ class ActividadController {
     }
 
     try {
+      const ayudantia = await ayudantiaAdapter.obtenerAyudantiaPorId(id);
+      if (!ayudantia) {
+        return res.status(404).json({ error: 'Ayudantía no encontrada.' });
+      }
+      if (ayudantia.estado === ESTADO_AYUDANTIA.FINALIZADA) {
+        return res.status(409).json({ error: 'No se pueden eliminar actividades de una ayudantía finalizada.' });
+      }
+
       const resultado = await actividadAdapter.eliminarActividad(id, id_actividad);
       if (!resultado) {
         return res.status(404).json({ error: 'Actividad no encontrada.' });

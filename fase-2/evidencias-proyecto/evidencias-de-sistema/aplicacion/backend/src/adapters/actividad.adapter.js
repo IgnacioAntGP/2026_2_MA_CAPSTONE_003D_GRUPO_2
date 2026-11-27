@@ -6,14 +6,7 @@ const {
   ModificarActividadResolveDTO,
   EliminarActividadResolveDTO
 } = require('../dtos/actividad/actividad.resolve.dto');
-
-// Clase encargada de mapear los estados estándar
-class EstadoActividad {
-  static PENDIENTE = 1;
-  static EN_PROCESO = 2;
-  static COMPLETADA = 3;
-  static CANCELADA = 4;
-}
+const { ID_ESTADO_ACTIVIDAD } = require('../helpers/enums/estado-actividad.enum');
 
 class ActividadAdapter {
   async crearActividad(inputDTO) {
@@ -23,7 +16,7 @@ class ActividadAdapter {
       id_categoria: inputDTO.idCategoria,
       nombre_actividad: inputDTO.nombreActividad,
       descripcion: inputDTO.descripcion,
-      id_estado_actividad: EstadoActividad.PENDIENTE,
+      id_estado_actividad: ID_ESTADO_ACTIVIDAD.PENDIENTE,
       es_activo: true
     }
 
@@ -45,6 +38,9 @@ class ActividadAdapter {
         *,
         categoria_actividad (
             nombre
+        ),
+        estado_actividad (
+            nombre
         )
       `
       )
@@ -62,6 +58,9 @@ class ActividadAdapter {
         `
         *,
         categoria_actividad (
+            nombre
+        ),
+        estado_actividad (
             nombre
         )
       `
@@ -87,7 +86,7 @@ class ActividadAdapter {
     if (inputDTO.idEstadoActividad !== undefined) {
       updatePayload.id_estado_actividad = inputDTO.idEstadoActividad;
 
-      if (inputDTO.idEstadoActividad === 3) {
+      if (inputDTO.idEstadoActividad === ID_ESTADO_ACTIVIDAD.COMPLETADA) {
         updatePayload.fecha_completado = new Date().toISOString();
       } else {
         updatePayload.fecha_completado = null;

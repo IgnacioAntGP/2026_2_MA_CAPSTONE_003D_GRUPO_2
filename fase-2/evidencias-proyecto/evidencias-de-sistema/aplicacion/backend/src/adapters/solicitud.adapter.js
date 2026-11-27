@@ -9,6 +9,8 @@ const {
   ObtenerSolicitudAyudanteResolveDTO
 } = require('../dtos/solicitud/solicitud.resolve.dto');
 const ayudantiaAdapter = require('./ayudantia.adapter.js');
+const { ID_ESTADO_ACTIVIDAD } = require('../helpers/enums/estado-actividad.enum');
+const { ESTADO_AYUDANTIA } = require('../helpers/enums/estado-ayudantia.enum');
 
 
 class SolicitudAdapter {
@@ -221,7 +223,7 @@ class SolicitudAdapter {
         const resultadoAyudantia = await ayudantiaAdapter.guardarAyudantia({
             id_solicitud: id_solicitud,
             fecha_inicio: new Date().toISOString(),
-            estado: 'ACEPTADA',
+            estado: ESTADO_AYUDANTIA.ACEPTADA,
             observaciones: null
         });
 
@@ -260,7 +262,7 @@ class SolicitudAdapter {
   }
 
   // 15. Finalizar y resolver ayudantía
-  async resolverAyudantia(id_solicitud) {
+  async resolverAyudantia(id_solicitud, id_usuario, esAdministrador = false) {
     const { data: solicitud, error: errorSolicitud } = await supabase
       .from('solicitud_ayudantia')
       .select('*')
@@ -271,24 +273,51 @@ class SolicitudAdapter {
     if (errorSolicitud) throw errorSolicitud;
     if (!solicitud) return { noAceptada: true };
 
+    if (!esAdministrador) {
+      const perfilAyudante = await this.obtenerAyudantePorUsuario(id_usuario);
+      if (
+        !perfilAyudante ||
+        Number(perfilAyudante.id_ayudante) !== Number(solicitud.id_ayudante)
+      ) {
+        return { noAutorizado: true };
+      }
+    }
+
     const { data: ayudantiaActual, error: errorBuscarAyudantia } = await supabase
       .from('ayudantia')
       .select('*')
       .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'ACTIVA')
+      .in('estado', [ESTADO_AYUDANTIA.ACEPTADA, ESTADO_AYUDANTIA.EN_CURSO])
       .maybeSingle();
 
     if (errorBuscarAyudantia) throw errorBuscarAyudantia;
     if (!ayudantiaActual) return { noActiva: true };
 
+    const { data: actividades, error: errorActividades } = await supabase
+      .from('actividad_ayudantia')
+      .select('id_estado_actividad')
+      .eq('id_ayudantia', ayudantiaActual.id_ayudantia);
+
+    if (errorActividades) throw errorActividades;
+    const estadosFinalizables = [
+      ID_ESTADO_ACTIVIDAD.COMPLETADA,
+      ID_ESTADO_ACTIVIDAD.CANCELADA
+    ];
+    if (
+      !actividades?.length ||
+      actividades.some((actividad) => !estadosFinalizables.includes(Number(actividad.id_estado_actividad)))
+    ) {
+      return { actividadesPendientes: true };
+    }
+
     const { data: ayudantiaFinalizada, error: errorAyudantia } = await supabase
       .from('ayudantia')
       .update({
-        estado: 'FINALIZADA',
+        estado: ESTADO_AYUDANTIA.FINALIZADA,
         fecha_fin: new Date().toISOString()
       })
       .eq('id_ayudantia', ayudantiaActual.id_ayudantia)
-      .eq('estado', 'ACTIVA')
+      .in('estado', [ESTADO_AYUDANTIA.ACEPTADA, ESTADO_AYUDANTIA.EN_CURSO])
       .select()
       .single();
 
@@ -306,7 +335,7 @@ class SolicitudAdapter {
       await supabase
         .from('ayudantia')
         .update({
-          estado: 'ACTIVA',
+          estado: ayudantiaActual.estado,
           fecha_fin: null
         })
         .eq('id_ayudantia', ayudantiaActual.id_ayudantia);

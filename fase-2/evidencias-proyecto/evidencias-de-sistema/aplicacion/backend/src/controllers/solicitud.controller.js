@@ -229,7 +229,17 @@ class SolicitudController {
     const { id_solicitud } = req.params;
 
     try {
-      const resultado = await solicitudAdapter.resolverAyudantia(id_solicitud);
+      const resultado = await solicitudAdapter.resolverAyudantia(
+        id_solicitud,
+        req.user.id_usuario,
+        (req.user.roles || []).some((rol) => String(rol).toUpperCase() === 'ADMINISTRADOR')
+      );
+
+      if (resultado.noAutorizado) {
+        return res.status(403).json({
+          error: 'Solo el ayudante asignado puede finalizar esta ayudantía.'
+        });
+      }
 
       if (resultado.noAceptada) {
         return res.status(409).json({
@@ -239,7 +249,13 @@ class SolicitudController {
 
       if (resultado.noActiva) {
         return res.status(409).json({
-          error: 'No existe una ayudantía activa asociada a esta solicitud.'
+          error: 'No existe una ayudantía aceptada o en curso asociada a esta solicitud.'
+        });
+      }
+
+      if (resultado.actividadesPendientes) {
+        return res.status(409).json({
+          error: 'Todas las actividades deben estar completadas o canceladas antes de finalizar la ayudantía.'
         });
       }
 

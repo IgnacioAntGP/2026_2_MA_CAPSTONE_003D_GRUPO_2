@@ -1,3 +1,7 @@
+const {
+  ESTADO_ACTIVIDAD_POR_ID
+} = require('../../helpers/enums/estado-actividad.enum');
+
 // DTO Base que contiene los datos completos de la Actividad
 class ObtenerListaActividadResolveDTO {
   constructor(item = {}) {
@@ -13,7 +17,10 @@ class ObtenerListaActividadResolveDTO {
       item.categoria_actividad?.nombre != null ? String(item.categoria_actividad.nombre) : null;
     this.nombreActividad = item.nombre_actividad != null ? String(item.nombre_actividad) : '';
     this.descripcion = item.descripcion ?? '';
-    this.estado = item.estado ?? 'Pendiente';
+    this.estado =
+      ESTADO_ACTIVIDAD_POR_ID[this.idEstadoActividad] ??
+      item.estado_actividad?.nombre ??
+      'Desconocido';
     this.esActivo = item.es_activo ?? true;
 
     // Fechas
