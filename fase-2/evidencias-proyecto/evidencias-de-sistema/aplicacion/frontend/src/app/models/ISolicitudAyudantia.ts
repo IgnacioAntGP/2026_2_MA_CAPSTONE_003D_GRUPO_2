@@ -1,3 +1,11 @@
+import type { AyudantiaResumen } from './IAyudantia';
+
+export type EstadoSolicitudAyudantia =
+  | 'PENDIENTE'
+  | 'EN PROCESO'
+  | 'ACEPTADA'
+  | 'RESUELTA';
+
 export interface SolicitudAyudantia {
   id_solicitud: number;
   asignatura: string;
@@ -6,13 +14,15 @@ export interface SolicitudAyudantia {
   duda?: string;               // Alias para compatibilidad directa con el HTML
   descripcion_duda: string;
   descripcion?: string;        // Alias para compatibilidad directa con el HTML
-  estado: 'PENDIENTE' | 'EN_PROCESO' | 'ACEPTADA' | 'RESUELTA';
+  estado: EstadoSolicitudAyudantia;
   nombre_estudiante?: string;  // Para mostrar quién solicita apoyo
   estudiante?: string;         // Alias para compatibilidad directa con el HTML
   id_consulta?: number;
+  id_asignatura?: number | null;
   id_ayudante?: number | null;
   id_categoria?: number | bigint;
   categoria_nombre: string;
+  ayudantia?: AyudantiaResumen | null;
 }
 
 export interface PublicacionComunidad{

@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface EspecialidadAyudante {
   id_asignatura: number;
@@ -33,21 +34,38 @@ export interface PerfilPublicoAyudante {
   estadisticas: EstadisticasAyudante;
 }
 
+interface RespuestaPerfilPublicoAyudante {
+  esAyudante: boolean;
+  perfil: PerfilPublicoAyudante | null;
+  mensaje?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AyudanteService {
-  private apiUrl = 'http://localhost:3000/api';
-
-  constructor(private http: HttpClient) {}
+  private apiUrl = environment.apiUrl;
+  private http = inject(HttpClient);
 
   obtenerTodos(): Observable<PerfilPublicoAyudante[]> {
     return this.http.get<PerfilPublicoAyudante[]>(`${this.apiUrl}/ayudantes`);
   }
 
   obtenerPerfilPublico(idUsuario: number): Observable<PerfilPublicoAyudante> {
-    return this.http.get<PerfilPublicoAyudante>(
-      `${this.apiUrl}/ayudantes/usuario/${idUsuario}/perfil`
-    );
+    return this.http
+      .get<RespuestaPerfilPublicoAyudante>(
+        `${this.apiUrl}/ayudantes/usuario/${idUsuario}/perfil`
+      )
+      .pipe(
+        map((respuesta) => {
+          if (!respuesta.esAyudante || !respuesta.perfil) {
+            throw new Error(
+              respuesta.mensaje || 'El usuario no tiene un perfil de ayudante.'
+            );
+          }
+
+          return respuesta.perfil;
+        })
+      );
   }
 }
