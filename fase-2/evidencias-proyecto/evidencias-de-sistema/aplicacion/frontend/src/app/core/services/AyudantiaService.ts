@@ -58,6 +58,7 @@ export class AyudantiaService {
         estado: s.estado || 'PENDIENTE',
         nombre_estudiante: s.estudiante,
         estudiante: s.estudiante,
+        id_asignatura: s.id_asignatura,
         id_categoria: s.id_categoria,
         categoria_nombre: s.categoria_solicitud?.nombre || s.categoria?.nombre || s.categoria_nombre || 'General'
       })))
@@ -93,8 +94,12 @@ export class AyudantiaService {
             s.categoria?.nombre ||
             (Array.isArray(s.categoria_solicitud) ? s.categoria_solicitud[0]?.nombre : null),
           ayudantia: ayudantiaRel
-            ? { id_ayudantia: Number(ayudantiaRel.id_ayudantia) }
-            : (s.id_ayudantia ? { id_ayudantia: Number(s.id_ayudantia) } : null)
+            ? {
+                id_ayudantia: Number(ayudantiaRel.id_ayudantia),
+                id_solicitud: Number(s.id_solicitud),
+                estado: ayudantiaRel.estado
+              }
+            : null
         };
       }))
     );
@@ -114,10 +119,11 @@ export class AyudantiaService {
   /**
    * Aceptar solicitud de ayudantía: PENDIENTE -> EN_PROCESO (Al presionar "Aceptar Ayudantía")
    */
-  tomarSolicitud(idSolicitud: number, idUsuario: number): Observable<SolicitudAyudantia> {
-    return this.http.patch<SolicitudAyudantia>(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/tomar`, {
-        id_usuario: idUsuario
-    });
+  tomarSolicitud(idSolicitud: number): Observable<SolicitudAyudantia> {
+    return this.http.patch<SolicitudAyudantia>(
+      `${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/tomar`,
+      {}
+    );
   };
 
   /**
@@ -135,9 +141,16 @@ export class AyudantiaService {
   };
 
   /**
-   * Finalizar solicitud (ACEPTADA -> RESUELTA)
+   * Finalizar solicitud y ayudantía (ACEPTADA -> FINALIZADA)
    */
   resolverSolicitud(idSolicitud: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/resolver`, {});
+  };
+
+  escalarSolicitud(idSolicitud: number): Observable<unknown> {
+    return this.http.patch(
+      `${this.apiUrl}/solicitudes-ayudantia/${idSolicitud}/escalar`,
+      {}
+    );
   };
 }

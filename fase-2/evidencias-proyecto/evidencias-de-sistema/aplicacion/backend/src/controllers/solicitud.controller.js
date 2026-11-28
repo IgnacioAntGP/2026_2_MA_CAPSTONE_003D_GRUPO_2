@@ -51,6 +51,16 @@ class SolicitudController {
     const { id_categoria } = req.query;
 
     try {
+      const perfil = await solicitudAdapter.obtenerAyudantePorUsuario(
+        req.user.id_usuario
+      );
+
+      if (!perfil) {
+        return res.status(403).json({
+          error: 'Solo los ayudantes pueden ver las solicitudes disponibles.'
+        });
+      }
+
       // Si se selecciona una categoría específica, se valida que exista y esté activa.
       if (
         id_categoria &&
@@ -67,7 +77,10 @@ class SolicitudController {
         }
       }
 
-      const data = await solicitudAdapter.obtenerDisponibles(id_categoria);
+      const data = await solicitudAdapter.obtenerDisponibles(
+        id_categoria,
+        perfil.id_ayudante
+      );
       return res.status(200).json(data);
     } catch (err) {
       console.error('Error en listarDisponibles:', err);
@@ -77,37 +90,28 @@ class SolicitudController {
 
   async tomar(req, res) {
     const { id_solicitud } = req.params;
-    const { id_ayudante, id_usuario } = req.body;
 
     try {
-      let ayudanteId = id_ayudante;
+      const perfil = await solicitudAdapter.obtenerAyudantePorUsuario(
+        req.user.id_usuario
+      );
 
-      if (!ayudanteId && id_usuario) {
-        const perfil = await solicitudAdapter.obtenerAyudantePorUsuario(
-          id_usuario
-        );
-
-        if (!perfil) {
-          return res.status(404).json({
-            error:
-              'No se encontró un perfil de ayudante asociado al usuario proporcionado.'
-          });
-        }
-
-        ayudanteId = perfil.id_ayudante;
-      }
-
-      if (!ayudanteId) {
-        return res.status(400).json({
-          error:
-            'El ID del AYUDANTE o el ID del Usuario es obligatorio.'
+      if (!perfil) {
+        return res.status(403).json({
+          error: 'Solo los ayudantes pueden tomar solicitudes.'
         });
       }
 
       const data = await solicitudAdapter.tomarSolicitud(
         id_solicitud,
-        ayudanteId
+        perfil.id_ayudante
       );
+
+      if (data?.noAutorizado) {
+        return res.status(403).json({
+          error: 'No tienes la especialidad requerida para esta solicitud.'
+        });
+      }
 
       if (!data) {
         return res.status(409).json({
@@ -261,6 +265,44 @@ class SolicitudController {
 
       return res.status(200).json({
         mensaje: 'Ayudantía finalizada correctamente.',
+        solicitud: resultado.solicitud,
+        ayudantia: resultado.ayudantia
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async escalar(req, res) {
+    const { id_solicitud } = req.params;
+
+    try {
+      const resultado = await solicitudAdapter.escalarAyudantia(
+        id_solicitud,
+        req.user.id_usuario,
+        (req.user.roles || []).some((rol) => String(rol).toUpperCase() === 'ADMINISTRADOR')
+      );
+
+      if (resultado.noAutorizado) {
+        return res.status(403).json({
+          error: 'Solo el ayudante asignado puede escalar esta ayudantía.'
+        });
+      }
+
+      if (resultado.noAceptada) {
+        return res.status(409).json({
+          error: 'La solicitud no se encuentra en estado ACEPTADA.'
+        });
+      }
+
+      if (resultado.noActiva) {
+        return res.status(409).json({
+          error: 'No existe una ayudantía aceptada o en curso asociada a esta solicitud.'
+        });
+      }
+
+      return res.status(200).json({
+        mensaje: 'Ayudantía escalada correctamente.',
         solicitud: resultado.solicitud,
         ayudantia: resultado.ayudantia
       });

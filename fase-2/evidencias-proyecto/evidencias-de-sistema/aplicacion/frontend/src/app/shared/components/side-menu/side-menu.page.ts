@@ -422,7 +422,7 @@ export class SideMenuComponent implements OnInit {
 
     // El mismo ayudante sigue esperando
     // la decisión del estudiante.
-    if (solicitud.estado === 'EN_PROCESO' && idUsuarioAyudanteActual === idUsuarioOrigen) {
+    if (solicitud.estado === 'EN PROCESO' && idUsuarioAyudanteActual === idUsuarioOrigen) {
       return 'PENDIENTE';
     }
 

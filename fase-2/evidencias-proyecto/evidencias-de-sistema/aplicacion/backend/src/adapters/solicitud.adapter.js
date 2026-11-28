@@ -11,6 +11,7 @@ const {
 const ayudantiaAdapter = require('./ayudantia.adapter.js');
 const { ID_ESTADO_ACTIVIDAD } = require('../helpers/enums/estado-actividad.enum');
 const { ESTADO_AYUDANTIA } = require('../helpers/enums/estado-ayudantia.enum');
+const { ESTADO_SOLICITUD_AYUDANTIA } = require('../helpers/enums/estado-solicitud.enum');
 
 
 class SolicitudAdapter {
@@ -27,7 +28,7 @@ class SolicitudAdapter {
           id_categoria: inputDTO.id_categoria,
           modalidad: inputDTO.modalidad,
           motivo: inputDTO.motivo,
-          estado: 'PENDIENTE'
+          estado: ESTADO_SOLICITUD_AYUDANTIA.PENDIENTE
         }
       ])
       .select()
@@ -95,7 +96,7 @@ class SolicitudAdapter {
   }
 
   // 11. Vista AYUDANTE - Solicitudes Disponibles
-  async obtenerDisponibles(id_categoria = null) {
+  async obtenerDisponibles(id_categoria = null, ayudanteId) {
     let selectSolicitudes = supabase
       .from('solicitud_ayudantia')
       .select(
@@ -109,9 +110,11 @@ class SolicitudAdapter {
         estado,
         motivo,
         categoria_solicitud (
-          nombre
+          nombre,
+          es_especialidad
         ),
         consulta (
+          id_asignatura,
           titulo,
           descripcion,
           usuario ( nombre, apellido ),
@@ -119,7 +122,7 @@ class SolicitudAdapter {
         )
       `
       )
-      .eq('estado', 'PENDIENTE')
+      .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.PENDIENTE)
       .is('id_ayudante', null);
 
     const categoriaId = Number(id_categoria);
@@ -138,33 +141,89 @@ class SolicitudAdapter {
 
     if (error) throw error;
 
-    return (data || []).map((item) => ({
-      id_solicitud: item.id_solicitud,
-      id_consulta: item.id_consulta,
-      id_categoria: item.id_categoria,
-      categoria_nombre: item.categoria_solicitud?.nombre || 'General',
-      asignatura: item.consulta?.asignatura?.nombre || 'General',
-      modalidad: item.modalidad,
-      titulo_duda: item.consulta?.titulo || null,
-      descripcion_duda: item.motivo || item.consulta?.descripcion || null,
-      estado: item.estado || 'PENDIENTE',
-      estudiante: item.consulta?.usuario
-        ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
-        : 'ESTUDIANTE',
-      fecha_solicitud: item.fecha_solicitud
-    }));
+    const { data: especialidades, error: errorEspecialidades } = await supabase
+      .from('especialidad_ayudante')
+      .select('id_asignatura')
+      .eq('id_ayudante', ayudanteId);
+
+    if (errorEspecialidades) throw errorEspecialidades;
+
+    const idsAsignaturasEspecializadas = new Set(
+      (especialidades || []).map((especialidad) => Number(especialidad.id_asignatura))
+    );
+
+    return (data || [])
+      .filter((item) => {
+        if (!item.categoria_solicitud?.es_especialidad) return true;
+
+        const idAsignatura = Number(item.consulta?.id_asignatura);
+        return Number.isFinite(idAsignatura) &&
+          idsAsignaturasEspecializadas.has(idAsignatura);
+      })
+      .map((item) => ({
+        id_solicitud: item.id_solicitud,
+        id_consulta: item.id_consulta,
+        id_asignatura: item.consulta?.id_asignatura ?? null,
+        id_categoria: item.id_categoria,
+        categoria_nombre: item.categoria_solicitud?.nombre || 'General',
+        asignatura: item.consulta?.asignatura?.nombre || 'General',
+        modalidad: item.modalidad,
+        titulo_duda: item.consulta?.titulo || null,
+        descripcion_duda: item.motivo || item.consulta?.descripcion || null,
+        estado: item.estado || ESTADO_SOLICITUD_AYUDANTIA.PENDIENTE,
+        estudiante: item.consulta?.usuario
+          ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
+          : 'ESTUDIANTE',
+        fecha_solicitud: item.fecha_solicitud
+      }));
   }
 
   // 12. Tomar Solicitud
   async tomarSolicitud(id_solicitud, ayudanteId) {
+    const { data: solicitud, error: errorSolicitud } = await supabase
+      .from('solicitud_ayudantia')
+      .select(`
+        id_solicitud,
+        estado,
+        id_ayudante,
+        categoria_solicitud (
+          es_especialidad
+        ),
+        consulta (
+          id_asignatura
+        )
+      `)
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.PENDIENTE)
+      .is('id_ayudante', null)
+      .maybeSingle();
+
+    if (errorSolicitud) throw errorSolicitud;
+    if (!solicitud) return null;
+
+    if (solicitud.categoria_solicitud?.es_especialidad) {
+      const idAsignatura = Number(solicitud.consulta?.id_asignatura);
+      if (!Number.isFinite(idAsignatura)) return { noAutorizado: true };
+
+      const { data: especialidad, error: errorEspecialidad } = await supabase
+        .from('especialidad_ayudante')
+        .select('id_asignatura')
+        .eq('id_ayudante', ayudanteId)
+        .eq('id_asignatura', idAsignatura)
+        .maybeSingle();
+
+      if (errorEspecialidad) throw errorEspecialidad;
+      if (!especialidad) return { noAutorizado: true };
+    }
+
     const { data, error } = await supabase
       .from('solicitud_ayudantia')
       .update({
         id_ayudante: ayudanteId,
-        estado: 'EN_PROCESO'
+        estado: ESTADO_SOLICITUD_AYUDANTIA.EN_PROCESO
       })
       .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'PENDIENTE')
+      .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.PENDIENTE)
       .is('id_ayudante', null)
       .select(`
         id_solicitud,
@@ -202,7 +261,7 @@ class SolicitudAdapter {
         .from('solicitud_ayudantia')
         .select('*')
         .eq('id_solicitud', id_solicitud)
-        .eq('estado', 'EN_PROCESO')
+        .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.EN_PROCESO)
         .not('id_ayudante', 'is', null)
         .maybeSingle();
 
@@ -211,9 +270,9 @@ class SolicitudAdapter {
 
     const { data: solicitudActualizada, error: errorActualizar } = await supabase
         .from('solicitud_ayudantia')
-        .update({ estado: 'ACEPTADA' })
+        .update({ estado: ESTADO_SOLICITUD_AYUDANTIA.ACEPTADA })
         .eq('id_solicitud', id_solicitud)
-        .eq('estado', 'EN_PROCESO')
+        .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.EN_PROCESO)
         .select()
         .single();
 
@@ -236,7 +295,7 @@ class SolicitudAdapter {
     } catch (errorAyudantia) {
         await supabase
             .from('solicitud_ayudantia')
-            .update({ estado: 'EN_PROCESO' })
+            .update({ estado: ESTADO_SOLICITUD_AYUDANTIA.EN_PROCESO })
             .eq('id_solicitud', id_solicitud);
 
         throw errorAyudantia;
@@ -249,10 +308,10 @@ class SolicitudAdapter {
       .from('solicitud_ayudantia')
       .update({
         id_ayudante: null,
-        estado: 'PENDIENTE'
+        estado: ESTADO_SOLICITUD_AYUDANTIA.PENDIENTE
       })
       .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'EN_PROCESO')
+      .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.EN_PROCESO)
       .not('id_ayudante', 'is', null)
       .select()
       .maybeSingle();
@@ -267,7 +326,7 @@ class SolicitudAdapter {
       .from('solicitud_ayudantia')
       .select('*')
       .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'ACEPTADA')
+      .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.ACEPTADA)
       .maybeSingle();
 
     if (errorSolicitud) throw errorSolicitud;
@@ -325,9 +384,9 @@ class SolicitudAdapter {
 
     const { data: solicitudResuelta, error: errorResolver } = await supabase
       .from('solicitud_ayudantia')
-      .update({ estado: 'RESUELTA' })
+      .update({ estado: ESTADO_SOLICITUD_AYUDANTIA.RESUELTA })
       .eq('id_solicitud', id_solicitud)
-      .eq('estado', 'ACEPTADA')
+      .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.ACEPTADA)
       .select()
       .single();
 
@@ -346,6 +405,56 @@ class SolicitudAdapter {
     return {
       solicitud: solicitudResuelta,
       ayudantia: ayudantiaFinalizada
+    };
+  }
+
+  async escalarAyudantia(id_solicitud, id_usuario, esAdministrador = false) {
+    const { data: solicitud, error: errorSolicitud } = await supabase
+      .from('solicitud_ayudantia')
+      .select('*')
+      .eq('id_solicitud', id_solicitud)
+      .eq('estado', ESTADO_SOLICITUD_AYUDANTIA.ACEPTADA)
+      .maybeSingle();
+
+    if (errorSolicitud) throw errorSolicitud;
+    if (!solicitud) return { noAceptada: true };
+
+    if (!esAdministrador) {
+      const perfilAyudante = await this.obtenerAyudantePorUsuario(id_usuario);
+      if (
+        !perfilAyudante ||
+        Number(perfilAyudante.id_ayudante) !== Number(solicitud.id_ayudante)
+      ) {
+        return { noAutorizado: true };
+      }
+    }
+
+    const { data: ayudantiaActual, error: errorBuscarAyudantia } = await supabase
+      .from('ayudantia')
+      .select('*')
+      .eq('id_solicitud', id_solicitud)
+      .in('estado', [ESTADO_AYUDANTIA.ACEPTADA, ESTADO_AYUDANTIA.EN_CURSO])
+      .maybeSingle();
+
+    if (errorBuscarAyudantia) throw errorBuscarAyudantia;
+    if (!ayudantiaActual) return { noActiva: true };
+
+    const { data: ayudantiaEscalada, error: errorEscalar } = await supabase
+      .from('ayudantia')
+      .update({
+        estado: ESTADO_AYUDANTIA.ESCALADA,
+        fecha_fin: new Date().toISOString()
+      })
+      .eq('id_ayudantia', ayudantiaActual.id_ayudantia)
+      .in('estado', [ESTADO_AYUDANTIA.ACEPTADA, ESTADO_AYUDANTIA.EN_CURSO])
+      .select()
+      .single();
+
+    if (errorEscalar) throw errorEscalar;
+
+    return {
+      solicitud,
+      ayudantia: ayudantiaEscalada
     };
   }
 
@@ -392,7 +501,11 @@ class SolicitudAdapter {
       `
       )
       .eq('id_ayudante', perfil.id_ayudante)
-      .in('estado', ['EN_PROCESO', 'ACEPTADA'])
+      .in('estado', [
+        ESTADO_SOLICITUD_AYUDANTIA.EN_PROCESO,
+        ESTADO_SOLICITUD_AYUDANTIA.ACEPTADA,
+        ESTADO_SOLICITUD_AYUDANTIA.RESUELTA
+      ])
       .order('fecha_solicitud', { ascending: false });
 
     if (error) throw error;
@@ -412,7 +525,11 @@ class SolicitudAdapter {
           ? `${item.consulta.usuario.nombre || ''} ${item.consulta.usuario.apellido || ''}`.trim()
           : 'ESTUDIANTE',
         ayudantia: ayudantiaRel
-          ? { id_ayudantia: Number(ayudantiaRel.id_ayudantia) }
+          ? {
+              id_ayudantia: Number(ayudantiaRel.id_ayudantia),
+              id_solicitud: Number(item.id_solicitud),
+              estado: ayudantiaRel.estado
+            }
           : null
       };
     });

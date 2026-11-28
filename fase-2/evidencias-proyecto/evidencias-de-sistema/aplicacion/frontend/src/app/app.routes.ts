@@ -166,6 +166,30 @@ export const routes: Routes = [
         .then((m) => m.GestionAyudantesPage)
   },
   {
+    path: 'gestion-usuarios',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMINISTRADOR']},
+    loadComponent: () =>
+      import('./pages/admin/gestion-usuarios/gestion-usuarios.page')
+        .then((m) => m.GestionUsuariosPage)
+  },
+  {
+    path: 'detalle-usuario',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMINISTRADOR']},
+    loadComponent: () =>
+      import('./pages/admin/detalle-usuario/detalle-usuario.page')
+        .then((m) => m.DetalleUsuarioPage)
+  },
+  {
+    path: 'detalle-usuario/:id_usuario',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMINISTRADOR']},
+    loadComponent: () =>
+      import('./pages/admin/detalle-usuario/detalle-usuario.page')
+        .then((m) => m.DetalleUsuarioPage)
+  },
+  {
     path: 'categoria-solicitudes',
     canActivate: [authGuard, roleGuard],
     data: { roles: ['ADMINISTRADOR'] },

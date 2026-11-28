@@ -1,7 +1,6 @@
 import {
   ChangeDetectorRef,
   Component,
-  OnDestroy,
   OnInit
 } from '@angular/core';
 
@@ -11,14 +10,8 @@ import { RouterLink } from '@angular/router';
 import {
   IonContent,
   IonSpinner,
-  IonNote,
   IonButton
 } from '@ionic/angular';
-
-import {
-  interval,
-  Subscription
-} from 'rxjs';
 
 import {
   AdministracionService,
@@ -38,13 +31,12 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
     RouterLink,
     IonContent,
     IonSpinner,
-    IonNote,
     SideMenuComponent,
     IonButton
   ]
 })
 export class EstadisticasAdminPage
-  implements OnInit, OnDestroy {
+  implements OnInit {
 
   estadisticas: EstadisticasAdministracion = {
     ayudantes_registrados: 0,
@@ -60,9 +52,6 @@ export class EstadisticasAdminPage
 
   private solicitudEnCurso = false;
 
-  private refrescoSubscription?: Subscription;
-
-
   constructor(
     private administracionService: AdministracionService,
     private cdr: ChangeDetectorRef
@@ -70,38 +59,17 @@ export class EstadisticasAdminPage
 
 
   ngOnInit() {
-
-    // Primera carga visible
     this.cargarEstadisticas();
-
-    // Refresco automático cada 5 segundos
-    this.refrescoSubscription =
-      interval(5000).subscribe(() => {
-
-        // Los refrescos posteriores son silenciosos
-        this.cargarEstadisticas(false);
-
-      });
-
   }
 
-
-  cargarEstadisticas(
-    mostrarCarga: boolean = true
-  ) {
-
+  cargarEstadisticas() {
     // Evita realizar dos solicitudes al mismo tiempo
     if (this.solicitudEnCurso) {
       return;
     }
 
     this.solicitudEnCurso = true;
-
-
-    if (mostrarCarga) {
-      this.cargando = true;
-    }
-
+    this.cargando = true;
 
     this.administracionService
       .obtenerEstadisticas()
@@ -146,11 +114,5 @@ export class EstadisticasAdminPage
 
   }
 
-
-  ngOnDestroy() {
-
-    this.refrescoSubscription?.unsubscribe();
-
-  }
 
 }

@@ -1,11 +1,17 @@
-import { Ayudantia } from './../../../models/IAyudantia';
+import type {
+  AyudantiaResumen,
+  EstadoAyudantia
+} from './../../../models/IAyudantia';
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 
 import { AyudantiaService } from '../../../core/services/AyudantiaService';
-import { SolicitudAyudantia } from '../../../models/ISolicitudAyudantia';
+import type {
+  EstadoSolicitudAyudantia,
+  SolicitudAyudantia
+} from '../../../models/ISolicitudAyudantia';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 
 import {
@@ -53,7 +59,8 @@ export class MisAyudantiasPage implements OnInit {
   isModalSesionOpen: boolean = false;
 
   solicitudAyudantia: SolicitudAyudantia | null = null;
-  ayudantiaEnSesion: Ayudantia | null = null;
+  ayudantiaEnSesion: AyudantiaResumen | null = null;
+  errorCaso = '';
 
   constructor(
     private ayudantiaService: AyudantiaService,
@@ -99,16 +106,26 @@ export class MisAyudantiasPage implements OnInit {
     });
   }
 
+  estadoVisible(solicitud: SolicitudAyudantia): EstadoSolicitudAyudantia | EstadoAyudantia {
+    if (solicitud.ayudantia?.estado === 'ESCALADA') {
+      return 'ESCALADA';
+    }
+
+    if (
+      solicitud.estado === 'RESUELTA' ||
+      solicitud.ayudantia?.estado === 'FINALIZADA'
+    ) {
+      return 'FINALIZADA';
+    }
+
+    return solicitud.estado;
+  }
+
   abrirVentanaSesion(solicitud: SolicitudAyudantia) {
     console.log('Solicitud al abrir modal:', JSON.stringify(solicitud, null, 2));
     this.solicitudAyudantia = solicitud;
-
-    const raw = solicitud as any;
-    const ayudantiaData = Array.isArray(raw?.ayudantia)
-      ? raw.ayudantia[0]
-      : raw?.ayudantia;
-
-    this.ayudantiaEnSesion = ayudantiaData ?? (raw?.id_ayudantia ? { id_ayudantia: raw.id_ayudantia } : null);
+    this.errorCaso = '';
+    this.ayudantiaEnSesion = solicitud.ayudantia ?? null;
     this.isModalSesionOpen = true;
   }
 
@@ -116,6 +133,7 @@ export class MisAyudantiasPage implements OnInit {
     this.isModalSesionOpen = false;
     this.solicitudAyudantia = null;
     this.ayudantiaEnSesion = null;
+    this.errorCaso = '';
   }
 
   @ViewChild('modalAyudantia') modalAyudantia!: IonModal;
@@ -144,27 +162,28 @@ export class MisAyudantiasPage implements OnInit {
     }, 50);
   }
 
-  cerrarCaso(estadoFinal: 'resuelta' | 'escalada') {
+  cerrarCaso(estadoFinal: 'finalizada' | 'escalada') {
     if (!this.ayudantiaEnSesion) {
       return;
     }
 
-    if (estadoFinal === 'resuelta') {
-      this.ayudantiaService.resolverSolicitud(this.ayudantiaEnSesion.id_solicitud).subscribe({
-        next: () => {
-          if (this.ayudantiaEnSesion) {
-            this.ayudantiaEnSesion.estado = 'RESUELTA';
-          }
+    this.errorCaso = '';
+    const solicitud = estadoFinal === 'finalizada'
+      ? this.ayudantiaService.resolverSolicitud(this.ayudantiaEnSesion.id_solicitud)
+      : this.ayudantiaService.escalarSolicitud(this.ayudantiaEnSesion.id_solicitud);
 
-          this.cerrarVentanaSesion();
-
-          this.cargarMisAyudantias();
-        },
-
-        error: (e) => console.error('Error al resolver la ayudantía:', e),
-      });
-    } else {
-      this.cerrarVentanaSesion();
-    }
+    solicitud.subscribe({
+      next: () => {
+        this.cerrarVentanaSesion();
+        this.cargarMisAyudantias();
+      },
+      error: (error: unknown) => {
+        console.error('Error al actualizar el estado de la ayudantía:', error);
+        this.errorCaso = estadoFinal === 'finalizada'
+          ? 'No fue posible finalizar la ayudantía.'
+          : 'No fue posible escalar la ayudantía a un docente.';
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

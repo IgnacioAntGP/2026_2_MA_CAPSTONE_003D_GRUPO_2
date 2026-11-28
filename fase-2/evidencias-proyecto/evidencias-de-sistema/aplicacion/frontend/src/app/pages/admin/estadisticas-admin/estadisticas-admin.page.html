@@ -199,9 +199,15 @@
 
             </div>
 
-            <ion-note>
-              Actualización automática cada 5 segundos
-            </ion-note>
+            <ion-button
+              class="refresh-button"
+              type="button"
+              fill="outline"
+              (click)="cargarEstadisticas()"
+              [disabled]="cargando"
+            >
+              {{ cargando ? 'Actualizando...' : 'Actualizar' }}
+            </ion-button>
 
           </div>
 

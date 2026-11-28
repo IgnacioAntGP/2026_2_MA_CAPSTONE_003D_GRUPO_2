@@ -23,7 +23,10 @@ import { SideMenuComponent } from '../../../shared/components/side-menu/side-men
 
 import { LoginService } from '../../../core/services/LoginService';
 import { UsuarioAutenticado } from '../../../models/IAuth';
-import { AyudanteService } from '../../../core/services/AyudanteService';
+import {
+  AyudanteService,
+  EspecialidadAyudante
+} from '../../../core/services/AyudanteService';
 
 @Component({
   selector: 'app-panel-ayudante',
@@ -57,6 +60,12 @@ export class PanelAyudantePage implements OnInit {
 
   publicacionesComunidad: PublicacionComunidad[] = [];
 
+  especialidades: EspecialidadAyudante[] = [];
+
+  cargandoEspecialidades = false;
+
+  errorEspecialidades = false;
+
   constructor(
     private ayudantiaService: AyudantiaService,
     private cdr: ChangeDetectorRef,
@@ -73,6 +82,9 @@ export class PanelAyudantePage implements OnInit {
   ionViewWillEnter() {
     this.usuarioAyudante = null;
     this.publicacionesComunidad = [];
+    this.especialidades = [];
+    this.cargandoEspecialidades = false;
+    this.errorEspecialidades = false;
     this.cargarMetaData();
   }
 
@@ -131,8 +143,12 @@ export class PanelAyudantePage implements OnInit {
       },
     });
 
+    this.cargandoEspecialidades = true;
     this.ayudanteService.obtenerPerfilPublico(idUsuario).subscribe({
       next: (perfil) => {
+        this.especialidades = perfil.especialidades || [];
+        this.cargandoEspecialidades = false;
+
         const stats = perfil?.estadisticas;
 
         if (stats) {
@@ -147,7 +163,11 @@ export class PanelAyudantePage implements OnInit {
         this.cdr.detectChanges();
       },
       error: (error) => {
+        this.cargandoEspecialidades = false;
+        this.errorEspecialidades = true;
         console.error('Error al cargar estadísticas del perfil:', error);
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
     });
   }

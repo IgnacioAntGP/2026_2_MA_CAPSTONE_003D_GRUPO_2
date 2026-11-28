@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,11 @@ import { SolicitudAyudantia } from '../../../models/ISolicitudAyudantia';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 import { LoginService } from '../../../core/services/LoginService';
 import { UsuarioAutenticado } from '../../../models/IAuth';
+import { CategoriaSolicitudService } from '../../../core/services/CategoriaSolicitudService';
+import {
+  AyudanteService,
+  EspecialidadAyudante
+} from '../../../core/services/AyudanteService';
 
 @Component({
   selector: 'app-solicitudes-pendientes',
@@ -41,15 +46,20 @@ import { UsuarioAutenticado } from '../../../models/IAuth';
   ],
 })
 export class SolicitudesPendientesPage implements OnInit {
+  private categoriaSolicitudService = inject(CategoriaSolicitudService);
+
   usuarioAyudante: UsuarioAutenticado | null = null;
 
   // Arreglo maestro sin alterar
   todasLasSolicitudes: SolicitudAyudantia[] = [];
 
-  // Categorías para el selector
-  categorias: any[] = [];
+  categorias: { id_categoria: number; nombre: string }[] = [];
 
-  categoriaSeleccionada: string = 'todas';
+  especialidades: EspecialidadAyudante[] = [];
+
+  categoriaSeleccionada = 'todas';
+
+  asignaturaSeleccionada = 'todas';
 
   solicitudesDisponibles: SolicitudAyudantia[] = [];
 
@@ -57,11 +67,13 @@ export class SolicitudesPendientesPage implements OnInit {
     private ayudantiaService: AyudantiaService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private ayudanteService: AyudanteService
   ) {}
 
   ngOnInit() {
     this.cargarSolicitudes();
+    this.cargarEspecialidades();
     this.cargarCategorias();
   }
 
@@ -76,14 +88,31 @@ export class SolicitudesPendientesPage implements OnInit {
     return idUsuario;
   }
 
-  cargarCategorias() {
-    this.ayudantiaService.obtenerCategorias().subscribe({
-      next: (data) => {
-        this.categorias = (data || []).filter((c) => c.es_activo === true || c.esActivo === true);
+  cargarEspecialidades() {
+    const idUsuario = this.obtenerIdUsuarioSession();
+    if (!idUsuario) {
+      this.especialidades = [];
+      this.filtrarPorAsignatura();
+      return;
+    }
 
+    this.ayudanteService.obtenerPerfilPublico(idUsuario).subscribe({
+      next: (perfil) => {
+        this.especialidades = perfil.especialidades || [];
+        this.aplicarFiltros();
         this.cdr.markForCheck();
       },
+      error: (e) => console.error('Error al cargar especialidades:', e),
+    });
+  }
 
+  cargarCategorias() {
+    this.categoriaSolicitudService.listarCategoriasSolicitud().subscribe({
+      next: (categorias) => {
+        this.categorias = categorias || [];
+        this.aplicarFiltros();
+        this.cdr.markForCheck();
+      },
       error: (e) => console.error('Error al cargar categorías:', e),
     });
   }
@@ -95,7 +124,7 @@ export class SolicitudesPendientesPage implements OnInit {
 
         this.todasLasSolicitudes = Array.isArray(data) ? [...data] : data ? [data] : [];
 
-        this.filtrarPorCategoria();
+        this.aplicarFiltros();
 
         this.cdr.markForCheck();
       },
@@ -104,32 +133,37 @@ export class SolicitudesPendientesPage implements OnInit {
     });
   }
 
+  filtrarPorAsignatura() {
+    this.aplicarFiltros();
+  }
+
   filtrarPorCategoria() {
-    if (this.categoriaSeleccionada === 'todas') {
-      this.solicitudesDisponibles = [...this.todasLasSolicitudes];
-    } else {
-      this.solicitudesDisponibles = this.todasLasSolicitudes.filter(
-        (s) => String((s as any).id_categoria) === String(this.categoriaSeleccionada)
-      );
-    }
+    this.aplicarFiltros();
+  }
+
+  private aplicarFiltros() {
+    this.solicitudesDisponibles = this.todasLasSolicitudes.filter((solicitud) => {
+      const coincideCategoria =
+        this.categoriaSeleccionada === 'todas' ||
+        String(solicitud.id_categoria) === this.categoriaSeleccionada;
+      const coincideAsignatura =
+        this.asignaturaSeleccionada === 'todas' ||
+        String(solicitud.id_asignatura) === this.asignaturaSeleccionada;
+
+      return coincideCategoria && coincideAsignatura;
+    });
 
     this.cdr.markForCheck();
   }
 
   aceptarSolicitud(solicitud: SolicitudAyudantia) {
-    const idUsuario = this.obtenerIdUsuarioSession();
-
-    if (!idUsuario) {
-      return;
-    }
-
-    this.ayudantiaService.tomarSolicitud(solicitud.id_solicitud, idUsuario).subscribe({
+    this.ayudantiaService.tomarSolicitud(solicitud.id_solicitud).subscribe({
       next: () => {
-        this.solicitudesDisponibles = this.solicitudesDisponibles.filter(
+        this.todasLasSolicitudes = this.todasLasSolicitudes.filter(
           (s) => s.id_solicitud !== solicitud.id_solicitud
         );
 
-        this.filtrarPorCategoria();
+        this.filtrarPorAsignatura();
 
         this.router.navigate(['/ayudante/tabs/mis-ayudantias']);
       },

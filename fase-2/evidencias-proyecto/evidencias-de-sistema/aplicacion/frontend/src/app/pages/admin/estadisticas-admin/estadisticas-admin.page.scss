@@ -121,6 +121,13 @@ ion-content {
   text-transform: none;
 }
 
+.refresh-button {
+  margin-top: 14px;
+  --border-color: var(--primary);
+  --color: var(--primary);
+  text-transform: none;
+}
+
 
 /* =========================================================
    ESTADOS
@@ -322,22 +329,6 @@ ion-content {
   padding-bottom: 18px;
 
   border-bottom: 1px solid var(--border);
-}
-
-
-.especialidades-header ion-note {
-  flex-shrink: 0;
-
-  padding: 7px 10px;
-
-  border-radius: 999px;
-
-  background: var(--secondary-soft);
-
-  color: var(--secondary);
-
-  font-size: 0.75rem;
-  font-weight: 600;
 }
 
 

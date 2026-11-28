@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SideMenuComponent } from '../../../shared/components/side-menu/side-menu.page';
 import { UsuarioService } from '../../../core/services/UsuarioService';
@@ -36,6 +36,7 @@ export class GestionUsuariosPage implements OnInit {
   errorAccion = '';
 
   private readonly usuarioService = inject(UsuarioService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.cargarUsuarios();
@@ -47,7 +48,12 @@ export class GestionUsuariosPage implements OnInit {
 
     this.usuarioService
       .listarUsuarios()
-      .pipe(finalize(() => (this.cargandoUsuarios = false)))
+      .pipe(
+        finalize(() => {
+          this.cargandoUsuarios = false;
+          this.cdr.detectChanges();
+        })
+      )
       .subscribe({
         next: (usuarios) => {
           this.usuarios = usuarios.map((usuario) => this.mapearUsuario(usuario));
@@ -70,7 +76,12 @@ export class GestionUsuariosPage implements OnInit {
       : this.usuarioService.desactivarUsuario(usuario.id);
 
     solicitud
-      .pipe(finalize(() => (this.usuarioEnProceso = null)))
+      .pipe(
+        finalize(() => {
+          this.usuarioEnProceso = null;
+          this.cdr.detectChanges();
+        })
+      )
       .subscribe({
         next: () => {
           this.usuarios = this.usuarios.map((actual) =>

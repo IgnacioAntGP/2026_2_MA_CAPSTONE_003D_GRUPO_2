@@ -19,5 +19,11 @@ router.patch(
   autorizarRoles('AYUDANTE', 'ADMINISTRADOR'),
   (req, res) => solicitudController.resolver(req, res)
 );
+router.patch(
+  '/:id_solicitud/escalar',
+  verificarToken,
+  autorizarRoles('AYUDANTE', 'ADMINISTRADOR'),
+  (req, res) => solicitudController.escalar(req, res)
+);
 
 module.exports = router;

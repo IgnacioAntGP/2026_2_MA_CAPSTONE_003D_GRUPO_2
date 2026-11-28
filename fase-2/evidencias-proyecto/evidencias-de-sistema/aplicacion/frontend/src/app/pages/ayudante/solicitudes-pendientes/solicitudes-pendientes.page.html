@@ -57,12 +57,47 @@
                   Todas las categorías
                 </ion-select-option>
 
-                @for (cat of categorias; track cat.id_categoria) {
+                @for (categoria of categorias; track categoria.id_categoria) {
 
                   <ion-select-option
-                    [value]="cat.id_categoria.toString()"
+                    [value]="categoria.id_categoria.toString()"
                   >
-                    {{ cat.nombre }}
+                    {{ categoria.nombre }}
+                  </ion-select-option>
+
+                }
+
+              </ion-select>
+
+            </div>
+
+            <div class="form-group filtro-group">
+
+              <label>
+                Filtrar por asignatura
+              </label>
+
+              <ion-select
+                fill="outline"
+                interface="popover"
+                [interfaceOptions]="{
+                  cssClass: 'entrepares-select-popover'
+                }"
+                [(ngModel)]="asignaturaSeleccionada"
+                (ionChange)="filtrarPorAsignatura()"
+                placeholder="Selecciona una asignatura"
+              >
+
+                <ion-select-option value="todas">
+                  Todas las asignaturas
+                </ion-select-option>
+
+                @for (especialidad of especialidades; track especialidad.id_asignatura) {
+
+                  <ion-select-option
+                    [value]="especialidad.id_asignatura.toString()"
+                  >
+                    {{ especialidad.asignatura || especialidad.codigo }}
                   </ion-select-option>
 
                 }

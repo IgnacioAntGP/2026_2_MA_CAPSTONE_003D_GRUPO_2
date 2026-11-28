@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -54,6 +54,7 @@ export class DetalleUsuarioPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly usuarioService = inject(UsuarioService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   get esEdicion(): boolean {
     return this.idUsuario !== null;
@@ -81,7 +82,12 @@ export class DetalleUsuarioPage implements OnInit {
 
     this.usuarioService
       .obtenerUsuario(idUsuario)
-      .pipe(finalize(() => (this.cargandoUsuario = false)))
+      .pipe(
+        finalize(() => {
+          this.cargandoUsuario = false;
+          this.cdr.detectChanges();
+        })
+      )
       .subscribe({
         next: (usuario) => this.cargarDatosFormulario(usuario),
         error: (error: unknown) => {
@@ -138,7 +144,12 @@ export class DetalleUsuarioPage implements OnInit {
     this.errorFormulario = '';
 
     solicitud
-      .pipe(finalize(() => (this.guardandoUsuario = false)))
+      .pipe(
+        finalize(() => {
+          this.guardandoUsuario = false;
+          this.cdr.detectChanges();
+        })
+      )
       .subscribe({
         next: () => this.router.navigate(['/gestion-usuarios']),
         error: (error: unknown) => {
