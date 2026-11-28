@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 
 export interface UsuarioOrigenNotificacion {
@@ -77,7 +78,7 @@ export interface AyudanteActualNotificacion {
 export class NotificacionService {
 
   private apiUrl =
-    'http://localhost:3000/api';
+    environment.apiUrl;
 
 
   constructor(
