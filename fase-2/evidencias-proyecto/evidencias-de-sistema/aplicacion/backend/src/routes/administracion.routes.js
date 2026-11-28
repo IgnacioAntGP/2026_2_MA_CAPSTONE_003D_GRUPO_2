@@ -4,7 +4,7 @@ const router = Router();
 const administracionController = require('../controllers/administracion.controller');
 const { verificarToken, autorizarRoles } = require('../auth/auth.middleware');
 
-router.get('/estadisticas', verificarToken, autorizarRoles('Administrador'), (req, res) =>
+router.get('/estadisticas', verificarToken, autorizarRoles('ADMINISTRADOR'), (req, res) =>
   administracionController.obtenerEstadisticas(req, res)
 );
 

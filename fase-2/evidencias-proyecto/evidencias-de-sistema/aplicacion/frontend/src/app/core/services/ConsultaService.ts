@@ -79,15 +79,15 @@ export class TicketService {
     );
   }
 
-  obtenerPerfil(idUsuario: number): Observable<PerfilUsuario> {
+  obtenerPerfil(): Observable<PerfilUsuario> {
     return this.http.get<PerfilUsuario>(
-      `${this.apiUrl}/usuarios/${idUsuario}/perfil`
+      `${this.apiUrl}/usuarios/perfil`
     );
   }
 
-  actualizarPerfil(idUsuario: number, carrera: string, semestre: number, institucion: string): Observable<any> {
+  actualizarPerfil(carrera: string, semestre: number, institucion: string): Observable<any> {
     return this.http.patch<any>(
-      `${this.apiUrl}/usuarios/${idUsuario}/perfil`,
+      `${this.apiUrl}/usuarios/perfil`,
       { carrera, semestre, institucion }
     );
   }

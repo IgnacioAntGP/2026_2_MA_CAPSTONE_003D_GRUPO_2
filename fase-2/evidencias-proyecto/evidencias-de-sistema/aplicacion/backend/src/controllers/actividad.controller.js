@@ -1,6 +1,13 @@
 const actividadAdapter = require('../adapters/actividad.adapter');
 const ayudantiaAdapter = require('../adapters/ayudantia.adapter');
 const { CrearActividadAskDTO, ModificarActividadAskDTO } = require('../dtos/actividad/actividad.ask.dto');
+const { ID_ESTADO_ACTIVIDAD } = require('../helpers/enums/estado-actividad.enum');
+const { ESTADO_AYUDANTIA } = require('../helpers/enums/estado-ayudantia.enum');
+
+function tieneRol(req, rol) {
+  return (Array.isArray(req.user?.roles) ? req.user.roles : [])
+    .some((nombre) => String(nombre).trim().toUpperCase() === rol);
+}
 
 class ActividadController {
   async listar(req, res) {
@@ -46,6 +53,9 @@ class ActividadController {
       if (!ayudantia) {
         return res.status(404).json({ error: 'La ayudantía especificada no existe.' });
       }
+      if (ayudantia.estado === ESTADO_AYUDANTIA.FINALIZADA) {
+        return res.status(409).json({ error: 'No se pueden agregar actividades a una ayudantía finalizada.' });
+      }
       const resultado = await actividadAdapter.crearActividad(inputDTO);
 
       return res.status(201).json(resultado);
@@ -62,21 +72,42 @@ class ActividadController {
 
     const inputDTO = new ModificarActividadAskDTO(req.body);
 
-    if (inputDTO.esActivo !== undefined && req.user?.roles !== 'Administrador') {
+    if (inputDTO.esActivo !== undefined && !tieneRol(req, 'ADMINISTRADOR')) {
       return res
         .status(403)
         .json({
-          error: 'Acceso denegado. Solo el Administrador puede activar o desactivar una actividad.'
+          error: 'Acceso denegado. Solo ADMINISTRADOR puede activar o desactivar una actividad.'
         });
     }
 
-    if (req.user?.roles === 'Estudiante') {
+    if (
+      tieneRol(req, 'ESTUDIANTE') &&
+      !tieneRol(req, 'AYUDANTE') &&
+      !tieneRol(req, 'ADMINISTRADOR')
+    ) {
       return res
         .status(403)
-        .json({ error: 'Acceso denegado. Los estudiantes carecen de permisos para modificar actividades.' });
+        .json({ error: 'Acceso denegado. ESTUDIANTE no puede modificar actividades.' });
     }
 
     try {
+      if (
+        inputDTO.idEstadoActividad !== undefined &&
+        !Object.values(ID_ESTADO_ACTIVIDAD).includes(inputDTO.idEstadoActividad)
+      ) {
+        return res.status(400).json({
+          error: `Estado de actividad inválido. Valores permitidos: ${Object.values(ID_ESTADO_ACTIVIDAD).join(', ')}.`
+        });
+      }
+
+      const ayudantia = await ayudantiaAdapter.obtenerAyudantiaPorId(id);
+      if (!ayudantia) {
+        return res.status(404).json({ error: 'Ayudantía no encontrada.' });
+      }
+      if (ayudantia.estado === ESTADO_AYUDANTIA.FINALIZADA) {
+        return res.status(409).json({ error: 'No se pueden modificar actividades de una ayudantía finalizada.' });
+      }
+
       const resultado = await actividadAdapter.modificarActividad(id, id_actividad, inputDTO);
       if (!resultado) {
         return res.status(404).json({ error: 'Actividad no encontrada.' });
@@ -91,15 +122,23 @@ class ActividadController {
     const { id, id_actividad } = req.params;
 
     // Validación de permisos de rol: Eliminación completa SOLO ADMIN (403 Forbidden)
-    if (req.user?.roles !== 'Administrador') {
+    if (!tieneRol(req, 'ADMINISTRADOR')) {
       return res
         .status(403)
         .json({
-          error: 'Acceso denegado. Solo el Administrador puede eliminar permanentemente una actividad.'
+          error: 'Acceso denegado. Solo ADMINISTRADOR puede eliminar permanentemente una actividad.'
         });
     }
 
     try {
+      const ayudantia = await ayudantiaAdapter.obtenerAyudantiaPorId(id);
+      if (!ayudantia) {
+        return res.status(404).json({ error: 'Ayudantía no encontrada.' });
+      }
+      if (ayudantia.estado === ESTADO_AYUDANTIA.FINALIZADA) {
+        return res.status(409).json({ error: 'No se pueden eliminar actividades de una ayudantía finalizada.' });
+      }
+
       const resultado = await actividadAdapter.eliminarActividad(id, id_actividad);
       if (!resultado) {
         return res.status(404).json({ error: 'Actividad no encontrada.' });

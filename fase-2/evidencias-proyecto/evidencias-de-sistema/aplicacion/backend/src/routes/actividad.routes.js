@@ -7,10 +7,11 @@ const router = Router({ mergeParams: true }); // Hereda :id de ayudantía desde 
 router.get('/:id/actividades', actividadController.listar);
 router.get('/:id/actividades/:id_actividad', actividadController.obtenerDetalle);
 
-// Solo autenticado
+// Autenticado + rol permitido
 router.post(
   '/:id/actividades',
   verificarToken,
+  autorizarRoles('AYUDANTE', 'ADMINISTRADOR'),
   actividadController.crearActividadAyudantia
 );
 
@@ -18,15 +19,15 @@ router.post(
 router.patch(
   '/:id/actividades/:id_actividad',
   verificarToken,
-  autorizarRoles('Ayudante', 'Administrador'),
+  autorizarRoles('AYUDANTE', 'ADMINISTRADOR'),
   actividadController.modificar
 );
 
-// Autenticado + solo Administrador
+// Autenticado + solo ADMINISTRADOR
 router.delete(
   '/:id/actividades/:id_actividad',
   verificarToken,
-  autorizarRoles('Administrador'),
+  autorizarRoles('ADMINISTRADOR'),
   actividadController.eliminar
 );
 

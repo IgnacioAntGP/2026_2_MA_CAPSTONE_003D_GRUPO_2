@@ -3,6 +3,7 @@ const supabase = require('../config/supabase');
 const {
   ObtenerAyudantiaResolveDTO
 } = require('../dtos/ayudantia/ayudantia.resolve.dto');
+const { ESTADO_AYUDANTIA } = require('../helpers/enums/estado-ayudantia.enum');
 
 class AyudantiaAdapter {
   async guardarAyudantia(inputDTO) {
@@ -58,7 +59,7 @@ class AyudantiaAdapter {
         )
         .eq(
           'estado',
-          'FINALIZADA'
+          ESTADO_AYUDANTIA.FINALIZADA
         );
 
     if (error) {

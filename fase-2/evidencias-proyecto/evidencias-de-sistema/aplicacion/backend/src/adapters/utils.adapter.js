@@ -42,7 +42,7 @@ class UtilsAdapter {
                 .from('usuario_rol')
                 .select('rol(nombre)')
                 .eq('id_usuario', id_usuario)
-                .eq('rol.nombre', 'Ayudante')
+                .ilike('rol.nombre', 'AYUDANTE')
                 .limit(1);
 
         if (errorValidacion) {

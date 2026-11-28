@@ -4,15 +4,20 @@ class AuthAdapter {
   /**
    * Crea una cuenta en Supabase Auth (auth.users) para un correo dado.
    */
-  async crearUsuarioAuthAsync({ correo, password, emailConfirm = true }) {
+  async crearUsuarioAuthAsync({ correo, password, emailConfirm = true, userMetadata = {} }) {
     const { data, error } = await supabase.auth.admin.createUser({
       email: correo,
       password,
-      email_confirm: emailConfirm
+      email_confirm: emailConfirm,
+      user_metadata: userMetadata
     });
 
     if (error) {
       throw error;
+    }
+
+    if (!data?.user?.id) {
+      throw new Error('Supabase Auth no devolvió un identificador de usuario válido.');
     }
 
     return data.user;
@@ -22,12 +27,14 @@ class AuthAdapter {
    * Elimina una cuenta de Supabase Auth por su UUID.
    */
   async eliminarUsuarioAuthAsync(userUid) {
-    if (!userUid) return;
+    if (!userUid) return false;
 
     const { error } = await supabase.auth.admin.deleteUser(userUid);
     if (error) {
       throw error;
     }
+
+    return true;
   }
 
   /**

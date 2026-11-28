@@ -1,0 +1,7 @@
+const ESTADO_AYUDANTIA = Object.freeze({
+  ACEPTADA: 'ACEPTADA',
+  EN_CURSO: 'EN_CURSO',
+  FINALIZADA: 'FINALIZADA'
+});
+
+module.exports = { ESTADO_AYUDANTIA };

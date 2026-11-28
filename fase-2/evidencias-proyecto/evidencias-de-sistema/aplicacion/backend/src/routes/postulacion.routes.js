@@ -13,14 +13,14 @@ router.get('/pendientes', verificarToken, (req, res) =>
 router.patch(
   '/:id_postulacion/aprobar',
   verificarToken,
-  autorizarRoles('Administrador'),
+  autorizarRoles('ADMINISTRADOR'),
   (req, res) => postulacionController.aprobarPostulacionAyudante(req, res)
 );
 
 router.patch(
   '/:id_postulacion/rechazar',
   verificarToken,
-  autorizarRoles('Administrador'),
+  autorizarRoles('ADMINISTRADOR'),
   (req, res) => postulacionController.rechazarPostulacionAyudante(req, res)
 );
 

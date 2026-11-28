@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 export interface EspecialidadAyudante {
   id_asignatura: number;
   asignatura: string | null;
@@ -10,13 +9,11 @@ export interface EspecialidadAyudante {
   nivel_competencia: string | null;
 }
 
-
 export interface EstadisticasAyudante {
   ayudantias_finalizadas: number;
   total_evaluaciones: number;
   promedio_valoracion: number | null;
 }
-
 
 export interface PerfilPublicoAyudante {
   id_ayudante: number;
@@ -36,36 +33,21 @@ export interface PerfilPublicoAyudante {
   estadisticas: EstadisticasAyudante;
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AyudanteService {
+  private apiUrl = 'http://localhost:3000/api';
 
-  private apiUrl =
-    'http://localhost:3000/api';
-
-
-  constructor(
-    private http: HttpClient
-  ) {}
-
+  constructor(private http: HttpClient) {}
 
   obtenerTodos(): Observable<PerfilPublicoAyudante[]> {
-
-    return this.http.get<PerfilPublicoAyudante[]>(
-      `${this.apiUrl}/ayudantes`
-    );
+    return this.http.get<PerfilPublicoAyudante[]>(`${this.apiUrl}/ayudantes`);
   }
 
-
-  obtenerPerfilPublico(
-    idUsuario: number
-  ): Observable<PerfilPublicoAyudante> {
-
+  obtenerPerfilPublico(idUsuario: number): Observable<PerfilPublicoAyudante> {
     return this.http.get<PerfilPublicoAyudante>(
       `${this.apiUrl}/ayudantes/usuario/${idUsuario}/perfil`
     );
   }
-
 }

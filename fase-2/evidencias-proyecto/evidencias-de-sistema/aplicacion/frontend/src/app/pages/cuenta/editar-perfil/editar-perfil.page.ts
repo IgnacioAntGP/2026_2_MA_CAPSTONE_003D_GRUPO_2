@@ -83,7 +83,7 @@ export class EditarPerfilPage implements OnInit {
     this.idUsuarioActual = idUsuario;
 
     this.ticketService
-      .obtenerPerfil(idUsuario)
+      .obtenerPerfil()
       .subscribe({
         next: (data) => {
           this.perfil = data;
@@ -119,7 +119,6 @@ export class EditarPerfilPage implements OnInit {
 
     this.ticketService
       .actualizarPerfil(
-        idUsuario,
         this.carrera.trim(),
         this.semestre,
         this.institucion.trim()

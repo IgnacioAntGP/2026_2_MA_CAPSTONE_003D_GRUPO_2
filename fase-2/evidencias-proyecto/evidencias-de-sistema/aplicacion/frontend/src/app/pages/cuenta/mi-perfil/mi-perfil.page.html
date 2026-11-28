@@ -28,7 +28,7 @@
           <div class="perfil-identidad">
             <h2>{{ perfil.nombre }} {{ perfil.apellido }}</h2>
             @for (rol of perfil.roles; track rol.id_rol) {
-              <ion-badge class="rol-badge"> {{ rol.nombre || 'Estudiante' }} </ion-badge>
+              <ion-badge class="rol-badge"> {{ (rol.nombre || 'Estudiante') | titlecase }} </ion-badge>
             }
           </div>
         </ion-card-content>

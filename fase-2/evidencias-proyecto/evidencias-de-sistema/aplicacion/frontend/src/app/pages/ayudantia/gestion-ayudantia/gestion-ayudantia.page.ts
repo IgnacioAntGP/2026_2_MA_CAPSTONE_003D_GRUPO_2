@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import {  IonContent, 
           IonHeader, 
           IonTitle, 
@@ -25,10 +26,10 @@ import { add, addOutline, checkmarkDoneOutline, eyeOutline, arrowBackOutline, cl
 import { addIcons } from 'ionicons';
 
 import { ActividadService } from '../../../core/services/ActividadService';
+import { AyudantiaService } from '../../../core/services/AyudantiaService';
 import { CategoriaActividadService } from '../../../core/services/CategoriaActividadService';
 import { IActividad } from '../../../models/IActividad';
 import { ICategoriaActividad, ESTADO_ACTIVIDAD } from '../../../models/ICategoriaActividad';
-import { TicketService } from './../../../core/services/ConsultaService';
 
 import { LoginService } from '../../../core/services/LoginService';
 import { RolAuth } from '../../../models/IAuth';
@@ -59,10 +60,22 @@ import { RolAuth } from '../../../models/IAuth';
           ]
 })
 export class GestionAyudantiaPage implements OnInit {
+  private route = inject(ActivatedRoute);
+  private actividadService = inject(ActividadService);
+  private ayudantiaService = inject(AyudantiaService);
+  private categoriaActividadService = inject(CategoriaActividadService);
+  private loginService = inject(LoginService);
+  private cdr = inject(ChangeDetectorRef);
+
   idAyudantia!: number;
   tituloConsulta: string = '';
   actividades: IActividad[] = [];
   cargando: boolean = false;
+  estadoAyudantia: string | null = null;
+  idSolicitud: number | null = null;
+  finalizando: boolean = false;
+  actividadActualizandoId: number | null = null;
+  errorGestion: string | null = null;
 
   isModalOpen: boolean = false;
   guardando: boolean = false;
@@ -74,18 +87,19 @@ export class GestionAyudantiaPage implements OnInit {
   };
 
   categoriasDisponibles: ICategoriaActividad[] = [];
+  readonly ESTADO_ACTIVIDAD = ESTADO_ACTIVIDAD;
+  readonly estadosActividad = [
+    { id: ESTADO_ACTIVIDAD.PENDIENTE, etiqueta: 'Pendiente' },
+    { id: ESTADO_ACTIVIDAD.EN_PROCESO, etiqueta: 'En proceso' },
+    { id: ESTADO_ACTIVIDAD.COMPLETADA, etiqueta: 'Completada' },
+    { id: ESTADO_ACTIVIDAD.CANCELADA, etiqueta: 'Cancelada' },
+    { id: ESTADO_ACTIVIDAD.EN_REVISION, etiqueta: 'En revisión' }
+  ];
 
   esAyudante: boolean = false;
   esEstudiante: boolean = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private actividadService: ActividadService,
-    private consultaService: TicketService,
-    private categoriaActividadService: CategoriaActividadService,
-    private loginService: LoginService,
-    private cdr: ChangeDetectorRef
-  ) {
+  constructor() {
     addIcons({
       add, addOutline, checkmarkDoneOutline, eyeOutline, arrowBackOutline, closeOutline
     });
@@ -98,6 +112,7 @@ export class GestionAyudantiaPage implements OnInit {
     if (paramId) {
       this.idAyudantia = Number(paramId);
       this.cargarActividadesAyudantia(this.idAyudantia);
+      this.cargarDetalleAyudantia(this.idAyudantia);
     } else {
       console.error('¡ERROR CRÍTICO!: No llegó ningún ID en la ruta /gestion-ayudantia/:id');
     }
@@ -106,12 +121,15 @@ export class GestionAyudantiaPage implements OnInit {
   }
 
   cargarDetalleAyudantia(id: number) {
-    this.consultaService.obtenerConsultaPorId(id).subscribe({
+    this.ayudantiaService.obtenerDetalleAyudantia(id).subscribe({
       next: (data) => {
-        this.tituloConsulta = data.titulo;
+        this.idSolicitud = data.ayudantia.id_solicitud;
+        this.estadoAyudantia = data.ayudantia.estado;
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.log('Error al cargar Titulo de la consulta:', err);
+        console.error('Error al cargar el estado de la ayudantía:', err);
+        this.errorGestion = this.mensajeError(err, 'No se pudo cargar el detalle de la ayudantía.');
       }
     });
   }
@@ -139,27 +157,80 @@ export class GestionAyudantiaPage implements OnInit {
       error: (err) => {
         console.error('Error al cargar actividades:', err);
         this.cargando = false;
+        this.errorGestion = this.mensajeError(err, 'No se pudieron cargar las actividades.');
         this.cdr.detectChanges();
       }
     });
   }
 
   marcarComoCompletada(actividad: IActividad) {
-    this.actividadService.modificarEstadoActividad(this.idAyudantia, actividad.idActividad, ESTADO_ACTIVIDAD.COMPLETADA).subscribe({
+    this.cambiarEstadoActividad(actividad, ESTADO_ACTIVIDAD.COMPLETADA);
+  }
+
+  marcarComoEnRevision(actividad: IActividad) {
+    this.cambiarEstadoActividad(actividad, ESTADO_ACTIVIDAD.EN_REVISION);
+  }
+
+  cambiarEstadoActividad(actividad: IActividad, idEstado: number) {
+    this.errorGestion = null;
+    this.actividadActualizandoId = actividad.idActividad;
+    this.actividadService.modificarEstadoActividad(this.idAyudantia, actividad.idActividad, idEstado).subscribe({
       next: () => {
+        this.actividadActualizandoId = null;
         this.cargarActividadesAyudantia(this.idAyudantia);
       },
-      error: (err) => console.error('Error al actualizar estado:', err)
+      error: (err) => {
+        console.error('Error al actualizar estado:', err);
+        this.errorGestion = this.mensajeError(err, 'No se pudo actualizar el estado de la actividad.');
+        this.actividadActualizandoId = null;
+        this.cdr.detectChanges();
+      }
     });
   }
 
-  marcarComoEnRevision(actividad: IActividad){
-    this.actividadService.modificarEstadoActividad(this.idAyudantia, actividad.idActividad, ESTADO_ACTIVIDAD.EN_REVISION).subscribe({
+  get ayudantiaFinalizada(): boolean {
+    return this.estadoAyudantia?.toUpperCase() === 'FINALIZADA';
+  }
+
+  get puedeFinalizarAyudantia(): boolean {
+    const estadosFinalizables = [ESTADO_ACTIVIDAD.COMPLETADA, ESTADO_ACTIVIDAD.CANCELADA];
+    return this.actividades.length > 0 &&
+      this.actividades.every((actividad) => estadosFinalizables.includes(actividad.idEstadoActividad));
+  }
+
+  etiquetaEstado(idEstado: number): string {
+    return this.estadosActividad.find((estado) => estado.id === idEstado)?.etiqueta ?? 'Desconocido';
+  }
+
+  colorEstado(idEstado: number): string {
+    if (idEstado === ESTADO_ACTIVIDAD.COMPLETADA) return 'success';
+    if (idEstado === ESTADO_ACTIVIDAD.CANCELADA) return 'medium';
+    return 'warning';
+  }
+
+  finalizarAyudantia() {
+    if (!this.idSolicitud || !this.puedeFinalizarAyudantia || this.finalizando) {
+      return;
+    }
+
+    this.errorGestion = null;
+    this.finalizando = true;
+    this.ayudantiaService.resolverSolicitud(this.idSolicitud).subscribe({
       next: () => {
-        this.cargarActividadesAyudantia(this.idAyudantia);
+        this.estadoAyudantia = 'FINALIZADA';
+        this.finalizando = false;
       },
-      error: (err) => console.error('Error al actualizar estado:', err)
+      error: (err) => {
+        console.error('Error al finalizar la ayudantía:', err);
+        this.errorGestion = this.mensajeError(err, 'No se pudo finalizar la ayudantía.');
+        this.finalizando = false;
+        this.cdr.detectChanges();
+      }
     });
+  }
+
+  private mensajeError(error: HttpErrorResponse, mensajePorDefecto: string): string {
+    return error.error?.error ?? error.error?.message ?? mensajePorDefecto;
   }
 
   abrirModalNuevaActividad() {
@@ -180,6 +251,7 @@ export class GestionAyudantiaPage implements OnInit {
       return;
     }
 
+    this.errorGestion = null;
     this.guardando = true;
 
     this.actividadService.crearActividad(this.idAyudantia, {
@@ -194,6 +266,7 @@ export class GestionAyudantiaPage implements OnInit {
       },
       error: (err) => {
         console.error('Error al crear actividad:', err);
+        this.errorGestion = this.mensajeError(err, 'No se pudo crear la actividad.');
         this.guardando = false;
         this.cdr.detectChanges();
       }
@@ -209,7 +282,7 @@ export class GestionAyudantiaPage implements OnInit {
     this.esAyudante = nombresRoles.some((rol) =>
       ['AYUDANTE', 'ADMINISTRADOR'].includes(rol)
     );
-    this.esEstudiante = nombresRoles.includes('Estudiante') && !this.esAyudante;
+    this.esEstudiante = nombresRoles.includes('ESTUDIANTE') && !this.esAyudante;
   }
 
   volverAtras() {

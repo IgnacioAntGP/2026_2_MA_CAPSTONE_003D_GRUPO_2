@@ -9,7 +9,7 @@ const {
 } = require('../controllers/categoria.controller');
 const { verificarToken, autorizarRoles } = require('../auth/auth.middleware');
 
-router.post('/', verificarToken, autorizarRoles('Administrador'), crearNuevaCategoria);
+router.post('/', verificarToken, autorizarRoles('ADMINISTRADOR'), crearNuevaCategoria);
 
 router.get('/', verificarToken, obtenerCategorias);
 

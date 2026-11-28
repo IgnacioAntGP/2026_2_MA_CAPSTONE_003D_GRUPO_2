@@ -1,99 +1,124 @@
-<ion-content class="ion-padding">
+<ion-content>
+  <div class="page-container">
+    <div class="page-content page-wide">
 
-  <div class="back-container ion-margin-bottom">
-    <ion-button fill="clear" color="medium" (click)="volverAtras()">
-      <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
-      Volver atrás
-    </ion-button>
-  </div>
+      <ion-button class="back-button" fill="clear" (click)="volverAtras()">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Volver atrás
+      </ion-button>
 
-  <!-- Cabecera de la Ayudantía -->
-  <div class="ayudantia-header">
-    <h1>{{ tituloConsulta || 'Detalle Ayudantia'}}</h1>
-    <h2>Seguimiento de Actividades</h2>
-    <p class="subtitle">Trazabilidad y avances de la sesión 1:1</p>
-  </div>
+      <div class="page-header ayudantia-header">
+        <h1>{{ tituloConsulta || 'Detalle Ayudantía' }}</h1>
+        <h2>Seguimiento de Actividades</h2>
+        <p class="subtitle">Trazabilidad y avances de la sesión 1:1</p>
+      </div>
 
-  <!-- Botón de Creación -->
-  @if (esAyudante) {
-  <div class="action-bar ion-margin-bottom">
-    <ion-button color="primary" size="small" (click)="abrirModalNuevaActividad()">
-      <ion-icon name="add-outline" slot="start"></ion-icon>
-      Nueva Actividad
-    </ion-button>
-  </div>
-  }
+      @if (esAyudante && !ayudantiaFinalizada) {
+        <div class="tabla-toolbar ion-margin-bottom">
+          <div class="botones-acciones">
+            <ion-button class="primary-button" size="small" (click)="abrirModalNuevaActividad()">
+              <ion-icon name="add-outline" slot="start"></ion-icon>
+              Nueva Actividad
+            </ion-button>
+            <ion-button
+              color="success"
+              size="small"
+              (click)="finalizarAyudantia()"
+              [disabled]="!puedeFinalizarAyudantia || finalizando || !idSolicitud">
+              {{ finalizando ? 'Finalizando...' : 'Finalizar ayudantía' }}
+            </ion-button>
+          </div>
+        </div>
+      }
 
-  <!-- Spinner de carga -->
-  @if (cargando) {
-  <div class="ion-text-center ion-padding">
-    <ion-spinner name="crescent"></ion-spinner>
-    <p>Cargando actividades...</p>
-  </div>
-  }
+      @if (ayudantiaFinalizada) {
+        <ion-badge color="success" class="ion-margin-bottom">Ayudantía finalizada</ion-badge>
+      }
 
-  <!-- Tabla / Listado de Actividades -->
-  @if (!cargando) {
-  <div class="table-responsive">
-    <table class="activities-table">
-      <thead>
-        <tr>
-          <th>Categoría</th>
-          <th>Título / Descripción</th>
-          <th>Fecha Creación</th>
-          <th>Estado</th>
-          <th class="ion-text-center">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (act of actividades; track act.idActividad) {
-          <tr>
-            <td>
-              <ion-badge color="secondary">{{ act.categoria || 'General' }}</ion-badge>
-            </td>
-            <td>
-              <strong>{{ act.nombreActividad }}</strong>
-              <p class="text-muted">{{ act.descripcion }}</p>
-            </td>
-            <td>{{ act.fechaCreacion | date:'dd/MM/yyyy' }}</td>
-            <td>
-              <ion-text [color]="act.idEstadoActividad === 3 ? 'success' : 'warning'">
-                <strong>{{ act.idEstadoActividad === 3 ? 'Completado' : 'Pendiente' }}</strong>
-              </ion-text>
-            </td>
-            <td class="ion-text-center">
-              @if (esAyudante) {
-                @if (act.idEstadoActividad !== 3) {
-                <ion-button fill="clear" size="small" color="success"
-                  title="Marcar como completada" (click)="marcarComoCompletada(act)">
-                  <ion-icon name="checkmark-done-outline"></ion-icon>
-                </ion-button>
+      @if (errorGestion) {
+        <ion-text color="danger">
+          <p>{{ errorGestion }}</p>
+        </ion-text>
+      }
+
+      @if (cargando) {
+        <div class="ion-text-center ion-padding">
+          <ion-spinner name="crescent"></ion-spinner>
+          <p>Cargando actividades...</p>
+        </div>
+      }
+
+      @if (!cargando) {
+        <div class="tabla-card">
+          <div class="tabla-responsive-container">
+            <table class="activities-table tabla-custom">
+              <thead>
+                <tr>
+                  <th class="tabla-header">Categoría</th>
+                  <th class="tabla-header">Título / Descripción</th>
+                  <th class="tabla-header">Fecha Creación</th>
+                  <th class="tabla-header">Estado</th>
+                  <th class="tabla-header ion-text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (act of actividades; track act.idActividad) {
+                  <tr class="tabla-fila">
+                    <td>
+                      <ion-badge color="secondary">{{ act.categoria || 'General' }}</ion-badge>
+                    </td>
+                    <td>
+                      <strong class="col-destacado">{{ act.nombreActividad }}</strong>
+                      <p class="col-descripcion">{{ act.descripcion }}</p>
+                    </td>
+                    <td>{{ act.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+                    <td>
+                      <ion-text [color]="colorEstado(act.idEstadoActividad)">
+                        <strong>{{ etiquetaEstado(act.idEstadoActividad) }}</strong>
+                      </ion-text>
+                    </td>
+                    <td class="ion-text-center">
+                      @if (esAyudante && !ayudantiaFinalizada) {
+                        <ion-select
+                          [value]="act.idEstadoActividad"
+                          (ionChange)="cambiarEstadoActividad(act, $event.detail.value)"
+                          [disabled]="actividadActualizandoId === act.idActividad"
+                          aria-label="Estado de la actividad">
+                          @for (estado of estadosActividad; track estado.id) {
+                            <ion-select-option [value]="estado.id">{{ estado.etiqueta }}</ion-select-option>
+                          }
+                        </ion-select>
+                        @if (act.idEstadoActividad !== ESTADO_ACTIVIDAD.COMPLETADA) {
+                          <ion-button fill="clear" size="small" color="success"
+                            title="Marcar como completada" (click)="marcarComoCompletada(act)">
+                            <ion-icon name="checkmark-done-outline"></ion-icon>
+                          </ion-button>
+                        }
+                        @if (act.idEstadoActividad === ESTADO_ACTIVIDAD.COMPLETADA) {
+                          <ion-button fill="clear" size="small" color="danger"
+                            title="Marcar como en revisión" (click)="marcarComoEnRevision(act)">
+                            <ion-icon name="eye-outline"></ion-icon>
+                          </ion-button>
+                        }
+                      } @else {
+                        <span class="text-muted">{{ ayudantiaFinalizada ? 'Ayudantía finalizada' : 'Solo lectura' }}</span>
+                      }
+                    </td>
+                  </tr>
                 }
-                @if (act.idEstadoActividad == 3){
-                <ion-button fill="clear" size="small" color="danger"
-                  title="Marcar como en revisión" (click)="marcarComoEnRevision(act)">
-                  <ion-icon name="eye-outline"></ion-icon>
-                </ion-button>
-                }
-              } @else {
-                <span class="text-muted">Solo lectura</span>
-              }
-            </td>
-          </tr>
-        }
 
-        <!-- Mensaje si no hay registros -->
-        @if (actividades.length === 0) {
-        <tr>
-          <td colspan="5" class="ion-text-center text-muted">
-            No existen actividades registradas para esta ayudantía.
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
+                @if (actividades.length === 0) {
+                  <tr>
+                    <td colspan="5" class="tabla-vacia">No existen actividades registradas para esta ayudantía.</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    </div>
   </div>
-  }
 
   <!-- MODAL CREAR NUEVA ACTIVIDAD -->
   <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
