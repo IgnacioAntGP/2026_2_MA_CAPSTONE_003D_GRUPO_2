@@ -227,6 +227,11 @@ ion-content {
   --color: #625d58;
 }
 
+.estado-escalada {
+  --background: #{$warning-soft};
+  --color: #{$warning};
+}
+
 
 /* =========================
    CONTENIDO

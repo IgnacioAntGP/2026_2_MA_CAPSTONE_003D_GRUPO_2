@@ -33,6 +33,44 @@
               <ion-badge class="rol-badge"> Ayudante </ion-badge>
             </div>
           </div>
+
+          <div class="perfil-especialidades">
+            <div class="especialidades-heading">
+              <strong>Especialidades para solicitudes</strong>
+              <span>
+                Puedes aceptar solicitudes especializadas de estas asignaturas y solicitudes generales.
+                No puedes tomar solicitudes especializadas de otros ramos.
+              </span>
+            </div>
+
+            <div class="especialidades-lista" *ngIf="especialidades.length > 0">
+              <ion-chip
+                class="especialidad-chip"
+                *ngFor="let especialidad of especialidades"
+              >
+                {{ especialidad.asignatura || especialidad.codigo }}
+              </ion-chip>
+            </div>
+
+            <p class="especialidades-estado" *ngIf="cargandoEspecialidades">
+              Cargando especialidades...
+            </p>
+
+            <p class="especialidades-estado error" *ngIf="errorEspecialidades">
+              No fue posible cargar tus especialidades.
+            </p>
+
+            <p
+              class="especialidades-estado"
+              *ngIf="
+                !cargandoEspecialidades &&
+                !errorEspecialidades &&
+                especialidades.length === 0
+              "
+            >
+              No tienes especialidades registradas; solo puedes aceptar solicitudes generales.
+            </p>
+          </div>
         </ion-card-content>
       </ion-card>
 

@@ -41,14 +41,12 @@
 
               <ion-badge
                 class="estado-badge"
-                [class.estado-aceptada]="m.estado === 'ACEPTADA'"
-                [class.estado-proceso]="m.estado === 'EN_PROCESO'"
-                [class.estado-finalizada]="
-                  m.estado !== 'ACEPTADA' &&
-                  m.estado !== 'EN_PROCESO'
-                "
+                [class.estado-aceptada]="estadoVisible(m) === 'ACEPTADA'"
+                [class.estado-proceso]="estadoVisible(m) === 'EN PROCESO'"
+                [class.estado-finalizada]="estadoVisible(m) === 'FINALIZADA'"
+                [class.estado-escalada]="estadoVisible(m) === 'ESCALADA'"
               >
-                {{ m.estado === 'EN_PROCESO' ? 'Esperando confirmación del estudiante' : m.estado }}
+                {{ estadoVisible(m) }}
               </ion-badge>
             </div>
 
@@ -71,7 +69,7 @@
             </div>
 
             <!-- CONTACTO DIRECTO -->
-            @if(m.estado === 'ACEPTADA'){
+            @if(estadoVisible(m) === 'ACEPTADA'){
             <div class="perfil-actions">
               <ion-button class="primary-button" type="button" (click)="abrirVentanaSesion(m)">
                 Contacto directo
@@ -117,6 +115,7 @@
 
                 <ion-badge class="rol-badge-active"> Enlace Directo Activo </ion-badge>
               </div>
+
             </ion-card-content>
           </ion-card>
 
@@ -159,8 +158,8 @@
               <p>Indica cómo continuará la solicitud después de la ayudantía.</p>
 
               <div class="case-actions">
-                <ion-button class="resolve-button" type="button" (click)="cerrarCaso('resuelta')">
-                  Marcar Resuelta
+                <ion-button class="resolve-button" type="button" (click)="cerrarCaso('finalizada')">
+                  Finalizar Ayudantía
                 </ion-button>
 
                 <ion-button class="escalate-button" type="button" fill="outline" (click)="cerrarCaso('escalada')">
@@ -175,6 +174,10 @@
                   Gestionar Actividades
                 </ion-button>
               </div>
+
+              @if (errorCaso) {
+                <p role="alert">{{ errorCaso }}</p>
+              }
             </ion-card-content>
           </ion-card>
         </div>
